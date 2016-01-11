@@ -1,0 +1,12 @@
+name = Cfr plugin disvovery
+description = Annotation-based discovery tool for cfrplugin
+core = 7.x
+package = CFR
+
+dependencies[] = composer_manager
+dependencies[] = xautoload (>=5.x)
+
+; Not really using code from cfrapi and cfrplugin, but makes no sense without them.
+; Uses one interface from cfrapi, but only with instanceof, which does not require the interface to actually exist.
+dependencies[] = cfrapi
+dependencies[] = cfrplugin

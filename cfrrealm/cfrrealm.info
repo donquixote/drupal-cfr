@@ -1,0 +1,9 @@
+name = Configurator realm
+description = Library to manage a collection of configurator families, identified by their type.
+core = 7.x
+package = CFR
+
+dependencies[] = xautoload
+dependencies[] = cfrapi
+dependencies[] = cfrfamily
+dependencies[] = composer_manager

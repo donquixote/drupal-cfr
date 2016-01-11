@@ -1,0 +1,6 @@
+name = Value configurator plugin example
+core = 7.x
+package = Example modules
+configure = cfrplugin-example-form
+
+dependencies[] = cfrplugin

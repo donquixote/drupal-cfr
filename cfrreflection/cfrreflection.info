@@ -1,0 +1,7 @@
+name = Value configurator reflection
+core = 7.x
+
+dependencies[] = cfrapi
+dependencies[] = cfrfamily
+dependencies[] = xautoload
+dependencies[] = composer_manager

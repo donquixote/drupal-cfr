@@ -1,0 +1,12 @@
+<?php
+use Drupal\cfrplugindiscovery\Hub\CfrPluginDiscoveryHub;
+
+/**
+ * @return \Drupal\cfrplugindiscovery\Hub\CfrPluginDiscoveryHubInterface
+ */
+function cfrplugindiscovery() {
+  static $hub;
+  return NULL !== $hub
+    ? $hub
+    : $hub = CfrPluginDiscoveryHub::create();
+}

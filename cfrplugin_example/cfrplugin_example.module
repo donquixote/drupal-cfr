@@ -1,0 +1,141 @@
+<?php
+use Drupal\cfrapi\Context\CfrContext;
+use Drupal\cfrplugin\DIC\CfrPluginRealmContainer;
+use Drupal\renderkit\EntityDisplay\EntityDisplayInterface;
+
+/**
+ * Implements hook_menu()
+ */
+function cfrplugin_example_menu() {
+  return array(
+    'cfrplugin-example-form' => array(
+      '#title' => 'Entdisp example form',
+      'page callback' => 'drupal_get_form',
+      /* @see cfrplugin_example_form() */
+      'page arguments' => array('cfrplugin_example_form'),
+      'access arguments' => array('administer site configuration'),
+      'type' => MENU_CALLBACK,
+    ),
+    'node/%node/cfrplugin-example' => array(
+      'page callback' => 'drupal_get_form',
+      'title' => 'Entdisp example',
+      /* @see cfrplugin_example_form() */
+      'page arguments' => array('cfrplugin_example_node_demo_form', 1),
+      'access arguments' => array('administer site configuration'),
+      'type' => MENU_LOCAL_TASK,
+    ),
+  );
+}
+
+/**
+ * @param array $form
+ * @param array $form_state
+ *
+ * @return array
+ */
+function cfrplugin_example_form(array $form, array $form_state) {
+
+  $container = CfrPluginRealmContainer::createWithoutCache();
+  if (FALSE) unset($container);
+
+  $context = etcfrcontext()->etGetContext('node');
+  # $legend = $container->interfaceToLegend->typeGetLegend(EntityDisplayInterface::class, $context);
+  # $configuratorMap = $container->interfaceToCfrmap->typeGetCfrmap(EntityDisplayInterface::class, $context);
+  # dpm($legend->getSelectOptions());
+  # \Drupal\krumong\dpm($configuratorMap);
+
+
+  if (isset($_GET['plugin'])) {
+    $settings = $_GET['plugin'];
+  }
+  elseif (isset($form_state['values']['plugin'])) {
+    $settings = $form_state['values']['plugin'];
+  }
+  else {
+    $settings = array();
+  }
+
+  # $defmap = $container->typeToDefmap->typeGetDefmap(EntityDisplayInterface::class);
+  # dpm($defmap->getDefinitionsById(), 'DEFINITIONS');
+  # dpm($container->typeToDefmap->typeGetDefmap(EntityImageInterface::class)->getDefinitionsById());
+  # $cfrLegend = $container->typeToCfrLegend->typeGetCfrLegend(EntityDisplayInterface::class, $context);
+
+  $configurator = cfrplugin()->interfaceGetConfigurator(EntityDisplayInterface::class, $context);
+  $form['plugin'] = $configurator->confGetForm($settings, t('Entity display'));
+
+  $form['agree'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Agree'),
+    '#required' => TRUE,
+  );
+
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Show'),
+  );
+
+  return $form;
+}
+
+/**
+ * @param array $form
+ * @param array $form_state
+ * @param object $node
+ *
+ * @return array
+ */
+function cfrplugin_example_node_demo_form(array $form, array $form_state, $node) {
+
+  if (isset($_GET['plugin'])) {
+    $settings = $_GET['plugin'];
+  }
+  elseif (isset($form_state['values']['plugin'])) {
+    $settings = $form_state['values']['plugin'];
+  }
+  else {
+    $settings = array();
+  }
+
+  $context = new CfrContext();
+  $context->paramNameSetValue('entityType', 'node');
+  $context->paramNameSetValue('entity_type', 'node');
+  $context->paramNameSetValue('bundleName', $node->type);
+  $context->paramNameSetValue('bundle_name', $node->type);
+  $configurator = cfrplugin()->interfaceGetConfigurator(EntityDisplayInterface::class, $context);
+
+  $form['plugin'] = $configurator->confGetForm($settings, t('Entity display'));
+
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Show'),
+  );
+
+  if ($settings) {
+    $entityDisplayCandidate = $configurator->confGetValue($settings);
+    # \Drupal\krumong\dpm($settings, 'SETTINGS');
+    # \Drupal\krumong\dpm($entityDisplayCandidate, 'ENTITY DISPLAY');
+    if ($entityDisplayCandidate instanceof EntityDisplayInterface) {
+      $form['demo'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Node displayed with this display plugin.'),
+        'content' => $entityDisplayCandidate->buildEntity('node', $node),
+      );
+    }
+  }
+
+  return $form;
+}
+
+/**
+ * @param array $form
+ * @param array $form_state
+ */
+function cfrplugin_example_node_demo_form_submit(array &$form, array &$form_state) {
+
+  if (FALSE) unset($form);  // Ignore IDE "Unused parameter" warning.
+
+  $options['query']['plugin'] = $form_state['values']['plugin'];
+  drupal_goto($_GET['q'], $options);
+}

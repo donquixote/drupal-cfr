@@ -1,0 +1,78 @@
+<?php
+
+use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
+use Drupal\cfrapi\Util\FormUtil;
+
+/**
+ * Implements hook_element_info().
+ */
+function cfrapi_element_info() {
+  return array(
+    'cfrapi' => array(
+      '#input' => TRUE,
+      '#tree' => TRUE,
+      /* @see _cfrapi_element_process() */
+      '#process' => array('_cfrapi_element_process'),
+      '#cfrapi_confToForm' => NULL,
+    ),
+    'cfrapi_id_conf' => array(
+      /* @see _cfrapi_id_conf_element_process() */
+      '#process' => array('_cfrapi_id_conf_element_process'),
+      '#theme_wrappers' => array('themekit_container'),
+      '#cfrapi_confToForm' => NULL,
+    ),
+  );
+}
+
+/**
+ * @param array $element
+ * @param array $form_state
+ *
+ * @return array
+ */
+function _cfrapi_element_process(array $element, array &$form_state) {
+
+  if (FALSE) unset($form_state);
+
+  $confToForm = $element['#cfrapi_confToForm'];
+  if (!$confToForm instanceof ConfToFormInterface) {
+    return array(
+      '#markup' => '<!-- Invalid form setup. -->',
+    );
+  }
+  $conf = isset($element['#value']) ? $element['#value'] : NULL;
+  $label = isset($element['#title']) ? $element['#title'] : NULL;
+  $element['cfrapi'] = $confToForm->confGetForm($conf, $label);
+  $element['cfrapi']['#parents'] = $element['#parents'];
+  unset($element['#cfrapi_confToForm']);
+  return $element;
+}
+
+/**
+ * @param array $form
+ * @param array $form_state
+ *
+ * @return array
+ *
+ * @see \Drupal\cfrapi\Util\FormUtil::elementsBuildDependency()
+ */
+function _cfrapi_depended_element_ajax_callback(array $form, array &$form_state) {
+
+  if (FALSE) unset($form);  // Ignore IDE "Unused parameter" warning.
+
+  return $form_state['triggering_element']['#depending_element_reference'];
+}
+
+/**
+ * @param array $element
+ * @param array $form_state
+ * @param array $form
+ *
+ * @return array
+ *
+ * @see \Drupal\cfrapi\Util\FormUtil::onProcessBuildDependency()
+ */
+function _cfrapi_process_element_dependency(array $element, array &$form_state, array &$form) {
+  FormUtil::elementsBuildDependency($element, $form, $form_state);
+  return $element;
+}

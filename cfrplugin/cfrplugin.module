@@ -1,0 +1,13 @@
+<?php
+
+use Drupal\cfrplugin\Hub\CfrPluginHub;
+
+/**
+ * @return \Drupal\cfrplugin\Hub\CfrPluginHubInterface
+ */
+function cfrplugin() {
+  static $hub;
+  return isset($hub)
+    ? $hub
+    : $hub = CfrPluginHub::create();
+}

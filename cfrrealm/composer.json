@@ -1,0 +1,7 @@
+{
+  "minimum-stability": "dev",
+  "name": "Drupal 7 Configurator realm",
+  "require": {
+    "donquixote/containerkit": "~0.0"
+  }
+}

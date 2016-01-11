@@ -1,0 +1,7 @@
+name = Configurator family
+description = Library to manage a family of configurators, that each return the same type of value, and that are identified by ids.
+core = 7.x
+
+dependencies[] = cfrapi
+dependencies[] = composer_manager
+dependencies[] = xautoload

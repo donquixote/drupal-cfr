@@ -1,0 +1,66 @@
+<?php
+
+namespace Drupal\cfrapi\SummaryBuilder;
+
+use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
+use Drupal\cfrapi\SummaryBuilder\Group\SummaryBuilderGroup_Static;
+use Drupal\cfrapi\SummaryBuilder\Inline\SummaryBuilderInline_Static;
+
+class SummaryBuilder_Static implements SummaryBuilderInterface {
+
+  /**
+   * @param $label
+   * @param \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface $optionsConfToSummary
+   * @param $optionsConf
+   *
+   * @return mixed
+   */
+  function idConf($label, ConfToSummaryInterface $optionsConfToSummary = NULL, $optionsConf) {
+    $optionsConfSummary = $optionsConfToSummary->confGetSummary($optionsConf, $this);
+    if (!is_string($optionsConfSummary) || '' === $optionsConfSummary) {
+      return check_plain($label);
+    }
+    return check_plain($label) . ': ' . $optionsConfSummary;
+  }
+
+  /**
+   * Starts a group of named settings.
+   *
+   * @return \Drupal\cfrapi\SummaryBuilder\Group\SummaryBuilderGroupInterface
+   */
+  function startGroup() {
+    return new SummaryBuilderGroup_Static($this);
+  }
+
+  /**
+   * Starts a group of unnamed settings.
+   *
+   * @return \Drupal\cfrapi\SummaryBuilder\Inline\SummaryBuilderInlineInterface
+   */
+  function startInline() {
+    return new SummaryBuilderInline_Static($this);
+  }
+
+  /**
+   * @param \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface $confToSummary
+   * @param array $confItems
+   *
+   * @return mixed
+   */
+  function buildSequence(ConfToSummaryInterface $confToSummary, array $confItems) {
+    $summary = '';
+    foreach ($confItems as $delta => $deltaConf) {
+      if ((string)(int)$delta !== (string)$delta || $delta < 0) {
+        // Fail on non-numeric and negative keys.
+        return '- ' . t('Noisy configuration') . ' -';
+      }
+      $deltaSummary = $confToSummary->confGetSummary($deltaConf, $this);
+      if (is_string($deltaSummary) && '' !== $deltaSummary) {
+        $summary .= '<li>' . $deltaSummary . '</li>';
+      }
+    }
+    return '' !== $summary
+      ? '<ol>' . $summary . '</ol>'
+      : NULL;
+  }
+}

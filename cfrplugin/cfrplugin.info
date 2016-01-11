@@ -1,0 +1,7 @@
+name = Value configurator plugin
+core = 7.x
+
+dependencies[] = cfrapi
+dependencies[] = cfrfamily
+dependencies[] = cfrrealm
+dependencies[] = cfrreflection
