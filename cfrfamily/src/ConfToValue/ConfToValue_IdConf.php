@@ -48,7 +48,7 @@ class ConfToValue_IdConf implements ConfToValueInterface {
    */
   function cloneAsOptional($defaultValue = NULL) {
     $clone = clone $this;
-    $clone->required = TRUE;
+    $clone->required = FALSE;
     $clone->defaultValue = $defaultValue;
     return $clone;
   }
