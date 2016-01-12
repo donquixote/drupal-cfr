@@ -19,7 +19,7 @@ final class FormUtil extends UtilBase {
    * @param array $form
    * @param array $form_state
    */
-  static function elementsBuildDependency(array &$element, array $form, array $form_state) {
+  static function elementsBuildDependency(array &$element, array $form, array &$form_state) {
 
     $keys = element_children($element);
     if (count($keys) < 2) {
@@ -64,6 +64,8 @@ final class FormUtil extends UtilBase {
     ) {
       // @todo Does this always work?
       $dependedElement['#ajax']['path'] = $_GET['q'];
+      drupal_array_set_nested_value($form_state['values'], $element['#parents'], array(), TRUE);
+      drupal_array_set_nested_value($form_state['input'], $element['#parents'], array(), TRUE);
     }
 
     if (empty($dependingElement)) {
