@@ -149,7 +149,7 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
       }
     }
     else {
-      return new LegendItem($label, $groupLabel);
+      return new CfrLegendItem($label, $groupLabel, $configurator);
     }
   }
 }
