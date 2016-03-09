@@ -17,7 +17,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
    * @return \Drupal\cfrplugin\Hub\CfrPluginHubInterface
    */
   static function create() {
-    $container = CfrPluginRealmContainer::createWithoutCache();
+    $container = CfrPluginRealmContainer::createWithCache();
     return new self($container->interfaceToConfigurator);
   }
 
