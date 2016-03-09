@@ -10,6 +10,7 @@ interface CfrLegendInterface {
    *   See
    *
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface[]
+   *   Format: $[$pluginId] = $cfrLegendItem
    */
   function getLegendItems($depth = 0);
 
