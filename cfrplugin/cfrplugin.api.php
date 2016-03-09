@@ -11,6 +11,12 @@ use Drupal\renderkit\EntityDisplay\EntityDisplayInterface;
 function hook_cfrplugin_info() {
   $definitions = array();
 
+  // Use the annotation-based discovery.
+  $definitions += function_exists('cfrplugindiscovery')
+    ? cfrplugindiscovery()->discoverByInterface(__DIR__ . '/src', 'Drupal\renderkit')
+    : array();
+
+  // Or do it manually.
   $definitions[EntityDisplayInterface::class] = array(
     'rawTitle' => array(
       'label' => t('Entity title, raw'),
