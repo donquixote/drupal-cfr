@@ -35,7 +35,7 @@ final class CfrReflectionUtil extends UtilBase {
    *
    * @return null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
-  public static function callbackArgsInvalid(CallbackReflectionInterface $callback, $args) {
+  public static function callbackArgsInvalid(CallbackReflectionInterface $callback, array $args) {
     foreach ($args as $arg) {
       if ($arg instanceof BrokenValueInterface) {
         # dpm(ddebug_backtrace(TRUE), __METHOD__);
