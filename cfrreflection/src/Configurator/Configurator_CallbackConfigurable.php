@@ -65,14 +65,14 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
   }
 
   /**
-   * @param string $className
+   * @param callable $callable
    * @param array $paramConfigurators
    * @param array $labels
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  static function createFromCallable($className, array $paramConfigurators, array $labels) {
-    $callback = CallbackUtil::callableGetCallback($className);
+  static function createFromCallable($callable, array $paramConfigurators, array $labels) {
+    $callback = CallbackUtil::callableGetCallback($callable);
     return self::createFromCallback($callback, $paramConfigurators, $labels);
   }
 
