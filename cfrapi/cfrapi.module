@@ -72,7 +72,7 @@ function _cfrapi_depended_element_ajax_callback(array $form, array &$form_state)
  *
  * @see \Drupal\cfrapi\Util\FormUtil::onProcessBuildDependency()
  */
-function _cfrapi_process_element_dependency(array $element, array &$form_state, array &$form) {
+function _cfrapi_process_element_dependency(array $element, array &$form_state, array $form) {
   FormUtil::elementsBuildDependency($element, $form, $form_state);
   return $element;
 }
