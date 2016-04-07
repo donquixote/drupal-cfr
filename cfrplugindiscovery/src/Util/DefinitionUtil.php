@@ -19,13 +19,25 @@ final class DefinitionUtil extends UtilBase {
     $definitionsById = array();
     foreach ($annotations as $annotation) {
 
-      $id = isset($annotation['id'])
-        ? $annotation['id']
-        : $fallbackId;
+      if (isset($annotation['id'])) {
+        $id = $annotation['id'];
+      }
+      elseif (isset($annotation[0])) {
+        $id = $annotation[0];
+      }
+      else {
+        $id = $fallbackId;
+      }
 
-      $label = isset($annotation['label'])
-        ? $annotation['label']
-        : $id;
+      if (isset($annotation['label'])) {
+        $label = $annotation['label'];
+      }
+      elseif (isset($annotation[1])) {
+        $label = $annotation[1];
+      }
+      else {
+        $label = $id;
+      }
 
       $definitionsById[$id] = $stubDefinition;
       $definitionsById[$id]['label'] = $label;
