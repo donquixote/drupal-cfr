@@ -5,4 +5,10 @@ use Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorI
 
 interface CfrPluginHubInterface extends InterfaceToConfiguratorInterface {
 
+  /**
+   * @param string $interface
+   *
+   * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
+   */
+  function interfaceGetCfrLegendOrNull($interface);
 }
