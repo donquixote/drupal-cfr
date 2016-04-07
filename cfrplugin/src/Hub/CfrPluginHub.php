@@ -9,16 +9,29 @@ use Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorI
 class CfrPluginHub implements CfrPluginHubInterface {
 
   /**
+   * @var \Drupal\cfrplugin\DIC\CfrPluginRealmContainer|null
+   */
+  private static $container;
+
+  /**
    * @var \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface
    */
   private $interfaceToConfigurator;
 
   /**
+   * @return \Drupal\cfrplugin\DIC\CfrPluginRealmContainer
+   */
+  static function getContainer() {
+    return NULL !== self::$container
+      ? self::$container
+      : self::$container = CfrPluginRealmContainer::createWithCache();
+  }
+
+  /**
    * @return \Drupal\cfrplugin\Hub\CfrPluginHubInterface
    */
   static function create() {
-    $container = CfrPluginRealmContainer::createWithCache();
-    return new self($container->interfaceToConfigurator);
+    return new self(self::getContainer()->interfaceToConfigurator);
   }
 
   /**
