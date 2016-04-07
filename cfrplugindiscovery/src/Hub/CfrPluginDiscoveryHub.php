@@ -83,8 +83,8 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
       if (NULL === $classLikeReflection) {
         continue;
       }
-      if ($classLikeReflection->isAbstractClass() || !$classLikeReflection->isClass()) {
-        // Skip abstract classes, interfaces and traits.
+      if (!$classLikeReflection->isClass()) {
+        // Skip interfaces and traits.
         continue;
       }
       foreach ($this->classToDefinitions->classReflectionGetDefinitions($classLikeReflection) as $type => $definitionsById) {

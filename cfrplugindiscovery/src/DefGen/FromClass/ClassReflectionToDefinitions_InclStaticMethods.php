@@ -54,7 +54,10 @@ class ClassReflectionToDefinitions_InclStaticMethods implements ClassReflectionT
    *   Format: $[$pluginType][$pluginId] = $pluginDefinition
    */
   function classReflectionGetDefinitions(ClassLikeReflectionInterface $classLikeReflection) {
-    $definitionsByTypeAndId = $this->classreflToDefinitions->classReflectionGetDefinitions($classLikeReflection);
+    $definitionsByTypeAndId = array();
+    if (!$classLikeReflection->isAbstract()) {
+      $definitionsByTypeAndId = $this->classreflToDefinitions->classReflectionGetDefinitions($classLikeReflection);
+    }
     foreach ($classLikeReflection->getMethods() as $methodReflection) {
       if (!$methodReflection->isStatic()) {
         continue;
