@@ -63,6 +63,9 @@ final class CfrReflectionUtil extends UtilBase {
         }
       }
       if ($paramClass = $param->getClass()) {
+        if (!is_object($arg)) {
+          return new BrokenValue(NULL, get_defined_vars(), 'Parameter must be an object.');
+        }
         if (!$paramClass->isInstance($arg)) {
           # dpm('Param type mismatch.', __METHOD__);
           return new BrokenValue(NULL, get_defined_vars(), 'Param type mismatch.');
