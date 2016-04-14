@@ -168,7 +168,7 @@ class Grammar_DoctrineLikeAnnotation extends GrammarBase {
             $arguments[$datum[0][0]] = $datum[1];
           }
           else {
-            $arguments['value'] = $datum[1];
+            $arguments[] = $datum[1];
           }
         }
 

@@ -15,10 +15,10 @@ class AnnotationResolver_Translation implements AnnotationResolverInterface {
    * @return mixed|null
    */
   function resolve(DoctrineAnnotation $annotation) {
-    if (!isset($annotation->arguments['value'])) {
+    if (!isset($annotation->arguments[0])) {
       return NULL;
     }
-    $value = $annotation->arguments['value'];
+    $value = $annotation->arguments[0];
     if (is_string($value)) {
       return t($value);
     }
