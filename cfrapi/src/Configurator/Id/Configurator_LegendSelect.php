@@ -6,8 +6,8 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
 use /** @noinspection PhpDeprecationInspection */
   Drupal\cfrapi\Configurator\Optional\OptionalConfigurator_FromOptionable;
-use Drupal\cfrapi\EnumMap\EnumMapInterface;
 use Drupal\cfrapi\EnumMap\EnumMap;
+use Drupal\cfrapi\EnumMap\EnumMapInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 class Configurator_LegendSelect implements IdConfiguratorInterface {
