@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrreflection\Configurator;
 
+use Donquixote\CallbackReflection\ArgsPhpToPhp\ArgsPhpToPhpInterface;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ObjectMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
@@ -9,9 +10,11 @@ use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\Configurator\Group\Configurator_GroupBase;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
 use Drupal\cfrreflection\Util\CfrReflectionUtil;
 
-class Configurator_CallbackConfigurable extends Configurator_GroupBase {
+class Configurator_CallbackConfigurable extends Configurator_GroupBase implements ConfToPhpInterface {
 
   /**
    * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface
@@ -117,5 +120,28 @@ class Configurator_CallbackConfigurable extends Configurator_GroupBase {
     catch (\Exception $e) {
       return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');
     }
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  public function confGetPhp($conf) {
+
+    $php_statements = parent::confGetPhpStatements($conf);
+
+    $callback = $this->callback;
+    if (!$callback instanceof ArgsPhpToPhpInterface) {
+      $class = get_class($callback);
+      throw new PhpGenerationNotSupportedException("\$this->callback of class '$class' does not support code generation.");
+    }
+
+    return $callback->argsPhpGetPhp($php_statements);
   }
 }
