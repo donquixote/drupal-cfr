@@ -4,9 +4,11 @@ namespace Drupal\cfrapi\Configurator\Broken;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueBase;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+use Drupal\cfrapi\Exception\BrokenConfiguratorException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenConfiguratorInterface {
+abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenConfiguratorInterface, ConfToPhpInterface {
 
   /**
    * @param mixed $conf
@@ -43,6 +45,19 @@ abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenC
    */
   public function confGetValue($conf) {
     return new BrokenValue($this, get_defined_vars(), 'Broken configurator');
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
+   */
+  function confGetPhp($conf) {
+    throw new BrokenConfiguratorException("Broken configurator");
   }
 
 }
