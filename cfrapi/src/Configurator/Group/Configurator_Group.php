@@ -2,6 +2,8 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-class Configurator_Group extends Configurator_GroupBase implements GroupConfiguratorInterface {
+use Drupal\cfrapi\GroupConfToPhpStatements\GroupConfToPhpStatementsInterface;
+
+class Configurator_Group extends Configurator_GroupBase implements GroupConfiguratorInterface, GroupConfToPhpStatementsInterface {
 
 }
