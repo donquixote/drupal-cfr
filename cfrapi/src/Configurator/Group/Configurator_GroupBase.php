@@ -5,6 +5,8 @@ namespace Drupal\cfrapi\Configurator\Group;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
@@ -121,6 +123,45 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
       }
     }
     return $values;
+  }
+
+  /**
+   * @param mixed $conf
+   *
+   * @return string[]
+   *   PHP statements to generate the values.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   *
+   * @see \Drupal\cfrapi\GroupConfToPhpStatements\GroupConfToPhpStatementsInterface
+   */
+  public function confGetPhpStatements($conf) {
+
+    if (!is_array($conf)) {
+      // If all values are optional, this might still work.
+      $conf = array();
+    }
+
+    $php_statements = array();
+    foreach ($this->configurators as $key => $configurator) {
+
+      $key_conf = array_key_exists($key, $conf)
+        ? $conf[$key]
+        : NULL;
+
+      if ($configurator instanceof ConfToPhpInterface) {
+        $php_statements[$key] = $configurator->confGetPhp($key_conf);
+      }
+      else {
+        # $value = $configurator->confGetValue($key_conf);
+        // @todo Check if $value is primitive and exportable.
+        $class = get_class($configurator);
+        throw new PhpGenerationNotSupportedException("\$this->configurators['$key'] of class '$class' does not support code generation.");
+      }
+    }
+
+    return $php_statements;
   }
 
 }
