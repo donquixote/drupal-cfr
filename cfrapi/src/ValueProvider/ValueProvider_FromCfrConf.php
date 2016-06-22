@@ -3,8 +3,10 @@
 namespace Drupal\cfrapi\ValueProvider;
 
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
+use Drupal\cfrapi\PhpProvider\PhpProviderInterface;
 
-class ValueProvider_FromCfrConf implements ValueProviderInterface {
+class ValueProvider_FromCfrConf implements ValueProviderInterface, PhpProviderInterface {
 
   /**
    * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface
@@ -30,5 +32,17 @@ class ValueProvider_FromCfrConf implements ValueProviderInterface {
    */
   public function getValue() {
     return $this->configurator->confGetValue($this->conf);
+  }
+
+  /**
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
+   */
+  public function getPhp() {
+    return ConfToPhpUtil::objConfGetPhp($this->configurator, $this->conf);
   }
 }
