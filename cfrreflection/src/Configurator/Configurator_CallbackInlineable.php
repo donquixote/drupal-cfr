@@ -2,16 +2,20 @@
 
 namespace Drupal\cfrreflection\Configurator;
 
+use Donquixote\CallbackReflection\ArgsPhpToPhp\ArgsPhpToPhpInterface;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
+use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorBase;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
 
-class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
+class Configurator_CallbackInlineable extends InlineableConfiguratorBase implements ConfToPhpInterface {
 
   /**
    * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface
@@ -110,5 +114,27 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
     catch (\Exception $e) {
       return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');
     }
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  public function confGetPhp($conf) {
+    $php = ConfToPhpUtil::objConfGetPhp($this->argConfigurator, $conf);
+
+    $callback = $this->callback;
+    if (!$callback instanceof ArgsPhpToPhpInterface) {
+      $class = get_class($callback);
+      throw new PhpGenerationNotSupportedException("\$this->callback of class '$class' does not support code generation.");
+    }
+
+    return $callback->argsPhpGetPhp(array($php));
   }
 }
