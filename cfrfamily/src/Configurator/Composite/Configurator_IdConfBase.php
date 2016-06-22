@@ -3,9 +3,12 @@
 namespace Drupal\cfrfamily\Configurator\Composite;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
+use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
 
-abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
+abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase implements IdConfToPhpInterface {
 
   /**
    * @param string $id
@@ -62,6 +65,22 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
     }
 
     return $configurator->confGetValue($optionsConf);
+  }
+
+  /**
+   * @param string $id
+   * @param mixed $optionsConf
+   *
+   * @return string
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  public function idConfGetPhp($id, $optionsConf) {
+
+    if (!$configurator = $this->idGetConfigurator($id)) {
+      throw new InvalidConfigurationException("Unknown id " . var_export($id, TRUE) . ".");
+    }
+
+    return ConfToPhpUtil::objConfGetPhp($configurator, $optionsConf);
   }
 
   /**

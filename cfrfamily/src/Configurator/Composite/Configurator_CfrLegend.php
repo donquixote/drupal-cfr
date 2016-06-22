@@ -5,6 +5,7 @@ namespace Drupal\cfrfamily\Configurator\Composite;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
+use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface;
 
 class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements InlineableConfiguratorInterface {
@@ -118,6 +119,20 @@ class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements Inl
    */
   public function idConfGetValue($id, $optionsConf) {
     return $this->idConfToValue->idConfGetValue($id, $optionsConf);
+  }
+
+  /**
+   * @param string $id
+   * @param mixed $optionsConf
+   *
+   * @return string
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
+   */
+  public function idConfGetPhp($id, $optionsConf) {
+    return IdConfToPhpUtil::objIdConfGetPhp($this->idConfToValue, $id, $optionsConf);
   }
 
   /**

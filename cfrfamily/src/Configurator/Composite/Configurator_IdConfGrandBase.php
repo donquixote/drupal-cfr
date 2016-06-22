@@ -6,13 +6,17 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 use Drupal\cfrapi\Util\FormUtil;
+use Drupal\cfrfamily\IdPhpToPhp\IdPhpToPhpInterface;
+use Drupal\cfrfamily\IdPhpToPhp\IdPhpToPhpUtil;
 use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
 
-abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInterface, IdValueToValueInterface {
+abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInterface, IdValueToValueInterface, IdPhpToPhpInterface, ConfToPhpInterface {
 
   /**
    * @var bool
@@ -345,6 +349,40 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   }
 
   /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
+   */
+  public function confGetPhp($conf) {
+
+    list($id, $optionsConf) = $this->confGetIdOptions($conf);
+
+    if (NULL === $id) {
+      if ($this->required) {
+        throw new InvalidConfigurationException("Required id missing");
+      }
+      else {
+        // @todo Check if default value is primitive.
+        return var_export($this->defaultValue, TRUE);
+      }
+    }
+
+    $php = $this->idConfGetPhp($id, $optionsConf);
+
+    if (NULL === $this->idValueToValue) {
+      return $php;
+    }
+
+    return IdPhpToPhpUtil::objIdPhpGetPhp($this->idValueToValue, $id, $php);
+  }
+
+  /**
    * @return mixed
    */
   public function getEmptyValue() {
@@ -368,6 +406,20 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    */
   public function idValueGetValue($id, $value) {
     return [$this->idKey => $id, $this->optionsKey => $value];
+  }
+
+  /**
+   * @param string $id
+   * @param string $php
+   *
+   * @return string
+   */
+  public function idPhpGetPhp($id, $php) {
+
+    return 'array('
+    . "\n  " . var_export($this->idKey, TRUE) . ' => ' . var_export($id, TRUE) . ','
+    . "\n  " . var_export($this->optionsKey, TRUE) . ' => ' . $php . ','
+    . "\n)";
   }
 
   /**
@@ -437,4 +489,12 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    * @return mixed
    */
   abstract protected function idConfGetValue($id, $optionsConf);
+
+  /**
+   * @param $id
+   * @param $optionsConf
+   *
+   * @return string
+   */
+  abstract protected function idConfGetPhp($id, $optionsConf);
 }
