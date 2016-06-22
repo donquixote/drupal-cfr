@@ -4,11 +4,13 @@ namespace Drupal\cfrapi\Configurator\Composite;
 
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
 use Drupal\cfrapi\ConfToValue\ConfToValueInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-class Configurator_Composite implements ConfiguratorInterface {
+class Configurator_Composite implements ConfiguratorInterface, ConfToPhpInterface {
 
   /**
    * @var \Drupal\cfrapi\ConfToForm\ConfToFormInterface
@@ -68,5 +70,19 @@ class Configurator_Composite implements ConfiguratorInterface {
    */
   public function confGetValue($conf) {
     return $this->confToValue->confGetValue($conf);
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  public function confGetPhp($conf) {
+    return ConfToPhpUtil::objConfGetPhp($this->confToValue, $conf);
   }
 }
