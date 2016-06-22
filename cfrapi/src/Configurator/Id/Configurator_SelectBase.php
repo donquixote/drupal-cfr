@@ -5,9 +5,11 @@ namespace Drupal\cfrapi\Configurator\Id;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-abstract class Configurator_SelectBase implements OptionalConfiguratorInterface {
+abstract class Configurator_SelectBase implements OptionalConfiguratorInterface, ConfToPhpInterface {
 
   /**
    * @var bool
@@ -102,6 +104,33 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
     }
 
     return $id;
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
+   */
+  public function confGetPhp($conf) {
+    if (is_numeric($conf)) {
+      $conf = (string)$conf;
+    }
+    elseif (NULL === $conf || '' === $conf) {
+      throw new InvalidConfigurationException("Required id missing.");
+    }
+    elseif (!is_string($conf)) {
+      throw new InvalidConfigurationException("Invalid id type.");
+    }
+    elseif (!$this->idIsKnown($conf)) {
+      throw new InvalidConfigurationException("Unknown id '$conf'.");
+    }
+    return var_export($conf, TRUE);
   }
 
   /**
