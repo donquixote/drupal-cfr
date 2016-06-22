@@ -6,12 +6,16 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
+use Drupal\cfrapi\PhpToPhp\PhpToPhpUtil;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
  * @see \Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence
  */
-class Configurator_Sequence implements OptionalConfiguratorInterface {
+class Configurator_Sequence implements OptionalConfiguratorInterface, ConfToPhpInterface {
 
   /**
    * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface
@@ -198,5 +202,49 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     drupal_array_set_nested_value($form_state['values'], $element['#parents'], $value);
 
     return $element;
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
+   */
+  public function confGetPhp($conf) {
+
+    if (NULL === $conf || array() === $conf) {
+      return 'array()';
+    }
+
+    if (!is_array($conf)) {
+      $type = gettype($conf);
+      throw new InvalidConfigurationException("Configuration must be an array or NULL. $type found instead.");
+    }
+
+    $configurator = $this->configurator;
+    if (!$configurator instanceof ConfToPhpInterface) {
+      $class = get_class($configurator);
+      throw new PhpGenerationNotSupportedException("\$this->configurator of class '$class' does not support code generation.");
+    }
+
+    $phpStatements = array();
+    foreach ($conf as $delta => $deltaConf) {
+      if ((string)(int)$delta !== (string)$delta || $delta < 0) {
+        // Fail on non-numeric and negative keys.
+        return new BrokenValue($this, get_defined_vars(), "Deltas must be non-negative integers.");
+      }
+      if ($this->emptyness->confIsEmpty($deltaConf)) {
+        // Skip empty values.
+        continue;
+      }
+      $phpStatements[] = $configurator->confGetPhp($deltaConf);
+    }
+
+    return PhpToPhpUtil::phpStatementsGetArrayPhp($phpStatements);
   }
 }
