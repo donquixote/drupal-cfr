@@ -91,7 +91,7 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
   }
 
   /**
-   * @param array $conf
+   * @param mixed $conf
    *   Configuration from a form, config file or storage.
    * @param string|null $label
    *   Label for the form element, specifying the purpose where it is used.
