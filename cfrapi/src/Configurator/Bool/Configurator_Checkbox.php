@@ -3,9 +3,10 @@
 namespace Drupal\cfrapi\Configurator\Bool;
 
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-class Configurator_Checkbox implements ConfiguratorInterface {
+class Configurator_Checkbox implements ConfiguratorInterface, ConfToPhpInterface {
 
   /**
    * Builds the argument value to use at the position represented by this
@@ -49,4 +50,17 @@ class Configurator_Checkbox implements ConfiguratorInterface {
     return $element;
   }
 
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  public function confGetPhp($conf) {
+    return !empty($conf) ? 'true' : 'false';
+  }
 }
