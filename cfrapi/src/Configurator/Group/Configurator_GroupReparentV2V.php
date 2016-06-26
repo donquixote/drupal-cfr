@@ -2,19 +2,42 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\ConfToValue\V2VConfToValueTrait;
+use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\ValueToValue\ValueToValueInterface;
 
-class Configurator_GroupReparentV2V implements ConfiguratorInterface {
+class Configurator_GroupReparentV2V extends Configurator_GroupReparent {
 
-  use V2VConfToValueTrait, ReparentConfiguratorTrait, GroupConfiguratorTrait {
-    V2VConfToValueTrait::confGetValue insteadof ReparentConfiguratorTrait, GroupConfiguratorTrait;
-    ReparentConfiguratorTrait::confGetForm insteadof V2VConfToValueTrait, GroupConfiguratorTrait;
-    ReparentConfiguratorTrait::confGetSummary insteadof V2VConfToValueTrait, GroupConfiguratorTrait;
-    ReparentConfiguratorTrait::confGetValue as protected confGetRawValue;
-    GroupConfiguratorTrait::confGetForm as protected parentConfGetForm;
-    GroupConfiguratorTrait::confGetSummary as protected parentConfGetSummary;
-    GroupConfiguratorTrait::confGetValue as protected parentConfGetValue;
+  /**
+   * @var \Drupal\cfrapi\ValueToValue\ValueToValueInterface|null
+   */
+  private $valueToValue;
+
+  /**
+   * @param \Drupal\cfrapi\ValueToValue\ValueToValueInterface $valueToValue
+   *
+   * @return $this
+   */
+  function setValueToValue(ValueToValueInterface $valueToValue) {
+    $this->valueToValue = $valueToValue;
+    return $this;
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return mixed
+   *   Value to be used in the application.
+   */
+  function confGetValue($conf) {
+    $value = parent::confGetValue($conf);
+    if (NULL !== $this->valueToValue) {
+      if ($value instanceof BrokenValueInterface) {
+        return $value;
+      }
+      $value = $this->valueToValue->valueGetValue($value);
+    }
+    return $value;
   }
 
 }
