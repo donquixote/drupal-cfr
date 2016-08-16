@@ -235,7 +235,7 @@ class Grammar_DoctrineLikeAnnotation extends GrammarBase {
       ),
       function (Result $result, Input $input) {
         $data = $result->data;
-        $arguments = $data[1][0] ? $data[1][0] : [];
+        $arguments = $data[1][0] ?: [];
         return new DoctrineAnnotation($data[0], $arguments, $input->getLine($result->offset));
       }
     );
