@@ -18,7 +18,7 @@ class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInte
    * @param string $hook
    * @param array $arguments
    */
-  function __construct($hook, $arguments = array()) {
+  function __construct($hook, array $arguments = array()) {
     $this->hook = $hook;
     $this->arguments = $arguments;
   }
