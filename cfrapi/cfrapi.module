@@ -30,9 +30,10 @@ function cfrapi_element_info() {
  *
  * @return array
  */
-function _cfrapi_element_process(array $element, array &$form_state) {
-
-  if (FALSE) unset($form_state);
+function _cfrapi_element_process(
+  array $element,
+  /** @noinspection PhpUnusedParameterInspection */ array &$form_state
+) {
 
   $confToForm = $element['#cfrapi_confToForm'];
   if (!$confToForm instanceof ConfToFormInterface) {
@@ -56,10 +57,10 @@ function _cfrapi_element_process(array $element, array &$form_state) {
  *
  * @see \Drupal\cfrapi\Util\FormUtil::elementsBuildDependency()
  */
-function _cfrapi_depended_element_ajax_callback(array $form, array &$form_state) {
-
-  if (FALSE) unset($form);  // Ignore IDE "Unused parameter" warning.
-
+function _cfrapi_depended_element_ajax_callback(
+  /** @noinspection PhpUnusedParameterInspection */ array $form,
+  array &$form_state
+) {
   return $form_state['triggering_element']['#depending_element_reference'];
 }
 

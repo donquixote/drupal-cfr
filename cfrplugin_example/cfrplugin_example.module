@@ -132,10 +132,10 @@ function cfrplugin_example_node_demo_form(array $form, array $form_state, $node)
  * @param array $form
  * @param array $form_state
  */
-function cfrplugin_example_node_demo_form_submit(array &$form, array &$form_state) {
-
-  if (FALSE) unset($form);  // Ignore IDE "Unused parameter" warning.
-
+function cfrplugin_example_node_demo_form_submit(
+  /** @noinspection PhpUnusedParameterInspection */ array &$form,
+  array &$form_state
+) {
   $options['query']['plugin'] = $form_state['values']['plugin'];
   drupal_goto($_GET['q'], $options);
 }

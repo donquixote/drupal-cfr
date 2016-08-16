@@ -9,9 +9,7 @@
  *
  * @see \Drupal\cfrfamily\ConfToForm\ConfToForm_CfrLegendExpanded::confGetForm()
  */
-function _cfrfamily_value_callback($element, $input = FALSE, $form_state = array()) {
-
-  if (FALSE) unset($form_state);  // Ignore IDE "Unused parameter" warning.
+function _cfrfamily_value_callback($element, $input = FALSE, array $form_state = array()) {
 
   if ($input !== FALSE) {
     # dpm($input, 'INPUT');
