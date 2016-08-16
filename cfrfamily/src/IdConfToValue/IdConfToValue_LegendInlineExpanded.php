@@ -31,7 +31,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
    * @param string|int $id
    * @param mixed $conf
    *
-   * @return \Drupal\cfrapi\ConfToValue\ConfToValueInterface|null
+   * @return \Drupal\cfrapi\ConfToValue\ConfToValueInterface|null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
   function idConfGetValue($id, $conf) {
 

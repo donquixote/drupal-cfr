@@ -11,7 +11,7 @@ final class ContextReflectionUtil extends UtilBase {
    * @param \ReflectionParameter[] $params
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return mixed[]|null
+   * @return mixed[]|null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    *   Serial arguments array.
    */
   static function paramsContextGetArgs(array $params, CfrContextInterface $context) {
@@ -37,7 +37,7 @@ final class ContextReflectionUtil extends UtilBase {
    * @param array $namedArgs
    *   Named arguments array.
    *
-   * @return mixed[]|null
+   * @return mixed[]|null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    *   Serial arguments array, or NULL if not possible.
    */
   static function paramsContextNamedArgsGetArgs(array $params, CfrContextInterface $context, array $namedArgs) {

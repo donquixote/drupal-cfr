@@ -45,7 +45,7 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
    * @param mixed $conf
    *   Setting value from configuration.
    *
-   * @return mixed[]
+   * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
   function confGetValue($conf) {
     if (NULL === $conf) {
