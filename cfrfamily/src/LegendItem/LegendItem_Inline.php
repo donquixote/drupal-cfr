@@ -2,7 +2,6 @@
 
 namespace Drupal\cfrfamily\LegendItem;
 
-use Drupal\cfrapi\LegendItem\LegendItem;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface;
 
@@ -73,6 +72,6 @@ class LegendItem_Inline implements CfrLegendItemInterface {
    * @return static
    */
   function withLabels($label, $groupLabel) {
-    return new LegendItem($label, $groupLabel);
+    return new self($this->decorated->withLabels($label, '?'), $groupLabel);
   }
 }
