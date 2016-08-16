@@ -39,6 +39,8 @@ class SummaryBuilderInline_Static implements SummaryBuilderInlineInterface {
    */
   function addSetting(ConfToSummaryInterface $confToSummary, $conf) {
     $this->pieces[] = $confToSummary->confGetSummary($conf, $this->summaryBuilder);
+
+    return $this;
   }
 
   /**

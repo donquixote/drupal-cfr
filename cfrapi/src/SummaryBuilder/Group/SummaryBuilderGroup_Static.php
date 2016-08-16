@@ -33,6 +33,8 @@ class SummaryBuilderGroup_Static implements SummaryBuilderGroupInterface {
    */
   function addSetting($label, ConfToSummaryInterface $confToSummary, $conf) {
     $this->summary .= '<li>' . check_plain($label) . ': ' . $confToSummary->confGetSummary($conf, $this->summaryBuilder) . '</li>';
+
+    return $this;
   }
 
   /**
