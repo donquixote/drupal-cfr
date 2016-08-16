@@ -33,7 +33,7 @@ class DefinitionsById_FromType implements DefinitionsByIdInterface {
    *   Array of all plugin definitions for this plugin type.
    */
   function getDefinitionsById() {
-    return $this->typeToDefinitionsById->typeGetDefinitionsById($this->type);
+    return $this->typeToDefinitionsById->typeGetDefinitionsbyid($this->type);
   }
 
 }
