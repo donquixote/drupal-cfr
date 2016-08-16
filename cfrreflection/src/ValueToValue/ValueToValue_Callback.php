@@ -20,7 +20,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
   /**
    * @param string $className
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\ValueToValue\ValueToValueInterface
    */
   static function createFromClassName($className) {
     $callback = CallbackReflection_ClassConstruction::createFromClassName($className);
@@ -31,7 +31,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
    * @param string $className
    * @param string $methodName
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\ValueToValue\ValueToValueInterface
    */
   static function createFromClassStaticMethod($className, $methodName) {
     $callback = CallbackReflection_StaticMethod::create($className, $methodName);
@@ -42,7 +42,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
    * @param object $object
    * @param string $methodName
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\ValueToValue\ValueToValueInterface
    */
   static function createFromObjectMethod($object, $methodName) {
     $callback = CallbackReflection_ObjectMethod::create($object, $methodName);
@@ -52,7 +52,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
   /**
    * @param string $callable
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\ValueToValue\ValueToValueInterface
    */
   static function createFromCallable($callable) {
     $callback = CallbackUtil::callableGetCallback($callable);
