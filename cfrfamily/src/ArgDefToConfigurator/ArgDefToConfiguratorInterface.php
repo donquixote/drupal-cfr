@@ -5,7 +5,7 @@ namespace Drupal\cfrfamily\ArgDefToConfigurator;
 use Drupal\cfrapi\Context\CfrContextInterface;
 
 /**
- * @see \Drupal\cfrapi\CfrGen\DefinitionToConfigurator\DefinitionToConfiguratorInterface
+ * @see \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface
  */
 interface ArgDefToConfiguratorInterface {
 
