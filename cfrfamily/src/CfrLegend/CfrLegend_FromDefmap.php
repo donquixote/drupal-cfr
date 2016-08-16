@@ -114,10 +114,8 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
       return FALSE;
     }
     $configurator = $this->idToConfigurator->idGetConfigurator($id);
-    if (!$configurator instanceof ConfiguratorInterface || $configurator instanceof BrokenConfiguratorInterface) {
-      return FALSE;
-    }
-    return TRUE;
+
+    return $configurator instanceof ConfiguratorInterface && !$configurator instanceof BrokenConfiguratorInterface;
   }
 
   /**
