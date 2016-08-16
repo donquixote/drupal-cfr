@@ -45,7 +45,7 @@ class DefmapToContainer implements DefmapToContainerInterface {
    * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface|null
+   * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface
    */
   function defmapGetContainer(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL) {
     return new CfrFamilyContainer_FromDefmap(
