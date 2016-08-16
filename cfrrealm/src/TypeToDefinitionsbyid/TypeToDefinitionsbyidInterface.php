@@ -7,7 +7,8 @@ interface TypeToDefinitionsbyidInterface {
   /**
    * @param string $type
    *
-   * @return \Drupal\cfrfamily\DefinitionsById\DefinitionsByIdInterface
+   * @return array[]
+   *   Array of all plugin definitions for the given plugin type.
    */
   function typeGetDefinitionsbyid($type);
 
