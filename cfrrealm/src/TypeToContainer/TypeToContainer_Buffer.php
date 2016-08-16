@@ -51,7 +51,7 @@ class TypeToContainer_Buffer implements TypeToContainerInterface {
       $contextKey = $context->getMachineName();
       return isset($this->containersByType[$type][$contextKey])
         ? $this->containersByTypeAndContext[$type][$contextKey]
-        : $this->containersByTypeAndContext[$type][$contextKey] = $this->typeToContainer->typeGetContainer($type, $context) ?: FALSE;
+        : $this->containersByTypeAndContext[$type][$contextKey] = $this->typeToContainer->typeGetContainer($type, $context);
     }
   }
 }
