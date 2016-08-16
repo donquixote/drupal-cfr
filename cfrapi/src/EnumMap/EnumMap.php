@@ -57,7 +57,7 @@ class EnumMap implements EnumMapInterface {
   }
 
   /**
-   * @param string $id
+   * @param string|mixed $id
    *
    * @return string|null
    */
@@ -78,7 +78,7 @@ class EnumMap implements EnumMapInterface {
   }
 
   /**
-   * @param string $id
+   * @param string|mixed $id
    *
    * @return bool
    */

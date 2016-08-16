@@ -10,14 +10,14 @@ interface LegendInterface {
   function getSelectOptions();
 
   /**
-   * @param string $id
+   * @param string|mixed $id
    *
    * @return string|null
    */
   function idGetLabel($id);
 
   /**
-   * @param string $id
+   * @param string|mixed $id
    *
    * @return bool
    */

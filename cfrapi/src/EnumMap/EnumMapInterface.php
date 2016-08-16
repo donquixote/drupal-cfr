@@ -7,7 +7,7 @@ use Drupal\cfrapi\Legend\LegendInterface;
 interface EnumMapInterface extends LegendInterface {
 
   /**
-   * @param string $id
+   * @param string|mixed $id
    *
    * @return bool
    */
