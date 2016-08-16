@@ -242,7 +242,7 @@ class Grammar_DoctrineLikeAnnotation extends GrammarBase {
   }
 
   /**
-   * @return \vektah\parser_combinator\formatter\ClosureWithResult
+   * @return \vektah\parser_combinator\combinator\OptionalChoice
    *
    * @see \Drupal\cfrplugindiscovery\Annotation\Grammar\Grammar_DoctrineLikeAnnotation::$doctrine_annotation_body
    */
