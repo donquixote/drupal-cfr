@@ -51,7 +51,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$interfaceToConfigurator
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$interfaceToConfigurator
    */
   protected function get_interfaceToConfigurator() {
     return new InterfaceToConfigurator_ViaTypeIdentity($this->typeToConfigurator);
@@ -73,7 +73,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrrealm\TypeToDefmap\TypeToDefmap
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerBase::$typeToDefmap
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerBase::$typeToDefmap
    */
   protected function get_typeToDefmap() {
     $typeToDefinitionsById = new TypeToDefinitionsbyid($this->definitionsByTypeAndId);
@@ -83,7 +83,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$definitionToConfigurator
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$definitionToConfigurator
    */
   protected function get_definitionToConfigurator() {
     // Use a stub to allow circular dependency.

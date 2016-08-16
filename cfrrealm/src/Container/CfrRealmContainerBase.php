@@ -23,7 +23,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   /**
    * @return \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$typeToConfigurator
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$typeToConfigurator
    */
   protected function get_typeToConfigurator() {
     $typeToConfigurator = new TypeToConfigurator_ViaCfrFamily($this->typeToCfrFamily);
@@ -33,7 +33,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   /**
    * @return \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$typeToCfrFamily
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$typeToCfrFamily
    */
   protected function get_typeToCfrFamily() {
     return new TypeToCfrFamily_ViaDefmap($this->typeToDefmap, $this->defmapToCfrFamily);
@@ -42,7 +42,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   /**
    * @return \Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$defmapToCfrFamily
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$defmapToCfrFamily
    */
   protected function get_defmapToCfrFamily() {
     return TRUE
@@ -53,14 +53,14 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   /**
    * @return \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$definitionToConfigurator
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$definitionToConfigurator
    */
   abstract protected function get_definitionToConfigurator();
 
   /**
    * @return \Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfiguratorInterface
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$cfrLegendToConfigurator
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$cfrLegendToConfigurator
    */
   protected function get_cfrLegendToConfigurator() {
     return new CfrLegendToConfigurator();
@@ -69,7 +69,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   /**
    * @return \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$definitionToLabel
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$definitionToLabel
    */
   protected function get_definitionToLabel() {
     return DefinitionToLabel::create();
@@ -78,7 +78,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   /**
    * @return \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel_FromModuleName
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$definitionToGrouplabel
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$definitionToGrouplabel
    */
   protected function get_definitionToGrouplabel() {
     return new DefinitionToLabel_FromModuleName();
@@ -87,14 +87,14 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   /**
    * @return \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$typeToDefmap
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$typeToDefmap
    */
   abstract protected function get_typeToDefmap();
 
   /**
    * @return \Drupal\cfrrealm\TypeToContainer\TypeToContainer_Buffer
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$typeToContainer
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$typeToContainer
    */
   protected function get_typeToContainer() {
     $typeToContainer = new TypeToContainer_ViaDefmap($this->typeToDefmap, $this->defmapToContainer);
@@ -104,7 +104,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   /**
    * @return \Drupal\cfrfamily\DefmapToContainer\DefmapToContainer
    *
-   * @see \Drupal\cfrrealm\DIC\CfrRealmContainerInterface::$defmapToContainer
+   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$defmapToContainer
    */
   protected function get_defmapToContainer() {
     return new DefmapToContainer($this->definitionToConfigurator, $this->definitionToLabel, $this->definitionToGrouplabel);
