@@ -3,7 +3,6 @@
 namespace Drupal\cfrreflection\CfrGen\ClosureToConfigurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflection_Function;
-use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfiguratorInterface;
 

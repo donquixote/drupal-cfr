@@ -6,12 +6,11 @@ use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\SometimesConfigurable\PossiblyUnconfigurableInterface;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem;
+use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem_Parent;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
-use Drupal\cfrapi\LegendItem\LegendItem;
-use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem_Parent;
 
 class CfrLegend_FromDefmap implements CfrLegendInterface {
 
