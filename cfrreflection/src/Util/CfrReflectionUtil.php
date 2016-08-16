@@ -12,7 +12,7 @@ final class CfrReflectionUtil extends UtilBase {
   /**
    * @param \ReflectionParameter[] $params
    *
-   * @return mixed[]
+   * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    *   Serial arguments array.
    */
   public static function paramsGetArgs(array $params) {
