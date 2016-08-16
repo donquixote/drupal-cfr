@@ -81,7 +81,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers
+   * @return \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface
    *
    * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$definitionToConfigurator
    */
