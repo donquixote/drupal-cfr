@@ -57,13 +57,13 @@ class Configurator_OptionableComposite extends Configurator_Composite implements
    * @return string
    */
   function getEmptySummary() {
-    // TODO: Implement getEmptySummary() method.
+    return '';
   }
 
   /**
    * @return mixed
    */
   function getEmptyValue() {
-    // TODO: Implement getEmptyValue() method.
+    return null;
   }
 }
