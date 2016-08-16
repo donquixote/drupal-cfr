@@ -76,7 +76,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
    * @param \ReflectionParameter[] $params
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|false
    */
   private function paramsGetConfigurator(array $params, CfrContextInterface $context = NULL) {
     $groupConfigurator = new Configurator_Group();
