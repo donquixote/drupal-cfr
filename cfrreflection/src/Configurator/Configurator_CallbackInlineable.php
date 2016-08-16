@@ -33,7 +33,7 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
   }
 
   /**
-   * @return \Drupal\cfrapi\StructuredLegend\StructuredLegendInterface|null
+   * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface|null
    */
   function getCfrLegend() {
     if (!$this->argConfigurator instanceof CfrLegendProviderInterface) {
