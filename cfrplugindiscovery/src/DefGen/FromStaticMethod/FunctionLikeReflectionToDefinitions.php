@@ -63,11 +63,11 @@ class FunctionLikeReflectionToDefinitions implements FunctionLikeReflectionToDef
     $methodReturnTypeNames = $this->docToReturnTypes->docGetReturnTypes($docComment, $namespaceUseContext);
 
     foreach ($methodReturnTypeNames as $returnTypeName) {
-      $typeReflection = $this->classIndex->classGetReflection($returnTypeName);
-      if (NULL === $typeReflection) {
+      $returnTypeReflection = $this->classIndex->classGetReflection($returnTypeName);
+      if (NULL === $returnTypeReflection) {
         continue;
       }
-      if ($typeReflection->extendsOrImplementsInterface(ConfiguratorInterface::class, TRUE)) {
+      if ($returnTypeReflection->extendsOrImplementsInterface(ConfiguratorInterface::class, TRUE)) {
 
         // The method returns a configurator object.
         // The actual plugin type has to be determined elsewhere:
