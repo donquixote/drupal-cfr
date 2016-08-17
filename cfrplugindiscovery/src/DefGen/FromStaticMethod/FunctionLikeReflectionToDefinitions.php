@@ -72,16 +72,7 @@ class FunctionLikeReflectionToDefinitions implements FunctionLikeReflectionToDef
         // The method returns a configurator object.
         // The actual plugin type has to be determined elsewhere:
         // We simply assume that
-        $definition = array(
-          'configurator_factory' => $method->getQualifiedName(),
-        );
-        if (!$method instanceof MethodReflectionInterface) {
-          return array();
-        }
-        $declaringClassReflection = $method->getDeclaringClass();
-        $pluginTypeNames = array_keys(ReflectionUtil::classLikeGetFirstLevelInterfaces($declaringClassReflection));
-        $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $method->getQualifiedName());
-        return DefinitionUtil::buildDefinitionsByTypeAndId($pluginTypeNames, $definitionsById);
+        return self::configuratorFactoryGetDefinitions($method, $annotations);
       }
     }
 
@@ -90,6 +81,27 @@ class FunctionLikeReflectionToDefinitions implements FunctionLikeReflectionToDef
     );
     $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $method->getQualifiedName());
     return DefinitionUtil::buildDefinitionsByTypeAndId($methodReturnTypeNames, $definitionsById);
+  }
+
+  /**
+   * @param \Donquixote\HastyReflectionCommon\Reflection\FunctionLike\FunctionLikeReflectionInterface $method
+   * @param array[] $annotations
+   *   E.g. [['id' => 'entityTitle', 'label' => 'Entity title'], ..]
+   *
+   * @return array[][]
+   *   Format: $[$pluginType][$pluginId] = $pluginDefinition
+   */
+  private static function configuratorFactoryGetDefinitions(FunctionLikeReflectionInterface $method, array $annotations) {
+    $definition = array(
+      'configurator_factory' => $method->getQualifiedName(),
+    );
+    if (!$method instanceof MethodReflectionInterface) {
+      return array();
+    }
+    $declaringClassReflection = $method->getDeclaringClass();
+    $pluginTypeNames = array_keys(ReflectionUtil::classLikeGetFirstLevelInterfaces($declaringClassReflection));
+    $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $method->getQualifiedName());
+    return DefinitionUtil::buildDefinitionsByTypeAndId($pluginTypeNames, $definitionsById);
   }
 
 }
