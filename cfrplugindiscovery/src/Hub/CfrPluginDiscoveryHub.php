@@ -32,6 +32,11 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   private $tagName;
 
   /**
+   * @var string[]
+   */
+  private $classesToExclude = array();
+
+  /**
    * @return self
    */
   static function create() {
@@ -63,6 +68,30 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   }
 
   /**
+   * @param string $classToExclude
+   *
+   * @return static
+   */
+  public function withoutClass($classToExclude) {
+    $clone = clone $this;
+    $clone->classesToExclude[$classToExclude] = $classToExclude;
+    return $clone;
+  }
+
+  /**
+   * @param string[] $classesToExclude
+   *
+   * @return static
+   */
+  public function withoutClasses(array $classesToExclude) {
+    $clone = clone $this;
+    foreach ($classesToExclude as $classToExclude) {
+      $clone->classesToExclude[$classToExclude] = $classToExclude;
+    }
+    return $clone;
+  }
+
+  /**
    * @param string $directory
    * @param string $namespace
    *
@@ -72,6 +101,11 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   function discoverByInterface($directory, $namespace) {
 
     $classFiles = $this->classFileDiscovery->dirNspGetClassFiles($directory, $namespace);
+
+    if (array() !== $this->classesToExclude) {
+      // This does preserve keys.
+      $classFiles = array_diff($classFiles, $this->classesToExclude);
+    }
 
     $definitionsByTypeAndId = array();
     foreach ($classFiles as $file => $class) {
