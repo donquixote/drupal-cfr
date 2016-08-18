@@ -11,7 +11,7 @@ interface DocToAnnotationsInterface {
    * @param string|null $docComment
    * @param \Donquixote\HastyReflectionCommon\NamespaceUseContext\NamespaceUseContextInterface $context
    *
-   * @return \array[]
+   * @return array[]
    */
   function docGetAnnotations($docComment, NamespaceUseContextInterface $context);
 
