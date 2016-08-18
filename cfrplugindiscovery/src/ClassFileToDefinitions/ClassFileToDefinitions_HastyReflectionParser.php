@@ -5,7 +5,6 @@ namespace Drupal\cfrplugindiscovery\ClassFileToDefinitions;
 use Donquixote\HastyReflectionCommon\Canvas\ClassIndex\ClassIndexInterface;
 use Donquixote\HastyReflectionCommon\NamespaceUseContext\NamespaceUseContextInterface;
 use Donquixote\HastyReflectionCommon\Reflection\ClassLike\ClassLikeReflectionInterface;
-use Donquixote\HastyReflectionCommon\Reflection\FunctionLike\FunctionLikeReflectionInterface;
 use Donquixote\HastyReflectionCommon\Reflection\FunctionLike\MethodReflectionInterface;
 use Donquixote\HastyReflectionCommon\Util\ReflectionUtil;
 use Donquixote\HastyReflectionParser\ClassIndex\ClassIndex_Ast;
@@ -186,12 +185,12 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
   }
 
   /**
-   * @param \Donquixote\HastyReflectionCommon\Reflection\FunctionLike\FunctionLikeReflectionInterface $method
+   * @param \Donquixote\HastyReflectionCommon\Reflection\FunctionLike\MethodReflectionInterface $method
    *
    * @return array[][]
    *   Format: $[$pluginType][$pluginId] = $pluginDefinition
    */
-  private function methodGetDefinitions(FunctionLikeReflectionInterface $method) {
+  private function methodGetDefinitions(MethodReflectionInterface $method) {
 
     if (!$docComment = $method->getDocComment()) {
       return [];
@@ -229,20 +228,17 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
   }
 
   /**
-   * @param \Donquixote\HastyReflectionCommon\Reflection\FunctionLike\FunctionLikeReflectionInterface $method
+   * @param \Donquixote\HastyReflectionCommon\Reflection\FunctionLike\MethodReflectionInterface $method
    * @param array[] $annotations
    *   E.g. [['id' => 'entityTitle', 'label' => 'Entity title'], ..]
    *
    * @return array[][]
    *   Format: $[$pluginType][$pluginId] = $pluginDefinition
    */
-  private static function configuratorFactoryGetDefinitions(FunctionLikeReflectionInterface $method, array $annotations) {
+  private static function configuratorFactoryGetDefinitions(MethodReflectionInterface $method, array $annotations) {
     $definition = [
       'configurator_factory' => $method->getQualifiedName(),
     ];
-    if (!$method instanceof MethodReflectionInterface) {
-      return [];
-    }
     $declaringClassReflection = $method->getDeclaringClass();
     $pluginTypeNames = array_keys(ReflectionUtil::classLikeGetFirstLevelInterfaces($declaringClassReflection));
     $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $method->getQualifiedName());
