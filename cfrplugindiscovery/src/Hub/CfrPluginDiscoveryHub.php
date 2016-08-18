@@ -2,12 +2,10 @@
 
 namespace Drupal\cfrplugindiscovery\Hub;
 
-use Donquixote\HastyReflectionCommon\Canvas\ClassIndex\ClassIndexInterface;
-use Donquixote\HastyReflectionParser\ClassIndex\ClassIndex_Ast;
-use Drupal\cfrplugindiscovery\DefGen\FromClass\ClassReflectionToDefinitions_InclStaticMethods;
-use Drupal\cfrplugindiscovery\DefGen\FromClass\ClassReflectionToDefinitionsInterface;
 use Drupal\cfrplugindiscovery\ClassFileDiscovery\ClassFileDiscovery;
 use Drupal\cfrplugindiscovery\ClassFileDiscovery\ClassFileDiscoveryInterface;
+use Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitions_NativeReflection;
+use Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface;
 
 class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
 
@@ -17,19 +15,9 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   private $classFileDiscovery;
 
   /**
-   * @var \Drupal\cfrplugindiscovery\DefGen\FromClass\ClassReflectionToDefinitionsInterface
+   * @var \Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface
    */
-  private $classToDefinitions;
-
-  /**
-   * @var \Donquixote\HastyReflectionCommon\Canvas\ClassIndex\ClassIndexInterface
-   */
-  private $classIndex;
-
-  /**
-   * @var string
-   */
-  private $tagName;
+  private $classFileToDefinitions;
 
   /**
    * @var string[]
@@ -37,34 +25,26 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   private $classesToExclude = array();
 
   /**
-   * @return self
+   * @param string $tagName
+   *
+   * @return static
    */
-  static function create() {
-    $tagName = 'CfrPlugin';
-    $classIndex = ClassIndex_Ast::createSemiNative(TRUE);
+  static function create($tagName = 'CfrPlugin') {
     return new self(
       new ClassFileDiscovery(),
-      $classIndex,
-      ClassReflectionToDefinitions_InclStaticMethods::create($classIndex, $tagName),
-      $tagName);
+      ClassFileToDefinitions_NativeReflection::create($tagName));
   }
 
   /**
    * @param \Drupal\cfrplugindiscovery\ClassFileDiscovery\ClassFileDiscoveryInterface $classFileDiscovery
-   * @param \Donquixote\HastyReflectionCommon\Canvas\ClassIndex\ClassIndexInterface $classIndex
-   * @param \Drupal\cfrplugindiscovery\DefGen\FromClass\ClassReflectionToDefinitionsInterface $classToDefinitions
-   * @param string $tagName
+   * @param \Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface $classFileToDefinitions
    */
   function __construct(
     ClassFileDiscoveryInterface $classFileDiscovery,
-    ClassIndexInterface $classIndex,
-    ClassReflectionToDefinitionsInterface $classToDefinitions,
-    $tagName
+    ClassFileToDefinitionsInterface $classFileToDefinitions
   ) {
     $this->classFileDiscovery = $classFileDiscovery;
-    $this->classToDefinitions = $classToDefinitions;
-    $this->classIndex = $classIndex;
-    $this->tagName = $tagName;
+    $this->classFileToDefinitions = $classFileToDefinitions;
   }
 
   /**
@@ -107,26 +87,27 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
       $classFiles = array_diff($classFiles, $this->classesToExclude);
     }
 
+    return $this->classFilesGetDefinitions($classFiles);
+  }
+
+  /**
+   * @param string[] $classFiles
+   *   Format: $[$file] = $class
+   *
+   * @return array[][]
+   *   Format: $[$pluginType][$pluginId] = $pluginDefinition
+   */
+  private function classFilesGetDefinitions(array $classFiles) {
+
     $definitionsByTypeAndId = array();
     foreach ($classFiles as $file => $class) {
-      $php = file_get_contents($file);
-      if (FALSE === strpos($php, '@' . $this->tagName)) {
-        continue;
-      }
-      $classLikeReflection = $this->classIndex->classGetReflection($class);
-      if (NULL === $classLikeReflection) {
-        continue;
-      }
-      if (!$classLikeReflection->isClass()) {
-        // Skip interfaces and traits.
-        continue;
-      }
-      foreach ($this->classToDefinitions->classReflectionGetDefinitions($classLikeReflection) as $type => $definitionsById) {
+      foreach ($this->classFileToDefinitions->classFileGetDefinitions($class, $file) as $type => $definitionsById) {
         foreach ($definitionsById as $id => $definition) {
           $definitionsByTypeAndId[$type][$id] = $definition;
         }
       }
     }
+
     return $definitionsByTypeAndId;
   }
 
