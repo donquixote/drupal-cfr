@@ -58,11 +58,6 @@ final class DefinitionUtil extends UtilBase {
    */
   static function buildDefinitionsByTypeAndId(array $types, array $definitionsById) {
 
-    $definitionsByTypeAndId = array();
-    foreach ($types as $typeQcnString) {
-      $definitionsByTypeAndId[$typeQcnString] = $definitionsById;
-    }
-
-    return $definitionsByTypeAndId;
+    return array_fill_keys($types, $definitionsById);
   }
 }
