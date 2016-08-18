@@ -109,7 +109,7 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
    */
   private function classGetDefinitions(ClassLikeReflectionInterface $classLikeReflection) {
 
-    $definitionsByTypeAndId = array();
+    $definitionsByTypeAndId = [];
 
     if (!$classLikeReflection->isAbstract()) {
       $definitionsByTypeAndId = $this->classGetDefinitionsForClass($classLikeReflection);
@@ -150,24 +150,32 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
     }
 
     if ($classLikeReflection->extendsOrImplementsInterface(ConfiguratorInterface::class, TRUE)) {
-      $stubDefinition = array(
+
+      $stubDefinition = [
         'configurator_class' => $classLikeReflection->getName(),
-      );
-      $confGetValueMethod = $classLikeReflection->getMethod('confGetValue');
-      if (NULL === $confGetValueMethod) {
-        return array();
+      ];
+
+      if (NULL === $confGetValueMethod = $classLikeReflection->getMethod('confGetValue')) {
+        return [];
       }
-      $types = $this->docGetReturnTypes($confGetValueMethod->getDocComment(), $context);
+
+      if ([] === $types = $this->docGetReturnTypes($confGetValueMethod->getDocComment(), $context)) {
+        return [];
+      }
     }
     else {
-      $stubDefinition = array(
+      $stubDefinition = [
         'handler_class' => $classLikeReflection->getName(),
-      );
-      $types = array();
+      ];
 
+      $types = [];
       foreach (ReflectionUtil::classLikeGetFirstLevelInterfaces($classLikeReflection) as $interfaceQcn => $interfaceReflection) {
         $interfaceName = $interfaceReflection->getName();
         $types[$interfaceName] = $interfaceName;
+      }
+
+      if ([] === $types) {
+        return [];
       }
     }
 
@@ -213,9 +221,9 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
       }
     }
 
-    $definition = array(
+    $definition = [
       'handler_factory' => $method->getQualifiedName(),
-    );
+    ];
     $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $method->getQualifiedName());
     return DefinitionUtil::buildDefinitionsByTypeAndId($methodReturnTypeNames, $definitionsById);
   }
@@ -229,11 +237,11 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
    *   Format: $[$pluginType][$pluginId] = $pluginDefinition
    */
   private static function configuratorFactoryGetDefinitions(FunctionLikeReflectionInterface $method, array $annotations) {
-    $definition = array(
+    $definition = [
       'configurator_factory' => $method->getQualifiedName(),
-    );
+    ];
     if (!$method instanceof MethodReflectionInterface) {
-      return array();
+      return [];
     }
     $declaringClassReflection = $method->getDeclaringClass();
     $pluginTypeNames = array_keys(ReflectionUtil::classLikeGetFirstLevelInterfaces($declaringClassReflection));
@@ -250,7 +258,9 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
    */
   private function docGetReturnTypes($docComment, NamespaceUseContextInterface $context) {
 
-    $returnTypesString = $this->docToReturnTypesString->docGetReturnTypesString($docComment);
+    if (NULL === $returnTypesString = $this->docToReturnTypesString->docGetReturnTypesString($docComment)) {
+      return [];
+    }
 
     $returnTypes = [];
     foreach (explode('|', $returnTypesString) as $typeNameOrAlias) {
