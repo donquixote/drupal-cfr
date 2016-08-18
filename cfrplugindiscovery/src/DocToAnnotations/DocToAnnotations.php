@@ -2,7 +2,6 @@
 
 namespace Drupal\cfrplugindiscovery\DocToAnnotations;
 
-use Donquixote\HastyReflectionCommon\NamespaceUseContext\NamespaceUseContextInterface;
 use Drupal\cfrplugindiscovery\DocTagToAnnotation\DocTagToAnnotation;
 use Drupal\cfrplugindiscovery\DocTagToAnnotation\DocTagToAnnotationInterface;
 use phpDocumentor\Reflection\DocBlock\Tags\Generic;
@@ -56,11 +55,10 @@ class DocToAnnotations implements DocToAnnotationsInterface {
 
   /**
    * @param string|null $docComment
-   * @param \Donquixote\HastyReflectionCommon\NamespaceUseContext\NamespaceUseContextInterface $context
    *
    * @return array[]
    */
-  function docGetAnnotations($docComment, NamespaceUseContextInterface $context) {
+  function docGetAnnotations($docComment) {
 
     if (NULL === $docComment) {
       return array();

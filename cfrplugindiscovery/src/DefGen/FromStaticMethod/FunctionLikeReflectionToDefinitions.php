@@ -55,7 +55,7 @@ class FunctionLikeReflectionToDefinitions implements FunctionLikeReflectionToDef
 
     $namespaceUseContext = $method->getNamespaceUseContext();
 
-    $annotations = $this->docToAnnotations->docGetAnnotations($docComment, $namespaceUseContext);
+    $annotations = $this->docToAnnotations->docGetAnnotations($docComment);
     if (!$annotations) {
       return array();
     }

@@ -40,7 +40,7 @@ class ClassReflectionToDefinitions implements ClassReflectionToDefinitionsInterf
 
     $context = $classLikeReflection->getNamespaceUseContext();
     $docComment = $classLikeReflection->getDocComment();
-    $annotations = $this->docToAnnotations->docGetAnnotations($docComment, $context);
+    $annotations = $this->docToAnnotations->docGetAnnotations($docComment);
     if (!$annotations) {
       return array();
     }
