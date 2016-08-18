@@ -32,7 +32,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   private $tagName;
 
   /**
-   * @return \Drupal\cfrplugindiscovery\Hub\CfrPluginDiscoveryHub
+   * @return self
    */
   static function create() {
     $tagName = 'CfrPlugin';
