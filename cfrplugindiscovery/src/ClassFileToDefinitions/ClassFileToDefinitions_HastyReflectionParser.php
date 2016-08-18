@@ -3,7 +3,6 @@
 namespace Drupal\cfrplugindiscovery\ClassFileToDefinitions;
 
 use Donquixote\HastyReflectionCommon\Canvas\ClassIndex\ClassIndexInterface;
-use Donquixote\HastyReflectionCommon\NamespaceUseContext\NamespaceUseContextInterface;
 use Donquixote\HastyReflectionCommon\Reflection\ClassLike\ClassLikeReflectionInterface;
 use Donquixote\HastyReflectionCommon\Reflection\FunctionLike\MethodReflectionInterface;
 use Donquixote\HastyReflectionCommon\Util\ReflectionUtil;
@@ -113,7 +112,6 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
     if (!$classLikeReflection->isAbstract()) {
       $definitionsByTypeAndId = $this->classGetDefinitionsForClass($classLikeReflection);
     }
-
     foreach ($classLikeReflection->getMethods() as $methodReflection) {
       if (!$methodReflection->isStatic()) {
         continue;
@@ -139,7 +137,6 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
    */
   private function classGetDefinitionsForClass(ClassLikeReflectionInterface $classLikeReflection) {
 
-    $context = $classLikeReflection->getNamespaceUseContext();
     if (!$docComment = $classLikeReflection->getDocComment()) {
       return [];
     }
@@ -158,7 +155,7 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
         return [];
       }
 
-      if ([] === $types = $this->docGetReturnTypes($confGetValueMethod->getDocComment(), $context)) {
+      if ([] === $types = $this->methodGetReturnTypeNames($confGetValueMethod)) {
         return [];
       }
     }
@@ -167,13 +164,7 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
         'handler_class' => $classLikeReflection->getName(),
       ];
 
-      $types = [];
-      foreach (ReflectionUtil::classLikeGetFirstLevelInterfaces($classLikeReflection) as $interfaceQcn => $interfaceReflection) {
-        $interfaceName = $interfaceReflection->getName();
-        $types[$interfaceName] = $interfaceName;
-      }
-
-      if ([] === $types) {
+      if ([] === $types = $this->classReflectionGetPluginTypeNames($classLikeReflection)) {
         return [];
       }
     }
@@ -196,13 +187,11 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
       return [];
     }
 
-    $namespaceUseContext = $method->getNamespaceUseContext();
-
     if ([] === $annotations = $this->docToAnnotations->docGetAnnotations($docComment)) {
       return [];
     }
 
-    if ([] === $methodReturnTypeNames = $this->docGetReturnTypes($docComment, $namespaceUseContext)) {
+    if ([] === $methodReturnTypeNames = $this->methodGetReturnTypeNames($method)) {
       return [];
     }
 
@@ -246,13 +235,16 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
   }
 
   /**
-   * @param string $docComment
-   * @param \Donquixote\HastyReflectionCommon\NamespaceUseContext\NamespaceUseContextInterface $context
+   * @param \Donquixote\HastyReflectionCommon\Reflection\FunctionLike\MethodReflectionInterface $method
    *
    * @return string[]
-   *   Format: $[$qcn] = $qcn
+   *   Format: $[] = $interface
    */
-  private function docGetReturnTypes($docComment, NamespaceUseContextInterface $context) {
+  private function methodGetReturnTypeNames(MethodReflectionInterface $method) {
+
+    if (FALSE === $docComment = $method->getDocComment()) {
+      return [];
+    }
 
     if (NULL === $returnTypesString = $this->docToReturnTypesString->docGetReturnTypesString($docComment)) {
       return [];
@@ -260,10 +252,55 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
 
     $returnTypes = [];
     foreach (explode('|', $returnTypesString) as $typeNameOrAlias) {
-      $name = $context->aliasGetName($typeNameOrAlias);
-      $returnTypes[$name] = $name;
+      if ('\\' === $typeNameOrAlias[0]) {
+        $returnTypeName = substr($typeNameOrAlias, 1);
+
+        // Class or interface?
+        if (NULL === $returnTypeClassReflection = $this->classIndex->classGetReflection($returnTypeName)) {
+          continue;
+        }
+
+        if ($returnTypeClassReflection->isClass()) {
+          foreach ($this->classReflectionGetPluginTypeNames($returnTypeClassReflection) as $interfaceName) {
+            $returnTypes[] = $interfaceName;
+          }
+        }
+        elseif ($returnTypeClassReflection->isInterface()) {
+          $returnTypes[] = $returnTypeName;
+        }
+      }
+      elseif ('self' === $typeNameOrAlias || 'static' === $typeNameOrAlias) {
+        foreach ($this->classReflectionGetPluginTypeNames($method->getDeclaringClass()) as $interfaceName) {
+          $returnTypes[] = $interfaceName;
+        }
+      }
     }
 
-    return $returnTypes;
+    return array_unique($returnTypes);
+  }
+
+  /**
+   * @param \Donquixote\HastyReflectionCommon\Reflection\ClassLike\ClassLikeReflectionInterface $classReflection
+   *
+   * @return string[]
+   *   Format: $[] = $interface
+   */
+  private function classReflectionGetPluginTypeNames(ClassLikeReflectionInterface $classReflection) {
+
+    if ($classReflection->isInterface()) {
+      return [$classReflection->getName()];
+    }
+
+    $interfaces = $classReflection->getAllInterfaces(false);
+    foreach ($interfaces as $interfaceName => $reflectionInterface) {
+      if (!isset($interfaces[$interfaceName])) {
+        continue;
+      }
+      foreach ($reflectionInterface->getAllInterfaces(false) as $nameToUnset => $interfaceToUnset) {
+        unset($interfaces[$nameToUnset]);
+      }
+    }
+
+    return array_keys($interfaces);
   }
 }
