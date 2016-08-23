@@ -2,7 +2,6 @@
   "minimum-stability": "dev",
   "name": "Drupal 7 Configurator plugin discovery",
   "require": {
-    "vektah/parser-combinator": "~0.2",
     "donquixote/annotation-parser": "dev-master"
   }
 }
