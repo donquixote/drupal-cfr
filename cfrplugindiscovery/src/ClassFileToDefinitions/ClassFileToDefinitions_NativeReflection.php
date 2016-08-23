@@ -5,9 +5,8 @@ namespace Drupal\cfrplugindiscovery\ClassFileToDefinitions;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotations;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface;
-use Drupal\cfrplugindiscovery\DocToReturnTypesString\DocToReturnTypesString_phpDocumentor;
-use Drupal\cfrplugindiscovery\DocToReturnTypesString\DocToReturnTypesStringInterface;
 use Drupal\cfrplugindiscovery\Util\DefinitionUtil;
+use Drupal\cfrplugindiscovery\Util\DocUtil;
 
 class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsInterface {
 
@@ -15,11 +14,6 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
    * @var \Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface
    */
   private $docToAnnotations;
-
-  /**
-   * @var \Drupal\cfrplugindiscovery\DocToReturnTypesString\DocToReturnTypesStringInterface
-   */
-  private $docToReturnTypesString;
 
   /**
    * @var string
@@ -34,18 +28,15 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
   public static function create($tagName) {
     return new self(
       DocToAnnotations::create($tagName),
-      DocToReturnTypesString_phpDocumentor::create(),
       $tagName);
   }
 
   /**
    * @param \Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface $docToAnnotations
-   * @param \Drupal\cfrplugindiscovery\DocToReturnTypesString\DocToReturnTypesStringInterface $docToReturnTypeString
    * @param string $tagName
    */
-  public function __construct(DocToAnnotationsInterface $docToAnnotations, DocToReturnTypesStringInterface $docToReturnTypeString, $tagName) {
+  public function __construct(DocToAnnotationsInterface $docToAnnotations, $tagName) {
     $this->docToAnnotations = $docToAnnotations;
-    $this->docToReturnTypesString = $docToReturnTypeString;
     $this->tagName = $tagName;
   }
 
@@ -224,32 +215,25 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
       return [];
     }
 
-    if (NULL === $returnTypesString = $this->docToReturnTypesString->docGetReturnTypesString($docComment)) {
+    if ([] === $returnTypeClassNames = DocUtil::docGetReturnTypeClassNames($docComment, $reflectionMethod->getDeclaringClass()->getName())) {
       return [];
     }
 
-    $returnTypeNames = [];
-    foreach (explode('|', $returnTypesString) as $returnTypeAlias) {
-      if ('\\' === $returnTypeAlias[0]) {
-        $returnTypeName = substr($returnTypeAlias, 1);
-        if (class_exists($returnTypeName)) {
-          foreach (self::classGetPluginTypeNames(new \ReflectionClass($returnTypeName)) as $interfaceName) {
-            $returnTypeNames[] = $interfaceName;
-          }
-        }
-        else {
-          // Assume it is an interface.
-          $returnTypeNames[] = $returnTypeName;
+    $returnTypeInterfaceNames = [];
+    foreach ($returnTypeClassNames as $returnTypeClassName) {
+      if (class_exists($returnTypeClassName)) {
+        // Find the interfaces for the class.
+        foreach (self::classGetPluginTypeNames(new \ReflectionClass($returnTypeClassName)) as $interfaceName) {
+          $returnTypeInterfaceNames[] = $interfaceName;
         }
       }
-      elseif ('self' === $returnTypeAlias || 'static' === $returnTypeAlias) {
-        foreach (self::classGetPluginTypeNames($reflectionMethod->getDeclaringClass()) as $interfaceName) {
-          $returnTypeNames[] = $interfaceName;
-        }
+      else {
+        // Assume it is an interface.
+        $returnTypeInterfaceNames[] = $returnTypeClassName;
       }
     }
 
-    return array_unique($returnTypeNames);
+    return array_unique($returnTypeInterfaceNames);
   }
 
   /**

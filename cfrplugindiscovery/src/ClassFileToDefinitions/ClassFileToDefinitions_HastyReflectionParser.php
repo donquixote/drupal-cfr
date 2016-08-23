@@ -10,9 +10,8 @@ use Donquixote\HastyReflectionParser\ClassIndex\ClassIndex_Ast;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotations;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface;
-use Drupal\cfrplugindiscovery\DocToReturnTypesString\DocToReturnTypesString_phpDocumentor;
-use Drupal\cfrplugindiscovery\DocToReturnTypesString\DocToReturnTypesStringInterface;
 use Drupal\cfrplugindiscovery\Util\DefinitionUtil;
+use Drupal\cfrplugindiscovery\Util\DocUtil;
 
 class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinitionsInterface {
 
@@ -25,11 +24,6 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
    * @var \Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface
    */
   private $docToAnnotations;
-
-  /**
-   * @var \Drupal\cfrplugindiscovery\DocToReturnTypesString\DocToReturnTypesStringInterface
-   */
-  private $docToReturnTypesString;
 
   /**
    * @var string
@@ -46,26 +40,22 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
     return new self(
       $classIndex,
       DocToAnnotations::create($tagName),
-      DocToReturnTypesString_phpDocumentor::create(),
       $tagName);
   }
 
   /**
    * @param \Donquixote\HastyReflectionCommon\Canvas\ClassIndex\ClassIndexInterface $classIndex
    * @param \Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface $docToAnnotations
-   * @param \Drupal\cfrplugindiscovery\DocToReturnTypesString\DocToReturnTypesStringInterface $docToReturnTypeString
    * @param string $tagName
    *   E.g. 'CfrPlugin'.
    */
   public function __construct(
     ClassIndexInterface $classIndex,
     DocToAnnotationsInterface $docToAnnotations,
-    DocToReturnTypesStringInterface $docToReturnTypeString,
     $tagName
   ) {
     $this->classIndex = $classIndex;
     $this->docToAnnotations = $docToAnnotations;
-    $this->docToReturnTypesString = $docToReturnTypeString;
     $this->tagName = $tagName;
   }
 
@@ -246,37 +236,35 @@ class ClassFileToDefinitions_HastyReflectionParser implements ClassFileToDefinit
       return [];
     }
 
-    if (NULL === $returnTypesString = $this->docToReturnTypesString->docGetReturnTypesString($docComment)) {
+    if ([] === $returnTypeClassNames = DocUtil::docGetReturnTypeClassNames($docComment, $declaringClassName = $method->getDeclaringClassName())) {
       return [];
     }
 
-    $returnTypes = [];
-    foreach (explode('|', $returnTypesString) as $typeNameOrAlias) {
-      if ('\\' === $typeNameOrAlias[0]) {
-        $returnTypeName = substr($typeNameOrAlias, 1);
+    $returnTypeInterfaceNames = [];
+    foreach ($returnTypeClassNames as $returnTypeName) {
 
-        // Class or interface?
-        if (NULL === $returnTypeClassReflection = $this->classIndex->classGetReflection($returnTypeName)) {
-          continue;
-        }
-
-        if ($returnTypeClassReflection->isClass()) {
-          foreach ($this->classReflectionGetPluginTypeNames($returnTypeClassReflection) as $interfaceName) {
-            $returnTypes[] = $interfaceName;
-          }
-        }
-        elseif ($returnTypeClassReflection->isInterface()) {
-          $returnTypes[] = $returnTypeName;
+      if ($declaringClassName === $returnTypeName) {
+        foreach ($this->classReflectionGetPluginTypeNames($method->getDeclaringClass()) as $interfaceName) {
+          $returnTypeInterfaceNames[] = $interfaceName;
         }
       }
-      elseif ('self' === $typeNameOrAlias || 'static' === $typeNameOrAlias) {
-        foreach ($this->classReflectionGetPluginTypeNames($method->getDeclaringClass()) as $interfaceName) {
-          $returnTypes[] = $interfaceName;
+
+      // Class or interface?
+      if (NULL === $returnTypeClassReflection = $this->classIndex->classGetReflection($returnTypeName)) {
+        continue;
+      }
+
+      if ($returnTypeClassReflection->isClass()) {
+        foreach ($this->classReflectionGetPluginTypeNames($returnTypeClassReflection) as $interfaceName) {
+          $returnTypeInterfaceNames[] = $interfaceName;
         }
+      }
+      elseif ($returnTypeClassReflection->isInterface()) {
+        $returnTypeInterfaceNames[] = $returnTypeName;
       }
     }
 
-    return array_unique($returnTypes);
+    return array_unique($returnTypeInterfaceNames);
   }
 
   /**
