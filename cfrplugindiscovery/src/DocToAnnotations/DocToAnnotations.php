@@ -2,23 +2,12 @@
 
 namespace Drupal\cfrplugindiscovery\DocToAnnotations;
 
-use Drupal\cfrplugindiscovery\DocTagToAnnotation\DocTagToAnnotation;
-use Drupal\cfrplugindiscovery\DocTagToAnnotation\DocTagToAnnotationInterface;
-use phpDocumentor\Reflection\DocBlock\Tags\Generic;
-use phpDocumentor\Reflection\DocBlockFactory;
-use phpDocumentor\Reflection\DocBlockFactoryInterface;
+use Donquixote\Annotation\DocCommentUtil;
+use Donquixote\Annotation\Resolver\AnnotationResolver_PrimitiveResolver;
+use Donquixote\Annotation\Resolver\AnnotationResolverInterface;
+use Donquixote\Annotation\Value\DoctrineAnnotation\DoctrineAnnotationInterface;
 
 class DocToAnnotations implements DocToAnnotationsInterface {
-
-  /**
-   * @var \phpDocumentor\Reflection\DocBlockFactoryInterface
-   */
-  private $docBlockFactory;
-
-  /**
-   * @var \Drupal\cfrplugindiscovery\DocTagToAnnotation\DocTagToAnnotationInterface
-   */
-  private $docTagToAnnotation;
 
   /**
    * @var string
@@ -26,31 +15,26 @@ class DocToAnnotations implements DocToAnnotationsInterface {
   private $tagName;
 
   /**
-   * @param string $tagName
-   *
-   * @return \Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotations
+   * @var \Donquixote\Annotation\Resolver\AnnotationResolverInterface
    */
-  static function create($tagName) {
-    return new self(
-      DocBlockFactory::createInstance(),
-      DocTagToAnnotation::create(),
-      $tagName
-    );
+  private $annotationResolver;
+
+  /**
+   * @param string $tagName;
+   *
+   * @return self
+   */
+  public static function create($tagName) {
+    return new self($tagName, AnnotationResolver_PrimitiveResolver::create());
   }
 
   /**
-   * @param \phpDocumentor\Reflection\DocBlockFactoryInterface $docBlockFactory
-   * @param \Drupal\cfrplugindiscovery\DocTagToAnnotation\DocTagToAnnotationInterface $docTagToAnnotation
    * @param string $tagName
+   * @param \Donquixote\Annotation\Resolver\AnnotationResolverInterface $annotationResolver
    */
-  function __construct(
-    DocBlockFactoryInterface $docBlockFactory,
-    DocTagToAnnotationInterface $docTagToAnnotation,
-    $tagName
-  ) {
-    $this->docBlockFactory = $docBlockFactory;
-    $this->docTagToAnnotation = $docTagToAnnotation;
+  public function __construct($tagName, AnnotationResolverInterface $annotationResolver) {
     $this->tagName = $tagName;
+    $this->annotationResolver = $annotationResolver;
   }
 
   /**
@@ -60,26 +44,45 @@ class DocToAnnotations implements DocToAnnotationsInterface {
    */
   function docGetAnnotations($docComment) {
 
-    if (NULL === $docComment) {
-      return array();
-    }
-    if (FALSE === strpos($docComment, '@' . $this->tagName)) {
-      return array();
+    if (false === strpos($docComment, '@' . $this->tagName)) {
+      return [];
     }
 
-    $docBlock = $this->docBlockFactory->create($docComment);
-
-    $annotations = array();
-    foreach ($docBlock->getTagsByName($this->tagName) as $docTag) {
-      if (!$docTag instanceof Generic) {
-        continue;
-      }
-      $annotation = $this->docTagToAnnotation->docTagGetAnnotation($docTag);
-      if (NULL === $annotation) {
-        continue;
+    $annotations = [];
+    foreach (DocCommentUtil::docGetDoctrineAnnotations($docComment, $this->tagName, $this->annotationResolver) as $doctrineAnnotation) {
+      $annotation = [];
+      foreach ($doctrineAnnotation->getArguments() as $k => $v) {
+        if ($v instanceof DoctrineAnnotationInterface) {
+          if (null === $v = $this->resolveAnnotation($v->getName(), $v->getArguments())) {
+            continue;
+          }
+        }
+        elseif (is_object($v)) {
+          continue;
+        }
+        $annotation[$k] = $v;
       }
       $annotations[] = $annotation;
     }
+
     return $annotations;
+  }
+
+  /**
+   * @param string $name
+   * @param array $args
+   *
+   * @return mixed|null
+   */
+  private function resolveAnnotation($name, array $args) {
+
+    if ($name === 't' || $name === 'Translate') {
+      if (isset($args[0]) && is_string($args[0])) {
+        return t($args[0]);
+      }
+    }
+
+    return NULL;
+
   }
 }
