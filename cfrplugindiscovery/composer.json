@@ -3,7 +3,6 @@
   "name": "Drupal 7 Configurator plugin discovery",
   "require": {
     "vektah/parser-combinator": "~0.2",
-    "donquixote/annotation-parser": "dev-master",
-    "phpdocumentor/reflection-docblock": "dev-master"
+    "donquixote/annotation-parser": "dev-master"
   }
 }
