@@ -2,6 +2,6 @@
   "minimum-stability": "dev",
   "name": "Drupal 7 Configurator plugin discovery",
   "require": {
-    "donquixote/annotation-parser": "dev-master"
+    "donquixote/annotation-parser": "~0.0"
   }
 }
