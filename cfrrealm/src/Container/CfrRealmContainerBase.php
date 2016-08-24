@@ -46,8 +46,8 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
    */
   protected function get_defmapToCfrFamily() {
     return TRUE
-      ? new DefmapToCfrFamily_InlineExpanded($this->definitionToConfigurator, $this->definitionToLabel, $this->definitionToGrouplabel, $this->cfrLegendToConfigurator)
-      : new DefmapToCfrFamily($this->definitionToConfigurator, $this->definitionToLabel, $this->definitionToGrouplabel, $this->cfrLegendToConfigurator);
+      ? new DefmapToCfrFamily_InlineExpanded($this->definitionToConfigurator, $this->definitionToLabel, $this->definitionToGrouplabel)
+      : new DefmapToCfrFamily($this->definitionToConfigurator, $this->definitionToLabel, $this->definitionToGrouplabel);
   }
 
   /**

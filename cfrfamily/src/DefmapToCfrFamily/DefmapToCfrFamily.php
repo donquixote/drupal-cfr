@@ -6,7 +6,6 @@ use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\CfrFamily\CfrFamily;
 use Drupal\cfrfamily\CfrLegend\CfrLegend_FromDefmap;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
-use Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfiguratorInterface;
 use Drupal\cfrfamily\ConfiguratorMap\ConfiguratorMap_FromDefinitionMap;
 use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
@@ -31,26 +30,18 @@ class DefmapToCfrFamily implements DefmapToCfrFamilyInterface {
   private $definitionToGrouplabel;
 
   /**
-   * @var \Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfiguratorInterface
-   */
-  private $cfrLegendToConfigurator;
-
-  /**
    * @param \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
-   * @param \Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfiguratorInterface $cfrLegendToConfigurator
    */
   function __construct(
     DefinitionToConfiguratorInterface $definitionToConfigurator,
     DefinitionToLabelInterface $definitionToLabel,
-    DefinitionToLabelInterface $definitionToGrouplabel,
-    CfrLegendToConfiguratorInterface $cfrLegendToConfigurator
+    DefinitionToLabelInterface $definitionToGrouplabel
   ) {
     $this->definitionToConfigurator = $definitionToConfigurator;
     $this->definitionToLabel = $definitionToLabel;
     $this->definitionToGrouplabel = $definitionToGrouplabel;
-    $this->cfrLegendToConfigurator = $cfrLegendToConfigurator;
   }
 
   /**
