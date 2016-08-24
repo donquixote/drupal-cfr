@@ -16,11 +16,6 @@ class CfrFamily_Expanded implements CfrFamilyInterface {
   private $originalLegend;
 
   /**
-   * @var \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface
-   */
-  private $idToConfigurator;
-
-  /**
    * @var \Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfiguratorInterface
    */
   private $cfrLegendToConfigurator;
@@ -48,7 +43,6 @@ class CfrFamily_Expanded implements CfrFamilyInterface {
   function __construct(CfrLegendInterface $legend, IdToConfiguratorInterface $idToConfigurator, CfrLegendToConfiguratorInterface $cfrLegendToConfigurator) {
     $this->originalLegend = $legend;
     $this->expandedLegend = new CfrLegend_InlineExpanded($legend);
-    $this->idToConfigurator = $idToConfigurator;
     $this->cfrLegendToConfigurator = $cfrLegendToConfigurator;
     $this->idConfToValue = new IdConfToValue_IdToCfrExpanded($idToConfigurator);
     $this->configurator = $this->cfrLegendToConfigurator->cfrLegendGetConfigurator($this->expandedLegend, $this->idConfToValue);
