@@ -51,7 +51,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface
    *
-   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$interfaceToConfigurator
+   * @see \Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface::$interfaceToConfigurator
    */
   protected function get_interfaceToConfigurator() {
     return new InterfaceToConfigurator_ViaTypeIdentity($this->typeToConfigurator);
