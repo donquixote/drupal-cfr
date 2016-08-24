@@ -86,12 +86,9 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   }
 
   /**
-   * @return \Drupal\cfrfamily\Configurator\Composite\Configurator_IdConf
+   * @return \Drupal\cfrapi\Configurator\Composite\Configurator_CompositeOptional
    *
    * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$optionalConfigurator
-   */
-  /**
-   * @return \Drupal\cfrapi\Configurator\Composite\Configurator_CompositeOptional
    */
   protected function get_optionalConfigurator() {
     $confToForm = ConfToForm_CfrLegend::createOptional($this->cfrLegend);
