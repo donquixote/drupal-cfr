@@ -2,9 +2,10 @@
 
 namespace Drupal\cfrapi\Configurator\Bool;
 
+use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-class Configurator_Checkbox implements BooleanConfiguratorInterface {
+class Configurator_Checkbox implements ConfiguratorInterface {
 
   /**
    * Builds the argument value to use at the position represented by this
