@@ -2,14 +2,8 @@
 
 namespace Drupal\cfrfamily\CfrFamily;
 
-use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
-use Drupal\cfrapi\Configurator\Composite\Configurator_CompositeOptional;
 use Drupal\cfrfamily\CfrLegend\CfrLegend_InlineExpanded;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
-use Drupal\cfrfamily\Configurator\Composite\Configurator_CompositeWithCfrLegend;
-use Drupal\cfrfamily\ConfToForm\ConfToForm_CfrLegend;
-use Drupal\cfrfamily\ConfToSummary\ConfToSummary_CfrLegend;
-use Drupal\cfrfamily\ConfToValue\ConfToValue_IdConf;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValue_IdToCfrExpanded;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValue_IdToConfigurator;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface;
@@ -69,9 +63,7 @@ class CfrFamily implements CfrFamilyInterface {
    * @return \Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface
    */
   function getFamilyConfigurator() {
-    $confToForm = new ConfToForm_CfrLegend($this->legend, TRUE);
-    $confToSummary = new ConfToSummary_CfrLegend($this->legend, TRUE);
-    return new Configurator_CompositeWithCfrLegend($confToForm, $confToSummary, $this->idConfToValue, $this->legend);
+    return CfrFamilyUtil::buildFamilyConfigurator($this->legend, $this->idConfToValue);
   }
 
   /**
@@ -80,9 +72,6 @@ class CfrFamily implements CfrFamilyInterface {
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
   function getOptionalFamilyConfigurator($defaultValue = NULL) {
-    $confToForm = new ConfToForm_CfrLegend($this->legend, FALSE);
-    $confToSummary = new ConfToSummary_CfrLegend($this->legend, FALSE);
-    $confToValue = (new ConfToValue_IdConf($this->idConfToValue))->cloneAsOptional($defaultValue);
-    return new Configurator_CompositeOptional($confToForm, $confToSummary, $confToValue, new ConfEmptyness_Key('id'));
+    return CfrFamilyUtil::buildOptionalFamilyConfigurator($this->legend, $this->idConfToValue, $defaultValue);
   }
 }
