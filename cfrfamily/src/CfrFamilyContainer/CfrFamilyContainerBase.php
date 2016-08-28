@@ -9,42 +9,42 @@ abstract class CfrFamilyContainerBase extends ContainerBase implements CfrFamily
   /**
    * @return \Drupal\cfrfamily\ConfiguratorMap\ConfiguratorMap_FromDefinitionMap
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$configuratorMap
+   * @see $configuratorMap
    */
   abstract protected function get_configuratorMap();
 
   /**
    * @return \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$idToConfigurator
+   * @see $idToConfigurator
    */
   abstract protected function get_idToConfigurator();
 
   /**
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$configurator
+   * @see $configurator
    */
   abstract protected function get_configurator();
 
   /**
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$optionalConfigurator
+   * @see $optionalConfigurator
    */
   abstract protected function get_optionalConfigurator();
 
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$cfrLegend
+   * @see $cfrLegend
    */
   abstract protected function get_cfrLegend();
 
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$confEmptyness
+   * @see $confEmptyness
    */
   abstract protected function get_confEmptyness();
 
