@@ -66,7 +66,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   /**
    * @return \Drupal\cfrfamily\ConfiguratorMap\ConfiguratorMap_FromDefinitionMap
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$configuratorMap
+   * @see $configuratorMap
    */
   protected function get_configuratorMap() {
     return new ConfiguratorMap_FromDefinitionMap($this->definitionMap, $this->definitionToConfigurator, $this->context);
@@ -75,7 +75,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   /**
    * @return \Drupal\cfrapi\Configurator\Composite\Configurator_Composite
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$configurator
+   * @see $configurator
    */
   protected function get_configurator() {
     $confToForm = ConfToForm_CfrLegend::createRequired($this->cfrLegend);
@@ -88,7 +88,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   /**
    * @return \Drupal\cfrapi\Configurator\Composite\Configurator_CompositeOptional
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$optionalConfigurator
+   * @see $optionalConfigurator
    */
   protected function get_optionalConfigurator() {
     $confToForm = ConfToForm_CfrLegend::createOptional($this->cfrLegend);
@@ -100,7 +100,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$cfrLegend
+   * @see $cfrLegend
    */
   protected function get_cfrLegend() {
     return new CfrLegend_FromDefmap($this->definitionMap, $this->configuratorMap, $this->definitionToLabel, $this->definitionToGrouplabel);
@@ -109,7 +109,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$confEmptyness
+   * @see $confEmptyness
    */
   protected function get_confEmptyness() {
     return new ConfEmptyness_Key('id');
@@ -118,7 +118,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   /**
    * @return \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface
    *
-   * @see \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface::$idToConfigurator
+   * @see $idToConfigurator
    */
   protected function get_idToConfigurator() {
     return $this->configuratorMap;
