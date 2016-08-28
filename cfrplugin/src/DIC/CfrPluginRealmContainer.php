@@ -51,7 +51,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface
    *
-   * @see \Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface::$interfaceToConfigurator
+   * @see $interfaceToConfigurator
    */
   protected function get_interfaceToConfigurator() {
     return new InterfaceToConfigurator_ViaTypeIdentity($this->typeToConfigurator);
@@ -60,7 +60,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
    *
-   * @see \Drupal\cfrplugin\DIC\CfrPluginRealmContainer::$definitionsByTypeAndId
+   * @see $definitionsByTypeAndId
    */
   protected function get_definitionsByTypeAndId() {
     $definitionsByTypeAndId = new DefinitionsByTypeAndId_HookDiscovery('cfrplugin_info');
@@ -73,7 +73,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrrealm\TypeToDefmap\TypeToDefmap
    *
-   * @see \Drupal\cfrrealm\Container\CfrRealmContainerBase::$typeToDefmap
+   * @see $typeToDefmap
    */
   protected function get_typeToDefmap() {
     $typeToDefinitionsById = new TypeToDefinitionsbyid($this->definitionsByTypeAndId);
@@ -83,7 +83,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface
    *
-   * @see \Drupal\cfrrealm\Container\CfrRealmContainerInterface::$definitionToConfigurator
+   * @see $definitionToConfigurator
    */
   protected function get_definitionToConfigurator() {
     // Use a stub to allow circular dependency.
@@ -102,7 +102,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfigurator_ValueCallback
    *
-   * @see \Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface::$callbackToConfigurator
+   * @see $callbackToConfigurator
    */
   protected function get_callbackToConfigurator() {
     return new CallbackToConfigurator_ValueCallback($this->paramToConfigurator, $this->paramToLabel);
@@ -111,7 +111,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfigurator
    *
-   * @see \Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface::$paramToConfigurator
+   * @see $paramToConfigurator
    */
   protected function get_paramToConfigurator() {
     return new ParamToConfigurator($this->interfaceToConfigurator);
@@ -120,7 +120,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   /**
    * @return \Drupal\cfrreflection\ParamToLabel\ParamToLabel
    *
-   * @see \Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface::$paramToLabel
+   * @see $paramToLabel
    */
   protected function get_paramToLabel() {
     return new ParamToLabel();
