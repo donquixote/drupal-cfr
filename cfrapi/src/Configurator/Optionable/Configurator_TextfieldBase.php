@@ -17,7 +17,7 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
    * @return array
    */
   function confGetForm($conf, $label) {
-    if (is_string($conf)) {
+    if (!is_string($conf)) {
       $conf = NULL;
     }
     return array(
