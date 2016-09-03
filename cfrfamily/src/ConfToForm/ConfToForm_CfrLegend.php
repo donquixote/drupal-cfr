@@ -81,20 +81,20 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 
-    $form = array(
+    $form = [
       '#tree' => TRUE,
-    );
+    ];
 
     if (!$this->legend->idIsKnown($id)) {
       $id = NULL;
     }
 
-    $form[$this->idKey] = array(
+    $form[$this->idKey] = [
       '#title' => isset($label) ? $label : $this->idLabel,
       '#type' => 'select',
       '#options' => $this->getSelectOptions(),
       '#default_value' => $id,
-    );
+    ];
 
     if ($this->required) {
       $form[$this->idKey]['#required'] = TRUE;
@@ -103,7 +103,7 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
       $form[$this->idKey]['#empty_value'] = '';
     }
 
-    $optionsForm = array();
+    $optionsForm = [];
     if (NULL !== $id && NULL !== $legendItem = $this->legend->idGetLegendItem($id)) {
       $optionsForm = $legendItem->confGetForm($optionsConf, NULL);
 
@@ -131,7 +131,7 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
    */
   private function getSelectOptions() {
 
-    $options = array();
+    $options = [];
     foreach ($this->legend->getLegendItems() as $id => $legendItem) {
       $label = $legendItem->getLabel();
       if (NULL !== $groupLabel = $legendItem->getGroupLabel()) {
@@ -154,6 +154,6 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
     $idLabel = $legendItem->getLabel();
     return empty($idLabel)
       ? t('Options')
-      : t('Options for "@name"', array('@name' => $idLabel));
+      : t('Options for "@name"', ['@name' => $idLabel]);
   }
 }

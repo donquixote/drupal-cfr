@@ -12,7 +12,7 @@ class TypeToContainer_Buffer implements TypeToContainerInterface {
    * @var \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface[]
    *   Format: $[$type] = $container
    */
-  private $containersByType = array();
+  private $containersByType = [];
 
   /**
    * Buffered containers by type and context.
@@ -20,7 +20,7 @@ class TypeToContainer_Buffer implements TypeToContainerInterface {
    * @var \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface[][]
    *   Format: $[$type][$contextKey] = $container
    */
-  private $containersByTypeAndContext = array();
+  private $containersByTypeAndContext = [];
 
   /**
    * @var \Drupal\cfrrealm\TypeToContainer\TypeToContainerInterface

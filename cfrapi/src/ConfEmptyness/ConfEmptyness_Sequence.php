@@ -26,7 +26,7 @@ class ConfEmptyness_Sequence implements ConfEmptynessInterface {
    *   TRUE, if $conf is both valid and empty.
    */
   function confIsEmpty($conf) {
-    if (NULL === $conf || array() === $conf) {
+    if (NULL === $conf || [] === $conf) {
       return TRUE;
     }
     if (!is_array($conf)) {
@@ -53,7 +53,7 @@ class ConfEmptyness_Sequence implements ConfEmptynessInterface {
    * @return mixed|null
    */
   function getEmptyConf() {
-    return array();
+    return [];
   }
 
 }

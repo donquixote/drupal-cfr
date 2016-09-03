@@ -16,25 +16,25 @@ function cfrplugin() {
  * Implements hook_permission().
  */
 function cfrplugin_permission() {
-  return array(
-    'view cfrplugin report' =>  array(
+  return [
+    'view cfrplugin report' =>  [
       'title' => t('View report of Cfr plugins'),
-    ),
-  );
+    ],
+  ];
 }
 
 /**
  * Implements hook_menu().
  */
 function cfrplugin_menu() {
-  $items = array();
-  $items['admin/reports/cfrplugin'] = array(
+  $items = [];
+  $items['admin/reports/cfrplugin'] = [
     'type' => MENU_NORMAL_ITEM,
-    'access arguments' => array('view cfrplugin report'),
+    'access arguments' => ['view cfrplugin report'],
     'title' => 'Cfr plugins',
     /* @see _cfrplugin_report_page() */
     'page callback' => '_cfrplugin_report_page',
     'file' => 'cfrplugin.page.report.inc',
-  );
+  ];
   return $items;
 }

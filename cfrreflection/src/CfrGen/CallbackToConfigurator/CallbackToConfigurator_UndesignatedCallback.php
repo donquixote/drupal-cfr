@@ -21,7 +21,7 @@ class CallbackToConfigurator_UndesignatedCallback implements CallbackToConfigura
   function callbackGetConfigurator(CallbackReflectionInterface $callback, CfrContextInterface $context = NULL) {
 
     // @todo Test if can be called without arguments.
-    $configuratorOrValue = $callback->invokeArgs(array());
+    $configuratorOrValue = $callback->invokeArgs([]);
 
     if ($configuratorOrValue instanceof ConfiguratorInterface) {
       return $configuratorOrValue;

@@ -22,7 +22,7 @@ final class ServiceFactoryUtil extends UtilBase {
     $classToCallback = new ClassNameToCallback();
     $callbackToCallback = new CallableToCallback();
     $cfrFactoryCtc = new CallbackToConfigurator_ConfiguratorFactory();
-    return array(
+    return [
       'configurator' => new ArgDefToConfigurator_ConfiguratorObject(),
       'configurator_class' => new ArgDefToConfigurator_Callback($classToCallback, 'configurator_arguments', $cfrFactoryCtc),
       'configurator_factory' => new ArgDefToConfigurator_Callback($callbackToCallback, 'configurator_arguments', $cfrFactoryCtc),
@@ -31,6 +31,6 @@ final class ServiceFactoryUtil extends UtilBase {
       'handler_factory' => new ArgDefToConfigurator_Callback($callbackToCallback, 'handler_arguments', $valueCtc),
       'class' => new ArgDefToConfigurator_Callback($classToCallback, 'configurator_arguments', $cfrFactoryCtc),
       'factory' => new ArgDefToConfigurator_Callback($callbackToCallback, 'configurator_arguments', $cfrFactoryCtc),
-    );
+    ];
   }
 }

@@ -129,20 +129,20 @@ class Configurator_IdConf implements ConfiguratorInterface {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 
-    $form = array(
+    $form = [
       '#tree' => TRUE,
-    );
+    ];
 
     if (!$this->legend->idIsKnown($id)) {
       $id = NULL;
     }
 
-    $form[$this->idKey] = array(
+    $form[$this->idKey] = [
       '#title' => isset($label) ? $label : $this->idLabel,
       '#type' => 'select',
       '#options' => $this->legend->getSelectOptions(),
       '#default_value' => $id,
-    );
+    ];
 
     if ($this->required) {
       $form[$this->idKey]['#required'] = TRUE;
@@ -151,7 +151,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
       $form[$this->idKey]['#empty_value'] = '';
     }
 
-    $optionsForm = array();
+    $optionsForm = [];
     if (NULL !== $id) {
       $configurator = $this->idToConfigurator->idGetConfigurator($id);
       if ($configurator && !$configurator instanceof BrokenConfiguratorInterface) {
@@ -186,7 +186,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
     $idLabel = $this->legend->idGetLabel($id);
     return empty($idLabel)
       ? t('Options')
-      : t('Options for "@name"', array('@name' => $idLabel));
+      : t('Options for "@name"', ['@name' => $idLabel]);
   }
 
   /**
@@ -250,10 +250,10 @@ class Configurator_IdConf implements ConfiguratorInterface {
       return $this->idValueToValue->idValueGetValue($id, $value);
     }
 
-    return array(
+    return [
       $this->idKey => $id,
       $this->optionsKey => $value,
-    );
+    ];
   }
 
   /**

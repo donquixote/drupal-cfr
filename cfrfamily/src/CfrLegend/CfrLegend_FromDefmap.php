@@ -63,7 +63,7 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
       throw new \RuntimeException('Possibly unlimited recursion detected.');
     }
     ++$rec;
-    $items = array();
+    $items = [];
     foreach ($this->definitionMap->getDefinitionsById() as $id => $definition) {
       $legendItem = $this->idDefinitionGetLegendItem($id, $definition);
       if (NULL !== $legendItem) {

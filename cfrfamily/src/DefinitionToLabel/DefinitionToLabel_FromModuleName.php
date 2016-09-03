@@ -9,7 +9,7 @@ class DefinitionToLabel_FromModuleName implements DefinitionToLabelInterface {
   /**
    * @var string[]
    */
-  private $labelsByModule = array();
+  private $labelsByModule = [];
 
   /**
    * @var array[]|null

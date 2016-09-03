@@ -56,7 +56,7 @@ class Configurator_CallbackSimple extends UnconfigurableConfiguratorBase {
    */
   function confGetValue($conf) {
     try {
-      return $this->callback->invokeArgs(array());
+      return $this->callback->invokeArgs([]);
     }
     catch (\Exception $e) {
       return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');

@@ -7,21 +7,21 @@ use Drupal\cfrapi\Util\FormUtil;
  * Implements hook_element_info().
  */
 function cfrapi_element_info() {
-  return array(
-    'cfrapi' => array(
+  return [
+    'cfrapi' => [
       '#input' => TRUE,
       '#tree' => TRUE,
       /* @see _cfrapi_element_process() */
-      '#process' => array('_cfrapi_element_process'),
+      '#process' => ['_cfrapi_element_process'],
       '#cfrapi_confToForm' => NULL,
-    ),
-    'cfrapi_id_conf' => array(
+    ],
+    'cfrapi_id_conf' => [
       /* @see _cfrapi_id_conf_element_process() */
-      '#process' => array('_cfrapi_id_conf_element_process'),
-      '#theme_wrappers' => array('themekit_container'),
+      '#process' => ['_cfrapi_id_conf_element_process'],
+      '#theme_wrappers' => ['themekit_container'],
       '#cfrapi_confToForm' => NULL,
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -37,9 +37,9 @@ function _cfrapi_element_process(
 
   $confToForm = $element['#cfrapi_confToForm'];
   if (!$confToForm instanceof ConfToFormInterface) {
-    return array(
+    return [
       '#markup' => '<!-- Invalid form setup. -->',
-    );
+    ];
   }
   $conf = isset($element['#value']) ? $element['#value'] : NULL;
   $label = isset($element['#title']) ? $element['#title'] : NULL;

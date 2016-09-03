@@ -18,9 +18,9 @@ abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenC
    */
   function confGetForm($conf, $label) {
     // @todo Add an element that causes validation to fail.
-    return array(
+    return [
       '#markup' => '- ' . t('Broken configurator') . ' -<pre>' . print_r($this, TRUE) . '</pre>',
-    );
+    ];
   }
 
   /**

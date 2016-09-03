@@ -19,7 +19,7 @@ class CfrLegendItem_NoConf extends LegendItem implements CfrLegendItemInterface 
    * @return array
    */
   function confGetForm($conf, $label) {
-    return array();
+    return [];
   }
 
   /**

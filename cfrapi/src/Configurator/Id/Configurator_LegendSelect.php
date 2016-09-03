@@ -109,12 +109,12 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
     if (!$this->legend->idIsKnown($conf)) {
       $conf = NULL;
     }
-    $form = array(
+    $form = [
       '#title' => $label,
       '#type' => 'select',
       '#options' => $this->legend->getSelectOptions(),
       '#default_value' => $conf,
-    );
+    ];
     if ($required) {
       $form['#required'] = TRUE;
     }

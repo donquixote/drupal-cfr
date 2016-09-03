@@ -18,7 +18,7 @@ class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInte
    * @param string $hook
    * @param array $arguments
    */
-  function __construct($hook, array $arguments = array()) {
+  function __construct($hook, array $arguments = []) {
     $this->hook = $hook;
     $this->arguments = $arguments;
   }
@@ -28,7 +28,7 @@ class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInte
    *   Format: $[$type][$id] = $definition
    */
   public function getDefinitionsByTypeAndId() {
-    $definitions = array();
+    $definitions = [];
     $suffix = '_' . $this->hook;
     foreach (module_implements($this->hook) as $module) {
       foreach ($moduleResult = $this->moduleGetDefinitionsByTypeAndId($module, $suffix) as $type => $definitionsById) {
@@ -55,11 +55,11 @@ class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInte
   private function moduleGetDefinitionsByTypeAndId($module, $suffix) {
     $function = $module . $suffix;
     if (!function_exists($function)) {
-      return array();
+      return [];
     }
     $moduleDefinitionsByTypeAndId = call_user_func_array($function, $this->arguments);
     if (!is_array($moduleDefinitionsByTypeAndId)) {
-      return array();
+      return [];
     }
     return $moduleDefinitionsByTypeAndId;
   }

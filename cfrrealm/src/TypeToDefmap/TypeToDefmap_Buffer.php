@@ -12,7 +12,7 @@ class TypeToDefmap_Buffer implements TypeToDefmapInterface {
   /**
    * @var \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface[]
    */
-  private $definitionMaps = array();
+  private $definitionMaps = [];
 
   /**
    * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $decorated

@@ -33,7 +33,7 @@ class Configurator_Single implements GroupConfiguratorInterface {
     if ($value instanceof BrokenValueInterface) {
       return new BrokenValue($this, get_defined_vars(), 'Value is broken.');
     }
-    return array($value);
+    return [$value];
   }
 
   /**

@@ -30,7 +30,7 @@ final class StringUtil extends UtilBase {
    * @return string[]|string
    */
   static function camelCaseExplode($string, $lowercase = true, $example_string = 'AA Bc', $glue = false) {
-    static $regexp_by_example = array();
+    static $regexp_by_example = [];
     if (!isset($regexp_by_example[$example_string])) {
       $regexp_by_example[$example_string] = self::camelCaseExplodeExampleToRegex($example_string);
     }
@@ -57,11 +57,11 @@ final class StringUtil extends UtilBase {
    * @throws \Exception
    */
   static function camelCaseExplodeExampleToRegex($example_string) {
-    static $regexp_available = array(
+    static $regexp_available = [
       '/([A-Z][^A-Z]*)/',
       '/([A-Z][^A-Z]+)/',
       '/([A-Z]+[^A-Z]*)/',
-    );
+    ];
     $orig = str_replace(' ', '', $example_string);
     $expected_exploded = explode(' ', $example_string);
     foreach ($regexp_available as $regexp) {

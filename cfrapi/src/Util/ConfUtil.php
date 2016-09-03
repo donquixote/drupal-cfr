@@ -14,20 +14,20 @@ final class ConfUtil extends UtilBase {
    */
   static function confGetIdOptions($conf, $k0 = 'id', $k1 = 'options') {
     if (!isset($conf[$k0])) {
-      return array(NULL, NULL);
+      return [NULL, NULL];
     }
     $id = $conf[$k0];
     if ('' === $id) {
-      return array(NULL, NULL);
+      return [NULL, NULL];
     }
     if (!is_string($id) && !is_int($id)) {
-      return array(NULL, NULL);
+      return [NULL, NULL];
     }
     if (!isset($conf[$k1])) {
-      return array($id, NULL);
+      return [$id, NULL];
     }
     else {
-      return array($id, $conf[$k1]);
+      return [$id, $conf[$k1]];
     }
   }
 
@@ -41,7 +41,7 @@ final class ConfUtil extends UtilBase {
     if (!is_array($conf) || empty($conf)) {
       return array_fill(0, count($keys), NULL);
     }
-    $return = array();
+    $return = [];
     foreach ($keys as $k) {
       $return[] = isset($conf[$k]) ? $conf[$k] : NULL;
     }
@@ -55,7 +55,7 @@ final class ConfUtil extends UtilBase {
    * @return mixed
    */
   static function confExtractNestedValue(&$conf, array $parents) {
-    if (array() === $parents) {
+    if ([] === $parents) {
       return $conf;
     }
     if (!is_array($conf)) {
@@ -65,7 +65,7 @@ final class ConfUtil extends UtilBase {
     if (!isset($conf[$key])) {
       return NULL;
     }
-    if (array() === $parents) {
+    if ([] === $parents) {
       return $conf[$key];
     }
     if (!is_array($conf[$key])) {
@@ -84,18 +84,18 @@ final class ConfUtil extends UtilBase {
    *   TRUE on success, FALSE on failure.
    */
   static function confMergeNestedValue(array &$conf, array $parents, array $value) {
-    if (array() === $parents) {
+    if ([] === $parents) {
       $conf += $value;
       return TRUE;
     }
     $key = array_shift($parents);
     if (!isset($conf[$key])) {
-      $conf[$key] = array();
+      $conf[$key] = [];
     }
     elseif (!is_array($conf[$key])) {
       return FALSE;
     }
-    if (array() === $parents) {
+    if ([] === $parents) {
       $conf[$key] += $value;
       return TRUE;
     }
@@ -112,7 +112,7 @@ final class ConfUtil extends UtilBase {
    *   TRUE on success, FALSE on failure.
    */
   static function confSetNestedValue(&$conf, array $parents, $value) {
-    if (array() === $parents) {
+    if ([] === $parents) {
       $conf = $value;
       return TRUE;
     }
@@ -120,12 +120,12 @@ final class ConfUtil extends UtilBase {
       return FALSE;
     }
     $key = array_shift($parents);
-    if (array() === $parents) {
+    if ([] === $parents) {
       $conf[$key] = $value;
       return TRUE;
     }
     if (!isset($conf[$key])) {
-      $conf[$key] = array();
+      $conf[$key] = [];
     }
     return self::confSetNestedValue($conf[$key], $parents, $value);
   }
@@ -137,15 +137,15 @@ final class ConfUtil extends UtilBase {
    * @return bool
    */
   static function confUnsetNestedValue(&$conf, array $parents) {
-    if (array() === $parents) {
-      $conf = array();
+    if ([] === $parents) {
+      $conf = [];
       return TRUE;
     }
     if (!is_array($conf)) {
       return FALSE;
     }
     $key = array_shift($parents);
-    if (array() === $parents) {
+    if ([] === $parents) {
       unset($conf[$key]);
       return TRUE;
     }

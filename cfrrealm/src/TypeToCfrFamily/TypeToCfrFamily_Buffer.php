@@ -14,7 +14,7 @@ class TypeToCfrFamily_Buffer implements TypeToCfrFamilyInterface {
   /**
    * @var \Drupal\cfrfamily\CfrFamily\CfrFamilyInterface[]
    */
-  private $buffer = array();
+  private $buffer = [];
 
   /**
    * @param \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface $decorated

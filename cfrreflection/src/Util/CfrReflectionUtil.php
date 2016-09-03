@@ -16,7 +16,7 @@ final class CfrReflectionUtil extends UtilBase {
    *   Serial arguments array.
    */
   public static function paramsGetArgs(array $params) {
-    $serialArgs = array();
+    $serialArgs = [];
     foreach ($params as $i => $param) {
       if ($param->isOptional()) {
         $arg = $param->getDefaultValue();

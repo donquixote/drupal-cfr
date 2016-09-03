@@ -20,7 +20,7 @@ class SummaryBuilderInline_Static implements SummaryBuilderInlineInterface {
   /**
    * @var string[]
    */
-  private $pieces = array();
+  private $pieces = [];
 
   /**
    * @param \Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface $summaryBuilder

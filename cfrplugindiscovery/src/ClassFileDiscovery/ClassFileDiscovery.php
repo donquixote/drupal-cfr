@@ -27,7 +27,7 @@ class ClassFileDiscovery implements ClassFileDiscoveryInterface {
    *   Format: $[$file] = $class
    */
   private function dirNspFindClassFilesRecursive($parentDir, $parentNamespace) {
-    $classFiles = array();
+    $classFiles = [];
     foreach (scandir($parentDir) as $candidate) {
       if ('.' === $candidate[0]) {
         continue;

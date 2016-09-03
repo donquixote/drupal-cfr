@@ -49,12 +49,12 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
    */
   function confGetValue($conf) {
     if (NULL === $conf) {
-      return array();
+      return [];
     }
     if (!is_array($conf)) {
       return new BrokenValue($this, get_defined_vars(), 'Configuration must be an array or NULL.');
     }
-    $values = array();
+    $values = [];
     foreach ($conf as $delta => $deltaConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Fail on non-numeric and negative keys.
@@ -86,7 +86,7 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
    */
   function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     if (!is_array($conf)) {
-      $conf = array();
+      $conf = [];
     }
     return $summaryBuilder->buildSequence($this->configurator, $conf);
   }
@@ -101,19 +101,19 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
    */
   function confGetForm($conf, $label) {
     if (!is_array($conf)) {
-      $conf = array();
+      $conf = [];
     }
-    $form = array(
+    $form = [
       '#type' => 'fieldset',
       '#title' => $label,
-    );
+    ];
     foreach ($conf as $delta => $itemConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Skip non-numeric and negative keys.
         continue;
       }
       if (!$this->emptyness->confIsEmpty($itemConf)) {
-        $form[$delta] = $this->configurator->confGetForm($itemConf, t('Item !n', array('!n' => '#' . check_plain($delta))));
+        $form[$delta] = $this->configurator->confGetForm($itemConf, t('Item !n', ['!n' => '#' . check_plain($delta)]));
       }
     }
     // Element for new item.

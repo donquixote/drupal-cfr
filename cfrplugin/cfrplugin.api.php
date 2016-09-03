@@ -9,28 +9,28 @@ use Drupal\renderkit\EntityDisplay\EntityDisplayInterface;
  * @return array[][]
  */
 function hook_cfrplugin_info() {
-  $definitions = array();
+  $definitions = [];
 
   // Use the annotation-based discovery.
   $definitions += function_exists('cfrplugindiscovery')
     ? cfrplugindiscovery()->discoverByInterface(__DIR__ . '/src', 'Drupal\renderkit')
-    : array();
+    : [];
 
   // Or do it manually.
-  $definitions[EntityDisplayInterface::class] = array(
-    'rawTitle' => array(
+  $definitions[EntityDisplayInterface::class] = [
+    'rawTitle' => [
       'label' => t('Entity title, raw'),
-      'configurator_factory' => array(EntityDisplay_Title::class, 'createConfigurator'),
-    ),
-    'title' => array(
+      'configurator_factory' => [EntityDisplay_Title::class, 'createConfigurator'],
+    ],
+    'title' => [
       'label' => t('Entity title'),
       'handler_class' => EntityDisplay_Title::class,
-    ),
-    'fieldWithFormatter' => array(
+    ],
+    'fieldWithFormatter' => [
       'label' => t('Field with formatter'),
-      'configurator_factory' => array(EntityDisplay_FieldWithFormatter::class, 'createConfigurator')
-    ),
-  );
+      'configurator_factory' => [EntityDisplay_FieldWithFormatter::class, 'createConfigurator']
+    ],
+  ];
 
   return $definitions;
 }

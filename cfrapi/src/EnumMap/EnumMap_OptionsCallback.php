@@ -49,7 +49,7 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
       $this->optionsBuffer = call_user_func($this->optionsCallback);
       if (!is_array($this->optionsBuffer)) {
         // @todo Throw an exception or something?
-        return $this->optionsBuffer = array();
+        return $this->optionsBuffer = [];
       }
     }
     return $this->optionsBuffer;

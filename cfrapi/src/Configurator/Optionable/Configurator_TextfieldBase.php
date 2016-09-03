@@ -20,12 +20,12 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
     if (!is_string($conf)) {
       $conf = NULL;
     }
-    return array(
+    return [
       '#type' => 'textfield',
       '#title' => $label,
       '#default_value' => $conf,
       '#required' => TRUE,
-    );
+    ];
   }
 
   /**

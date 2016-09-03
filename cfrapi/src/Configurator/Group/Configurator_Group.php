@@ -58,7 +58,7 @@ class Configurator_Group implements GroupConfiguratorInterface {
    *   A form element(s) array.
    */
   function confGetForm($conf, $label) {
-    $form = array();
+    $form = [];
     if (NULL !== $label && '' !== $label) {
       $form['#title'] = $label;
     }
@@ -78,7 +78,7 @@ class Configurator_Group implements GroupConfiguratorInterface {
    */
   function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     if (!is_array($conf) || !count($conf)) {
-      $conf = array();
+      $conf = [];
     }
     $group = $summaryBuilder->startGroup();
     foreach ($this->configurators as $key => $configurator) {
@@ -98,9 +98,9 @@ class Configurator_Group implements GroupConfiguratorInterface {
   function confGetValue($conf) {
     if (!is_array($conf)) {
       // If all values are optional, this might still work.
-      $conf = array();
+      $conf = [];
     }
-    $values = array();
+    $values = [];
     foreach ($this->configurators as $key => $configurator) {
       if (array_key_exists($key, $conf)) {
         $value = $configurator->confGetValue($conf[$key]);

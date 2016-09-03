@@ -22,7 +22,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   /**
    * @var string[]
    */
-  private $classesToExclude = array();
+  private $classesToExclude = [];
 
   /**
    * @param string $tagName
@@ -82,7 +82,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
 
     $classFiles = $this->classFileDiscovery->dirNspGetClassFiles($directory, $namespace);
 
-    if (array() !== $this->classesToExclude) {
+    if ([] !== $this->classesToExclude) {
       // This does preserve keys.
       $classFiles = array_diff($classFiles, $this->classesToExclude);
     }
@@ -99,7 +99,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
    */
   private function classFilesGetDefinitions(array $classFiles) {
 
-    $definitionsByTypeAndId = array();
+    $definitionsByTypeAndId = [];
     foreach ($classFiles as $file => $class) {
       foreach ($this->classFileToDefinitions->classFileGetDefinitions($class, $file) as $type => $definitionsById) {
         foreach ($definitionsById as $id => $definition) {

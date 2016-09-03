@@ -17,7 +17,7 @@ abstract class UnconfigurableConfiguratorBase implements ConfiguratorInterface, 
    * @return array
    */
   function confGetForm($conf, $label) {
-    return array();
+    return [];
   }
 
   /**

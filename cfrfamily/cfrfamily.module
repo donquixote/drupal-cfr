@@ -9,7 +9,7 @@
  *
  * @see \Drupal\cfrfamily\ConfToForm\ConfToForm_CfrLegendExpanded::confGetForm()
  */
-function _cfrfamily_value_callback($element, $input = FALSE, array $form_state = array()) {
+function _cfrfamily_value_callback($element, $input = FALSE, array $form_state = []) {
 
   if ($input !== FALSE) {
     # dpm($input, 'INPUT');
@@ -19,20 +19,20 @@ function _cfrfamily_value_callback($element, $input = FALSE, array $form_state =
     if (isset($input['id']) && is_string($input['id'])) {
       $combinedIdDecoded = json_decode($input['id'], FALSE, 2);
       if (is_string($combinedIdDecoded)) {
-        return array(
+        return [
           'id' => $combinedIdDecoded,
           'options' => $optionsConf,
-        );
+        ];
       }
       elseif (is_array($combinedIdDecoded) && $combinedIdDecoded === array_values($combinedIdDecoded)) {
         while (NULL !== $deepestId = array_pop($combinedIdDecoded)) {
           if (!is_string($deepestId)) {
             return NULL;
           }
-          $optionsConf = array(
+          $optionsConf = [
             'id' => $deepestId,
             'options' => $optionsConf,
-          );
+          ];
         }
         return $optionsConf;
       }

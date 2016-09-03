@@ -78,7 +78,7 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
     }
     // @todo Validate $arg.
     try {
-      return $this->callback->invokeArgs(array($arg));
+      return $this->callback->invokeArgs([$arg]);
     }
     catch (\Exception $e) {
       return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');

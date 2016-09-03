@@ -12,7 +12,7 @@ class Configurator_GroupReparent extends Configurator_Group {
    * @var string[][]
    *   Format: $[$key][] = $parentKey
    */
-  private $keysReparent = array();
+  private $keysReparent = [];
 
   /**
    * @param string $key
@@ -87,9 +87,9 @@ class Configurator_GroupReparent extends Configurator_Group {
    */
   private function extractConf($conf) {
     if (!is_array($conf)) {
-      return array();
+      return [];
     }
-    $confExtracted = array();
+    $confExtracted = [];
     foreach ($this->keysReparent as $key => $parents) {
       $confExtracted[$key] = ConfUtil::confExtractNestedValue($conf, $parents);
       ConfUtil::confUnsetNestedValue($conf, $parents);

@@ -24,7 +24,7 @@ class CfrLegend_InlineExpanded implements CfrLegendInterface {
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface[]
    */
   function getLegendItems($depth = 1) {
-    $items = array();
+    $items = [];
     foreach ($this->decorated->getLegendItems() as $id => $item) {
       if ($depth > 0 && $item instanceof ParentLegendItemInterface && NULL !== $inlineLegend = $item->getCfrLegend()) {
         foreach ($inlineLegend->getLegendItems($depth - 1) as $inlineId => $inlineItem) {

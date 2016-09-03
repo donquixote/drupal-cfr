@@ -15,34 +15,34 @@ function _cfrplugin_report_page() {
 
   $definitions = $services->definitionsByTypeAndId->getDefinitionsByTypeAndId();
 
-  $rows = array();
+  $rows = [];
   foreach ($definitions as $interface => $interface_definitions) {
     $interface_label = _cfrplugin_interface_get_title($interface);
     $interface_label = '<h2>' . $interface_label . '</h2><code>' . $interface . '</code>';
-    $rows[] = array(
-      array(
+    $rows[] = [
+      [
         'data' => $interface_label,
         'colspan' => 2,
-      ),
-    );
+      ],
+    ];
     foreach ($interface_definitions as $key => $definition) {
       $label = '<strong>' . $definitionToLabel->definitionGetLabel($definition, $key) . '</strong>';
       if (NULL !== $groupLabel = $definitionToGroupLabel->definitionGetLabel($definition, null)) {
         $label = '(' . $groupLabel . ')<br/>' . $label;
       }
       $label .= '<br/><code>' . $key . '</code>';
-      $rows[] = array(
+      $rows[] = [
         $label,
         '<pre>' . var_export($definition, TRUE) . '</pre>',
-      );
+      ];
     }
   }
 
-  return array(
+  return [
     /* @see theme_table() */
     '#theme' => 'table',
     '#rows' => $rows,
-  );
+  ];
 }
 
 /**

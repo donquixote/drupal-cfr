@@ -18,7 +18,7 @@ class ConfEmptyness_Whitelist implements ConfEmptynessInterface {
    * @param mixed $defaultEmptyConf
    * @param mixed[] $otherEmptyConfigurations
    */
-  function __construct($defaultEmptyConf, array $otherEmptyConfigurations = array()) {
+  function __construct($defaultEmptyConf, array $otherEmptyConfigurations = []) {
     $this->defaultEmptyConf = $defaultEmptyConf;
     $this->otherEmptyConfigurations = $otherEmptyConfigurations;
   }

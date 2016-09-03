@@ -7,24 +7,24 @@ use Drupal\renderkit\EntityDisplay\EntityDisplayInterface;
  * Implements hook_menu()
  */
 function cfrplugin_example_menu() {
-  return array(
-    'cfrplugin-example-form' => array(
+  return [
+    'cfrplugin-example-form' => [
       '#title' => 'Entdisp example form',
       'page callback' => 'drupal_get_form',
       /* @see cfrplugin_example_form() */
-      'page arguments' => array('cfrplugin_example_form'),
-      'access arguments' => array('administer site configuration'),
+      'page arguments' => ['cfrplugin_example_form'],
+      'access arguments' => ['administer site configuration'],
       'type' => MENU_CALLBACK,
-    ),
-    'node/%node/cfrplugin-example' => array(
+    ],
+    'node/%node/cfrplugin-example' => [
       'page callback' => 'drupal_get_form',
       'title' => 'Entdisp example',
       /* @see cfrplugin_example_form() */
-      'page arguments' => array('cfrplugin_example_node_demo_form', 1),
-      'access arguments' => array('administer site configuration'),
+      'page arguments' => ['cfrplugin_example_node_demo_form', 1],
+      'access arguments' => ['administer site configuration'],
       'type' => MENU_LOCAL_TASK,
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -52,7 +52,7 @@ function cfrplugin_example_form(array $form, array $form_state) {
     $settings = $form_state['values']['plugin'];
   }
   else {
-    $settings = array();
+    $settings = [];
   }
 
   # $defmap = $container->typeToDefmap->typeGetDefmap(EntityDisplayInterface::class);
@@ -63,17 +63,17 @@ function cfrplugin_example_form(array $form, array $form_state) {
   $configurator = cfrplugin()->interfaceGetConfigurator(EntityDisplayInterface::class, $context);
   $form['plugin'] = $configurator->confGetForm($settings, t('Entity display'));
 
-  $form['agree'] = array(
+  $form['agree'] = [
     '#type' => 'checkbox',
     '#title' => t('Agree'),
     '#required' => TRUE,
-  );
+  ];
 
   $form['actions']['#type'] = 'actions';
-  $form['actions']['submit'] = array(
+  $form['actions']['submit'] = [
     '#type' => 'submit',
     '#value' => t('Show'),
-  );
+  ];
 
   return $form;
 }
@@ -94,7 +94,7 @@ function cfrplugin_example_node_demo_form(array $form, array $form_state, $node)
     $settings = $form_state['values']['plugin'];
   }
   else {
-    $settings = array();
+    $settings = [];
   }
 
   $context = new CfrContext();
@@ -107,21 +107,21 @@ function cfrplugin_example_node_demo_form(array $form, array $form_state, $node)
   $form['plugin'] = $configurator->confGetForm($settings, t('Entity display'));
 
   $form['actions']['#type'] = 'actions';
-  $form['actions']['submit'] = array(
+  $form['actions']['submit'] = [
     '#type' => 'submit',
     '#value' => t('Show'),
-  );
+  ];
 
   if ($settings) {
     $entityDisplayCandidate = $configurator->confGetValue($settings);
     # \Drupal\krumong\dpm($settings, 'SETTINGS');
     # \Drupal\krumong\dpm($entityDisplayCandidate, 'ENTITY DISPLAY');
     if ($entityDisplayCandidate instanceof EntityDisplayInterface) {
-      $form['demo'] = array(
+      $form['demo'] = [
         '#type' => 'fieldset',
         '#title' => t('Node displayed with this display plugin.'),
         'content' => $entityDisplayCandidate->buildEntity('node', $node),
-      );
+      ];
     }
   }
 

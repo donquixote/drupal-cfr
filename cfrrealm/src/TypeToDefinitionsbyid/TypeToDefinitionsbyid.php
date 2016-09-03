@@ -35,6 +35,6 @@ class TypeToDefinitionsbyid implements TypeToDefinitionsbyidInterface {
     }
     return isset($this->buffer[$type])
       ? $this->buffer[$type]
-      : array();
+      : [];
   }
 }

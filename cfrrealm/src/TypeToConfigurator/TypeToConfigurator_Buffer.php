@@ -15,12 +15,12 @@ class TypeToConfigurator_Buffer implements TypeToConfiguratorInterface {
   /**
    * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface[]
    */
-  private $requiredConfigurators = array();
+  private $requiredConfigurators = [];
 
   /**
    * @var \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface[]
    */
-  private $optionalConfigurators = array();
+  private $optionalConfigurators = [];
 
   /**
    * @param \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $decorated

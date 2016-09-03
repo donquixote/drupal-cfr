@@ -12,7 +12,7 @@ class EnumMap implements EnumMapInterface {
   /**
    * @var string[]
    */
-  private $optionLabels = array();
+  private $optionLabels = [];
 
   /**
    * @param mixed[] $groupedOptions

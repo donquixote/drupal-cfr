@@ -45,12 +45,12 @@ final class FormUtil extends UtilBase {
     $uniqid = sha1($form_build_id . serialize($element['#parents']));
 
     // See https://www.drupal.org/node/752056 "AJAX Forms in Drupal 7".
-    $dependedElement['#ajax'] = array(
+    $dependedElement['#ajax'] = [
       /* @see _cfrapi_depended_element_ajax_callback() */
       'callback' => '_cfrapi_depended_element_ajax_callback',
       'wrapper' => $uniqid,
       'method' => 'replace',
-    );
+    ];
 
     $dependedElement['#depending_element_reference'] =& $dependingElement;
 
@@ -64,15 +64,15 @@ final class FormUtil extends UtilBase {
     ) {
       // @todo Does this always work?
       $dependedElement['#ajax']['path'] = $_GET['q'];
-      drupal_array_set_nested_value($form_state['values'], $element['#parents'], array(), TRUE);
-      drupal_array_set_nested_value($form_state['input'], $element['#parents'], array(), TRUE);
+      drupal_array_set_nested_value($form_state['values'], $element['#parents'], [], TRUE);
+      drupal_array_set_nested_value($form_state['input'], $element['#parents'], [], TRUE);
     }
 
     if (empty($dependingElement)) {
-      $dependingElement += array(
+      $dependingElement += [
         '#type' => 'themekit_container',
         '#markup' => '<!-- -->',
-      );
+      ];
     }
 
     $dependingElement['#prefix'] = '<div id="' . $uniqid . '">';

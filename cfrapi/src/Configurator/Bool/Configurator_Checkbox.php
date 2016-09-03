@@ -41,11 +41,11 @@ class Configurator_Checkbox implements ConfiguratorInterface {
    *   A form element(s) array.
    */
   function confGetForm($conf, $label) {
-    $element = array(
+    $element = [
       '#title' => $label,
       '#type' => 'checkbox',
       '#default_value' => !empty($conf),
-    );
+    ];
     return $element;
   }
 
