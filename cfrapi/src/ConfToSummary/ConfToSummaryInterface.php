@@ -16,6 +16,6 @@ interface ConfToSummaryInterface {
    *   A string summary is always allowed. But other values may be returned if
    *   $summaryBuilder generates them.
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder);
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder);
 
 }

@@ -13,21 +13,21 @@ interface SummaryBuilderInterface {
    *
    * @return mixed
    */
-  function idConf($label, ConfToSummaryInterface $optionsConfToSummary = NULL, $optionsConf);
+  public function idConf($label, ConfToSummaryInterface $optionsConfToSummary = NULL, $optionsConf);
 
   /**
    * Starts a group of named settings.
    *
    * @return \Drupal\cfrapi\SummaryBuilder\Group\SummaryBuilderGroupInterface
    */
-  function startGroup();
+  public function startGroup();
 
   /**
    * Starts a group of unnamed settings.
    *
    * @return \Drupal\cfrapi\SummaryBuilder\Inline\SummaryBuilderInlineInterface
    */
-  function startInline();
+  public function startInline();
 
   /**
    * @param \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface $confToSummary
@@ -35,6 +35,6 @@ interface SummaryBuilderInterface {
    *
    * @return mixed
    */
-  function buildSequence(ConfToSummaryInterface $confToSummary, array $confItems);
+  public function buildSequence(ConfToSummaryInterface $confToSummary, array $confItems);
 
 }

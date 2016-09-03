@@ -16,7 +16,7 @@ class InterfaceToConfigurator_ViaTypeIdentity implements InterfaceToConfigurator
   /**
    * @param \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $typeToConfigurator
    */
-  function __construct(TypeToConfiguratorInterface $typeToConfigurator) {
+  public function __construct(TypeToConfiguratorInterface $typeToConfigurator) {
     $this->typeToConfigurator = $typeToConfigurator;
   }
 
@@ -26,7 +26,7 @@ class InterfaceToConfigurator_ViaTypeIdentity implements InterfaceToConfigurator
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function interfaceGetConfigurator($interface, CfrContextInterface $context = NULL) {
+  public function interfaceGetConfigurator($interface, CfrContextInterface $context = NULL) {
     return $this->typeToConfigurator->typeGetConfigurator($interface, $context);
   }
 
@@ -38,7 +38,7 @@ class InterfaceToConfigurator_ViaTypeIdentity implements InterfaceToConfigurator
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL) {
+  public function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL) {
     return $this->typeToConfigurator->typeGetOptionalConfigurator($interface, $context, $defaultValue);
   }
 }

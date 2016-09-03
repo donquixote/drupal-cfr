@@ -16,5 +16,5 @@ interface ArgDefToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function argDefinitionGetConfigurator($arg, array $definition, CfrContextInterface $context = NULL);
+  public function argDefinitionGetConfigurator($arg, array $definition, CfrContextInterface $context = NULL);
 }

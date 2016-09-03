@@ -12,6 +12,6 @@ interface ParamToLabelInterface {
    *
    * @return string|null
    */
-  function paramGetLabel(\ReflectionParameter $param);
+  public function paramGetLabel(\ReflectionParameter $param);
 
 }

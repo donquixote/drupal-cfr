@@ -22,7 +22,7 @@ class TypeToCfrFamily_ViaDefmap implements TypeToCfrFamilyInterface {
    * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param \Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface $defmapToCfrFamily
    */
-  function __construct(TypeToDefmapInterface $typeToDefmap, DefmapToCfrFamilyInterface $defmapToCfrFamily) {
+  public function __construct(TypeToDefmapInterface $typeToDefmap, DefmapToCfrFamilyInterface $defmapToCfrFamily) {
     $this->typeToDefmap = $typeToDefmap;
     $this->defmapToCfrFamily = $defmapToCfrFamily;
   }
@@ -33,7 +33,7 @@ class TypeToCfrFamily_ViaDefmap implements TypeToCfrFamilyInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamily\CfrFamilyInterface
    */
-  function typeGetCfrFamily($type, CfrContextInterface $context = NULL) {
+  public function typeGetCfrFamily($type, CfrContextInterface $context = NULL) {
     $defmap = $this->typeToDefmap->typeGetDefmap($type);
     return $this->defmapToCfrFamily->defmapGetCfrFamily($defmap, $context);
   }

@@ -17,7 +17,7 @@ class Configurator_Single implements GroupConfiguratorInterface {
   /**
    * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $configurator
    */
-  function __construct(ConfiguratorInterface $configurator) {
+  public function __construct(ConfiguratorInterface $configurator) {
     $this->configurator = $configurator;
   }
 
@@ -28,7 +28,7 @@ class Configurator_Single implements GroupConfiguratorInterface {
    *
    * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     $value = $this->configurator->confGetValue($conf);
     if ($value instanceof BrokenValueInterface) {
       return new BrokenValue($this, get_defined_vars(), 'Value is broken.');
@@ -43,7 +43,7 @@ class Configurator_Single implements GroupConfiguratorInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->configurator->confGetSummary($conf, $summaryBuilder);
   }
 
@@ -54,7 +54,7 @@ class Configurator_Single implements GroupConfiguratorInterface {
    * @return array
    *   A form element(s) array.
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->configurator->confGetForm($conf, $label);
   }
 

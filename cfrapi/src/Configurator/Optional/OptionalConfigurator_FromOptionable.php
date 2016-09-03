@@ -24,7 +24,7 @@ class OptionalConfigurator_FromOptionable implements OptionalConfiguratorInterfa
   /**
    * @param \Drupal\cfrapi\Configurator\Optionable\OptionableConfiguratorInterface $optionableConfigurator
    */
-  function __construct(
+  public function __construct(
     /** @noinspection PhpDeprecationInspection */
     OptionableConfiguratorInterface $optionableConfigurator
   ) {
@@ -40,7 +40,7 @@ class OptionalConfigurator_FromOptionable implements OptionalConfiguratorInterfa
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->optionableConfigurator->confGetOptionalForm($conf, $label);
   }
 
@@ -51,7 +51,7 @@ class OptionalConfigurator_FromOptionable implements OptionalConfiguratorInterfa
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->emptyness->confIsEmpty($conf)
       ? $this->optionableConfigurator->getEmptySummary()
       : $this->optionableConfigurator->confGetSummary($conf, $summaryBuilder);
@@ -64,7 +64,7 @@ class OptionalConfigurator_FromOptionable implements OptionalConfiguratorInterfa
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     return $this->emptyness->confIsEmpty($conf)
       ? $this->optionableConfigurator->getEmptyValue()
       : $this->optionableConfigurator->confGetValue($conf);
@@ -73,7 +73,7 @@ class OptionalConfigurator_FromOptionable implements OptionalConfiguratorInterfa
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness() {
+  public function getEmptyness() {
     return $this->emptyness;
   }
 }

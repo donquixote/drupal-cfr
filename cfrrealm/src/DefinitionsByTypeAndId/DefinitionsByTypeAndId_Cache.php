@@ -24,7 +24,7 @@ class DefinitionsByTypeAndId_Cache implements DefinitionsByTypeAndIdInterface {
    * @param \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $decorated
    * @param string $cid
    */
-  function __construct(DefinitionsByTypeAndIdInterface $decorated, $cid) {
+  public function __construct(DefinitionsByTypeAndIdInterface $decorated, $cid) {
     $this->decorated = $decorated;
     $this->cid = $cid;
   }

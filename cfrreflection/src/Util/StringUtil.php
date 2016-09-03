@@ -29,7 +29,7 @@ final class StringUtil extends UtilBase {
    *
    * @return string[]|string
    */
-  static function camelCaseExplode($string, $lowercase = true, $example_string = 'AA Bc', $glue = false) {
+  public static function camelCaseExplode($string, $lowercase = true, $example_string = 'AA Bc', $glue = false) {
     static $regexp_by_example = [];
     if (!isset($regexp_by_example[$example_string])) {
       $regexp_by_example[$example_string] = self::camelCaseExplodeExampleToRegex($example_string);
@@ -45,7 +45,7 @@ final class StringUtil extends UtilBase {
    *
    * @return string[]
    */
-  static function camelCaseExplodeWithRegex($regexp, $string) {
+  public static function camelCaseExplodeWithRegex($regexp, $string) {
     return preg_split($regexp, $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
   }
 
@@ -56,7 +56,7 @@ final class StringUtil extends UtilBase {
    *   Regular expression to use.
    * @throws \Exception
    */
-  static function camelCaseExplodeExampleToRegex($example_string) {
+  public static function camelCaseExplodeExampleToRegex($example_string) {
     static $regexp_available = [
       '/([A-Z][^A-Z]*)/',
       '/([A-Z][^A-Z]+)/',
@@ -78,7 +78,7 @@ final class StringUtil extends UtilBase {
    *
    * @return string
    */
-  static function methodNameGenerateLabel($methodName) {
+  public static function methodNameGenerateLabel($methodName) {
     return ucfirst(StringUtil::camelCaseExplode($methodName, TRUE, 'AA Bc', ' '));
   }
 

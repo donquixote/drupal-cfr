@@ -12,6 +12,6 @@ interface IdValueToValueInterface {
    * @return mixed
    *   Transformed or combined value.
    */
-  function idValueGetValue($id, $value);
+  public function idValueGetValue($id, $value);
 
 }

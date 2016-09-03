@@ -15,7 +15,7 @@ class SummaryBuilder_Static implements SummaryBuilderInterface {
    *
    * @return mixed
    */
-  function idConf($label, ConfToSummaryInterface $optionsConfToSummary = NULL, $optionsConf) {
+  public function idConf($label, ConfToSummaryInterface $optionsConfToSummary = NULL, $optionsConf) {
     $optionsConfSummary = $optionsConfToSummary->confGetSummary($optionsConf, $this);
     if (!is_string($optionsConfSummary) || '' === $optionsConfSummary) {
       return check_plain($label);
@@ -28,7 +28,7 @@ class SummaryBuilder_Static implements SummaryBuilderInterface {
    *
    * @return \Drupal\cfrapi\SummaryBuilder\Group\SummaryBuilderGroupInterface
    */
-  function startGroup() {
+  public function startGroup() {
     return new SummaryBuilderGroup_Static($this);
   }
 
@@ -37,7 +37,7 @@ class SummaryBuilder_Static implements SummaryBuilderInterface {
    *
    * @return \Drupal\cfrapi\SummaryBuilder\Inline\SummaryBuilderInlineInterface
    */
-  function startInline() {
+  public function startInline() {
     return new SummaryBuilderInline_Static($this);
   }
 
@@ -47,7 +47,7 @@ class SummaryBuilder_Static implements SummaryBuilderInterface {
    *
    * @return mixed
    */
-  function buildSequence(ConfToSummaryInterface $confToSummary, array $confItems) {
+  public function buildSequence(ConfToSummaryInterface $confToSummary, array $confItems) {
     $summary = '';
     foreach ($confItems as $delta => $deltaConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {

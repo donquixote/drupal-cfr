@@ -19,7 +19,7 @@ class CfrLegendItem_Parent extends CfrLegendItem implements ParentLegendItemInte
    * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $configurator
    * @param \Drupal\cfrfamily\CfrLegend\CfrLegendInterface $legend
    */
-  function __construct($label, $groupLabel, ConfiguratorInterface $configurator, CfrLegendInterface $legend) {
+  public function __construct($label, $groupLabel, ConfiguratorInterface $configurator, CfrLegendInterface $legend) {
     parent::__construct($label, $groupLabel, $configurator);
     $this->legend = $legend;
   }
@@ -27,7 +27,7 @@ class CfrLegendItem_Parent extends CfrLegendItem implements ParentLegendItemInte
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface|null
    */
-  function getCfrLegend() {
+  public function getCfrLegend() {
     return $this->legend;
   }
 
@@ -37,7 +37,7 @@ class CfrLegendItem_Parent extends CfrLegendItem implements ParentLegendItemInte
    * @return array
    *   Format: array($id, $optionsConf)
    */
-  function confGetIdOptions($conf) {
+  public function confGetIdOptions($conf) {
     return ConfUtil::confGetIdOptions($conf);
   }
 }

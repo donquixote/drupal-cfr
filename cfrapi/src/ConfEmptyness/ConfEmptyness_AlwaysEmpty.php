@@ -12,7 +12,7 @@ class ConfEmptyness_AlwaysEmpty implements ConfEmptynessInterface {
   /**
    * @param mixed $emptyConf
    */
-  function __construct($emptyConf = NULL) {
+  public function __construct($emptyConf = NULL) {
     $this->emptyConf = $emptyConf;
   }
 
@@ -22,7 +22,7 @@ class ConfEmptyness_AlwaysEmpty implements ConfEmptynessInterface {
    * @return bool
    *   TRUE, if $conf is both valid and empty.
    */
-  function confIsEmpty($conf) {
+  public function confIsEmpty($conf) {
     return TRUE;
   }
 
@@ -31,7 +31,7 @@ class ConfEmptyness_AlwaysEmpty implements ConfEmptynessInterface {
    *
    * @return mixed|null
    */
-  function getEmptyConf() {
+  public function getEmptyConf() {
     return $this->emptyConf;
   }
 }

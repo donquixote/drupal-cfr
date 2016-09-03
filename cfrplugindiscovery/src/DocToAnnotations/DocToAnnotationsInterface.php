@@ -9,6 +9,6 @@ interface DocToAnnotationsInterface {
    *
    * @return array[]
    */
-  function docGetAnnotations($docComment);
+  public function docGetAnnotations($docComment);
 
 }

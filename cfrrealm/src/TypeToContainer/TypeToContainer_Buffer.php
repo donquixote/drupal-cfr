@@ -31,7 +31,7 @@ class TypeToContainer_Buffer implements TypeToContainerInterface {
    * @param \Drupal\cfrrealm\TypeToContainer\TypeToContainerInterface $typeToContainer
    *   The decorated TypeToContainer.
    */
-  function __construct(TypeToContainerInterface $typeToContainer) {
+  public function __construct(TypeToContainerInterface $typeToContainer) {
     $this->typeToContainer = $typeToContainer;
   }
 
@@ -41,7 +41,7 @@ class TypeToContainer_Buffer implements TypeToContainerInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface
    */
-  function typeGetContainer($type, CfrContextInterface $context = NULL) {
+  public function typeGetContainer($type, CfrContextInterface $context = NULL) {
     if (NULL === $context) {
       return isset($this->containersByType[$type])
         ? $this->containersByType[$type]

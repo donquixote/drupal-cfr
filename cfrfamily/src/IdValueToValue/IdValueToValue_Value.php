@@ -12,7 +12,7 @@ class IdValueToValue_Value implements IdValueToValueInterface {
    * @return mixed
    *   Transformed or combined value.
    */
-  function idValueGetValue($id, $value) {
+  public function idValueGetValue($id, $value) {
     return $value;
   }
 }

@@ -13,6 +13,6 @@ interface CallbackToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function callbackGetConfigurator(CallbackReflectionInterface $callback, CfrContextInterface $context = NULL);
+  public function callbackGetConfigurator(CallbackReflectionInterface $callback, CfrContextInterface $context = NULL);
 
 }

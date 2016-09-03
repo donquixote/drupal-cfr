@@ -15,6 +15,6 @@ interface ValueToCallbackInterface {
    *
    * @return \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface|null
    */
-  function valueGetCallback($value);
+  public function valueGetCallback($value);
 
 }

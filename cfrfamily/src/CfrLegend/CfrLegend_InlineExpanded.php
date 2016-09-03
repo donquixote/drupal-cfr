@@ -14,7 +14,7 @@ class CfrLegend_InlineExpanded implements CfrLegendInterface {
   /**
    * @param \Drupal\cfrfamily\CfrLegend\CfrLegendInterface $decorated
    */
-  function __construct(CfrLegendInterface $decorated) {
+  public function __construct(CfrLegendInterface $decorated) {
     $this->decorated = $decorated;
   }
 
@@ -23,7 +23,7 @@ class CfrLegend_InlineExpanded implements CfrLegendInterface {
    *
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface[]
    */
-  function getLegendItems($depth = 1) {
+  public function getLegendItems($depth = 1) {
     $items = [];
     foreach ($this->decorated->getLegendItems() as $id => $item) {
       if ($depth > 0 && $item instanceof ParentLegendItemInterface && NULL !== $inlineLegend = $item->getCfrLegend()) {
@@ -48,7 +48,7 @@ class CfrLegend_InlineExpanded implements CfrLegendInterface {
    *
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface|null
    */
-  function idGetLegendItem($combinedId) {
+  public function idGetLegendItem($combinedId) {
     if ('' === $combinedId) {
       return NULL;
     }
@@ -86,7 +86,7 @@ class CfrLegend_InlineExpanded implements CfrLegendInterface {
    *
    * @return bool
    */
-  function idIsKnown($combinedId) {
+  public function idIsKnown($combinedId) {
     if ('' === $combinedId || NULL === $combinedId) {
       return FALSE;
     }

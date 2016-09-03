@@ -31,7 +31,7 @@ class ArgDefToConfigurator_Callback implements ArgDefToConfiguratorInterface {
    * @param string $argsKey
    * @param \Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfiguratorInterface $callbackToConfigurator
    */
-  function __construct(ValueToCallbackInterface $valueToCallback, $argsKey, CallbackToConfiguratorInterface $callbackToConfigurator) {
+  public function __construct(ValueToCallbackInterface $valueToCallback, $argsKey, CallbackToConfiguratorInterface $callbackToConfigurator) {
     $this->valueToCallback = $valueToCallback;
     $this->argsKey = $argsKey;
     $this->callbackToConfigurator = $callbackToConfigurator;
@@ -44,7 +44,7 @@ class ArgDefToConfigurator_Callback implements ArgDefToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
-  function argDefinitionGetConfigurator($arg, array $definition, CfrContextInterface $context = NULL) {
+  public function argDefinitionGetConfigurator($arg, array $definition, CfrContextInterface $context = NULL) {
 
     $factory = $this->valueToCallback->valueGetCallback($arg);
 

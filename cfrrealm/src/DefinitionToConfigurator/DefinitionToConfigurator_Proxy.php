@@ -20,7 +20,7 @@ class DefinitionToConfigurator_Proxy implements DefinitionToConfiguratorInterfac
   /**
    * @param callable $factory
    */
-  function __construct($factory) {
+  public function __construct($factory) {
     $this->factory = $factory;
   }
 
@@ -30,7 +30,7 @@ class DefinitionToConfigurator_Proxy implements DefinitionToConfiguratorInterfac
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL) {
+  public function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL) {
     if (NULL === $this->instance) {
       $this->instance = call_user_func($this->factory);
     }

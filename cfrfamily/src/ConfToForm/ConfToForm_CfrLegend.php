@@ -40,7 +40,7 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
    *
    * @return \Drupal\cfrapi\ConfToForm\ConfToFormInterface
    */
-  static function createRequired(CfrLegendInterface $legend) {
+  public static function createRequired(CfrLegendInterface $legend) {
     return new self($legend, TRUE);
   }
 
@@ -49,7 +49,7 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
    *
    * @return \Drupal\cfrapi\ConfToForm\ConfToFormInterface
    */
-  static function createOptional(CfrLegendInterface $legend) {
+  public static function createOptional(CfrLegendInterface $legend) {
     return new self($legend, FALSE);
   }
 
@@ -57,7 +57,7 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
    * @param \Drupal\cfrfamily\CfrLegend\CfrLegendInterface $legend
    * @param bool $required
    */
-  function __construct(CfrLegendInterface $legend, $required) {
+  public function __construct(CfrLegendInterface $legend, $required) {
     $this->legend = $legend;
     $this->required = $required;
   }
@@ -65,7 +65,7 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
    */
-  function getCfrLegend() {
+  public function getCfrLegend() {
     return $this->legend;
   }
 
@@ -77,7 +77,7 @@ class ConfToForm_CfrLegend implements ConfToFormInterface {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 

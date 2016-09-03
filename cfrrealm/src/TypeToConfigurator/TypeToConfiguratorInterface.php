@@ -12,7 +12,7 @@ interface TypeToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function typeGetConfigurator($type, CfrContextInterface $context = NULL);
+  public function typeGetConfigurator($type, CfrContextInterface $context = NULL);
 
   /**
    * @param string $type
@@ -21,6 +21,6 @@ interface TypeToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function typeGetOptionalConfigurator($type, CfrContextInterface $context = NULL, $defaultValue = NULL);
+  public function typeGetOptionalConfigurator($type, CfrContextInterface $context = NULL, $defaultValue = NULL);
 
 }

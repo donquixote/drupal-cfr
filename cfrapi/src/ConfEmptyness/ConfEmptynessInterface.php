@@ -10,13 +10,13 @@ interface ConfEmptynessInterface {
    * @return bool
    *   TRUE, if $conf is both valid and empty.
    */
-  function confIsEmpty($conf);
+  public function confIsEmpty($conf);
 
   /**
    * Gets a valid configuration where $this->confIsEmpty($conf) returns TRUE.
    *
    * @return mixed|null
    */
-  function getEmptyConf();
+  public function getEmptyConf();
 
 }

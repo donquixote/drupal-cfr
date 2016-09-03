@@ -17,7 +17,7 @@ class Configurator_GroupReparentV2V extends Configurator_GroupReparent {
    *
    * @return $this
    */
-  function setValueToValue(ValueToValueInterface $valueToValue) {
+  public function setValueToValue(ValueToValueInterface $valueToValue) {
     $this->valueToValue = $valueToValue;
     return $this;
   }
@@ -29,7 +29,7 @@ class Configurator_GroupReparentV2V extends Configurator_GroupReparent {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     $value = parent::confGetValue($conf);
     if (NULL !== $this->valueToValue) {
       if ($value instanceof BrokenValueInterface) {

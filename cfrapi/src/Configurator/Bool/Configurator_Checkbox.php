@@ -16,7 +16,7 @@ class Configurator_Checkbox implements ConfiguratorInterface {
    *
    * @return bool
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     return !empty($conf);
   }
 
@@ -27,7 +27,7 @@ class Configurator_Checkbox implements ConfiguratorInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return !empty($conf)
       ? t('Yes')
       : t('No');
@@ -40,7 +40,7 @@ class Configurator_Checkbox implements ConfiguratorInterface {
    * @return array
    *   A form element(s) array.
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     $element = [
       '#title' => $label,
       '#type' => 'checkbox',

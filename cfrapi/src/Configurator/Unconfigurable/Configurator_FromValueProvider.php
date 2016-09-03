@@ -17,7 +17,7 @@ class Configurator_FromValueProvider extends UnconfigurableConfiguratorBase {
   /**
    * @param \Drupal\cfrapi\ValueProvider\ValueProviderInterface $valueProvider
    */
-  function __construct(ValueProviderInterface $valueProvider) {
+  public function __construct(ValueProviderInterface $valueProvider) {
     $this->valueProvider = $valueProvider;
   }
 
@@ -28,7 +28,7 @@ class Configurator_FromValueProvider extends UnconfigurableConfiguratorBase {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     return $this->valueProvider->getValue();
   }
 }

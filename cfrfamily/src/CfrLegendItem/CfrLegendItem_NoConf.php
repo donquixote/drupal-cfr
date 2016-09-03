@@ -18,7 +18,7 @@ class CfrLegendItem_NoConf extends LegendItem implements CfrLegendItemInterface 
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return [];
   }
 
@@ -32,7 +32,7 @@ class CfrLegendItem_NoConf extends LegendItem implements CfrLegendItemInterface 
    *   A string summary is always allowed. But other values may be returned if
    *   $summaryBuilder generates them.
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return NULL;
   }
 }

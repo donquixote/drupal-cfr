@@ -18,7 +18,7 @@ class EnumMap implements EnumMapInterface {
    * @param mixed[] $groupedOptions
    *   Select options with possible grouping.
    */
-  function __construct(array $groupedOptions) {
+  public function __construct(array $groupedOptions) {
 
     // Validate $groupedOptions, and extract flat array.
     foreach ($groupedOptions as $groupOrKey => $groupOrLabel) {
@@ -52,7 +52,7 @@ class EnumMap implements EnumMapInterface {
   /**
    * @return mixed[]
    */
-  function getSelectOptions() {
+  public function getSelectOptions() {
     return $this->groupedOptions;
   }
 
@@ -61,7 +61,7 @@ class EnumMap implements EnumMapInterface {
    *
    * @return string|null
    */
-  function idGetLabel($id) {
+  public function idGetLabel($id) {
     if (is_int($id)) {
       $id = (string)$id;
     }
@@ -82,7 +82,7 @@ class EnumMap implements EnumMapInterface {
    *
    * @return bool
    */
-  function idIsKnown($id) {
+  public function idIsKnown($id) {
     if (!is_string($id) && !is_int($id)) {
       return FALSE;
     }

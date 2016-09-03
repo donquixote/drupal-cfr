@@ -10,7 +10,7 @@ class ConfEmptyness_NeverEmpty implements ConfEmptynessInterface {
    * @return bool
    *   TRUE, if $conf is both valid and empty.
    */
-  function confIsEmpty($conf) {
+  public function confIsEmpty($conf) {
     return FALSE;
   }
 
@@ -21,7 +21,7 @@ class ConfEmptyness_NeverEmpty implements ConfEmptynessInterface {
    *
    * @throws \Exception
    */
-  function getEmptyConf() {
+  public function getEmptyConf() {
     throw new \Exception('Never empty.');
   }
 }

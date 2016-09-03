@@ -18,7 +18,7 @@ class CfrLegendItem extends LegendItem implements CfrLegendItemInterface {
    * @param string $groupLabel
    * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $configurator
    */
-  function __construct($label, $groupLabel, ConfiguratorInterface $configurator) {
+  public function __construct($label, $groupLabel, ConfiguratorInterface $configurator) {
     parent::__construct($label, $groupLabel);
     $this->configurator = $configurator;
   }
@@ -31,7 +31,7 @@ class CfrLegendItem extends LegendItem implements CfrLegendItemInterface {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->configurator->confGetForm($conf, $label);
   }
 
@@ -42,7 +42,7 @@ class CfrLegendItem extends LegendItem implements CfrLegendItemInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->configurator->confGetSummary($conf, $summaryBuilder);
   }
 
@@ -54,7 +54,7 @@ class CfrLegendItem extends LegendItem implements CfrLegendItemInterface {
    *
    * @return static
    */
-  function withLabels($label, $groupLabel) {
+  public function withLabels($label, $groupLabel) {
     return new self($label, $groupLabel, $this->configurator);
   }
 }

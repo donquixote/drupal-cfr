@@ -12,7 +12,7 @@ class ConfEmptyness_Key implements ConfEmptynessInterface {
   /**
    * @param string $key
    */
-  function __construct($key) {
+  public function __construct($key) {
     $this->key = $key;
   }
 
@@ -22,7 +22,7 @@ class ConfEmptyness_Key implements ConfEmptynessInterface {
    * @return bool
    *   TRUE, if $conf is both valid and empty.
    */
-  function confIsEmpty($conf) {
+  public function confIsEmpty($conf) {
     return !isset($conf[$this->key]) || '' === $conf[$this->key];
   }
 
@@ -31,7 +31,7 @@ class ConfEmptyness_Key implements ConfEmptynessInterface {
    *
    * @return mixed|null
    */
-  function getEmptyConf() {
+  public function getEmptyConf() {
     return NULL;
   }
 }

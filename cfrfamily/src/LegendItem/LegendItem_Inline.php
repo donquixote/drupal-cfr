@@ -21,7 +21,7 @@ class LegendItem_Inline implements CfrLegendItemInterface {
    * @param \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface $decorated
    * @param $groupLabel
    */
-  function __construct(CfrLegendItemInterface $decorated, $groupLabel) {
+  public function __construct(CfrLegendItemInterface $decorated, $groupLabel) {
     $this->decorated = $decorated;
     $this->groupLabel = $groupLabel;
   }
@@ -33,7 +33,7 @@ class LegendItem_Inline implements CfrLegendItemInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->decorated->confGetSummary($conf, $summaryBuilder);
   }
 
@@ -45,21 +45,21 @@ class LegendItem_Inline implements CfrLegendItemInterface {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->decorated->confGetForm($conf, $label);
   }
 
   /**
    * @return string
    */
-  function getLabel() {
+  public function getLabel() {
     return $this->decorated->getLabel();
   }
 
   /**
    * @return string|null
    */
-  function getGroupLabel() {
+  public function getGroupLabel() {
     return $this->groupLabel;
   }
 
@@ -71,7 +71,7 @@ class LegendItem_Inline implements CfrLegendItemInterface {
    *
    * @return static
    */
-  function withLabels($label, $groupLabel) {
+  public function withLabels($label, $groupLabel) {
     return new self($this->decorated->withLabels($label, '?'), $groupLabel);
   }
 }

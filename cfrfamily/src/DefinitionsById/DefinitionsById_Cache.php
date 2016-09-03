@@ -23,7 +23,7 @@ class DefinitionsById_Cache implements DefinitionsByIdInterface {
    * @param string $cid
    *   Cache id.
    */
-  function __construct(DefinitionsByIdInterface $decorated, $cid) {
+  public function __construct(DefinitionsByIdInterface $decorated, $cid) {
     $this->decorated = $decorated;
     $this->cid = $cid;
   }
@@ -33,7 +33,7 @@ class DefinitionsById_Cache implements DefinitionsByIdInterface {
    *
    * @return array|null
    */
-  function idGetDefinition($id) {
+  public function idGetDefinition($id) {
     $definitions = $this->getDefinitionsById();
     return isset($definitions[$id])
       ? $definitions[$id]
@@ -43,7 +43,7 @@ class DefinitionsById_Cache implements DefinitionsByIdInterface {
   /**
    * @return array[]
    */
-  function getDefinitionsById() {
+  public function getDefinitionsById() {
     if ($cache = cache_get($this->cid, self::CACHE_BIN)) {
       return $cache->data;
     }

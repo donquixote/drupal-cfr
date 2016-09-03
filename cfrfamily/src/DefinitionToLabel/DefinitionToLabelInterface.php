@@ -10,6 +10,6 @@ interface DefinitionToLabelInterface {
    *
    * @return string
    */
-  function definitionGetLabel(array $definition, $else);
+  public function definitionGetLabel(array $definition, $else);
 
 }

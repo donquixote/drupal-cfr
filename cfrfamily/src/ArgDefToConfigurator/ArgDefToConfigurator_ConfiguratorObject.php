@@ -17,7 +17,7 @@ class ArgDefToConfigurator_ConfiguratorObject implements ArgDefToConfiguratorInt
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function argDefinitionGetConfigurator($cfr, array $definition, CfrContextInterface $context = NULL) {
+  public function argDefinitionGetConfigurator($cfr, array $definition, CfrContextInterface $context = NULL) {
     if (!$cfr instanceof ConfiguratorInterface) {
       return new BrokenConfigurator($this, get_defined_vars(), 'Not a valid configurator object.');
     }

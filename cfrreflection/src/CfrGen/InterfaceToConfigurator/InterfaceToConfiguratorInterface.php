@@ -13,7 +13,7 @@ interface InterfaceToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function interfaceGetConfigurator($interface, CfrContextInterface $context = NULL);
+  public function interfaceGetConfigurator($interface, CfrContextInterface $context = NULL);
 
   /**
    * @param string $interface
@@ -23,6 +23,6 @@ interface InterfaceToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL);
+  public function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL);
 
 }

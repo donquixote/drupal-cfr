@@ -49,7 +49,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
    * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    */
-  function __construct(
+  public function __construct(
     DefinitionToConfiguratorInterface $definitionToConfigurator,
     DefinitionToLabelInterface $definitionToLabel,
     DefinitionToLabelInterface $definitionToGrouplabel,

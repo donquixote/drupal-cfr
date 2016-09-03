@@ -11,7 +11,7 @@ class CallableToCallback implements ValueToCallbackInterface {
    *
    * @return \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface
    */
-  function valueGetCallback($callback) {
+  public function valueGetCallback($callback) {
     return CallbackUtil::callableGetCallback($callback);
   }
 }

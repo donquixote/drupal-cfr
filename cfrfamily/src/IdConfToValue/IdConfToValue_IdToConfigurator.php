@@ -23,7 +23,7 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
    * @param \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface $idToConfigurator
    * @param \Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface|NULL $idValueToValue
    */
-  function __construct(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL) {
+  public function __construct(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL) {
     $this->idToConfigurator = $idToConfigurator;
     $this->idValueToValue = $idValueToValue;
   }
@@ -34,7 +34,7 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
    *
    * @return mixed
    */
-  function idConfGetValue($id, $conf) {
+  public function idConfGetValue($id, $conf) {
 
     if (NULL === $id) {
       return new BrokenValue($this, get_defined_vars(), 'Required.');

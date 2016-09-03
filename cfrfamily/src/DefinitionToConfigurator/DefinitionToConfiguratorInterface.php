@@ -12,6 +12,6 @@ interface DefinitionToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL);
+  public function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL);
 
 }

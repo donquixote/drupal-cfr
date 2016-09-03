@@ -15,11 +15,11 @@ interface OptionableConfToFormInterface extends ConfToFormInterface {
    *
    * @return array
    */
-  function confGetOptionalForm($conf, $label);
+  public function confGetOptionalForm($conf, $label);
 
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness();
+  public function getEmptyness();
 
 }

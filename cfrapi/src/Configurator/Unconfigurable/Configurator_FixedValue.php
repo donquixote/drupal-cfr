@@ -12,7 +12,7 @@ class Configurator_FixedValue extends UnconfigurableConfiguratorBase {
   /**
    * @param mixed $fixedValue
    */
-  function __construct($fixedValue) {
+  public function __construct($fixedValue) {
     $this->fixedValue = $fixedValue;
   }
 
@@ -23,7 +23,7 @@ class Configurator_FixedValue extends UnconfigurableConfiguratorBase {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     return $this->fixedValue;
   }
 }

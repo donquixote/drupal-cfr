@@ -29,7 +29,7 @@ class ConfiguratorMap_FromDefinitionMap implements ConfiguratorMapInterface {
    * @param \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    */
-  function __construct(
+  public function __construct(
     DefinitionMapInterface $definitionMap,
     DefinitionToConfiguratorInterface $definitionToConfigurator,
     CfrContextInterface $context = NULL
@@ -44,7 +44,7 @@ class ConfiguratorMap_FromDefinitionMap implements ConfiguratorMapInterface {
    *
    * @return null|\Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function idGetConfigurator($id) {
+  public function idGetConfigurator($id) {
     $definition = $this->definitionMap->idGetDefinition($id);
     if (NULL === $definition) {
       return new BrokenConfigurator($this, get_defined_vars(), 'No definition found.');

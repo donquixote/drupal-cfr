@@ -23,7 +23,7 @@ class TypeToContainer_ViaDefmap implements TypeToContainerInterface {
    * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param \Drupal\cfrfamily\DefmapToContainer\DefmapToContainerInterface $defmapToContainer
    */
-  function __construct(TypeToDefmapInterface $typeToDefmap, DefmapToContainerInterface $defmapToContainer) {
+  public function __construct(TypeToDefmapInterface $typeToDefmap, DefmapToContainerInterface $defmapToContainer) {
     $this->typeToDefmap = $typeToDefmap;
     $this->defmapToContainer = $defmapToContainer;
   }
@@ -34,7 +34,7 @@ class TypeToContainer_ViaDefmap implements TypeToContainerInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface
    */
-  function typeGetContainer($type, CfrContextInterface $context = NULL) {
+  public function typeGetContainer($type, CfrContextInterface $context = NULL) {
     $definitionMap = $this->typeToDefmap->typeGetDefmap($type);
     return $this->defmapToContainer->defmapGetContainer($definitionMap, $context);
   }

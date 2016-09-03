@@ -12,6 +12,6 @@ interface TypeToCfrFamilyInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamily\CfrFamilyInterface
    */
-  function typeGetCfrFamily($type, CfrContextInterface $context = NULL);
+  public function typeGetCfrFamily($type, CfrContextInterface $context = NULL);
 
 }

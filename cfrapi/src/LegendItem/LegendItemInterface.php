@@ -7,12 +7,12 @@ interface LegendItemInterface {
   /**
    * @return string
    */
-  function getLabel();
+  public function getLabel();
 
   /**
    * @return string|null
    */
-  function getGroupLabel();
+  public function getGroupLabel();
 
   /**
    * Creates a clone of this legend item, with different labels.
@@ -22,6 +22,6 @@ interface LegendItemInterface {
    *
    * @return static
    */
-  function withLabels($label, $groupLabel);
+  public function withLabels($label, $groupLabel);
 
 }

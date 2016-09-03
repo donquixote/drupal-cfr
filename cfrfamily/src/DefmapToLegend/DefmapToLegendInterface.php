@@ -13,6 +13,6 @@ interface DefmapToLegendInterface {
    *
    * @return \Drupal\cfrapi\Legend\LegendInterface
    */
-  function defmapGetLegend(DefinitionMapInterface $definitionMap, CfrContextInterface $context);
+  public function defmapGetLegend(DefinitionMapInterface $definitionMap, CfrContextInterface $context);
 
 }

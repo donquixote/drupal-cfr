@@ -28,7 +28,7 @@ class Configurator_CompositeWithCfrLegend extends Configurator_Composite impleme
    * @param \Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface $idConfToValue
    * @param \Drupal\cfrfamily\CfrLegend\CfrLegendInterface $legend
    */
-  function __construct(
+  public function __construct(
     ConfToFormInterface $confToForm,
     ConfToSummaryInterface $confToSummary,
     IdConfToValueInterface $idConfToValue,
@@ -43,7 +43,7 @@ class Configurator_CompositeWithCfrLegend extends Configurator_Composite impleme
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
    */
-  function getCfrLegend() {
+  public function getCfrLegend() {
     return $this->legend;
   }
 
@@ -53,7 +53,7 @@ class Configurator_CompositeWithCfrLegend extends Configurator_Composite impleme
    *
    * @return mixed
    */
-  function idConfGetValue($id, $optionsConf) {
+  public function idConfGetValue($id, $optionsConf) {
     return $this->idConfToValue->idConfGetValue($id, $optionsConf);
   }
 }

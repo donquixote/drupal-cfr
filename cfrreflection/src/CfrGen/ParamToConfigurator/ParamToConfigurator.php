@@ -15,7 +15,7 @@ class ParamToConfigurator implements ParamToConfiguratorInterface {
   /**
    * @param \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface $interfaceToConfigurator
    */
-  function __construct(InterfaceToConfiguratorInterface $interfaceToConfigurator) {
+  public function __construct(InterfaceToConfiguratorInterface $interfaceToConfigurator) {
     $this->interfaceToConfigurator = $interfaceToConfigurator;
   }
 
@@ -25,7 +25,7 @@ class ParamToConfigurator implements ParamToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|mixed
    */
-  function paramGetConfigurator(\ReflectionParameter $param, CfrContextInterface $context = NULL) {
+  public function paramGetConfigurator(\ReflectionParameter $param, CfrContextInterface $context = NULL) {
     $typeHintReflectionClassLike = $param->getClass();
     if (!$typeHintReflectionClassLike) {
       return NULL;

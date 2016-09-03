@@ -22,7 +22,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
   /**
    * @return \Drupal\cfrplugin\DIC\CfrPluginRealmContainer
    */
-  static function getContainer() {
+  public static function getContainer() {
     return NULL !== self::$container
       ? self::$container
       : self::$container = CfrPluginRealmContainer::createWithCache();
@@ -31,14 +31,14 @@ class CfrPluginHub implements CfrPluginHubInterface {
   /**
    * @return \Drupal\cfrplugin\Hub\CfrPluginHubInterface
    */
-  static function create() {
+  public static function create() {
     return new self(self::getContainer()->interfaceToConfigurator);
   }
 
   /**
    * @param \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface $interfaceToConfigurator
    */
-  function __construct(InterfaceToConfiguratorInterface $interfaceToConfigurator) {
+  public function __construct(InterfaceToConfiguratorInterface $interfaceToConfigurator) {
     $this->interfaceToConfigurator = $interfaceToConfigurator;
   }
 
@@ -48,7 +48,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function interfaceGetConfigurator($interface, CfrContextInterface $context = NULL) {
+  public function interfaceGetConfigurator($interface, CfrContextInterface $context = NULL) {
     return $this->interfaceToConfigurator->interfaceGetConfigurator($interface, $context);
   }
 
@@ -59,7 +59,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL) {
+  public function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL) {
     return $this->interfaceToConfigurator->interfaceGetOptionalConfigurator($interface, $context, $defaultValue);
   }
 
@@ -68,7 +68,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
    *
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface|null
    */
-  function interfaceGetCfrLegendOrNull($interface) {
+  public function interfaceGetCfrLegendOrNull($interface) {
     $configurator = $this->interfaceToConfigurator->interfaceGetConfigurator($interface);
     if (!$configurator instanceof CfrLegendProviderInterface) {
       return NULL;

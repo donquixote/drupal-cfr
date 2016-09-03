@@ -11,6 +11,6 @@ interface EnumMapInterface extends LegendInterface {
    *
    * @return bool
    */
-  function idIsKnown($id);
+  public function idIsKnown($id);
 
 }

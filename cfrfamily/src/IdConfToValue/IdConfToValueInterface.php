@@ -10,6 +10,6 @@ interface IdConfToValueInterface {
    *
    * @return mixed
    */
-  function idConfGetValue($id, $conf);
+  public function idConfGetValue($id, $conf);
 
 }

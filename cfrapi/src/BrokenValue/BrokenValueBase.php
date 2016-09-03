@@ -27,7 +27,7 @@ abstract class BrokenValueBase implements BrokenValueInterface {
    * @param string|null $message
    *   Message explaining what went wrong.
    */
-  function __construct($object, array $vars, $message = NULL) {
+  public function __construct($object, array $vars, $message = NULL) {
     if (array_key_exists('this', $vars) && $vars['this'] === $object) {
       unset($vars['this']);
     }

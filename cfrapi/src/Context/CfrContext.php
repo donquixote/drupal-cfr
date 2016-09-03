@@ -27,7 +27,7 @@ class CfrContext implements CfrContextInterface {
    *
    * @return $this
    */
-  function paramNameSetValue($paramName, $value) {
+  public function paramNameSetValue($paramName, $value) {
     $this->values[$paramName] = $value;
     return $this;
   }
@@ -37,7 +37,7 @@ class CfrContext implements CfrContextInterface {
    *
    * @return bool
    */
-  function paramValueExists(\ReflectionParameter $param) {
+  public function paramValueExists(\ReflectionParameter $param) {
     if ($typeHintReflClass = $param->getClass()) {
       if ($typeHintReflClass->getName() === CfrContextInterface::class) {
         return TRUE;
@@ -51,7 +51,7 @@ class CfrContext implements CfrContextInterface {
    *
    * @return mixed
    */
-  function paramGetValue(\ReflectionParameter $param) {
+  public function paramGetValue(\ReflectionParameter $param) {
     if ($typeHintReflClass = $param->getClass()) {
       if ($typeHintReflClass->getName() === CfrContextInterface::class) {
         return $this;
@@ -65,7 +65,7 @@ class CfrContext implements CfrContextInterface {
    *
    * @return bool
    */
-  function paramNameHasValue($paramName) {
+  public function paramNameHasValue($paramName) {
     return array_key_exists($paramName, $this->values);
   }
 
@@ -74,7 +74,7 @@ class CfrContext implements CfrContextInterface {
    *
    * @return mixed|null
    */
-  function paramNameGetValue($paramName) {
+  public function paramNameGetValue($paramName) {
     return array_key_exists($paramName, $this->values)
       ? $this->values[$paramName]
       : NULL;
@@ -83,7 +83,7 @@ class CfrContext implements CfrContextInterface {
   /**
    * @return string
    */
-  function getMachineName() {
+  public function getMachineName() {
     return isset($this->machineName)
       ? $this->machineName
       : $this->machineName = md5(serialize($this->values));

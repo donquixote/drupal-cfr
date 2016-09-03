@@ -19,21 +19,21 @@ interface OptionableConfiguratorInterface extends ConfiguratorInterface, Optiona
    *
    * @return array
    */
-  function confGetOptionalForm($conf, $label);
+  public function confGetOptionalForm($conf, $label);
 
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness();
+  public function getEmptyness();
 
   /**
    * @return string
    */
-  function getEmptySummary();
+  public function getEmptySummary();
 
   /**
    * @return mixed
    */
-  function getEmptyValue();
+  public function getEmptyValue();
 
 }

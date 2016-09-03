@@ -21,7 +21,7 @@ class Configurator_GroupReparent extends Configurator_Group {
    *
    * @return $this
    */
-  function keySetParents($key, array $parents) {
+  public function keySetParents($key, array $parents) {
     $this->keysReparent[$key] = $parents;
     return $this;
   }
@@ -33,7 +33,7 @@ class Configurator_GroupReparent extends Configurator_Group {
    * @return array
    *   A form element(s) array.
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     $conf = $this->extractConf($conf);
     $form = parent::confGetForm($conf, $label);
     $form['#process'][] = new ElementProcessor_ReparentChildren($this->keysReparent);
@@ -47,7 +47,7 @@ class Configurator_GroupReparent extends Configurator_Group {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     $conf = $this->extractConf($conf);
     return parent::confGetSummary($conf, $summaryBuilder);
   }
@@ -59,7 +59,7 @@ class Configurator_GroupReparent extends Configurator_Group {
    *
    * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     $conf = $this->extractConf($conf);
     $result = parent::confGetValue($conf);
     if (!is_array($result)) {

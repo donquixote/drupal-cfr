@@ -10,5 +10,5 @@ interface CfrPluginHubInterface extends InterfaceToConfiguratorInterface {
    *
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
    */
-  function interfaceGetCfrLegendOrNull($interface);
+  public function interfaceGetCfrLegendOrNull($interface);
 }

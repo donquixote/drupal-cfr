@@ -40,7 +40,7 @@ class CfrFamily_Expanded implements CfrFamilyInterface {
    * @param \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface $idToConfigurator
    * @param \Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfiguratorInterface $cfrLegendToConfigurator
    */
-  function __construct(CfrLegendInterface $legend, IdToConfiguratorInterface $idToConfigurator, CfrLegendToConfiguratorInterface $cfrLegendToConfigurator) {
+  public function __construct(CfrLegendInterface $legend, IdToConfiguratorInterface $idToConfigurator, CfrLegendToConfiguratorInterface $cfrLegendToConfigurator) {
     $this->originalLegend = $legend;
     $this->expandedLegend = new CfrLegend_InlineExpanded($legend);
     $this->cfrLegendToConfigurator = $cfrLegendToConfigurator;
@@ -51,21 +51,21 @@ class CfrFamily_Expanded implements CfrFamilyInterface {
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
    */
-  function getCfrLegend() {
+  public function getCfrLegend() {
     return $this->originalLegend;
   }
 
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
    */
-  function getExpandedLegend() {
+  public function getExpandedLegend() {
     return $this->expandedLegend;
   }
 
   /**
    * @return \Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface
    */
-  function getFamilyConfigurator() {
+  public function getFamilyConfigurator() {
     return $this->configurator;
   }
 
@@ -74,7 +74,7 @@ class CfrFamily_Expanded implements CfrFamilyInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function getOptionalFamilyConfigurator($defaultValue = NULL) {
+  public function getOptionalFamilyConfigurator($defaultValue = NULL) {
     return $this->cfrLegendToConfigurator->cfrLegendGetOptionalConfigurator($this->originalLegend, $this->idConfToValue, $defaultValue);
   }
 }

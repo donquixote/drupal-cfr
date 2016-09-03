@@ -14,7 +14,7 @@ final class ContextReflectionUtil extends UtilBase {
    * @return mixed[]|null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    *   Serial arguments array.
    */
-  static function paramsContextGetArgs(array $params, CfrContextInterface $context) {
+  public static function paramsContextGetArgs(array $params, CfrContextInterface $context) {
     $serialArgs = [];
     foreach ($params as $i => $param) {
       if ($context->paramValueExists($param)) {
@@ -40,7 +40,7 @@ final class ContextReflectionUtil extends UtilBase {
    * @return mixed[]|null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    *   Serial arguments array, or NULL if not possible.
    */
-  static function paramsContextNamedArgsGetArgs(array $params, CfrContextInterface $context, array $namedArgs) {
+  public static function paramsContextNamedArgsGetArgs(array $params, CfrContextInterface $context, array $namedArgs) {
     $serialArgs = [];
     foreach ($params as $i => $param) {
       $k = $param->getName();

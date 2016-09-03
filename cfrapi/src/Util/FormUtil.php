@@ -7,7 +7,7 @@ final class FormUtil extends UtilBase {
   /**
    * @param array $element
    */
-  static function onProcessBuildDependency(array &$element) {
+  public static function onProcessBuildDependency(array &$element) {
     /* @see _cfrapi_process_element_dependency() */
     $element['#process'][] = '_cfrapi_process_element_dependency';
   }
@@ -19,7 +19,7 @@ final class FormUtil extends UtilBase {
    * @param array $form
    * @param array $form_state
    */
-  static function elementsBuildDependency(array &$element, array $form, array &$form_state) {
+  public static function elementsBuildDependency(array &$element, array $form, array &$form_state) {
 
     $keys = element_children($element);
     if (count($keys) < 2) {

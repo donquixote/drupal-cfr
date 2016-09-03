@@ -10,5 +10,5 @@ interface CfrPluginDiscoveryHubInterface {
    * @return array[][]
    *   Format: $[$pluginType][$pluginId] = $pluginDefinition
    */
-  function discoverByInterface($directory, $namespace);
+  public function discoverByInterface($directory, $namespace);
 }

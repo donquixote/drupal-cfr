@@ -40,7 +40,7 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGroupLabel
    */
-  function __construct(
+  public function __construct(
     DefinitionMapInterface $definitionMap,
     IdToConfiguratorInterface $idToConfigurator,
     DefinitionToLabelInterface $definitionToLabel,
@@ -57,7 +57,7 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
    *
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface[]
    */
-  function getLegendItems($depth = 0) {
+  public function getLegendItems($depth = 0) {
     static $rec = 0;
     if ($rec > 4) {
       throw new \RuntimeException('Possibly unlimited recursion detected.');
@@ -95,7 +95,7 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
    *
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface|null
    */
-  function idGetLegendItem($id) {
+  public function idGetLegendItem($id) {
     $definition = $this->definitionMap->idGetDefinition($id);
     if (NULL === $definition) {
       return NULL;
@@ -108,7 +108,7 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
    *
    * @return bool
    */
-  function idIsKnown($id) {
+  public function idIsKnown($id) {
     $definition = $this->definitionMap->idGetDefinition($id);
     if (NULL === $definition) {
       return FALSE;

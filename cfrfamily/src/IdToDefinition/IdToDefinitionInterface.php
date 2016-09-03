@@ -10,6 +10,6 @@ interface IdToDefinitionInterface {
    * @return array
    *   A configurator definition array.
    */
-  function idGetDefinition($id);
+  public function idGetDefinition($id);
 
 }

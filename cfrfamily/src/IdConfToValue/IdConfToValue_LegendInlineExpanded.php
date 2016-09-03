@@ -22,7 +22,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
    * @param \Drupal\cfrfamily\CfrLegend\CfrLegendInterface $decoratedLegend
    * @param \Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface $idConfToValue
    */
-  function __construct(CfrLegendInterface $decoratedLegend, IdConfToValueInterface $idConfToValue) {
+  public function __construct(CfrLegendInterface $decoratedLegend, IdConfToValueInterface $idConfToValue) {
     $this->legend = $decoratedLegend;
     $this->idConfToValue = $idConfToValue;
   }
@@ -33,7 +33,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
    *
    * @return \Drupal\cfrapi\ConfToValue\ConfToValueInterface|null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
-  function idConfGetValue($id, $conf) {
+  public function idConfGetValue($id, $conf) {
 
     if ($this->legend->idIsKnown($id)) {
       return $this->idConfToValue->idConfGetValue($id, $conf);

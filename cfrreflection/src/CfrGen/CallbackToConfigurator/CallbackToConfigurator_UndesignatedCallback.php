@@ -18,7 +18,7 @@ class CallbackToConfigurator_UndesignatedCallback implements CallbackToConfigura
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function callbackGetConfigurator(CallbackReflectionInterface $callback, CfrContextInterface $context = NULL) {
+  public function callbackGetConfigurator(CallbackReflectionInterface $callback, CfrContextInterface $context = NULL) {
 
     // @todo Test if can be called without arguments.
     $configuratorOrValue = $callback->invokeArgs([]);

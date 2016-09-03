@@ -27,7 +27,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    *
    * @return \Drupal\cfrplugin\DIC\CfrPluginRealmContainer
    */
-  static function createWithCache() {
+  public static function createWithCache() {
     return new self($GLOBALS['language']->language);
   }
 
@@ -36,7 +36,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    *
    * @return \Drupal\cfrplugin\DIC\CfrPluginRealmContainer
    */
-  static function createWithoutCache() {
+  public static function createWithoutCache() {
     return new self(NULL);
   }
 
@@ -44,7 +44,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    * @param string|null $cacheSuffix
    *   The langcode to append to the cache id, or NULL to have no cache.
    */
-  function __construct($cacheSuffix) {
+  public function __construct($cacheSuffix) {
     $this->cacheSuffix = $cacheSuffix;
   }
 

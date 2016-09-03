@@ -13,7 +13,7 @@ class ConfEmptyness_Enum implements ConfEmptynessInterface {
    * @return bool
    *   TRUE, if $conf is both valid and empty.
    */
-  function confIsEmpty($conf) {
+  public function confIsEmpty($conf) {
     return NULL === $conf || '' === $conf;
   }
 
@@ -22,7 +22,7 @@ class ConfEmptyness_Enum implements ConfEmptynessInterface {
    *
    * @return mixed|null
    */
-  function getEmptyConf() {
+  public function getEmptyConf() {
     return NULL;
   }
 }

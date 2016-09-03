@@ -12,6 +12,6 @@ interface ConfToFormInterface {
    *
    * @return array
    */
-  function confGetForm($conf, $label);
+  public function confGetForm($conf, $label);
 
 }

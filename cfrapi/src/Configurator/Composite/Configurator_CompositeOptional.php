@@ -21,7 +21,7 @@ class Configurator_CompositeOptional extends Configurator_Composite implements O
    * @param \Drupal\cfrapi\ConfToValue\ConfToValueInterface $confToValue
    * @param \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface $emptyness
    */
-  function __construct(
+  public function __construct(
     ConfToFormInterface $confToForm,
     ConfToSummaryInterface $confToSummary,
     ConfToValueInterface $confToValue,
@@ -34,7 +34,7 @@ class Configurator_CompositeOptional extends Configurator_Composite implements O
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness() {
+  public function getEmptyness() {
     return $this->emptyness;
   }
 }

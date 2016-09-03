@@ -30,7 +30,7 @@ class Configurator_Composite implements ConfiguratorInterface {
    * @param \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface $confToSummary
    * @param \Drupal\cfrapi\ConfToValue\ConfToValueInterface $confToValue
    */
-  function __construct(ConfToFormInterface $confToForm, ConfToSummaryInterface $confToSummary, ConfToValueInterface $confToValue) {
+  public function __construct(ConfToFormInterface $confToForm, ConfToSummaryInterface $confToSummary, ConfToValueInterface $confToValue) {
     $this->confToForm = $confToForm;
     $this->confToSummary = $confToSummary;
     $this->confToValue = $confToValue;
@@ -44,7 +44,7 @@ class Configurator_Composite implements ConfiguratorInterface {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->confToForm->confGetForm($conf, $label);
   }
 
@@ -55,7 +55,7 @@ class Configurator_Composite implements ConfiguratorInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->confToSummary->confGetSummary($conf, $summaryBuilder);
   }
 
@@ -66,7 +66,7 @@ class Configurator_Composite implements ConfiguratorInterface {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     return $this->confToValue->confGetValue($conf);
   }
 }

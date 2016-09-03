@@ -31,7 +31,7 @@ class DefmapToContainer implements DefmapToContainerInterface {
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
    */
-  function __construct(
+  public function __construct(
     DefinitionToConfiguratorInterface $definitionToConfigurator,
     DefinitionToLabelInterface $definitionToLabel,
     DefinitionToLabelInterface $definitionToGrouplabel
@@ -47,7 +47,7 @@ class DefmapToContainer implements DefmapToContainerInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface
    */
-  function defmapGetContainer(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL) {
+  public function defmapGetContainer(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL) {
     return new CfrFamilyContainer_FromDefmap(
       $this->definitionToConfigurator,
       $this->definitionToLabel,

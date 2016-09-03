@@ -33,7 +33,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  static function createFromClassName($className, array $paramConfigurators, array $labels) {
+  public static function createFromClassName($className, array $paramConfigurators, array $labels) {
     $callback = CallbackReflection_ClassConstruction::createFromClassName($className);
     return self::createFromCallback($callback, $paramConfigurators, $labels);
   }
@@ -46,7 +46,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  static function createFromClassStaticMethod($className, $methodName, array $paramConfigurators, array $labels) {
+  public static function createFromClassStaticMethod($className, $methodName, array $paramConfigurators, array $labels) {
     $callback = CallbackReflection_StaticMethod::create($className, $methodName);
     return self::createFromCallback($callback, $paramConfigurators, $labels);
   }
@@ -59,7 +59,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  static function createFromObjectMethod($object, $methodName, array $paramConfigurators, array $labels) {
+  public static function createFromObjectMethod($object, $methodName, array $paramConfigurators, array $labels) {
     $callback = CallbackReflection_ObjectMethod::create($object, $methodName);
     return self::createFromCallback($callback, $paramConfigurators, $labels);
   }
@@ -71,7 +71,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  static function createFromCallable($callable, array $paramConfigurators, array $labels) {
+  public static function createFromCallable($callable, array $paramConfigurators, array $labels) {
     $callback = CallbackUtil::callableGetCallback($callable);
     return self::createFromCallback($callback, $paramConfigurators, $labels);
   }
@@ -83,7 +83,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  static function createFromCallback(CallbackReflectionInterface $callback, array $paramConfigurators, array $labels) {
+  public static function createFromCallback(CallbackReflectionInterface $callback, array $paramConfigurators, array $labels) {
     if (empty($paramConfigurators)) {
       return new Configurator_CallbackSimple($callback);
     }
@@ -95,7 +95,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
    * @param \Drupal\cfrapi\Configurator\Group\GroupConfiguratorInterface $argsConfigurator
    */
-  function __construct(CallbackReflectionInterface $callback, GroupConfiguratorInterface $argsConfigurator) {
+  public function __construct(CallbackReflectionInterface $callback, GroupConfiguratorInterface $argsConfigurator) {
     $this->callback = $callback;
     $this->argsConfigurator = $argsConfigurator;
   }
@@ -108,7 +108,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->argsConfigurator->confGetForm($conf, $label);
   }
 
@@ -119,7 +119,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->argsConfigurator->confGetSummary($conf, $summaryBuilder);
   }
 
@@ -130,7 +130,7 @@ class Configurator_CallbackConfigurable implements ConfiguratorInterface {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     $args = $this->argsConfigurator->confGetValue($conf);
     if (!is_array($args)) {
       return new BrokenValue($this, get_defined_vars(), 'Non-array callback arguments.');

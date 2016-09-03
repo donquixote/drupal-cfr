@@ -22,7 +22,7 @@ class Configurator_CallbackSimple extends UnconfigurableConfiguratorBase {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  static function createFromClassName($className) {
+  public static function createFromClassName($className) {
     $callback = CallbackReflection_ClassConstruction::createFromClassName($className);
     return new Configurator_CallbackSimple($callback);
   }
@@ -32,7 +32,7 @@ class Configurator_CallbackSimple extends UnconfigurableConfiguratorBase {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  static function createFromCallable($callable) {
+  public static function createFromCallable($callable) {
     $callback = CallbackUtil::callableGetCallback($callable);
     if (NULL === $callback) {
       return new BrokenConfigurator(NULL, get_defined_vars(), 'Not a valid callback.');
@@ -43,7 +43,7 @@ class Configurator_CallbackSimple extends UnconfigurableConfiguratorBase {
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
    */
-  function __construct(CallbackReflectionInterface $callback) {
+  public function __construct(CallbackReflectionInterface $callback) {
     $this->callback = $callback;
   }
 
@@ -54,7 +54,7 @@ class Configurator_CallbackSimple extends UnconfigurableConfiguratorBase {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     try {
       return $this->callback->invokeArgs([]);
     }

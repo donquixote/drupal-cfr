@@ -12,7 +12,7 @@ final class ConfUtil extends UtilBase {
    * @return array
    *   Format: array($id, $options)
    */
-  static function confGetIdOptions($conf, $k0 = 'id', $k1 = 'options') {
+  public static function confGetIdOptions($conf, $k0 = 'id', $k1 = 'options') {
     if (!isset($conf[$k0])) {
       return [NULL, NULL];
     }
@@ -37,7 +37,7 @@ final class ConfUtil extends UtilBase {
    *
    * @return mixed[]
    */
-  static function confExtractOptions($conf, array $keys) {
+  public static function confExtractOptions($conf, array $keys) {
     if (!is_array($conf) || empty($conf)) {
       return array_fill(0, count($keys), NULL);
     }
@@ -54,7 +54,7 @@ final class ConfUtil extends UtilBase {
    *
    * @return mixed
    */
-  static function confExtractNestedValue(&$conf, array $parents) {
+  public static function confExtractNestedValue(&$conf, array $parents) {
     if ([] === $parents) {
       return $conf;
     }
@@ -83,7 +83,7 @@ final class ConfUtil extends UtilBase {
    * @return bool
    *   TRUE on success, FALSE on failure.
    */
-  static function confMergeNestedValue(array &$conf, array $parents, array $value) {
+  public static function confMergeNestedValue(array &$conf, array $parents, array $value) {
     if ([] === $parents) {
       $conf += $value;
       return TRUE;
@@ -111,7 +111,7 @@ final class ConfUtil extends UtilBase {
    * @return bool
    *   TRUE on success, FALSE on failure.
    */
-  static function confSetNestedValue(&$conf, array $parents, $value) {
+  public static function confSetNestedValue(&$conf, array $parents, $value) {
     if ([] === $parents) {
       $conf = $value;
       return TRUE;
@@ -136,7 +136,7 @@ final class ConfUtil extends UtilBase {
    *
    * @return bool
    */
-  static function confUnsetNestedValue(&$conf, array $parents) {
+  public static function confUnsetNestedValue(&$conf, array $parents) {
     if ([] === $parents) {
       $conf = [];
       return TRUE;

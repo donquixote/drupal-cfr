@@ -12,7 +12,7 @@ class ElementProcessor_ReparentChildren implements ElementProcessorInterface {
   /**
    * @param string[][] $keysReparent
    */
-  function __construct(array $keysReparent) {
+  public function __construct(array $keysReparent) {
     $this->keysReparent = $keysReparent;
   }
 
@@ -22,7 +22,7 @@ class ElementProcessor_ReparentChildren implements ElementProcessorInterface {
    *
    * @return array
    */
-  function __invoke(array $element, array &$form_state) {
+  public function __invoke(array $element, array &$form_state) {
     foreach ($this->keysReparent as $key => $parents) {
       if (isset($element[$key])) {
         $element[$key]['#parents'] = array_merge($element['#parents'], $parents);

@@ -47,7 +47,7 @@ class ConfToValue_CfrMap implements ConfToValueInterface {
    *
    * @return \Drupal\cfrfamily\ConfToValue\ConfToValue_CfrMap
    */
-  static function createRequired(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL) {
+  public static function createRequired(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL) {
     return new self($idToConfigurator, $idValueToValue, TRUE, NULL);
   }
 
@@ -58,7 +58,7 @@ class ConfToValue_CfrMap implements ConfToValueInterface {
    *
    * @return \Drupal\cfrfamily\ConfToValue\ConfToValue_CfrMap
    */
-  static function createOptional(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL, $defaultValue = NULL) {
+  public static function createOptional(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL, $defaultValue = NULL) {
     return new self($idToConfigurator, $idValueToValue, FALSE, $defaultValue);
   }
 
@@ -68,7 +68,7 @@ class ConfToValue_CfrMap implements ConfToValueInterface {
    * @param bool $required
    * @param mixed $defaultValue
    */
-  function __construct(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL, $required, $defaultValue) {
+  public function __construct(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL, $required, $defaultValue) {
     $this->idToConfigurator = $idToConfigurator;
     $this->idValueToValue = $idValueToValue;
     $this->required = $required;
@@ -82,7 +82,7 @@ class ConfToValue_CfrMap implements ConfToValueInterface {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 

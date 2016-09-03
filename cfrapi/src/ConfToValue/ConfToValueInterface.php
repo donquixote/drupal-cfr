@@ -11,6 +11,6 @@ interface ConfToValueInterface {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf);
+  public function confGetValue($conf);
 
 }

@@ -13,11 +13,11 @@ interface SummaryBuilderGroupInterface {
    *
    * @return $this
    */
-  function addSetting($label, ConfToSummaryInterface $confToSummary, $conf);
+  public function addSetting($label, ConfToSummaryInterface $confToSummary, $conf);
 
   /**
    * @return mixed
    */
-  function buildSummary();
+  public function buildSummary();
 
 }

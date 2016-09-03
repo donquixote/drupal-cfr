@@ -10,6 +10,6 @@ interface TypeToDefinitionsbyidInterface {
    * @return array[]
    *   Array of all plugin definitions for the given plugin type.
    */
-  function typeGetDefinitionsbyid($type);
+  public function typeGetDefinitionsbyid($type);
 
 }

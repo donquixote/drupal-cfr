@@ -23,7 +23,7 @@ class DefinitionMap_Buffer implements DefinitionMapInterface {
   /**
    * @param \Drupal\cfrfamily\DefinitionsById\DefinitionsByIdInterface $decorated
    */
-  function __construct(DefinitionsByIdInterface $decorated) {
+  public function __construct(DefinitionsByIdInterface $decorated) {
     $this->decorated = $decorated;
   }
 
@@ -32,7 +32,7 @@ class DefinitionMap_Buffer implements DefinitionMapInterface {
    *
    * @return array|null
    */
-  function idGetDefinition($id) {
+  public function idGetDefinition($id) {
     $definitions = $this->getDefinitionsById();
     return isset($definitions[$id])
       ? $definitions[$id]
@@ -42,7 +42,7 @@ class DefinitionMap_Buffer implements DefinitionMapInterface {
   /**
    * @return array[]
    */
-  function getDefinitionsById() {
+  public function getDefinitionsById() {
     return isset($this->definitions)
       ? $this->definitions
       : $this->definitions = $this->decorated->getDefinitionsById();

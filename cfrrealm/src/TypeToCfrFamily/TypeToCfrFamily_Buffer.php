@@ -19,7 +19,7 @@ class TypeToCfrFamily_Buffer implements TypeToCfrFamilyInterface {
   /**
    * @param \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface $decorated
    */
-  function __construct(TypeToCfrFamilyInterface $decorated) {
+  public function __construct(TypeToCfrFamilyInterface $decorated) {
     $this->decorated = $decorated;
   }
 
@@ -29,7 +29,7 @@ class TypeToCfrFamily_Buffer implements TypeToCfrFamilyInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamily\CfrFamilyInterface
    */
-  function typeGetCfrFamily($type, CfrContextInterface $context = NULL) {
+  public function typeGetCfrFamily($type, CfrContextInterface $context = NULL) {
     $k = (NULL !== $context)
       ? $type . '::' . $context->getMachineName()
       : $type;

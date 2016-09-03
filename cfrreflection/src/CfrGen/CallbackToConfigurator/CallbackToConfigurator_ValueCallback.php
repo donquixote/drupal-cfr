@@ -36,7 +36,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
    * @param \Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface $paramToConfigurator
    * @param \Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface $paramToLabel
    */
-  function __construct(ParamToConfiguratorInterface $paramToConfigurator, ParamToLabelInterface $paramToLabel) {
+  public function __construct(ParamToConfiguratorInterface $paramToConfigurator, ParamToLabelInterface $paramToLabel) {
     $this->paramToConfigurator = $paramToConfigurator;
     $this->paramToLabel = $paramToLabel;
   }
@@ -47,7 +47,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function callbackGetConfigurator(CallbackReflectionInterface $valueCallback, CfrContextInterface $context = NULL) {
+  public function callbackGetConfigurator(CallbackReflectionInterface $valueCallback, CfrContextInterface $context = NULL) {
 
     $params = $valueCallback->getReflectionParameters();
     if (0 === $nParams = count($params)) {

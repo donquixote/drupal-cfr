@@ -17,7 +17,7 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
   /**
    * @param callable $optionsCallback
    */
-  function __construct($optionsCallback) {
+  public function __construct($optionsCallback) {
     $this->optionsCallback = $optionsCallback;
   }
 
@@ -26,7 +26,7 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
    *
    * @return bool
    */
-  function idIsKnown($id) {
+  public function idIsKnown($id) {
     if (NULL !== $this->optionsBuffer) {
       return array_key_exists($id, $this->optionsBuffer);
     }
@@ -44,7 +44,7 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
   /**
    * @return mixed[]
    */
-  function getSelectOptions() {
+  public function getSelectOptions() {
     if (NULL === $this->optionsBuffer) {
       $this->optionsBuffer = call_user_func($this->optionsCallback);
       if (!is_array($this->optionsBuffer)) {
@@ -60,7 +60,7 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
    *
    * @return string|null
    */
-  function idGetLabel($id) {
+  public function idGetLabel($id) {
     if (NULL !== $this->optionsBuffer) {
       return array_key_exists($id, $this->optionsBuffer);
     }

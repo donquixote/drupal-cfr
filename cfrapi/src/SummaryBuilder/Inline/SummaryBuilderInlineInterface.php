@@ -12,11 +12,11 @@ interface SummaryBuilderInlineInterface {
    *
    * @return $this
    */
-  function addSetting(ConfToSummaryInterface $confToSummary, $conf);
+  public function addSetting(ConfToSummaryInterface $confToSummary, $conf);
 
   /**
    * @return mixed
    */
-  function buildSummary();
+  public function buildSummary();
 
 }

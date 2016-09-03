@@ -34,7 +34,7 @@ class ConfToSummary_CfrLegend implements ConfToSummaryInterface {
    *
    * @return \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface
    */
-  static function createRequired(CfrLegendInterface $legend) {
+  public static function createRequired(CfrLegendInterface $legend) {
     return new self($legend, TRUE);
   }
 
@@ -43,7 +43,7 @@ class ConfToSummary_CfrLegend implements ConfToSummaryInterface {
    *
    * @return \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface
    */
-  static function createOptional(CfrLegendInterface $legend) {
+  public static function createOptional(CfrLegendInterface $legend) {
     return new self($legend, FALSE);
   }
 
@@ -51,7 +51,7 @@ class ConfToSummary_CfrLegend implements ConfToSummaryInterface {
    * @param \Drupal\cfrfamily\CfrLegend\CfrLegendInterface $legend
    * @param bool $required
    */
-  function __construct(CfrLegendInterface $legend, $required) {
+  public function __construct(CfrLegendInterface $legend, $required) {
     $this->legend = $legend;
     $this->required = $required;
   }
@@ -63,7 +63,7 @@ class ConfToSummary_CfrLegend implements ConfToSummaryInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 

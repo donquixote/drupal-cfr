@@ -12,20 +12,20 @@ interface CfrLegendInterface {
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface[]
    *   Format: $[$pluginId] = $cfrLegendItem
    */
-  function getLegendItems($depth = 0);
+  public function getLegendItems($depth = 0);
 
   /**
    * @param string $id
    *
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface|null
    */
-  function idGetLegendItem($id);
+  public function idGetLegendItem($id);
 
   /**
    * @param string $id
    *
    * @return bool
    */
-  function idIsKnown($id);
+  public function idIsKnown($id);
 
 }

@@ -22,7 +22,7 @@ class DefinitionToLabel_FromModuleName implements DefinitionToLabelInterface {
    *
    * @return string|null
    */
-  function definitionGetLabel(array $definition, $else) {
+  public function definitionGetLabel(array $definition, $else) {
     if (isset($definition['group_label'])) {
       return $definition['group_label'];
     }

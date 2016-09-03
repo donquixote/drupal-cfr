@@ -9,32 +9,32 @@ interface CfrContextInterface {
    *
    * @return bool
    */
-  function paramValueExists(\ReflectionParameter $param);
+  public function paramValueExists(\ReflectionParameter $param);
 
   /**
    * @param \ReflectionParameter $param
    *
    * @return mixed
    */
-  function paramGetValue(\ReflectionParameter $param);
+  public function paramGetValue(\ReflectionParameter $param);
 
   /**
    * @param string $paramName
    *
    * @return bool
    */
-  function paramNameHasValue($paramName);
+  public function paramNameHasValue($paramName);
 
   /**
    * @param string $paramName
    *
    * @return mixed
    */
-  function paramNameGetValue($paramName);
+  public function paramNameGetValue($paramName);
 
   /**
    * @return string
    */
-  function getMachineName();
+  public function getMachineName();
 
 }

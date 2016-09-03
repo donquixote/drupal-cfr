@@ -12,5 +12,5 @@ interface DefmapToCfrFamilyInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamily\CfrFamilyInterface
    */
-  function defmapGetCfrFamily(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL);
+  public function defmapGetCfrFamily(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL);
 }

@@ -25,7 +25,7 @@ class TypeToConfigurator_Buffer implements TypeToConfiguratorInterface {
   /**
    * @param \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $decorated
    */
-  function __construct(TypeToConfiguratorInterface $decorated) {
+  public function __construct(TypeToConfiguratorInterface $decorated) {
     $this->decorated = $decorated;
   }
 
@@ -35,7 +35,7 @@ class TypeToConfigurator_Buffer implements TypeToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|mixed
    */
-  function typeGetConfigurator($type, CfrContextInterface $context = NULL) {
+  public function typeGetConfigurator($type, CfrContextInterface $context = NULL) {
     $k = $type;
     if (NULL !== $context) {
       $k .= '::' . $context->getMachineName();
@@ -52,7 +52,7 @@ class TypeToConfigurator_Buffer implements TypeToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function typeGetOptionalConfigurator($type, CfrContextInterface $context = NULL, $defaultValue = NULL) {
+  public function typeGetOptionalConfigurator($type, CfrContextInterface $context = NULL, $defaultValue = NULL) {
     $k = $type;
     if (NULL !== $context) {
       $k .= '::' . $context->getMachineName();

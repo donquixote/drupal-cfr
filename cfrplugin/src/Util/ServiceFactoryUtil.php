@@ -18,7 +18,7 @@ final class ServiceFactoryUtil extends UtilBase {
    *
    * @return \Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfiguratorInterface[]
    */
-  static function createDeftocfrMappers(CallbackToConfiguratorInterface $valueCtc) {
+  public static function createDeftocfrMappers(CallbackToConfiguratorInterface $valueCtc) {
     $classToCallback = new ClassNameToCallback();
     $callbackToCallback = new CallableToCallback();
     $cfrFactoryCtc = new CallbackToConfigurator_ConfiguratorFactory();

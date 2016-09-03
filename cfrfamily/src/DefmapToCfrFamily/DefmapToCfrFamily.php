@@ -34,7 +34,7 @@ class DefmapToCfrFamily implements DefmapToCfrFamilyInterface {
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
    */
-  function __construct(
+  public function __construct(
     DefinitionToConfiguratorInterface $definitionToConfigurator,
     DefinitionToLabelInterface $definitionToLabel,
     DefinitionToLabelInterface $definitionToGrouplabel
@@ -50,7 +50,7 @@ class DefmapToCfrFamily implements DefmapToCfrFamilyInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamily\CfrFamilyInterface
    */
-  function defmapGetCfrFamily(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL) {
+  public function defmapGetCfrFamily(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL) {
     $configuratorMap = new ConfiguratorMap_FromDefinitionMap($definitionMap, $this->definitionToConfigurator, $context);
     $legend = new CfrLegend_FromDefmap($definitionMap, $configuratorMap, $this->definitionToLabel, $this->definitionToGrouplabel);
     return $this->create($legend, $configuratorMap);

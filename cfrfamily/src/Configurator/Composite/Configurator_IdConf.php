@@ -65,7 +65,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
    *
    * @return \Drupal\cfrfamily\Configurator\Composite\Configurator_IdConf
    */
-  static function createDefault(LegendInterface $legend, ConfiguratorMapInterface $configuratorMap) {
+  public static function createDefault(LegendInterface $legend, ConfiguratorMapInterface $configuratorMap) {
     $idValueToValue = new IdValueToValue_Value();
     return new self($legend, $configuratorMap, $idValueToValue);
   }
@@ -75,7 +75,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
    * @param \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface $idToConfigurator
    * @param \Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface|NULL $idValueToValue
    */
-  function __construct(LegendInterface $legend, IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL) {
+  public function __construct(LegendInterface $legend, IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL) {
     $this->legend = $legend;
     $this->idToConfigurator = $idToConfigurator;
     $this->idValueToValue = $idValueToValue;
@@ -87,7 +87,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
    *
    * @return static
    */
-  function withKeys($idKey, $optionsKey) {
+  public function withKeys($idKey, $optionsKey) {
     $clone = clone $this;
     $clone->idKey = $idKey;
     $clone->optionsKey = $optionsKey;
@@ -99,7 +99,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
    *
    * @return static
    */
-  function withIdLabel($idLabel) {
+  public function withIdLabel($idLabel) {
     $clone = clone $this;
     $clone->idLabel = $idLabel;
     return $clone;
@@ -110,7 +110,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
    *
    * @return static
    */
-  function withDefaultValue($defaultValue = NULL) {
+  public function withDefaultValue($defaultValue = NULL) {
     $clone = clone $this;
     $clone->required = FALSE;
     $clone->defaultValue = $defaultValue;
@@ -125,7 +125,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 
@@ -196,7 +196,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 
@@ -212,7 +212,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
   /**
    * @return string
    */
-  function getEmptySummary() {
+  public function getEmptySummary() {
     return t('None');
   }
 
@@ -223,7 +223,7 @@ class Configurator_IdConf implements ConfiguratorInterface {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 
@@ -259,14 +259,14 @@ class Configurator_IdConf implements ConfiguratorInterface {
   /**
    * @return mixed
    */
-  function getEmptyValue() {
+  public function getEmptyValue() {
     return $this->defaultValue;
   }
 
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness() {
+  public function getEmptyness() {
     return new ConfEmptyness_Key($this->idKey);
   }
 }

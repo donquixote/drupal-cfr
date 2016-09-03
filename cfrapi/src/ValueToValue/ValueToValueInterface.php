@@ -11,6 +11,6 @@ interface ValueToValueInterface {
    *
    * @return mixed
    */
-  function valueGetValue($value);
+  public function valueGetValue($value);
 
 }

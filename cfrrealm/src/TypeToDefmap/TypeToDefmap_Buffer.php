@@ -17,7 +17,7 @@ class TypeToDefmap_Buffer implements TypeToDefmapInterface {
   /**
    * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $decorated
    */
-  function __construct(TypeToDefmapInterface $decorated) {
+  public function __construct(TypeToDefmapInterface $decorated) {
     $this->decorated = $decorated;
   }
 
@@ -26,7 +26,7 @@ class TypeToDefmap_Buffer implements TypeToDefmapInterface {
    *
    * @return \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface
    */
-  function typeGetDefmap($type) {
+  public function typeGetDefmap($type) {
     return array_key_exists($type, $this->definitionMaps)
       ? $this->definitionMaps[$type]
       : $this->definitionMaps[$type] = $this->decorated->typeGetDefmap($type);

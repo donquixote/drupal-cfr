@@ -18,7 +18,7 @@ class ConfEmptyness_Whitelist implements ConfEmptynessInterface {
    * @param mixed $defaultEmptyConf
    * @param mixed[] $otherEmptyConfigurations
    */
-  function __construct($defaultEmptyConf, array $otherEmptyConfigurations = []) {
+  public function __construct($defaultEmptyConf, array $otherEmptyConfigurations = []) {
     $this->defaultEmptyConf = $defaultEmptyConf;
     $this->otherEmptyConfigurations = $otherEmptyConfigurations;
   }
@@ -29,7 +29,7 @@ class ConfEmptyness_Whitelist implements ConfEmptynessInterface {
    * @return bool
    *   TRUE, if $conf is both valid and empty.
    */
-  function confIsEmpty($conf) {
+  public function confIsEmpty($conf) {
     if ($conf === $this->defaultEmptyConf) {
       return TRUE;
     }
@@ -47,7 +47,7 @@ class ConfEmptyness_Whitelist implements ConfEmptynessInterface {
    *
    * @return mixed|null
    */
-  function getEmptyConf() {
+  public function getEmptyConf() {
     return $this->defaultEmptyConf;
   }
 }

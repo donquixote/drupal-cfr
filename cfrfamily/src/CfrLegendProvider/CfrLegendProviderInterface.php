@@ -7,6 +7,6 @@ interface CfrLegendProviderInterface {
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface|null
    */
-  function getCfrLegend();
+  public function getCfrLegend();
 
 }

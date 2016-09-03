@@ -52,7 +52,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
    * @param \Drupal\cfrfamily\CfrLegend\CfrLegendInterface $legend
    * @param \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface $idToConfigurator
    */
-  function __construct(CfrLegendInterface $legend, IdToConfiguratorInterface $idToConfigurator) {
+  public function __construct(CfrLegendInterface $legend, IdToConfiguratorInterface $idToConfigurator) {
     $this->legend = $legend;
     $this->idToConfigurator = $idToConfigurator;
   }
@@ -63,7 +63,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
    *
    * @return static
    */
-  function withKeys($idKey, $optionsKey) {
+  public function withKeys($idKey, $optionsKey) {
     $clone = clone $this;
     $clone->idKey = $idKey;
     $clone->optionsKey = $optionsKey;
@@ -75,7 +75,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
    *
    * @return static
    */
-  function withIdLabel($idLabel) {
+  public function withIdLabel($idLabel) {
     $clone = clone $this;
     $clone->idLabel = $idLabel;
     return $clone;
@@ -86,7 +86,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
    *
    * @return static
    */
-  function withDefaultValue($defaultValue = NULL) {
+  public function withDefaultValue($defaultValue = NULL) {
     $clone = clone $this;
     $clone->required = FALSE;
     $clone->defaultValue = $defaultValue;
@@ -101,7 +101,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
 
     $confToForm = new ConfToForm_CfrLegend($this->legend, $this->required);
 
@@ -115,7 +115,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
 
     $confToSummary = new ConfToSummary_CfrLegend($this->legend, $this->required);
 
@@ -125,7 +125,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness() {
+  public function getEmptyness() {
     return new ConfEmptyness_Key($this->idKey);
   }
 
@@ -135,7 +135,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
    *
    * @return mixed
    */
-  function idConfGetValue($id, $optionsConf) {
+  public function idConfGetValue($id, $optionsConf) {
 
     if (NULL === $id) {
       if ($this->required) {
@@ -156,7 +156,7 @@ class Configurator_IdConfInlineable extends InlineableConfiguratorBase {
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
    */
-  function getCfrLegend() {
+  public function getCfrLegend() {
     return $this->legend;
   }
 }

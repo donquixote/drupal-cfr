@@ -13,6 +13,6 @@ interface DefmapToContainerInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface
    */
-  function defmapGetContainer(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL);
+  public function defmapGetContainer(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL);
 
 }

@@ -15,7 +15,7 @@ class ConfEmptyness_Sequence implements ConfEmptynessInterface {
   /**
    * @param \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface $emptyness
    */
-  function __construct(ConfEmptynessInterface $emptyness) {
+  public function __construct(ConfEmptynessInterface $emptyness) {
     $this->emptyness = $emptyness;
   }
 
@@ -25,7 +25,7 @@ class ConfEmptyness_Sequence implements ConfEmptynessInterface {
    * @return bool
    *   TRUE, if $conf is both valid and empty.
    */
-  function confIsEmpty($conf) {
+  public function confIsEmpty($conf) {
     if (NULL === $conf || [] === $conf) {
       return TRUE;
     }
@@ -52,7 +52,7 @@ class ConfEmptyness_Sequence implements ConfEmptynessInterface {
    *
    * @return mixed|null
    */
-  function getEmptyConf() {
+  public function getEmptyConf() {
     return [];
   }
 

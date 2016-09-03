@@ -12,5 +12,5 @@ interface TypeToContainerInterface {
    *
    * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface
    */
-  function typeGetContainer($type, CfrContextInterface $context = NULL);
+  public function typeGetContainer($type, CfrContextInterface $context = NULL);
 }

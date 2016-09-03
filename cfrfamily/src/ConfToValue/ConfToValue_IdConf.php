@@ -37,7 +37,7 @@ class ConfToValue_IdConf implements ConfToValueInterface {
   /**
    * @param \Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface $idConfToValue
    */
-  function __construct(IdConfToValueInterface $idConfToValue) {
+  public function __construct(IdConfToValueInterface $idConfToValue) {
     $this->idConfToValue = $idConfToValue;
   }
 
@@ -46,7 +46,7 @@ class ConfToValue_IdConf implements ConfToValueInterface {
    *
    * @return \Drupal\cfrapi\ConfToValue\ConfToValueInterface
    */
-  function cloneAsOptional($defaultValue = NULL) {
+  public function cloneAsOptional($defaultValue = NULL) {
     $clone = clone $this;
     $clone->required = FALSE;
     $clone->defaultValue = $defaultValue;
@@ -60,7 +60,7 @@ class ConfToValue_IdConf implements ConfToValueInterface {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf, $this->idKey, $this->optionsKey);
 

@@ -20,7 +20,7 @@ class ValueProvider_FromCfrConf implements ValueProviderInterface {
    * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $configurator
    * @param mixed $conf
    */
-  function __construct(ConfiguratorInterface $configurator, $conf) {
+  public function __construct(ConfiguratorInterface $configurator, $conf) {
     $this->configurator = $configurator;
     $this->conf = $conf;
   }
@@ -28,7 +28,7 @@ class ValueProvider_FromCfrConf implements ValueProviderInterface {
   /**
    * @return mixed
    */
-  function getValue() {
+  public function getValue() {
     return $this->configurator->confGetValue($this->conf);
   }
 }

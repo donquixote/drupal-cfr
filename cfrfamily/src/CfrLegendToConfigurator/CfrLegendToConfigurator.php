@@ -19,7 +19,7 @@ class CfrLegendToConfigurator implements CfrLegendToConfiguratorInterface {
    *
    * @return \Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface
    */
-  function cfrLegendGetConfigurator(CfrLegendInterface $legend, IdConfToValueInterface $idConfToValue) {
+  public function cfrLegendGetConfigurator(CfrLegendInterface $legend, IdConfToValueInterface $idConfToValue) {
     $confToForm = new ConfToForm_CfrLegend($legend, TRUE);
     $confToSummary = new ConfToSummary_CfrLegend($legend, TRUE);
     return new Configurator_CompositeWithCfrLegend($confToForm, $confToSummary, $idConfToValue, $legend);
@@ -32,7 +32,7 @@ class CfrLegendToConfigurator implements CfrLegendToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function cfrLegendGetOptionalConfigurator(CfrLegendInterface $legend, IdConfToValueInterface $idConfToValue, $defaultValue = NULL) {
+  public function cfrLegendGetOptionalConfigurator(CfrLegendInterface $legend, IdConfToValueInterface $idConfToValue, $defaultValue = NULL) {
     $confToForm = new ConfToForm_CfrLegend($legend, FALSE);
     $confToSummary = new ConfToSummary_CfrLegend($legend, FALSE);
     $confToValue = (new ConfToValue_IdConf($idConfToValue))->cloneAsOptional($defaultValue);

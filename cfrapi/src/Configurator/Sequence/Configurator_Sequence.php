@@ -26,7 +26,7 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
   /**
    * @param \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface $configurator
    */
-  function __construct(OptionalConfiguratorInterface $configurator) {
+  public function __construct(OptionalConfiguratorInterface $configurator) {
     $this->configurator = $configurator;
     $this->emptyness = $configurator->getEmptyness();
   }
@@ -34,7 +34,7 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness() {
+  public function getEmptyness() {
     return new ConfEmptyness_Sequence($this->emptyness);
   }
 
@@ -47,7 +47,7 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
    *
    * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     if (NULL === $conf) {
       return [];
     }
@@ -84,7 +84,7 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     if (!is_array($conf)) {
       $conf = [];
     }
@@ -99,7 +99,7 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
    * @return array
    *   A form element(s) array.
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     if (!is_array($conf)) {
       $conf = [];
     }

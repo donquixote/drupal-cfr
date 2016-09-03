@@ -7,6 +7,6 @@ interface PossiblyUnconfigurableInterface {
   /**
    * @return bool
    */
-  function isConfigurable();
+  public function isConfigurable();
 
 }

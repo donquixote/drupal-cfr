@@ -11,7 +11,7 @@ class ClassNameToCallback implements ValueToCallbackInterface {
    *
    * @return \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
    */
-  function valueGetCallback($class) {
+  public function valueGetCallback($class) {
     return CallbackReflection_ClassConstruction::createFromClassNameCandidate($class);
   }
 }

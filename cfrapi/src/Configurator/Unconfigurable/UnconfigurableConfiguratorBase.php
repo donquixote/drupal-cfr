@@ -16,7 +16,7 @@ abstract class UnconfigurableConfiguratorBase implements ConfiguratorInterface, 
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return [];
   }
 
@@ -27,14 +27,14 @@ abstract class UnconfigurableConfiguratorBase implements ConfiguratorInterface, 
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return NULL;
   }
 
   /**
    * @return bool
    */
-  function isConfigurable() {
+  public function isConfigurable() {
     return FALSE;
   }
 }

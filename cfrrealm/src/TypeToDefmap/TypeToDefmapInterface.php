@@ -9,6 +9,6 @@ interface TypeToDefmapInterface {
    *
    * @return \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface
    */
-  function typeGetDefmap($type);
+  public function typeGetDefmap($type);
 
 }

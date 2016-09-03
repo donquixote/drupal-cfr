@@ -18,7 +18,7 @@ class LegendItem implements LegendItemInterface {
    * @param string $label
    * @param string $groupLabel
    */
-  function __construct($label, $groupLabel) {
+  public function __construct($label, $groupLabel) {
     $this->label = $label;
     $this->groupLabel = $groupLabel;
   }
@@ -26,14 +26,14 @@ class LegendItem implements LegendItemInterface {
   /**
    * @return string
    */
-  function getLabel() {
+  public function getLabel() {
     return $this->label;
   }
 
   /**
    * @return string|null
    */
-  function getGroupLabel() {
+  public function getGroupLabel() {
     return $this->groupLabel;
   }
 
@@ -45,7 +45,7 @@ class LegendItem implements LegendItemInterface {
    *
    * @return static
    */
-  function withLabels($label, $groupLabel) {
+  public function withLabels($label, $groupLabel) {
     return new self($label, $groupLabel);
   }
 }

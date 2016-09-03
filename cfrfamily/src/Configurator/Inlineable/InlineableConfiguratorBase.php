@@ -24,7 +24,7 @@ abstract class InlineableConfiguratorBase implements InlineableConfiguratorInter
    * @return mixed
    *   Value to be used in the application.
    */
-  final function confGetValue($conf) {
+  final public function confGetValue($conf) {
     list($id, $conf) = $this->confGetIdOptions($conf);
     if (NULL === $id) {
       return new BrokenValue($this, get_defined_vars(), 'No id specified.');

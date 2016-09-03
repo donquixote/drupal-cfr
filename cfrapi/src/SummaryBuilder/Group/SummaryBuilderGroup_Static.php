@@ -20,7 +20,7 @@ class SummaryBuilderGroup_Static implements SummaryBuilderGroupInterface {
   /**
    * @param \Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface $summaryBuilder
    */
-  function __construct(SummaryBuilderInterface $summaryBuilder) {
+  public function __construct(SummaryBuilderInterface $summaryBuilder) {
     $this->summaryBuilder = $summaryBuilder;
   }
 
@@ -31,7 +31,7 @@ class SummaryBuilderGroup_Static implements SummaryBuilderGroupInterface {
    *
    * @return $this
    */
-  function addSetting($label, ConfToSummaryInterface $confToSummary, $conf) {
+  public function addSetting($label, ConfToSummaryInterface $confToSummary, $conf) {
     $this->summary .= '<li>' . check_plain($label) . ': ' . $confToSummary->confGetSummary($conf, $this->summaryBuilder) . '</li>';
 
     return $this;
@@ -40,7 +40,7 @@ class SummaryBuilderGroup_Static implements SummaryBuilderGroupInterface {
   /**
    * @return mixed
    */
-  function buildSummary() {
+  public function buildSummary() {
     return '' !== $this->summary
       ? '<ul>' . $this->summary . '</ul>'
       : NULL;

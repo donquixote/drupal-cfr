@@ -13,7 +13,7 @@ interface CfrLegendToConfiguratorInterface {
    *
    * @return \Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface
    */
-  function cfrLegendGetConfigurator(CfrLegendInterface $legend, IdConfToValueInterface $idConfToValue);
+  public function cfrLegendGetConfigurator(CfrLegendInterface $legend, IdConfToValueInterface $idConfToValue);
 
   /**
    * @param \Drupal\cfrfamily\CfrLegend\CfrLegendInterface $legend
@@ -22,6 +22,6 @@ interface CfrLegendToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function cfrLegendGetOptionalConfigurator(CfrLegendInterface $legend,  IdConfToValueInterface $idConfToValue, $defaultValue = NULL);
+  public function cfrLegendGetOptionalConfigurator(CfrLegendInterface $legend,  IdConfToValueInterface $idConfToValue, $defaultValue = NULL);
 
 }

@@ -22,7 +22,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
    *
    * @return \Drupal\cfrapi\ValueToValue\ValueToValueInterface
    */
-  static function createFromClassName($className) {
+  public static function createFromClassName($className) {
     $callback = CallbackReflection_ClassConstruction::createFromClassName($className);
     return new self($callback);
   }
@@ -33,7 +33,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
    *
    * @return \Drupal\cfrapi\ValueToValue\ValueToValueInterface
    */
-  static function createFromClassStaticMethod($className, $methodName) {
+  public static function createFromClassStaticMethod($className, $methodName) {
     $callback = CallbackReflection_StaticMethod::create($className, $methodName);
     return new self($callback);
   }
@@ -44,7 +44,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
    *
    * @return \Drupal\cfrapi\ValueToValue\ValueToValueInterface
    */
-  static function createFromObjectMethod($object, $methodName) {
+  public static function createFromObjectMethod($object, $methodName) {
     $callback = CallbackReflection_ObjectMethod::create($object, $methodName);
     return new self($callback);
   }
@@ -54,7 +54,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
    *
    * @return \Drupal\cfrapi\ValueToValue\ValueToValueInterface
    */
-  static function createFromCallable($callable) {
+  public static function createFromCallable($callable) {
     $callback = CallbackUtil::callableGetCallback($callable);
     return new self($callback);
   }
@@ -62,7 +62,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
    */
-  function __construct(CallbackReflectionInterface $callback) {
+  public function __construct(CallbackReflectionInterface $callback) {
     $this->callback = $callback;
   }
 
@@ -73,7 +73,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
    *
    * @return mixed
    */
-  function valueGetValue($args) {
+  public function valueGetValue($args) {
     if (!is_array($args)) {
       return new BrokenValue($this, get_defined_vars(), 'Non-array callback arguments.');
     }

@@ -13,6 +13,6 @@ interface InlineableConfiguratorInterface extends ConfiguratorInterface, CfrLege
    *
    * @return mixed
    */
-  function idConfGetValue($id, $optionsConf);
+  public function idConfGetValue($id, $optionsConf);
 
 }

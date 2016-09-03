@@ -26,7 +26,7 @@ class SummaryBuilderInline_Static implements SummaryBuilderInlineInterface {
    * @param \Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface $summaryBuilder
    * @param string $separator
    */
-  function __construct(SummaryBuilderInterface $summaryBuilder, $separator = ', ') {
+  public function __construct(SummaryBuilderInterface $summaryBuilder, $separator = ', ') {
     $this->summaryBuilder = $summaryBuilder;
     $this->separator = $separator;
   }
@@ -37,7 +37,7 @@ class SummaryBuilderInline_Static implements SummaryBuilderInlineInterface {
    *
    * @return $this
    */
-  function addSetting(ConfToSummaryInterface $confToSummary, $conf) {
+  public function addSetting(ConfToSummaryInterface $confToSummary, $conf) {
     $this->pieces[] = $confToSummary->confGetSummary($conf, $this->summaryBuilder);
 
     return $this;
@@ -46,7 +46,7 @@ class SummaryBuilderInline_Static implements SummaryBuilderInlineInterface {
   /**
    * @return mixed
    */
-  function buildSummary() {
+  public function buildSummary() {
     return implode($this->separator, $this->pieces);
   }
 }

@@ -13,7 +13,7 @@ class ClassFileDiscovery implements ClassFileDiscoveryInterface {
    * @return string[]
    *   Format: $[$file] = $class
    */
-  function dirNspGetClassFiles($directory, $namespace) {
+  public function dirNspGetClassFiles($directory, $namespace) {
     DiscoveryUtil::normalizeDirectory($directory);
     DiscoveryUtil::normalizeNamespace($namespace);
     return $this->dirNspFindClassFilesRecursive($directory, $namespace);

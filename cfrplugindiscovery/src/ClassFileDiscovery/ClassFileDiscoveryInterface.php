@@ -10,5 +10,5 @@ interface ClassFileDiscoveryInterface {
    * @return string[]
    *   Format: $[$file] = $class
    */
-  function dirNspGetClassFiles($directory, $namespace);
+  public function dirNspGetClassFiles($directory, $namespace);
 }

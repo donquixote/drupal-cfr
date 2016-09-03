@@ -12,6 +12,6 @@ interface ParamToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|mixed
    */
-  function paramGetConfigurator(\ReflectionParameter $param, CfrContextInterface $context = NULL);
+  public function paramGetConfigurator(\ReflectionParameter $param, CfrContextInterface $context = NULL);
 
 }

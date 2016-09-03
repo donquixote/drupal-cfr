@@ -42,7 +42,7 @@ class DocToAnnotations implements DocToAnnotationsInterface {
    *
    * @return array[]
    */
-  function docGetAnnotations($docComment) {
+  public function docGetAnnotations($docComment) {
 
     if (false === strpos($docComment, '@' . $this->tagName)) {
       return [];

@@ -12,6 +12,6 @@ interface ClosureToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function closureGetConfigurator(\Closure $closure, CfrContextInterface $context);
+  public function closureGetConfigurator(\Closure $closure, CfrContextInterface $context);
 
 }

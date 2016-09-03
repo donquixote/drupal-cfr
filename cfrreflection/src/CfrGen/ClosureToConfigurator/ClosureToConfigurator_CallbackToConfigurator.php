@@ -16,7 +16,7 @@ class ClosureToConfigurator_CallbackToConfigurator implements ClosureToConfigura
   /**
    * @param \Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfiguratorInterface $callbackToConfigurator
    */
-  function __construct(CallbackToConfiguratorInterface $callbackToConfigurator) {
+  public function __construct(CallbackToConfiguratorInterface $callbackToConfigurator) {
     $this->callbackToConfigurator = $callbackToConfigurator;
   }
 
@@ -26,7 +26,7 @@ class ClosureToConfigurator_CallbackToConfigurator implements ClosureToConfigura
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function closureGetConfigurator(\Closure $closure, CfrContextInterface $context) {
+  public function closureGetConfigurator(\Closure $closure, CfrContextInterface $context) {
     $refl = new \ReflectionFunction($closure);
     $callback = new CallbackReflection_Function($refl);
     return $this->callbackToConfigurator->callbackGetConfigurator($callback);

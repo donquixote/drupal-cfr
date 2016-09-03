@@ -21,7 +21,7 @@ class CallbackToConfigurator_ConfiguratorFactory implements CallbackToConfigurat
    *
    * @return \Drupal\cfrapi\Configurator\Broken\BrokenConfigurator|null|object
    */
-  function callbackGetConfigurator(CallbackReflectionInterface $configuratorFactoryCallback, CfrContextInterface $context = NULL) {
+  public function callbackGetConfigurator(CallbackReflectionInterface $configuratorFactoryCallback, CfrContextInterface $context = NULL) {
 
     $serialArgs = NULL === $context
       ? CfrReflectionUtil::paramsGetArgs($configuratorFactoryCallback->getReflectionParameters())

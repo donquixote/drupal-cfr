@@ -19,7 +19,7 @@ class DefinitionToConfigurator_Mappers implements DefinitionToConfiguratorInterf
    * @param string $key
    * @param \Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfiguratorInterface $mapper
    */
-  function keySetMapper($key, ArgDefToConfiguratorInterface $mapper) {
+  public function keySetMapper($key, ArgDefToConfiguratorInterface $mapper) {
     $this->mappers[$key] = $mapper;
   }
 
@@ -29,7 +29,7 @@ class DefinitionToConfigurator_Mappers implements DefinitionToConfiguratorInterf
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL) {
+  public function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL) {
 
     foreach ($this->mappers as $key => $mapper) {
       if (isset($definition[$key])) {

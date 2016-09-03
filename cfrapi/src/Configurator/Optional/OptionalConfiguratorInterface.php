@@ -9,6 +9,6 @@ interface OptionalConfiguratorInterface extends ConfiguratorInterface {
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness();
+  public function getEmptyness();
 
 }

@@ -15,7 +15,7 @@ class TypeToConfigurator_ViaCfrFamily implements TypeToConfiguratorInterface {
   /**
    * @param \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface $typeToCfrFamily
    */
-  function __construct(TypeToCfrFamilyInterface $typeToCfrFamily) {
+  public function __construct(TypeToCfrFamilyInterface $typeToCfrFamily) {
     $this->typeToCfrFamily = $typeToCfrFamily;
   }
 
@@ -25,7 +25,7 @@ class TypeToConfigurator_ViaCfrFamily implements TypeToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
-  function typeGetConfigurator($type, CfrContextInterface $context = NULL) {
+  public function typeGetConfigurator($type, CfrContextInterface $context = NULL) {
     return $this->typeToCfrFamily->typeGetCfrFamily($type, $context)->getFamilyConfigurator();
   }
 
@@ -36,7 +36,7 @@ class TypeToConfigurator_ViaCfrFamily implements TypeToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
-  function typeGetOptionalConfigurator($type, CfrContextInterface $context = NULL, $defaultValue = NULL) {
+  public function typeGetOptionalConfigurator($type, CfrContextInterface $context = NULL, $defaultValue = NULL) {
     return $this->typeToCfrFamily->typeGetCfrFamily($type, $context)->getOptionalFamilyConfigurator($defaultValue);
   }
 }

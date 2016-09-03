@@ -28,7 +28,7 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Id\Configurator_LegendSelect
    */
-  static function createFromOptions(array $options, $defaultId = NULL) {
+  public static function createFromOptions(array $options, $defaultId = NULL) {
     $legend = new EnumMap($options);
     return new self($legend, $defaultId);
   }
@@ -39,7 +39,7 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Id\Configurator_LegendSelect
    */
-  static function createRequired(EnumMapInterface $enumMap, $defaultId = NULL) {
+  public static function createRequired(EnumMapInterface $enumMap, $defaultId = NULL) {
     return new self($enumMap, $defaultId);
   }
 
@@ -49,7 +49,7 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfigurator_FromOptionable
    */
-  static function createOptional(EnumMapInterface $enumMap, $defaultId = NULL) {
+  public static function createOptional(EnumMapInterface $enumMap, $defaultId = NULL) {
     $configurator = new self($enumMap, $defaultId);
     return new OptionalConfigurator_FromOptionable($configurator);
   }
@@ -74,7 +74,7 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->confBuildForm($conf, $label, TRUE);
   }
 
@@ -86,7 +86,7 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
    *
    * @return array
    */
-  function confGetOptionalForm($conf, $label) {
+  public function confGetOptionalForm($conf, $label) {
     return $this->confBuildForm($conf, $label, FALSE);
   }
 
@@ -131,14 +131,14 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->legend->idGetLabel($conf);
   }
 
   /**
    * @return string
    */
-  function getEmptySummary() {
+  public function getEmptySummary() {
     return '- ' . t('None') . ' -';
   }
 
@@ -149,7 +149,7 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     if (is_numeric($conf)) {
       $conf = (string)$conf;
     }
@@ -168,14 +168,14 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
   /**
    * @return mixed
    */
-  function getEmptyValue() {
+  public function getEmptyValue() {
     return NULL;
   }
 
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness() {
+  public function getEmptyness() {
     return new ConfEmptyness_Enum();
   }
 }

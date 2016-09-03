@@ -7,20 +7,20 @@ interface LegendInterface {
   /**
    * @return mixed[]
    */
-  function getSelectOptions();
+  public function getSelectOptions();
 
   /**
    * @param string|mixed $id
    *
    * @return string|null
    */
-  function idGetLabel($id);
+  public function idGetLabel($id);
 
   /**
    * @param string|mixed $id
    *
    * @return bool
    */
-  function idIsKnown($id);
+  public function idIsKnown($id);
 
 }

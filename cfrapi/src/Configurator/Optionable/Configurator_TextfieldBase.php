@@ -16,7 +16,7 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     if (!is_string($conf)) {
       $conf = NULL;
     }
@@ -38,7 +38,7 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
    *   A string summary is always allowed. But other values may be returned if
    *   $summaryBuilder generates them.
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     if (!is_string($conf)) {
       return NULL;
     }
@@ -53,7 +53,7 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
    *
    * @return array
    */
-  function confGetOptionalForm($conf, $label) {
+  public function confGetOptionalForm($conf, $label) {
     $form = $this->confGetForm($conf, $label);
     unset($form['#required']);
     return $form;
@@ -62,21 +62,21 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
   /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
-  function getEmptyness() {
+  public function getEmptyness() {
     return new ConfEmptyness_Enum();
   }
 
   /**
    * @return string
    */
-  function getEmptySummary() {
+  public function getEmptySummary() {
     return '- ' . t('None') . ' -';
   }
 
   /**
    * @return mixed
    */
-  function getEmptyValue() {
+  public function getEmptyValue() {
     return NULL;
   }
 }

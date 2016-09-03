@@ -14,7 +14,7 @@ trait RawConfigurator_DecoratorTrait {
   /**
    * @param \Drupal\cfrapi\RawConfigurator\RawConfiguratorInterface $decorated
    */
-  function __construct(RawConfiguratorInterface $decorated) {
+  public function __construct(RawConfiguratorInterface $decorated) {
     $this->decorated = $decorated;
   }
 
@@ -26,7 +26,7 @@ trait RawConfigurator_DecoratorTrait {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->decorated->confGetForm($conf, $label);
   }
 
@@ -37,7 +37,7 @@ trait RawConfigurator_DecoratorTrait {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->decorated->confGetSummary($conf, $summaryBuilder);
   }
 }

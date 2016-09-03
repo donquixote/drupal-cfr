@@ -16,7 +16,7 @@ class DefmapToLegend_ViaContainer implements DefmapToLegendInterface {
   /**
    * @param \Drupal\cfrfamily\DefmapToContainer\DefmapToContainerInterface $defmapToContainer
    */
-  function __construct(DefmapToContainerInterface $defmapToContainer) {
+  public function __construct(DefmapToContainerInterface $defmapToContainer) {
     $this->defmapToContainer = $defmapToContainer;
   }
 
@@ -26,7 +26,7 @@ class DefmapToLegend_ViaContainer implements DefmapToLegendInterface {
    *
    * @return \Drupal\cfrapi\Legend\LegendInterface
    */
-  function defmapGetLegend(DefinitionMapInterface $definitionMap, CfrContextInterface $context) {
+  public function defmapGetLegend(DefinitionMapInterface $definitionMap, CfrContextInterface $context) {
     return $this->defmapToContainer->defmapGetContainer($definitionMap, $context);
   }
 }

@@ -21,6 +21,6 @@ interface ParentLegendItemInterface extends CfrLegendItemInterface, CfrLegendPro
    *   - array($id, null)
    *   - array(null, null)
    */
-  function confGetIdOptions($conf);
+  public function confGetIdOptions($conf);
 
 }

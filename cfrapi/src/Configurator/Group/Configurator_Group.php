@@ -25,7 +25,7 @@ class Configurator_Group implements GroupConfiguratorInterface {
    *
    * @return static
    */
-  static function createFromConfigurators(array $paramConfigurators, array $labels) {
+  public static function createFromConfigurators(array $paramConfigurators, array $labels) {
     $groupConfigurator = new static();
     foreach ($paramConfigurators as $k => $paramConfigurator) {
       $paramLabel = isset($labels[$k]) ? $labels[$k] : $k;
@@ -41,7 +41,7 @@ class Configurator_Group implements GroupConfiguratorInterface {
    *
    * @return $this
    */
-  function keySetConfigurator($key, ConfiguratorInterface $configurator, $label) {
+  public function keySetConfigurator($key, ConfiguratorInterface $configurator, $label) {
     if ('#' === $key[0]) {
       throw new \InvalidArgumentException("Key '$key' must not begin with '#'.");
     }
@@ -57,7 +57,7 @@ class Configurator_Group implements GroupConfiguratorInterface {
    * @return array
    *   A form element(s) array.
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     $form = [];
     if (NULL !== $label && '' !== $label) {
       $form['#title'] = $label;
@@ -76,7 +76,7 @@ class Configurator_Group implements GroupConfiguratorInterface {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     if (!is_array($conf) || !count($conf)) {
       $conf = [];
     }
@@ -95,7 +95,7 @@ class Configurator_Group implements GroupConfiguratorInterface {
    *
    * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     if (!is_array($conf)) {
       // If all values are optional, this might still work.
       $conf = [];

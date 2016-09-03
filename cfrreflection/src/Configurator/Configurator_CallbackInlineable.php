@@ -27,7 +27,7 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
    *   Callback with exactly one parameter.
    * @param \Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface $argConfigurator
    */
-  function __construct(CallbackReflectionInterface $monoParamCallback, InlineableConfiguratorInterface $argConfigurator) {
+  public function __construct(CallbackReflectionInterface $monoParamCallback, InlineableConfiguratorInterface $argConfigurator) {
     $this->callback = $monoParamCallback;
     $this->argConfigurator = $argConfigurator;
   }
@@ -35,7 +35,7 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
   /**
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface|null
    */
-  function getCfrLegend() {
+  public function getCfrLegend() {
     if (!$this->argConfigurator instanceof CfrLegendProviderInterface) {
       return NULL;
     }
@@ -50,7 +50,7 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     return $this->argConfigurator->confGetForm($conf, $label);
   }
 
@@ -61,7 +61,7 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return $this->argConfigurator->confGetSummary($conf, $summaryBuilder);
   }
 
@@ -71,7 +71,7 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
    *
    * @return mixed
    */
-  function idConfGetValue($id, $optionsConf) {
+  public function idConfGetValue($id, $optionsConf) {
     $arg = $this->argConfigurator->idConfGetValue($id, $optionsConf);
     if ($arg instanceof BrokenValueInterface) {
       return $arg;

@@ -16,7 +16,7 @@ abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenC
    *
    * @return array
    */
-  function confGetForm($conf, $label) {
+  public function confGetForm($conf, $label) {
     // @todo Add an element that causes validation to fail.
     return [
       '#markup' => '- ' . t('Broken configurator') . ' -<pre>' . print_r($this, TRUE) . '</pre>',
@@ -30,7 +30,7 @@ abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenC
    *
    * @return null|string
    */
-  function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return '- ' . t('Broken configurator') . ' -';
   }
 
@@ -41,7 +41,7 @@ abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenC
    * @return mixed
    *   Value to be used in the application.
    */
-  function confGetValue($conf) {
+  public function confGetValue($conf) {
     return new BrokenValue($this, get_defined_vars(), 'Broken configurator');
   }
 

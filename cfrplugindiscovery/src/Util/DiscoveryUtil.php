@@ -7,7 +7,7 @@ final class DiscoveryUtil extends UtilBase {
   /**
    * @param string $directory
    */
-  static function normalizeDirectory(&$directory) {
+  public static function normalizeDirectory(&$directory) {
     $path_lastchar = substr($directory, -1);
     if ('/' === $path_lastchar || '\\' === $path_lastchar) {
       throw new \InvalidArgumentException('Path must be provided without trailing slash or backslash.');
@@ -20,7 +20,7 @@ final class DiscoveryUtil extends UtilBase {
   /**
    * @param string $namespace
    */
-  static function normalizeNamespace(&$namespace) {
+  public static function normalizeNamespace(&$namespace) {
     if ('\\' === substr($namespace, -1)) {
       throw new \InvalidArgumentException('Namespace must be provided without trailing backslash.');
     }

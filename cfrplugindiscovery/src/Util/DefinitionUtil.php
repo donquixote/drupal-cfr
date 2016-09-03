@@ -14,7 +14,7 @@ final class DefinitionUtil extends UtilBase {
    *
    * @return array[]
    */
-  static function buildDefinitionsById($stubDefinition, array $annotations, $fallbackId) {
+  public static function buildDefinitionsById($stubDefinition, array $annotations, $fallbackId) {
 
     $definitionsById = [];
     foreach ($annotations as $annotation) {
@@ -56,7 +56,7 @@ final class DefinitionUtil extends UtilBase {
    *
    * @return array[][]
    */
-  static function buildDefinitionsByTypeAndId(array $types, array $definitionsById) {
+  public static function buildDefinitionsByTypeAndId(array $types, array $definitionsById) {
 
     return array_fill_keys($types, $definitionsById);
   }

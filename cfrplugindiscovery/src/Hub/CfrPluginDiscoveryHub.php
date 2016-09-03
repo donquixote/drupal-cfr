@@ -29,7 +29,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
    *
    * @return static
    */
-  static function create($tagName = 'CfrPlugin') {
+  public static function create($tagName = 'CfrPlugin') {
     return new self(
       new ClassFileDiscovery(),
       ClassFileToDefinitions_NativeReflection::create($tagName));
@@ -39,7 +39,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
    * @param \Drupal\cfrplugindiscovery\ClassFileDiscovery\ClassFileDiscoveryInterface $classFileDiscovery
    * @param \Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface $classFileToDefinitions
    */
-  function __construct(
+  public function __construct(
     ClassFileDiscoveryInterface $classFileDiscovery,
     ClassFileToDefinitionsInterface $classFileToDefinitions
   ) {
@@ -78,7 +78,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
    * @return array[][]
    *   Format: $[$pluginType][$pluginId] = $pluginDefinition
    */
-  function discoverByInterface($directory, $namespace) {
+  public function discoverByInterface($directory, $namespace) {
 
     $classFiles = $this->classFileDiscovery->dirNspGetClassFiles($directory, $namespace);
 

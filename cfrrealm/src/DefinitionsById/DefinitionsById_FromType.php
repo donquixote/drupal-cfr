@@ -23,7 +23,7 @@ class DefinitionsById_FromType implements DefinitionsByIdInterface {
    * @param \Drupal\cfrrealm\TypeToDefinitionsbyid\TypeToDefinitionsbyidInterface $typeToDefinitionsById
    * @param string $type
    */
-  function __construct(TypeToDefinitionsbyidInterface $typeToDefinitionsById, $type) {
+  public function __construct(TypeToDefinitionsbyidInterface $typeToDefinitionsById, $type) {
     $this->typeToDefinitionsById = $typeToDefinitionsById;
     $this->type = $type;
   }
@@ -32,7 +32,7 @@ class DefinitionsById_FromType implements DefinitionsByIdInterface {
    * @return array[]
    *   Array of all plugin definitions for this plugin type.
    */
-  function getDefinitionsById() {
+  public function getDefinitionsById() {
     return $this->typeToDefinitionsById->typeGetDefinitionsbyid($this->type);
   }
 

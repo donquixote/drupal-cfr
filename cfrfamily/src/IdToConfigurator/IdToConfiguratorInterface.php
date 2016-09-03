@@ -9,6 +9,6 @@ interface IdToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
-  function idGetConfigurator($id);
+  public function idGetConfigurator($id);
 
 }

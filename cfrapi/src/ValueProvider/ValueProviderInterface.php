@@ -7,5 +7,5 @@ interface ValueProviderInterface {
   /**
    * @return mixed
    */
-  function getValue();
+  public function getValue();
 }

@@ -14,14 +14,14 @@ class DefinitionToLabel implements DefinitionToLabelInterface {
   /**
    * @return \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel
    */
-  static function create() {
+  public static function create() {
     return new self('label');
   }
 
   /**
    * @return \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel
    */
-  static function createGroupLabel() {
+  public static function createGroupLabel() {
     return new self('group_label');
   }
 
@@ -29,7 +29,7 @@ class DefinitionToLabel implements DefinitionToLabelInterface {
    * @param string $key
    *   E.g. 'label'.
    */
-  function __construct($key) {
+  public function __construct($key) {
     $this->key = $key;
   }
 
@@ -39,7 +39,7 @@ class DefinitionToLabel implements DefinitionToLabelInterface {
    *
    * @return string
    */
-  function definitionGetLabel(array $definition, $else) {
+  public function definitionGetLabel(array $definition, $else) {
     return isset($definition[$this->key])
       ? $definition[$this->key]
       : $else;
