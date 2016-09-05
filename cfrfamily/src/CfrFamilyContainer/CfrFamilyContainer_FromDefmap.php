@@ -69,7 +69,10 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
    * @see $configuratorMap
    */
   protected function get_configuratorMap() {
-    return new ConfiguratorMap_FromDefinitionMap($this->definitionMap, $this->definitionToConfigurator, $this->context);
+    return new ConfiguratorMap_FromDefinitionMap(
+      $this->definitionMap,
+      $this->definitionToConfigurator,
+      $this->context);
   }
 
   /**
@@ -103,7 +106,11 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
    * @see $cfrLegend
    */
   protected function get_cfrLegend() {
-    return new CfrLegend_FromDefmap($this->definitionMap, $this->configuratorMap, $this->definitionToLabel, $this->definitionToGrouplabel);
+    return new CfrLegend_FromDefmap(
+      $this->definitionMap,
+      $this->configuratorMap,
+      $this->definitionToLabel,
+      $this->definitionToGrouplabel);
   }
 
   /**
