@@ -10,13 +10,13 @@ class LegendItem implements LegendItemInterface {
   private $label;
 
   /**
-   * @var string
+   * @var string|null
    */
   private $groupLabel;
 
   /**
    * @param string $label
-   * @param string $groupLabel
+   * @param string|null $groupLabel
    */
   public function __construct($label, $groupLabel) {
     $this->label = $label;
@@ -31,6 +31,8 @@ class LegendItem implements LegendItemInterface {
   }
 
   /**
+   * Gets the group label, to be used e.g. in a select optgroup.
+   *
    * @return string|null
    */
   public function getGroupLabel() {
