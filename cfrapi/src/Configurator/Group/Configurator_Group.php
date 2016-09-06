@@ -110,7 +110,7 @@ class Configurator_Group implements GroupConfiguratorInterface {
       }
       $values[$key] = $value;
       if ($value instanceof BrokenValueInterface) {
-        return new BrokenValue($this, get_defined_vars(), 'Value for $key is broken.');
+        return new BrokenValue($this, get_defined_vars(), "Value for key '$key' is broken.");
       }
     }
     return $values;
