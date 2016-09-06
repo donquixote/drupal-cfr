@@ -3,9 +3,7 @@
 namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
-use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
 
 class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
 
@@ -15,17 +13,10 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
   private $idToConfigurator;
 
   /**
-   * @var \Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface|null
-   */
-  private $idValueToValue;
-
-  /**
    * @param \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface $idToConfigurator
-   * @param \Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface|NULL $idValueToValue
    */
-  public function __construct(IdToConfiguratorInterface $idToConfigurator, IdValueToValueInterface $idValueToValue = NULL) {
+  public function __construct(IdToConfiguratorInterface $idToConfigurator) {
     $this->idToConfigurator = $idToConfigurator;
-    $this->idValueToValue = $idValueToValue;
   }
 
   /**
@@ -44,12 +35,6 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
       return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
     }
 
-    $value = $configurator->confGetValue($conf);
-
-    if (NULL !== $this->idValueToValue && !$value instanceof BrokenValueInterface) {
-      $value = $this->idValueToValue->idValueGetValue($id, $value);
-    }
-
-    return $value;
+    return $configurator->confGetValue($conf);
   }
 }
