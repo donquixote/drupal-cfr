@@ -44,9 +44,15 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
   /**
    * @param bool $required
+   * @param \Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface|null $idValueToValue
+   * @param string $idKey
+   * @param string $optionsKey
    */
-  public function __construct($required) {
+  public function __construct($required, IdValueToValueInterface $idValueToValue = NULL, $idKey = 'id', $optionsKey = 'options') {
     $this->required = $required;
+    $this->idValueToValue = $idValueToValue;
+    $this->idKey = $idKey;
+    $this->optionsKey = $optionsKey;
   }
 
   /**
