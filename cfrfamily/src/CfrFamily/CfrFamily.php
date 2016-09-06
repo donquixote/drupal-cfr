@@ -4,6 +4,7 @@ namespace Drupal\cfrfamily\CfrFamily;
 
 use Drupal\cfrfamily\CfrLegend\CfrLegend_InlineExpanded;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
+use Drupal\cfrfamily\Configurator\Composite\Configurator_CfrLegend;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValue_IdToCfrExpanded;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValue_IdToConfigurator;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface;
@@ -63,7 +64,7 @@ class CfrFamily implements CfrFamilyInterface {
    * @return \Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface
    */
   public function getFamilyConfigurator() {
-    return CfrFamilyUtil::buildFamilyConfigurator($this->legend, $this->idConfToValue);
+    return new Configurator_CfrLegend(TRUE, $this->legend, $this->idConfToValue);
   }
 
   /**
@@ -72,6 +73,6 @@ class CfrFamily implements CfrFamilyInterface {
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
   public function getOptionalFamilyConfigurator($defaultValue = NULL) {
-    return CfrFamilyUtil::buildOptionalFamilyConfigurator($this->legend, $this->idConfToValue, $defaultValue);
+    return new Configurator_CfrLegend(FALSE, $this->legend, $this->idConfToValue);
   }
 }
