@@ -1,0 +1,143 @@
+<?php
+
+namespace Drupal\cfrapi\Configurator\Id;
+
+use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
+use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
+
+abstract class Configurator_SelectBase implements IdConfiguratorInterface {
+
+  /**
+   * @var bool
+   */
+  private $required = TRUE;
+
+  /**
+   * @param bool $required
+   */
+  public function __construct($required = TRUE) {
+    $this->required = $required;
+  }
+
+  /**
+   * @param array $conf
+   *   Configuration from a form, config file or storage.
+   * @param string|null $label
+   *   Label for the form element, specifying the purpose where it is used.
+   *
+   * @return array
+   */
+  public function confGetForm($conf, $label) {
+
+    $form = [
+      '#title' => $label,
+      '#type' => 'select',
+      '#options' => $this->getSelectOptions(),
+      '#default_value' => $this->confGetId($conf),
+    ];
+
+    if ($this->required) {
+      $form['#required'] = TRUE;
+    }
+    else {
+      $form['#empty_value'] = '';
+    }
+
+    return $form;
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface $summaryBuilder
+   *
+   * @return null|string
+   */
+  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
+    return (NULL !== $id = $this->confGetId($conf))
+      ? $this->idGetLabel($id)
+      : $this->getEmptySummary();
+  }
+
+  /**
+   * @return string
+   */
+  public function getEmptySummary() {
+    return '- ' . t('None') . ' -';
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   *
+   * @return mixed
+   *   Value to be used in the application.
+   */
+  public function confGetValue($conf) {
+
+    if (NULL === $id = $this->confGetId($conf)) {
+      if ($this->required) {
+        return new BrokenValue($this, get_defined_vars(), 'Required id.');
+      }
+      return NULL;
+    }
+
+    if (!$this->idIsKnown($id)) {
+      return new BrokenValue($this, get_defined_vars(), "Unknown id '$id'.");
+    }
+
+    return $id;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getEmptyValue() {
+    return NULL;
+  }
+
+  /**
+   * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
+   */
+  public function getEmptyness() {
+    return new ConfEmptyness_Enum();
+  }
+
+  /**
+   * @param mixed $conf
+   *
+   * @return string|null
+   */
+  private function confGetId($conf) {
+
+    if (is_numeric($conf)) {
+      return (string)$conf;
+    }
+
+    if (NULL === $conf || '' === $conf || !is_string($conf)) {
+      return NULL;
+    }
+
+    return $conf;
+  }
+
+  /**
+   * @return string[]|string[][]|mixed[]
+   */
+  abstract protected function getSelectOptions();
+
+  /**
+   * @param string $id
+   *
+   * @return string
+   */
+  abstract protected function idGetLabel($id);
+
+  /**
+   * @param string $id
+   *
+   * @return bool
+   */
+  abstract protected function idIsKnown($id);
+}
