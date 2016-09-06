@@ -3,17 +3,14 @@
 namespace Drupal\cfrfamily\CfrFamilyContainer;
 
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
-use Drupal\cfrapi\Configurator\Composite\Configurator_Composite;
-use Drupal\cfrapi\Configurator\Composite\Configurator_CompositeOptional;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegend_FromDefmap;
+use Drupal\cfrfamily\Configurator\Composite\Configurator_CfrLegend;
 use Drupal\cfrfamily\ConfiguratorMap\ConfiguratorMap_FromDefinitionMap;
-use Drupal\cfrfamily\ConfToForm\ConfToForm_CfrLegend;
-use Drupal\cfrfamily\ConfToSummary\ConfToSummary_CfrLegend;
-use Drupal\cfrfamily\ConfToValue\ConfToValue_CfrMap;
 use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
+use Drupal\cfrfamily\IdConfToValue\IdConfToValue_IdToConfigurator;
 
 class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
 
@@ -76,28 +73,23 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   }
 
   /**
-   * @return \Drupal\cfrapi\Configurator\Composite\Configurator_Composite
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    *
    * @see $configurator
    */
   protected function get_configurator() {
-    $confToForm = ConfToForm_CfrLegend::createRequired($this->cfrLegend);
-    $confToSummary = ConfToSummary_CfrLegend::createRequired($this->cfrLegend);
-    $confToValue = ConfToValue_CfrMap::createRequired($this->configuratorMap);
-    return new Configurator_Composite($confToForm, $confToSummary, $confToValue);
-    # return (new Configurator_IdConfAdvanced($this->legend, $this->configuratorMap));
+    $idConfToValue = new IdConfToValue_IdToConfigurator($this->configuratorMap);
+    return new Configurator_CfrLegend(TRUE, $this->cfrLegend, $idConfToValue);
   }
 
   /**
-   * @return \Drupal\cfrapi\Configurator\Composite\Configurator_CompositeOptional
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    *
    * @see $optionalConfigurator
    */
   protected function get_optionalConfigurator() {
-    $confToForm = ConfToForm_CfrLegend::createOptional($this->cfrLegend);
-    $confToSummary = ConfToSummary_CfrLegend::createOptional($this->cfrLegend);
-    $confToValue = ConfToValue_CfrMap::createOptional($this->configuratorMap);
-    return new Configurator_CompositeOptional($confToForm, $confToSummary, $confToValue, $this->confEmptyness);
+    $idConfToValue = new IdConfToValue_IdToConfigurator($this->configuratorMap);
+    return new Configurator_CfrLegend(FALSE, $this->cfrLegend, $idConfToValue);
   }
 
   /**
