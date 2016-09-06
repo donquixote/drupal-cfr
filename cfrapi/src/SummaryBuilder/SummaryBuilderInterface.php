@@ -7,7 +7,7 @@ use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
 interface SummaryBuilderInterface {
 
   /**
-   * @param $label
+   * @param string $label
    * @param \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface $optionsConfToSummary
    * @param $optionsConf
    *
