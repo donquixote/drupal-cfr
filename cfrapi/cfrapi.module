@@ -1,7 +1,6 @@
 <?php
 
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
-use Drupal\cfrapi\Util\FormUtil;
 
 /**
  * Implements hook_element_info().
@@ -62,18 +61,4 @@ function _cfrapi_depended_element_ajax_callback(
   array &$form_state
 ) {
   return $form_state['triggering_element']['#depending_element_reference'];
-}
-
-/**
- * @param array $element
- * @param array $form_state
- * @param array $form
- *
- * @return array
- *
- * @see \Drupal\cfrapi\Util\FormUtil::onProcessBuildDependency()
- */
-function _cfrapi_process_element_dependency(array $element, array &$form_state, array $form) {
-  FormUtil::elementsBuildDependency($element, $form, $form_state);
-  return $element;
 }

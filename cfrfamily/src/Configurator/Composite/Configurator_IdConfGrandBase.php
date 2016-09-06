@@ -126,23 +126,47 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
     $form = [
       '#tree' => TRUE,
+      $this->idKey => $this->idBuildSelectElement($id, $label),
+      $this->optionsKey => $this->idConfBuildOptionsFormWrapper($id, $optionsConf),
+      '#process' => [[FormUtil::class, 'elementsBuildDependency']],
     ];
 
-    $form[$this->idKey] = [
-      '#title' => isset($label) ? $label : $this->idLabel,
+    return $form;
+  }
+
+  /**
+   * @param string $id
+   * @param string|null $label
+   *
+   * @return array
+   */
+  private function idBuildSelectElement($id, $label) {
+
+    $element = [
+      '#title' => ($label !== NULL) ? $label : $this->idLabel,
       '#type' => 'select',
       '#options' => $this->getSelectOptions(),
       '#default_value' => $id,
     ];
 
     if ($this->required) {
-      $form[$this->idKey]['#required'] = TRUE;
+      $element['#required'] = TRUE;
     }
     else {
-      $form[$this->idKey]['#empty_value'] = '';
+      $element['#empty_value'] = '';
     }
 
-    $optionsForm = [];
+    return $element;
+  }
+
+  /**
+   * @param string|null $id
+   * @param mixed $optionsConf
+   *
+   * @return array
+   */
+  private function idConfBuildOptionsFormWrapper($id, $optionsConf) {
+
     if (NULL !== $id) {
       $optionsForm = $this->idConfGetOptionsForm($id, $optionsConf);
       if (!empty($optionsForm) && [] !== element_children($optionsForm)) {
@@ -155,13 +179,11 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
         // See https://www.drupal.org/node/2624020
         # $options_form['#collapsed'] = TRUE;
         # $options_form['#collapsible'] = TRUE;
+        return $optionsForm;
       }
     }
-    $form[$this->optionsKey] = $optionsForm;
 
-    FormUtil::onProcessBuildDependency($form);
-
-    return $form;
+    return [];
   }
 
   /**
