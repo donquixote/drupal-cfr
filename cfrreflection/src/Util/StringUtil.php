@@ -74,6 +74,22 @@ final class StringUtil extends UtilBase {
   }
 
   /**
+   * @param string $interface
+   *
+   * @return string
+   */
+  public static function interfaceGenerateLabel($interface) {
+    $title = $interface;
+    if (FALSE !== $pos = strrpos($title, '\\')) {
+      $title = substr($title, $pos + 1);
+    }
+    if ('Interface' === substr($title, -9) && 'Interface' !== $title) {
+      $title = substr($title, 0, -9);
+    }
+    return StringUtil::methodNameGenerateLabel($title);
+  }
+
+  /**
    * @param string $methodName
    *
    * @return string
