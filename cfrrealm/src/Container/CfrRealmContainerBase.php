@@ -3,7 +3,6 @@
 namespace Drupal\cfrrealm\Container;
 
 use Donquixote\Containerkit\Container\ContainerBase;
-use Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfigurator;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel_FromModuleName;
 use Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamily;
@@ -56,15 +55,6 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
    * @see $definitionToConfigurator
    */
   abstract protected function get_definitionToConfigurator();
-
-  /**
-   * @return \Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfiguratorInterface
-   *
-   * @see $cfrLegendToConfigurator
-   */
-  protected function get_cfrLegendToConfigurator() {
-    return new CfrLegendToConfigurator();
-  }
 
   /**
    * @return \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel

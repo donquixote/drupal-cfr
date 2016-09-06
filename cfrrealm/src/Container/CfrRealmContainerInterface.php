@@ -15,7 +15,6 @@ namespace Drupal\cfrrealm\Container;
  * @property \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
  *
  * Non-circular:
- * @property \Drupal\cfrfamily\CfrLegendToConfigurator\CfrLegendToConfiguratorInterface $cfrLegendToConfigurator
  * @property \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
  * @property \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
  *
