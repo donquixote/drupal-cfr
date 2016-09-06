@@ -5,7 +5,10 @@ namespace Drupal\cfrplugin\Hub;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainer;
+use Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface;
+use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
 use Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface;
+use Drupal\cfrreflection\Util\StringUtil;
 
 class CfrPluginHub implements CfrPluginHubInterface {
 
@@ -20,6 +23,11 @@ class CfrPluginHub implements CfrPluginHubInterface {
   private $interfaceToConfigurator;
 
   /**
+   * @var \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
+   */
+  private $definitionsByTypeAndId;
+
+  /**
    * @return \Drupal\cfrplugin\DIC\CfrPluginRealmContainer
    */
   public static function getContainer() {
@@ -32,14 +40,43 @@ class CfrPluginHub implements CfrPluginHubInterface {
    * @return \Drupal\cfrplugin\Hub\CfrPluginHubInterface
    */
   public static function create() {
-    return new self(self::getContainer()->interfaceToConfigurator);
+    return self::createFromContainer(self::getContainer());
+  }
+
+  /**
+   * @param \Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface $container
+   *
+   * @return \Drupal\cfrplugin\Hub\CfrPluginHub
+   */
+  public static function createFromContainer(CfrPluginRealmContainerInterface $container) {
+    return new self(
+      $container->interfaceToConfigurator,
+      $container->definitionsByTypeAndId);
   }
 
   /**
    * @param \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface $interfaceToConfigurator
+   * @param \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
    */
-  public function __construct(InterfaceToConfiguratorInterface $interfaceToConfigurator) {
+  public function __construct(
+    InterfaceToConfiguratorInterface $interfaceToConfigurator,
+    DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
+  ) {
     $this->interfaceToConfigurator = $interfaceToConfigurator;
+    $this->definitionsByTypeAndId = $definitionsByTypeAndId;
+  }
+
+  /**
+   * @return string[]
+   */
+  public function getInterfaceLabels() {
+
+    $labels = [];
+    foreach ($this->definitionsByTypeAndId->getDefinitionsByTypeAndId() as $interface => $definitions) {
+      $labels[$interface] = StringUtil::interfaceGenerateLabel($interface);
+    }
+
+    return $labels;
   }
 
   /**

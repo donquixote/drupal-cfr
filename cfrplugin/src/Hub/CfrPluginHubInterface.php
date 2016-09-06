@@ -6,6 +6,12 @@ use Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorI
 interface CfrPluginHubInterface extends InterfaceToConfiguratorInterface {
 
   /**
+   * @return string[]
+   *   Format: $[$interface] = $label
+   */
+  public function getInterfaceLabels();
+
+  /**
    * @param string $interface
    *
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
