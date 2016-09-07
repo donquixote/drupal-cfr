@@ -9,9 +9,9 @@ use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
- * @see \Drupal\cfrapi\ConfEmptyness\SequenceEmptyness
+ * @see \Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence
  */
-class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalConfiguratorInterface {
+class Configurator_Sequence implements OptionalConfiguratorInterface {
 
   /**
    * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface
