@@ -2,6 +2,9 @@
 
 namespace Drupal\cfrapi\ElementProcessor;
 
+/**
+ * To be used as a $form[*]['#process'][] callback.
+ */
 class ElementProcessor_ReparentChildren implements ElementProcessorInterface {
 
   /**
