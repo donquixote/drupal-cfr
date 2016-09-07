@@ -17,16 +17,17 @@ class TypeToDefmap implements TypeToDefmapInterface {
   /**
    * @var string|null
    */
-  private $cacheSuffix;
+  private $cachePrefix;
 
   /**
    * @param \Drupal\cfrrealm\TypeToDefinitionsbyid\TypeToDefinitionsbyidInterface $typeToDefinitionsbyid
-   * @param string|null $cacheSuffix
-   *   The langcode to append to the cache id, or NULL to have no cache.
+   * @param string|null $cachePrefix
+   *   A prefix to prepend to the cache id, or NULL to have no cache.
+   *   If specified, it should include the langcode.
    */
-  public function __construct(TypeToDefinitionsbyidInterface $typeToDefinitionsbyid, $cacheSuffix) {
+  public function __construct(TypeToDefinitionsbyidInterface $typeToDefinitionsbyid, $cachePrefix) {
     $this->typeToDefinitionsbyid = $typeToDefinitionsbyid;
-    $this->cacheSuffix = $cacheSuffix;
+    $this->cachePrefix = $cachePrefix;
   }
 
   /**
@@ -36,8 +37,8 @@ class TypeToDefmap implements TypeToDefmapInterface {
    */
   public function typeGetDefmap($type) {
     $definitionsById = new DefinitionsById_FromType($this->typeToDefinitionsbyid, $type);
-    if (NULL !== $this->cacheSuffix) {
-      $definitionsById = new DefinitionsById_Cache($definitionsById, 'cfrrealm:definitions:' . $type . ':' . $this->cacheSuffix);
+    if (NULL !== $this->cachePrefix) {
+      $definitionsById = new DefinitionsById_Cache($definitionsById, $this->cachePrefix . ':' . $type);
     }
     return new DefinitionMap_Buffer($definitionsById);
   }

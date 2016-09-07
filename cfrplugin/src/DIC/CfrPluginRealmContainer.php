@@ -77,7 +77,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    */
   protected function get_typeToDefmap() {
     $typeToDefinitionsById = new TypeToDefinitionsbyid($this->definitionsByTypeAndId);
-    return new TypeToDefmap($typeToDefinitionsById, $this->cacheSuffix);
+    return new TypeToDefmap($typeToDefinitionsById, 'cfrplugin:definitions:' . $this->cacheSuffix);
   }
 
   /**
