@@ -4,9 +4,10 @@ namespace Drupal\cfrapi\Configurator\Id;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
+use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-abstract class Configurator_SelectBase implements IdConfiguratorInterface {
+abstract class Configurator_SelectBase implements OptionalConfiguratorInterface {
 
   /**
    * @var bool
@@ -14,10 +15,17 @@ abstract class Configurator_SelectBase implements IdConfiguratorInterface {
   private $required = TRUE;
 
   /**
-   * @param bool $required
+   * @var string|null
    */
-  public function __construct($required = TRUE) {
+  private $defaultId;
+
+  /**
+   * @param bool $required
+   * @param string|null $defaultId
+   */
+  public function __construct($required = TRUE, $defaultId = NULL) {
     $this->required = $required;
+    $this->defaultId = $defaultId;
   }
 
   /**
@@ -55,16 +63,21 @@ abstract class Configurator_SelectBase implements IdConfiguratorInterface {
    * @return null|string
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    return (NULL !== $id = $this->confGetId($conf))
-      ? $this->idGetLabel($id)
-      : $this->getEmptySummary();
+
+    if (NULL !== $id = $this->confGetId($conf)) {
+      return $this->idGetLabel($id);
+    }
+
+    return $this->getEmptySummary();
   }
 
   /**
    * @return string
    */
-  public function getEmptySummary() {
-    return '- ' . t('None') . ' -';
+  protected function getEmptySummary() {
+    return $this->required
+      ? '- ' . t('Missing') . ' -'
+      : '- ' . t('None') . ' -';
   }
 
   /**
@@ -80,6 +93,7 @@ abstract class Configurator_SelectBase implements IdConfiguratorInterface {
       if ($this->required) {
         return new BrokenValue($this, get_defined_vars(), 'Required id.');
       }
+
       return NULL;
     }
 
@@ -91,17 +105,12 @@ abstract class Configurator_SelectBase implements IdConfiguratorInterface {
   }
 
   /**
-   * @return mixed
-   */
-  public function getEmptyValue() {
-    return NULL;
-  }
-
-  /**
    * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
    */
   public function getEmptyness() {
-    return new ConfEmptyness_Enum();
+    return $this->required
+      ? NULL
+      : new ConfEmptyness_Enum();
   }
 
   /**
@@ -116,7 +125,7 @@ abstract class Configurator_SelectBase implements IdConfiguratorInterface {
     }
 
     if (NULL === $conf || '' === $conf || !is_string($conf)) {
-      return NULL;
+      return $this->defaultId;
     }
 
     return $conf;

@@ -28,7 +28,9 @@ class Configurator_Sequence implements SequenceConfiguratorInterface, OptionalCo
    */
   public function __construct(OptionalConfiguratorInterface $configurator) {
     $this->configurator = $configurator;
-    $this->emptyness = $configurator->getEmptyness();
+    if (NULL === $this->emptyness = $configurator->getEmptyness()) {
+      throw new \InvalidArgumentException("The provided configurator has no valid values that count as empty.");
+    }
   }
 
   /**

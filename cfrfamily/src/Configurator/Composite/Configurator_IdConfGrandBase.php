@@ -266,10 +266,12 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   }
 
   /**
-   * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
+   * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface|null
    */
   public function getEmptyness() {
-    return new ConfEmptyness_Key($this->idKey);
+    return $this->required
+      ? NULL
+      : new ConfEmptyness_Key($this->idKey);
   }
 
   /**

@@ -2,15 +2,9 @@
 
 namespace Drupal\cfrapi\Configurator\Id;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
-use /** @noinspection PhpDeprecationInspection */
-  Drupal\cfrapi\Configurator\Optional\OptionalConfigurator_FromOptionable;
-use Drupal\cfrapi\EnumMap\EnumMap;
-use Drupal\cfrapi\EnumMap\EnumMapInterface;
-use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
+use Drupal\cfrapi\Legend\LegendInterface;
 
-class Configurator_LegendSelect implements IdConfiguratorInterface {
+class Configurator_LegendSelect extends Configurator_SelectBase {
 
   /**
    * @var \Drupal\cfrapi\EnumMap\EnumMapInterface
@@ -18,164 +12,57 @@ class Configurator_LegendSelect implements IdConfiguratorInterface {
   private $legend;
 
   /**
-   * @var null|string
-   */
-  private $defaultId;
-
-  /**
-   * @param array $options
+   * @param \Drupal\cfrapi\Legend\LegendInterface $legend
    * @param string|null $defaultId
    *
-   * @return \Drupal\cfrapi\Configurator\Id\Configurator_LegendSelect
+   * @return self
    */
-  public static function createFromOptions(array $options, $defaultId = NULL) {
-    $legend = new EnumMap($options);
-    return new self($legend, $defaultId);
+  public static function createRequired(LegendInterface $legend, $defaultId = NULL) {
+    return new self($legend, TRUE, $defaultId);
   }
 
   /**
-   * @param \Drupal\cfrapi\EnumMap\EnumMapInterface $enumMap
+   * @param \Drupal\cfrapi\Legend\LegendInterface $legend
    * @param string|null $defaultId
    *
-   * @return \Drupal\cfrapi\Configurator\Id\Configurator_LegendSelect
+   * @return self
    */
-  public static function createRequired(EnumMapInterface $enumMap, $defaultId = NULL) {
-    return new self($enumMap, $defaultId);
+  public static function createOptional(LegendInterface $legend, $defaultId = NULL) {
+    return new self($legend, FALSE, $defaultId);
   }
 
   /**
-   * @param \Drupal\cfrapi\EnumMap\EnumMapInterface $enumMap
-   * @param string|null $defaultId
-   *
-   * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfigurator_FromOptionable
-   */
-  public static function createOptional(EnumMapInterface $enumMap, $defaultId = NULL) {
-    $configurator = new self($enumMap, $defaultId);
-    return new OptionalConfigurator_FromOptionable($configurator);
-  }
-
-  /**
-   * @param \Drupal\cfrapi\EnumMap\EnumMapInterface $legend
-   * @param string|null $defaultId
-   */
-  protected function __construct(EnumMapInterface $legend, $defaultId = NULL) {
-    $this->legend = $legend;
-    if (NULL !== $defaultId && !$legend->idIsKnown($defaultId)) {
-      throw new \InvalidArgumentException('The provided default id is not among the allowed ids.');
-    }
-    $this->defaultId = $defaultId;
-  }
-
-  /**
-   * @param array $conf
-   *   Configuration from a form, config file or storage.
-   * @param string|null $label
-   *   Label for the form element, specifying the purpose where it is used.
-   *
-   * @return array
-   */
-  public function confGetForm($conf, $label) {
-    return $this->confBuildForm($conf, $label, TRUE);
-  }
-
-  /**
-   * @param mixed $conf
-   *   Configuration from a form, config file or storage.
-   * @param string|null $label
-   *   Label for the form element, specifying the purpose where it is used.
-   *
-   * @return array
-   */
-  public function confGetOptionalForm($conf, $label) {
-    return $this->confBuildForm($conf, $label, FALSE);
-  }
-
-  /**
-   * @param mixed $conf
-   *   Configuration from a form, config file or storage.
-   * @param string|null $label
-   *   Label for the form element, specifying the purpose where it is used.
+   * @param \Drupal\cfrapi\Legend\LegendInterface $legend
    * @param bool $required
-   *
-   * @return array
+   * @param string|null $defaultId
    */
-  private function confBuildForm($conf, $label, $required) {
-    if (is_numeric($conf)) {
-      $conf = (string)$conf;
-    }
-    if (NULL === $conf || !is_string($conf)) {
-      $conf = $this->defaultId;
-    }
-    if (!$this->legend->idIsKnown($conf)) {
-      $conf = NULL;
-    }
-    $form = [
-      '#title' => $label,
-      '#type' => 'select',
-      '#options' => $this->legend->getSelectOptions(),
-      '#default_value' => $conf,
-    ];
-    if ($required) {
-      $form['#required'] = TRUE;
-    }
-    else {
-      $form['#empty_value'] = '';
-    }
-    return $form;
+  public function __construct(LegendInterface $legend, $required = TRUE, $defaultId = NULL) {
+    $this->legend = $legend;
+    parent::__construct($required, $defaultId);
   }
 
   /**
-   * @param mixed $conf
-   *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface $summaryBuilder
-   *
-   * @return null|string
+   * @return string[]|string[][]|mixed[]
    */
-  public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    return $this->legend->idGetLabel($conf);
+  protected function getSelectOptions() {
+    return $this->legend->getSelectOptions();
   }
 
   /**
+   * @param string $id
+   *
    * @return string
    */
-  public function getEmptySummary() {
-    return '- ' . t('None') . ' -';
+  protected function idGetLabel($id) {
+    return $this->legend->idGetLabel($id);
   }
 
   /**
-   * @param mixed $conf
-   *   Configuration from a form, config file or storage.
+   * @param string $id
    *
-   * @return mixed
-   *   Value to be used in the application.
+   * @return bool
    */
-  public function confGetValue($conf) {
-    if (is_numeric($conf)) {
-      $conf = (string)$conf;
-    }
-    elseif (NULL === $conf || '' === $conf) {
-      return new BrokenValue($this, get_defined_vars(), 'Required id.');
-    }
-    elseif (!is_string($conf)) {
-      return new BrokenValue($this, get_defined_vars(), 'Invalid id.');
-    }
-    if (!$this->legend->idIsKnown($conf)) {
-      return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
-    }
-    return $conf;
-  }
-
-  /**
-   * @return mixed
-   */
-  public function getEmptyValue() {
-    return NULL;
-  }
-
-  /**
-   * @return \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface
-   */
-  public function getEmptyness() {
-    return new ConfEmptyness_Enum();
+  protected function idIsKnown($id) {
+    return $this->legend->idIsKnown($id);
   }
 }
