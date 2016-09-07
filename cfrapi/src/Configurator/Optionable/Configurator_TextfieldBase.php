@@ -3,10 +3,22 @@
 namespace Drupal\cfrapi\Configurator\Optionable;
 
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
+use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-/** @noinspection PhpDeprecationInspection */
-abstract class Configurator_TextfieldBase implements OptionableConfiguratorInterface {
+abstract class Configurator_TextfieldBase implements OptionalConfiguratorInterface {
+
+  /**
+   * @var bool
+   */
+  private $required;
+
+  /**
+   * @param bool $required
+   */
+  public function __construct($required = TRUE) {
+    $this->required = $required;
+  }
 
   /**
    * @param mixed $conf
@@ -17,14 +29,17 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
    * @return array
    */
   public function confGetForm($conf, $label) {
+
     if (!is_string($conf)) {
       $conf = NULL;
     }
+
     return [
+      /* @see theme_textfield() */
       '#type' => 'textfield',
       '#title' => $label,
       '#default_value' => $conf,
-      '#required' => TRUE,
+      '#required' => $this->required,
     ];
   }
 
@@ -39,24 +54,20 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
    *   $summaryBuilder generates them.
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    if (!is_string($conf)) {
-      return NULL;
-    }
-    return check_plain($conf);
-  }
 
-  /**
-   * @param mixed $conf
-   *   Configuration from a form, config file or storage.
-   * @param string|null $label
-   *   Label for the form element, specifying the purpose where it is used.
-   *
-   * @return array
-   */
-  public function confGetOptionalForm($conf, $label) {
-    $form = $this->confGetForm($conf, $label);
-    unset($form['#required']);
-    return $form;
+    if (NULL === $conf || '' === $conf || !is_string($conf)) {
+      if ($this->required) {
+        return t('Missing value');
+      }
+
+      return "''";
+    }
+
+    if (strlen($conf) > 30) {
+      $conf = substr($conf, 0, 27) . '[..]';
+    }
+
+    return check_plain(var_export(($conf), TRUE));
   }
 
   /**
@@ -64,19 +75,5 @@ abstract class Configurator_TextfieldBase implements OptionableConfiguratorInter
    */
   public function getEmptyness() {
     return new ConfEmptyness_Enum();
-  }
-
-  /**
-   * @return string
-   */
-  public function getEmptySummary() {
-    return '- ' . t('None') . ' -';
-  }
-
-  /**
-   * @return mixed
-   */
-  public function getEmptyValue() {
-    return NULL;
   }
 }
