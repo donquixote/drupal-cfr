@@ -38,3 +38,26 @@ function cfrplugin_menu() {
   ];
   return $items;
 }
+
+/**
+ * Implements hook_admin_menu_cache_info()
+ *
+ * @return array[]
+ */
+function cfrplugin_admin_menu_cache_info() {
+
+  $caches['cfrplugin_info'] = [
+    'title' => t('Cfr plugin info'),
+    /* @see _cfrplugin_info_cache_clear() */
+    'callback' => '_cfrplugin_info_cache_clear',
+  ];
+
+  return $caches;
+}
+
+/**
+ * Callback for admin_menu cache clearing.
+ */
+function _cfrplugin_info_cache_clear() {
+  cache_clear_all('cfrplugin:', 'cache', TRUE);
+}
