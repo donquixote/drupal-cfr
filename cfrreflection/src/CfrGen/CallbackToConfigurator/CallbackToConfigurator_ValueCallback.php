@@ -2,9 +2,8 @@
 
 namespace Drupal\cfrreflection\CfrGen\CallbackToConfigurator;
 
+use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
-use Drupal\cfrapi\Configurator\Group\Configurator_Group;
-use Drupal\cfrapi\Configurator\Group\GroupConfiguratorInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
 use Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface;
@@ -12,7 +11,6 @@ use Drupal\cfrreflection\Configurator\Configurator_CallbackConfigurable;
 use Drupal\cfrreflection\Configurator\Configurator_CallbackInlineable;
 use Drupal\cfrreflection\Configurator\Configurator_CallbackSimple;
 use Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface;
-use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 
 /**
  * Creates a configurator for a callback, where the callback return value is the
@@ -63,31 +61,16 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
       }
     }
 
-    $argsConfigurator = $this->paramsGetConfigurator($params, $context);
-
-    if (!$argsConfigurator instanceof GroupConfiguratorInterface) {
-      return new BrokenConfigurator($this, get_defined_vars(), 'Unable to build configurators for all arguments.');
-    }
-
-    return new Configurator_CallbackConfigurable($valueCallback, $argsConfigurator);
-  }
-
-  /**
-   * @param \ReflectionParameter[] $params
-   * @param \Drupal\cfrapi\Context\CfrContextInterface $context
-   *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|false
-   */
-  private function paramsGetConfigurator(array $params, CfrContextInterface $context = NULL) {
-    $groupConfigurator = new Configurator_Group();
+    $paramConfigurators = [];
+    $paramLabels = [];
     foreach ($params as $i => $param) {
-      $paramConfigurator = $this->paramToConfigurator->paramGetConfigurator($param, $context);
+      $paramConfigurators[] = $paramConfigurator = $this->paramToConfigurator->paramGetConfigurator($param, $context);
       if (FALSE === $paramConfigurator || NULL === $paramConfigurator) {
-        return FALSE;
+        return new BrokenConfigurator($this, get_defined_vars(), "Unable to build configurator for parameter '$i'.");
       }
-      $paramLabel = $this->paramToLabel->paramGetLabel($param);
-      $groupConfigurator->keySetConfigurator($i, $paramConfigurator, $paramLabel);
+      $paramLabels[] = $this->paramToLabel->paramGetLabel($param);
     }
-    return $groupConfigurator;
+
+    return new Configurator_CallbackConfigurable($valueCallback, $paramConfigurators, $paramLabels);
   }
 }
