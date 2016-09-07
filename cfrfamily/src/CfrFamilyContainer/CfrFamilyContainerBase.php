@@ -7,13 +7,6 @@ use Donquixote\Containerkit\Container\ContainerBase;
 abstract class CfrFamilyContainerBase extends ContainerBase implements CfrFamilyContainerInterface {
 
   /**
-   * @return \Drupal\cfrfamily\ConfiguratorMap\ConfiguratorMap_FromDefinitionMap
-   *
-   * @see $configuratorMap
-   */
-  abstract protected function get_configuratorMap();
-
-  /**
    * @return \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface
    *
    * @see $idToConfigurator

@@ -6,7 +6,7 @@ use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegend_FromDefmap;
 use Drupal\cfrfamily\Configurator\Composite\Configurator_CfrLegend;
-use Drupal\cfrfamily\ConfiguratorMap\ConfiguratorMap_FromDefinitionMap;
+use Drupal\cfrfamily\IdToConfigurator\IdToConfigurator_FromDefinitionMap;
 use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
@@ -61,24 +61,12 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   }
 
   /**
-   * @return \Drupal\cfrfamily\ConfiguratorMap\ConfiguratorMap_FromDefinitionMap
-   *
-   * @see $configuratorMap
-   */
-  protected function get_configuratorMap() {
-    return new ConfiguratorMap_FromDefinitionMap(
-      $this->definitionMap,
-      $this->definitionToConfigurator,
-      $this->context);
-  }
-
-  /**
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    *
    * @see $configurator
    */
   protected function get_configurator() {
-    $idConfToValue = new IdConfToValue_IdToConfigurator($this->configuratorMap);
+    $idConfToValue = new IdConfToValue_IdToConfigurator($this->idToConfigurator);
     return new Configurator_CfrLegend(TRUE, $this->cfrLegend, $idConfToValue);
   }
 
@@ -88,7 +76,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
    * @see $optionalConfigurator
    */
   protected function get_optionalConfigurator() {
-    $idConfToValue = new IdConfToValue_IdToConfigurator($this->configuratorMap);
+    $idConfToValue = new IdConfToValue_IdToConfigurator($this->idToConfigurator);
     return new Configurator_CfrLegend(FALSE, $this->cfrLegend, $idConfToValue);
   }
 
@@ -100,7 +88,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   protected function get_cfrLegend() {
     return new CfrLegend_FromDefmap(
       $this->definitionMap,
-      $this->configuratorMap,
+      $this->idToConfigurator,
       $this->definitionToLabel,
       $this->definitionToGrouplabel);
   }
@@ -120,6 +108,9 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
    * @see $idToConfigurator
    */
   protected function get_idToConfigurator() {
-    return $this->configuratorMap;
+    return new IdToConfigurator_FromDefinitionMap(
+      $this->definitionMap,
+      $this->definitionToConfigurator,
+      $this->context);
   }
 }

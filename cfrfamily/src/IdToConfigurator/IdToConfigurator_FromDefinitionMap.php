@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\cfrfamily\ConfiguratorMap;
+namespace Drupal\cfrfamily\IdToConfigurator;
 
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
 
-class ConfiguratorMap_FromDefinitionMap implements ConfiguratorMapInterface {
+class IdToConfigurator_FromDefinitionMap implements IdToConfiguratorInterface {
 
   /**
    * @var \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface
