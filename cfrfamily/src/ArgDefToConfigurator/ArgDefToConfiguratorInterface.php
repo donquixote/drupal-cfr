@@ -5,6 +5,11 @@ namespace Drupal\cfrfamily\ArgDefToConfigurator;
 use Drupal\cfrapi\Context\CfrContextInterface;
 
 /**
+ * Sub-component for DefinitionToConfigurator*.
+ *
+ * Implementations represent specific ways that a definition can specify a
+ * configurator, and are registered for specific keys within the definition.
+ *
  * @see \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface
  */
 interface ArgDefToConfiguratorInterface {
