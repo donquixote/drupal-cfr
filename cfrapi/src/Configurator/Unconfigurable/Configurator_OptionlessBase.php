@@ -3,10 +3,10 @@
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\SometimesConfigurable\PossiblyUnconfigurableInterface;
+use Drupal\cfrapi\SometimesConfigurable\PossiblyOptionlessInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-abstract class UnconfigurableConfiguratorBase implements ConfiguratorInterface, PossiblyUnconfigurableInterface {
+abstract class Configurator_OptionlessBase implements ConfiguratorInterface, PossiblyOptionlessInterface {
 
   /**
    * @param mixed $conf
@@ -34,7 +34,7 @@ abstract class UnconfigurableConfiguratorBase implements ConfiguratorInterface, 
   /**
    * @return bool
    */
-  public function isConfigurable() {
-    return FALSE;
+  public function isOptionless() {
+    return TRUE;
   }
 }

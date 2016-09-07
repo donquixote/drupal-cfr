@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
-class Configurator_FixedValue extends UnconfigurableConfiguratorBase {
+class Configurator_FixedValue extends Configurator_OptionlessBase {
 
   /**
    * @var mixed

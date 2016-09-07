@@ -8,9 +8,9 @@ use Donquixote\CallbackReflection\Util\CallbackUtil;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
-use Drupal\cfrapi\Configurator\Unconfigurable\UnconfigurableConfiguratorBase;
+use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_OptionlessBase;
 
-class Configurator_CallbackSimple extends UnconfigurableConfiguratorBase {
+class Configurator_CallbackSimple extends Configurator_OptionlessBase {
 
   /**
    * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface

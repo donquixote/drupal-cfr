@@ -2,11 +2,11 @@
 
 namespace Drupal\cfrapi\SometimesConfigurable;
 
-interface PossiblyUnconfigurableInterface {
+interface PossiblyOptionlessInterface {
 
   /**
    * @return bool
    */
-  public function isConfigurable();
+  public function isOptionless();
 
 }

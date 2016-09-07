@@ -7,7 +7,7 @@ use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
 /**
  * @see \Drupal\cfrapi\ValueProvider\ValueProvider_FromCfrConf
  */
-class Configurator_FromValueProvider extends UnconfigurableConfiguratorBase {
+class Configurator_FromValueProvider extends Configurator_OptionlessBase {
 
   /**
    * @var \Drupal\cfrapi\ValueProvider\ValueProviderInterface

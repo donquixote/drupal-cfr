@@ -4,7 +4,7 @@ namespace Drupal\cfrfamily\CfrLegend;
 
 use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\SometimesConfigurable\PossiblyUnconfigurableInterface;
+use Drupal\cfrapi\SometimesConfigurable\PossiblyOptionlessInterface;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem_Parent;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
@@ -131,7 +131,7 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
     if (!$configurator instanceof ConfiguratorInterface || $configurator instanceof BrokenConfiguratorInterface) {
       return NULL;
     }
-    if (!$configurator instanceof PossiblyUnconfigurableInterface || $configurator->isConfigurable()) {
+    if (!$configurator instanceof PossiblyOptionlessInterface || !$configurator->isOptionless()) {
       $label .= '…';
       if (1
         and array_key_exists('inline', $definition)
