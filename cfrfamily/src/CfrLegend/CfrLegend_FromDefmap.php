@@ -125,28 +125,30 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
    * @return \Drupal\cfrfamily\CfrLegendItem\CfrLegendItemInterface|null
    */
   private function idDefinitionGetLegendItem($id, array $definition) {
-    $label = $this->definitionToLabel->definitionGetLabel($definition, $id);
-    $groupLabel = $this->definitionGetGroupLabel($definition);
+
     $configurator = $this->idToConfigurator->idGetConfigurator($id);
     if (!$configurator instanceof ConfiguratorInterface || $configurator instanceof BrokenConfiguratorInterface) {
       return NULL;
     }
-    if (!$configurator instanceof PossiblyOptionlessInterface || !$configurator->isOptionless()) {
-      $label .= '…';
-      if (1
-        and array_key_exists('inline', $definition)
-        and TRUE === $definition['inline']
-        and $configurator instanceof CfrLegendProviderInterface
-        and NULL !== $structuredLegend = $configurator->getCfrLegend()
-      ) {
-        return new CfrLegendItem_Parent($label, $groupLabel, $configurator, $structuredLegend);
-      }
-      else {
-        return new CfrLegendItem($label, $groupLabel, $configurator);
-      }
-    }
-    else {
+
+    $label = $this->definitionToLabel->definitionGetLabel($definition, $id);
+    $groupLabel = $this->definitionGetGroupLabel($definition);
+
+    if ($configurator instanceof PossiblyOptionlessInterface && $configurator->isOptionless()) {
       return new CfrLegendItem($label, $groupLabel, $configurator);
     }
+
+    $label .= '…';
+
+    if (1
+      && array_key_exists('inline', $definition)
+      && TRUE === $definition['inline']
+      && $configurator instanceof CfrLegendProviderInterface
+      && NULL !== $innerCfrLegend = $configurator->getCfrLegend()
+    ) {
+      return new CfrLegendItem_Parent($label, $groupLabel, $configurator, $innerCfrLegend);
+    }
+
+    return new CfrLegendItem($label, $groupLabel, $configurator);
   }
 }
