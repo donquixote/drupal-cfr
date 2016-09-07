@@ -3,19 +3,19 @@
 namespace Drupal\cfrreflection\CfrGen\ParamToConfigurator;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
-use Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface;
+use Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface;
 
 class ParamToConfigurator implements ParamToConfiguratorInterface {
 
   /**
-   * @var \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface
+   * @var \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
    */
   private $interfaceToConfigurator;
 
   /**
-   * @param \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface $interfaceToConfigurator
+   * @param \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $interfaceToConfigurator
    */
-  public function __construct(InterfaceToConfiguratorInterface $interfaceToConfigurator) {
+  public function __construct(TypeToConfiguratorInterface $interfaceToConfigurator) {
     $this->interfaceToConfigurator = $interfaceToConfigurator;
   }
 
@@ -31,7 +31,7 @@ class ParamToConfigurator implements ParamToConfiguratorInterface {
       return NULL;
     }
     return !$param->isOptional()
-      ? $this->interfaceToConfigurator->interfaceGetConfigurator($typeHintReflectionClassLike->getName(), $context)
-      : $this->interfaceToConfigurator->interfaceGetOptionalConfigurator($typeHintReflectionClassLike->getName(), $context, $param->getDefaultValue());
+      ? $this->interfaceToConfigurator->typeGetConfigurator($typeHintReflectionClassLike->getName(), $context)
+      : $this->interfaceToConfigurator->typeGetOptionalConfigurator($typeHintReflectionClassLike->getName(), $context, $param->getDefaultValue());
   }
 }

@@ -7,7 +7,7 @@ use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainer;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
-use Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface;
+use Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface;
 use Drupal\cfrreflection\Util\StringUtil;
 
 class CfrPluginHub implements CfrPluginHubInterface {
@@ -18,7 +18,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
   private static $container;
 
   /**
-   * @var \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface
+   * @var \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
    */
   private $interfaceToConfigurator;
 
@@ -50,16 +50,16 @@ class CfrPluginHub implements CfrPluginHubInterface {
    */
   public static function createFromContainer(CfrPluginRealmContainerInterface $container) {
     return new self(
-      $container->interfaceToConfigurator,
+      $container->typeToConfigurator,
       $container->definitionsByTypeAndId);
   }
 
   /**
-   * @param \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface $interfaceToConfigurator
+   * @param \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $interfaceToConfigurator
    * @param \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
    */
   public function __construct(
-    InterfaceToConfiguratorInterface $interfaceToConfigurator,
+    TypeToConfiguratorInterface $interfaceToConfigurator,
     DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
   ) {
     $this->interfaceToConfigurator = $interfaceToConfigurator;
@@ -86,7 +86,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
   public function interfaceGetConfigurator($interface, CfrContextInterface $context = NULL) {
-    return $this->interfaceToConfigurator->interfaceGetConfigurator($interface, $context);
+    return $this->interfaceToConfigurator->typeGetConfigurator($interface, $context);
   }
 
   /**
@@ -97,7 +97,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
   public function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL) {
-    return $this->interfaceToConfigurator->interfaceGetOptionalConfigurator($interface, $context, $defaultValue);
+    return $this->interfaceToConfigurator->typeGetOptionalConfigurator($interface, $context, $defaultValue);
   }
 
   /**
@@ -106,7 +106,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
    * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface|null
    */
   public function interfaceGetCfrLegendOrNull($interface) {
-    $configurator = $this->interfaceToConfigurator->interfaceGetConfigurator($interface);
+    $configurator = $this->interfaceToConfigurator->typeGetConfigurator($interface);
     if (!$configurator instanceof CfrLegendProviderInterface) {
       return NULL;
     }

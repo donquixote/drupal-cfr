@@ -4,11 +4,10 @@ namespace Drupal\cfrplugin\DIC;
 
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers;
 use Drupal\cfrplugin\Util\ServiceFactoryUtil;
-use Drupal\cfrrealm\DefinitionToConfigurator\DefinitionToConfigurator_Proxy;
-use Drupal\cfrplugin\InterfaceToConfigurator\InterfaceToConfigurator_ViaTypeIdentity;
+use Drupal\cfrrealm\Container\CfrRealmContainerBase;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Cache;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscovery;
-use Drupal\cfrrealm\Container\CfrRealmContainerBase;
+use Drupal\cfrrealm\DefinitionToConfigurator\DefinitionToConfigurator_Proxy;
 use Drupal\cfrrealm\TypeToDefinitionsbyid\TypeToDefinitionsbyid;
 use Drupal\cfrrealm\TypeToDefmap\TypeToDefmap;
 use Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfigurator_ValueCallback;
@@ -46,15 +45,6 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    */
   public function __construct($cacheSuffix) {
     $this->cacheSuffix = $cacheSuffix;
-  }
-
-  /**
-   * @return \Drupal\cfrreflection\CfrGen\InterfaceToConfigurator\InterfaceToConfiguratorInterface
-   *
-   * @see $interfaceToConfigurator
-   */
-  protected function get_interfaceToConfigurator() {
-    return new InterfaceToConfigurator_ViaTypeIdentity($this->typeToConfigurator);
   }
 
   /**
@@ -114,7 +104,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    * @see $paramToConfigurator
    */
   protected function get_paramToConfigurator() {
-    return new ParamToConfigurator($this->interfaceToConfigurator);
+    return new ParamToConfigurator($this->typeToConfigurator);
   }
 
   /**
