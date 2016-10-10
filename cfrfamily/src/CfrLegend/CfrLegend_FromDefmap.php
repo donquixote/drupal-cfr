@@ -4,7 +4,7 @@ namespace Drupal\cfrfamily\CfrLegend;
 
 use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\SometimesConfigurable\PossiblyOptionlessInterface;
+use Drupal\cfrapi\PossiblyOptionless\PossiblyOptionlessInterface;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem_Parent;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;

@@ -3,7 +3,7 @@
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\SometimesConfigurable\PossiblyOptionlessInterface;
+use Drupal\cfrapi\PossiblyOptionless\PossiblyOptionlessInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 abstract class Configurator_OptionlessBase implements ConfiguratorInterface, PossiblyOptionlessInterface {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\cfrapi\SometimesConfigurable;
+namespace Drupal\cfrapi\PossiblyOptionless;
 
 interface PossiblyOptionlessInterface {
 
