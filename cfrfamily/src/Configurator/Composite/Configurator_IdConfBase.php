@@ -3,7 +3,6 @@
 namespace Drupal\cfrfamily\Configurator\Composite;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
@@ -17,10 +16,6 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
   protected function idConfGetOptionsForm($id, $optionsConf) {
 
     if (NULL === $configurator = $this->idGetConfigurator($id)) {
-      return NULL;
-    }
-
-    if ($configurator instanceof BrokenConfiguratorInterface) {
       return NULL;
     }
 
