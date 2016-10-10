@@ -5,6 +5,55 @@ namespace Drupal\cfrapi\Util;
 final class FormUtil extends UtilBase {
 
   /**
+   * @param array $form_state
+   * @param array $trail_of_keys
+   *
+   * @return mixed|null
+   */
+  public static function formStateGetFormValue(array $form_state, array $trail_of_keys) {
+
+    if (1
+      && isset($form_state['values'])
+      && NULL !== ($v = self::arrayGetNestedValue($form_state['values'], $trail_of_keys))
+    ) {
+      return $v;
+    }
+
+    if (1
+      && isset($form_state['input'])
+      && NULL !== $v = self::arrayGetNestedValue($form_state['input'], $trail_of_keys)
+    ) {
+      return $v;
+    }
+
+    return NULL;
+  }
+
+  /**
+   * @param array $array
+   * @param string[] $trail_of_keys
+   *
+   * @return mixed|null
+   */
+  private static function arrayGetNestedValue(array $array, array $trail_of_keys) {
+
+    $first_key = array_shift($trail_of_keys);
+
+    if (!isset($array[$first_key])) {
+      return NULL;
+    }
+    elseif ([] === $trail_of_keys) {
+      return $array[$first_key];
+    }
+    elseif (!is_array($array[$first_key])) {
+      return NULL;
+    }
+    else {
+      return self::arrayGetNestedValue($array[$first_key], $trail_of_keys);
+    }
+  }
+
+  /**
    * Form element #process callback.
    *
    * Makes the second form element depend on the first, with AJAX.
