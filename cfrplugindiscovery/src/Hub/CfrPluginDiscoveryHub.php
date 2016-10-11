@@ -72,6 +72,29 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   }
 
   /**
+   * Version of discoverByInterface() that does not require specifying the
+   * module name.
+   *
+   * @param $__FILE__
+   *   Path to a *.module file.
+   *   Since this is usually called from such a file, modules will usually pass
+   *   __FILE__.
+   *
+   * @return array[][]
+   *   Format: $[$pluginType][$pluginId] = $pluginDefinition
+   */
+  public function moduleFileScanPsr4($__FILE__) {
+
+    if (!preg_match('@/([A-Za-z_][A-Za-z0-9_])\.module$@', $__FILE__, $m)) {
+      throw new \InvalidArgumentException("Not a module file path.");
+    }
+
+    $module = $m[1];
+
+    return $this->discoverByInterface(dirname($__FILE__) . '/src', 'Drupal\\' . $module);
+  }
+
+  /**
    * @param string $directory
    * @param string $namespace
    *
