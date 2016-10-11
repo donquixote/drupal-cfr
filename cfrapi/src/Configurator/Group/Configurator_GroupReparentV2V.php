@@ -2,7 +2,6 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\ValueToValue\ValueToValueInterface;
 
 class Configurator_GroupReparentV2V extends Configurator_GroupReparent {
@@ -28,13 +27,12 @@ class Configurator_GroupReparentV2V extends Configurator_GroupReparent {
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
     $value = parent::confGetValue($conf);
     if (NULL !== $this->valueToValue) {
-      if ($value instanceof BrokenValueInterface) {
-        return $value;
-      }
       $value = $this->valueToValue->valueGetValue($value);
     }
     return $value;

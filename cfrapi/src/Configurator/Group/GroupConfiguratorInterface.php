@@ -1,7 +1,6 @@
 <?php
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 
@@ -17,7 +16,7 @@ interface GroupConfiguratorInterface extends ConfiguratorInterface {
    *
    * @param mixed $conf
    *
-   * @return mixed[]|BrokenValueInterface
+   * @return mixed[]
    */
   public function confGetValue($conf);
 

@@ -28,6 +28,8 @@ class ValueProvider_FromCfrConf implements ValueProviderInterface {
 
   /**
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function getValue() {
     return $this->configurator->confGetValue($this->conf);

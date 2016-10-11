@@ -58,7 +58,9 @@ class Configurator_GroupReparent extends Configurator_Group {
    *
    * @param mixed[]|mixed $conf
    *
-   * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
+   * @return mixed[]
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
     $conf = $this->extractConf($conf);

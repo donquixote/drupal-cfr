@@ -2,8 +2,8 @@
 
 namespace Drupal\cfrfamily\IdConfToValue;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
 class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
@@ -25,15 +25,17 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
    * @param mixed $conf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function idConfGetValue($id, $conf) {
 
     if (NULL === $id) {
-      return new BrokenValue($this, get_defined_vars(), 'Required.');
+      throw new InvalidConfigurationException("Required id is empty.");
     }
 
     if (NULL === $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
-      return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
+      throw new InvalidConfigurationException("Unknown id '$id'.");
     }
 
     return $configurator->confGetValue($conf);

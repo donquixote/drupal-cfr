@@ -2,8 +2,8 @@
 
 namespace Drupal\cfrfamily\IdConfToValue;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\CfrLegendItem\ParentLegendItemInterface;
 
@@ -32,7 +32,9 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
    * @param string|int $id
    * @param mixed $conf
    *
-   * @return \Drupal\cfrapi\ConfToValue\ConfToValueInterface|null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
+   * @return \Drupal\cfrapi\ConfToValue\ConfToValueInterface|null
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function idConfGetValue($id, $conf) {
 
@@ -60,7 +62,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
       return $inlineLegend->idConfGetValue($subId, $conf);
     }
 
-    return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
+    throw new InvalidConfigurationException("Unknown id $id.");
   }
 
   /**

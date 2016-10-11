@@ -2,9 +2,9 @@
 
 namespace Drupal\cfrkit\Configurator;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 class Configurator_IntegerInRange implements ConfiguratorInterface {
@@ -166,25 +166,27 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
 
     if (is_string($conf)) {
       if ((string)(int)$conf !== $conf) {
-        return new BrokenValue($this, get_defined_vars(), "Value must be an integer.");
+        throw new InvalidConfigurationException("Value must be an integer.");
       }
       $conf = (int)$conf;
     }
     elseif (!is_int($conf)) {
-      return new BrokenValue($this, get_defined_vars(), "Value must be an integer.");
+      throw new InvalidConfigurationException("Value must be an integer.");
     }
 
     if (NULL !== $this->min && $conf < $this->min) {
-      return new BrokenValue($this, get_defined_vars(), "Value must be greater than or equal to $this->min.");
+      throw new InvalidConfigurationException("Value must be greater than or equal to $this->min.");
     }
 
     if (NULL !== $this->max && $conf > $this->max) {
-      return new BrokenValue($this, get_defined_vars(), "Value must be no greater than $this->max.");
+      throw new InvalidConfigurationException("Value must be no greater than $this->max.");
     }
 
     return $conf;

@@ -2,9 +2,8 @@
 
 namespace Drupal\cfrfamily\IdConfToValue;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
@@ -27,11 +26,13 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
    * @param mixed $conf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function idConfGetValue($id, $conf) {
 
     if (NULL === $id) {
-      return new BrokenValue($this, get_defined_vars(), 'Required.');
+      throw new InvalidConfigurationException("Required id missing.");
     }
 
     if (NULL !== $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
@@ -48,13 +49,10 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
         continue;
       }
       $subId = substr($id, $pos + 1);
-      $candidate = $configurator->idConfGetValue($subId, $conf);
-      if (!$candidate instanceof BrokenValueInterface) {
-        return $candidate;
-      }
+      return $configurator->idConfGetValue($subId, $conf);
     }
 
-    return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
+    throw new InvalidConfigurationException("Unknown id '$id'.");
   }
 
   /**

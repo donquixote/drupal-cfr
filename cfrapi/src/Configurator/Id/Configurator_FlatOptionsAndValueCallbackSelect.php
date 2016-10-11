@@ -2,8 +2,6 @@
 
 namespace Drupal\cfrapi\Configurator\Id;
 
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
-
 class Configurator_FlatOptionsAndValueCallbackSelect extends Configurator_FlatOptionsSelect {
 
   /**
@@ -29,12 +27,11 @@ class Configurator_FlatOptionsAndValueCallbackSelect extends Configurator_FlatOp
    * @param mixed $conf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
     $id = parent::confGetValue($conf);
-    if ($id instanceof BrokenValueInterface) {
-      return $id;
-    }
     return call_user_func($this->valueCallback, $id);
   }
 }

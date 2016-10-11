@@ -4,8 +4,6 @@ namespace Drupal\cfrreflection\Configurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Configurator_DecoratorBase;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
@@ -47,23 +45,8 @@ class Configurator_CallbackMono extends Configurator_DecoratorBase {
    *   Value to be used in the application.
    */
   public function confGetValue($conf) {
-
     $arg = parent::confGetValue($conf);
-
-    if ($arg instanceof BrokenValueInterface) {
-      return $arg;
-    }
-
-    if (NULL !== $brokenValue = CfrReflectionUtil::callbackArgsInvalid($this->callback, [$arg])) {
-      return $brokenValue;
-    }
-
-    try {
-      return $this->callback->invokeArgs([$arg]);
-    }
-    catch (\Exception $e) {
-      return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');
-    }
+    return CfrReflectionUtil::callbackValidateAndInvoke($this->callback, [$arg]);
   }
 
   /**

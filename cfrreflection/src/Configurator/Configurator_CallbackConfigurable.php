@@ -7,7 +7,6 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_ObjectMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
-use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Group\Configurator_GroupBase;
 use Drupal\cfrreflection\Util\CfrReflectionUtil;
@@ -99,25 +98,12 @@ class Configurator_CallbackConfigurable extends Configurator_GroupBase {
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
-
     $args = parent::confGetValue($conf);
-
-    if (!is_array($args)) {
-      return new BrokenValue($this, get_defined_vars(), 'Non-array callback arguments.');
-    }
-
-    if (NULL !== $brokenValue = CfrReflectionUtil::callbackArgsInvalid($this->callback, $args)) {
-      return $brokenValue;
-    }
-
-    try {
-      return $this->callback->invokeArgs($args);
-    }
-    catch (\Exception $e) {
-      return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');
-    }
+    return CfrReflectionUtil::callbackValidateAndInvoke($this->callback, $args);
   }
 
   /**

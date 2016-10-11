@@ -2,8 +2,6 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
@@ -27,13 +25,12 @@ class Configurator_Single implements GroupConfiguratorInterface {
    *
    * @param mixed[]|mixed $conf
    *
-   * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
+   * @return mixed[]
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
     $value = $this->configurator->confGetValue($conf);
-    if ($value instanceof BrokenValueInterface) {
-      return new BrokenValue($this, get_defined_vars(), 'Value is broken.');
-    }
     return [$value];
   }
 

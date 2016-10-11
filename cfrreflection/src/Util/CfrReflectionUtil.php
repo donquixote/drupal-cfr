@@ -3,66 +3,85 @@
 namespace Drupal\cfrreflection\Util;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\Util\UtilBase;
 
 final class CfrReflectionUtil extends UtilBase {
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
-   * @param mixed[] $args
+   * @param array|mixed $args
    *
-   * @return null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
+   * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
-  public static function callbackArgsInvalid(CallbackReflectionInterface $callback, array $args) {
+  public static function callbackValidateAndInvoke(CallbackReflectionInterface $callback, $args) {
 
-    foreach ($args as $arg) {
-      if ($arg instanceof BrokenValueInterface) {
-        # dpm(ddebug_backtrace(TRUE), __METHOD__);
-        # \Drupal\krumong\dpm($callback, 'CALLBACK');
-        # dpm($args, 'ARGS');
-        break;
-      }
+    if (!is_array($args)) {
+      throw new InvalidConfigurationException("Non-array callback arguments");
     }
+
+    CfrReflectionUtil::callbackAssertValidArgs($callback, $args);
+
+    try {
+      return $callback->invokeArgs($args);
+    }
+    catch (\Exception $e) {
+      throw new InvalidConfigurationException('Exception during callback', NULL, $e);
+    }
+  }
+
+  /**
+   * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
+   * @param array $args
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  public static function callbackAssertValidArgs(CallbackReflectionInterface $callback, array $args) {
 
     $params = $callback->getReflectionParameters();
 
     if (array_keys($params) !== array_keys($args)) {
-      # dpm('Wrong arg count', __METHOD__);
-      return new BrokenValue(NULL, get_defined_vars(), 'Wrong argument count.');
+      throw new InvalidConfigurationException('Wrong argument count.');
     }
 
     foreach ($callback->getReflectionParameters() as $i => $param) {
+
+      if (!array_key_exists($i, $args)) {
+        if ($param->isOptional()) {
+          // All following parameters are optional.
+          return;
+        }
+        else {
+          throw new InvalidConfigurationException("Required argument $i missing.");
+        }
+      }
+
       $arg = $args[$i];
 
       if ($param->isOptional()) {
-        if ($arg === $param->getDefaultValue()) {
-          return NULL;
+        if ($args[$i] === $param->getDefaultValue()) {
+          continue;
         }
       }
 
       if ($param->isArray()) {
         if (!is_array($arg)) {
-          # dpm('Param must be array.', __METHOD__);
-          return new BrokenValue(NULL, get_defined_vars(), 'Param must be array.');
+          throw new InvalidConfigurationException("Argument $i must be an array.");
         }
       }
 
       if ($paramClass = $param->getClass()) {
         if (!is_object($arg)) {
-          return new BrokenValue(NULL, get_defined_vars(), 'Parameter must be an object.');
+          throw new InvalidConfigurationException("Argument $i must be an object.");
         }
         if (!$paramClass->isInstance($arg)) {
-          # dpm('Param type mismatch.', __METHOD__);
-          $argExport = var_export($arg, TRUE);
-          $paramClassExport = var_export($paramClass->getName(), TRUE);
-          return new BrokenValue(NULL, get_defined_vars(), "Expected $paramClassExport, found $argExport");
+          $paramClassExport = $paramClass->getName();
+          throw new InvalidConfigurationException("Argument $i must be an instance of $paramClassExport.");
         }
       }
     }
-
-    return NULL;
   }
 
 }

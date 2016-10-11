@@ -2,9 +2,9 @@
 
 namespace Drupal\cfrapi\Configurator\Optional;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 abstract class OptionalConfiguratorBase implements OptionalConfiguratorInterface, ConfEmptynessInterface {
@@ -65,12 +65,14 @@ abstract class OptionalConfiguratorBase implements OptionalConfiguratorInterface
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
 
     if ($this->confIsEmpty($conf)) {
       if ($this->required) {
-        return new BrokenValue($this, get_defined_vars(), "Required, but empty.");
+        throw new InvalidConfigurationException("Required, but empty.");
       }
 
       return NULL;

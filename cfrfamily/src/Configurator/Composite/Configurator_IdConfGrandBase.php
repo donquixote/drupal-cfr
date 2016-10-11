@@ -2,12 +2,11 @@
 
 namespace Drupal\cfrfamily\Configurator\Composite;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 use Drupal\cfrapi\Util\FormUtil;
@@ -318,6 +317,8 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
 
@@ -325,7 +326,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
     if (NULL === $id) {
       if ($this->required) {
-        return new BrokenValue($this, get_defined_vars(), 'Required.');
+        throw new InvalidConfigurationException("Required id missing.");
       }
       else {
         return $this->defaultValue;
@@ -335,10 +336,6 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
     $value = $this->idConfGetValue($id, $optionsConf);
 
     if (NULL === $this->idValueToValue) {
-      return $value;
-    }
-
-    if ($value instanceof BrokenValueInterface) {
       return $value;
     }
 

@@ -2,11 +2,10 @@
 
 namespace Drupal\cfrapi\Configurator\Sequence;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
+use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
@@ -48,7 +47,9 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
    * @param mixed $conf
    *   Setting value from configuration.
    *
-   * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
+   * @return mixed[]
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
 
@@ -56,14 +57,14 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       return [];
     }
     if (!is_array($conf)) {
-      return new BrokenValue($this, get_defined_vars(), 'Configuration must be an array or NULL.');
+      throw new InvalidConfigurationException('Configuration must be an array or NULL.');
     }
 
     $values = [];
     foreach ($conf as $delta => $deltaConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Fail on non-numeric and negative keys.
-        return new BrokenValue($this, get_defined_vars(), "Deltas must be non-negative integers.");
+        throw new InvalidConfigurationException("Deltas must be non-negative integers.");
       }
       if ($this->emptyness->confIsEmpty($deltaConf)) {
         // Skip empty values.
@@ -71,9 +72,6 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       }
       $deltaValue = $this->configurator->confGetValue($deltaConf);
       $values[] = $deltaValue;
-      if ($deltaValue instanceof BrokenValueInterface) {
-        return new BrokenValue($this, get_defined_vars(), 'One of the values is broken.');
-      }
       // @todo Really? Why do the values need to be objects?
       if (!is_object($deltaValue)) {
         # \Drupal\krumong\dpm(get_defined_vars(), __METHOD__);

@@ -4,8 +4,6 @@ namespace Drupal\cfrreflection\Configurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
@@ -95,29 +93,18 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
   }
 
   /**
-   * @param string $id
+   * @param string|null $id
    * @param mixed $optionsConf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function idConfGetValue($id, $optionsConf) {
 
     $arg = $this->argConfigurator->idConfGetValue($id, $optionsConf);
 
-    if ($arg instanceof BrokenValueInterface) {
-      return $arg;
-    }
-
-    if (NULL !== $brokenValue = CfrReflectionUtil::callbackArgsInvalid($this->callback, [$arg])) {
-      return $brokenValue;
-    }
-
-    try {
-      return $this->callback->invokeArgs([$arg]);
-    }
-    catch (\Exception $e) {
-      return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');
-    }
+    return CfrReflectionUtil::callbackValidateAndInvoke($this->callback, [$arg]);
   }
 
   /**

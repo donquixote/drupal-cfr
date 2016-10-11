@@ -112,7 +112,7 @@ class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements Inl
   }
 
   /**
-   * @param string $id
+   * @param string|null $id
    * @param mixed $optionsConf
    *
    * @return mixed

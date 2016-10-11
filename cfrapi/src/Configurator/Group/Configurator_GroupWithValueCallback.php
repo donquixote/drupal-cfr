@@ -4,6 +4,7 @@ namespace Drupal\cfrapi\Configurator\Group;
 
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
+use Drupal\cfrreflection\Util\CfrReflectionUtil;
 
 class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
 
@@ -25,7 +26,7 @@ class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
   /**
    * @param mixed[]|mixed $conf
    *
-   * @return \Drupal\cfrapi\BrokenValue\BrokenValueInterface|mixed|\mixed[]
+   * @return mixed
    */
   public function confGetValue($conf) {
     $value = parent::confGetValue($conf);

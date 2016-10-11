@@ -8,6 +8,8 @@ interface ValueProviderInterface {
 
   /**
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function getValue();
 

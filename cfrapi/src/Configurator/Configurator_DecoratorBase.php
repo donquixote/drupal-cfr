@@ -51,6 +51,8 @@ abstract class Configurator_DecoratorBase implements ConfiguratorInterface {
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf) {
     return $this->decorated->confGetValue($conf);
