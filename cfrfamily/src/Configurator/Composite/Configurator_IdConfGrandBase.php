@@ -6,6 +6,7 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
+use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\FormUtil;
 use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
@@ -173,23 +174,26 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    */
   private function idConfBuildOptionsFormWrapper($id, $optionsConf) {
 
-    if (NULL !== $id) {
-      $optionsForm = $this->idConfGetOptionsForm($id, $optionsConf);
-      if (!empty($optionsForm) && [] !== element_children($optionsForm)) {
-
-        $optionsForm['#title'] = $this->idGetOptionsLabel($id);
-        $optionsForm['#attributes']['class'][] = 'cfrapi-child-options';
-        $optionsForm['#type'] = 'fieldset';
-
-        // @todo Unfortunately, #collapsible fieldsets do not play nice with Views UI.
-        // See https://www.drupal.org/node/2624020
-        # $options_form['#collapsed'] = TRUE;
-        # $options_form['#collapsible'] = TRUE;
-        return $optionsForm;
-      }
+    if (NULL === $id) {
+      return [];
     }
 
-    return [];
+    $optionsForm = $this->idConfGetOptionsForm($id, $optionsConf);
+    if (empty($optionsForm)) {
+      return [];
+    }
+
+    // @todo Unfortunately, #collapsible fieldsets do not play nice with Views UI.
+    // See https://www.drupal.org/node/2624020
+    # $options_form['#collapsed'] = TRUE;
+    # $options_form['#collapsible'] = TRUE;
+    return [
+      '#type' => 'fieldset',
+      '#title' => $this->idGetOptionsLabel($id),
+      '#attributes' => ['class' => ['cfrapi-child-options']],
+      '#process' => [new ElementProcessor_ReparentChildren(['fieldset_content' => []])],
+      'fieldset_content' => $optionsForm,
+    ];
   }
 
   /**
