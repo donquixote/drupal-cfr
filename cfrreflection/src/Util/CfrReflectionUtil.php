@@ -68,7 +68,9 @@ final class CfrReflectionUtil extends UtilBase {
         }
         if (!$paramClass->isInstance($arg)) {
           # dpm('Param type mismatch.', __METHOD__);
-          return new BrokenValue(NULL, get_defined_vars(), 'Param type mismatch.');
+          $argExport = var_export($arg, TRUE);
+          $paramClassExport = var_export($paramClass->getName(), TRUE);
+          return new BrokenValue(NULL, get_defined_vars(), "Expected $paramClassExport, found $argExport");
         }
       }
     }
