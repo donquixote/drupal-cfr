@@ -85,8 +85,8 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
    */
   public function moduleFileScanPsr4($__FILE__) {
 
-    if (!preg_match('@/([A-Za-z_][A-Za-z0-9_])\.module$@', $__FILE__, $m)) {
-      throw new \InvalidArgumentException("Not a module file path.");
+    if (!preg_match('@/([A-Za-z_][A-Za-z0-9_]*)\.module$@', $__FILE__, $m)) {
+      throw new \InvalidArgumentException("Not a module file path: '$__FILE__'.");
     }
 
     $module = $m[1];
