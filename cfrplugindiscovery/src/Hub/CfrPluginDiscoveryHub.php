@@ -85,6 +85,8 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
    */
   public function moduleFileScanPsr4($__FILE__) {
 
+    // The regex could use '\w' instead of '[A-Za-z0-9_]', but we don't.
+    /** @noinspection NotOptimalRegularExpressionsInspection */
     if (!preg_match('@/([A-Za-z_][A-Za-z0-9_]*)\.module$@', $__FILE__, $m)) {
       throw new \InvalidArgumentException("Not a module file path: '$__FILE__'.");
     }
