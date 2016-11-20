@@ -62,6 +62,9 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
    *   A form element(s) array.
    */
   public function confGetForm($conf, $label) {
+    if (!is_array($conf)) {
+      $conf = [];
+    }
     $form = [];
     if (NULL !== $label && '' !== $label) {
       $form['#title'] = $label;
