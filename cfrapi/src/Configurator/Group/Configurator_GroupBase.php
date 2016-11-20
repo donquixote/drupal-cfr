@@ -84,7 +84,7 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
    * @return null|string
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    if (!is_array($conf) || !count($conf)) {
+    if (!is_array($conf)) {
       $conf = [];
     }
     $group = $summaryBuilder->startGroup();
