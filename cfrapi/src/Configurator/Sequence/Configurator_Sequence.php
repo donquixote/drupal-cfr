@@ -71,6 +71,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       if ($deltaValue instanceof BrokenValueInterface) {
         return new BrokenValue($this, get_defined_vars(), 'One of the values is broken.');
       }
+      // @todo Really? Why do the values need to be objects?
       if (!is_object($deltaValue)) {
         # \Drupal\krumong\dpm(get_defined_vars(), __METHOD__);
         break;
