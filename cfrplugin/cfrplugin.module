@@ -2,6 +2,8 @@
 
 use Drupal\cfrplugin\Hub\CfrPluginHub;
 
+require_once __DIR__ . '/cfrplugin.form_element.inc';
+
 /**
  * @return \Drupal\cfrplugin\Hub\CfrPluginHubInterface
  */
