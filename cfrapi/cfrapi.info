@@ -3,3 +3,5 @@ core = 7.x
 
 dependencies[] = xautoload
 dependencies[] = themekit
+
+stylesheets[all][] = css/cfrapi.css
