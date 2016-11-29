@@ -40,16 +40,23 @@ class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements Inl
   protected function getSelectOptions() {
 
     $options = [];
+    $groups = [];
     foreach ($this->legend->getLegendItems() as $id => $item) {
       if (NULL === $groupLabel = $item->getGroupLabel()) {
         $options[$id] = $item->getLabel();
       }
       else {
-        $options[$groupLabel][$id] = $item->getLabel();
+        $groups[$groupLabel][$id] = $item->getLabel();
       }
     }
 
-    return $options;
+    asort($options);
+    ksort($groups);
+    foreach ($groups as &$group) {
+      asort($group);
+    }
+
+    return $options + $groups;
   }
 
   /**
