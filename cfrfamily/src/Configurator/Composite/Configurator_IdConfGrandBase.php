@@ -132,6 +132,8 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
     list($id, $optionsConf) = $this->confGetIdOptions($conf);
 
     $form = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['cfr-drilldown']],
       '#tree' => TRUE,
       $this->idKey => $this->idBuildSelectElement($id, $label),
       $this->optionsKey => $this->idConfBuildOptionsFormWrapper($id, $optionsConf),
@@ -188,8 +190,9 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
     # $options_form['#collapsed'] = TRUE;
     # $options_form['#collapsible'] = TRUE;
     return [
-      '#type' => 'fieldset',
-      '#title' => $this->idGetOptionsLabel($id),
+      '#type' => 'container',
+      # '#type' => 'fieldset',
+      # '#title' => $this->idGetOptionsLabel($id),
       '#attributes' => ['class' => ['cfrapi-child-options']],
       '#process' => [new ElementProcessor_ReparentChildren(['fieldset_content' => []])],
       'fieldset_content' => $optionsForm,
