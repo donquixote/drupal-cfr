@@ -67,7 +67,7 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
   /**
    * @param string $id
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
   abstract protected function idGetConfigurator($id);
 }
