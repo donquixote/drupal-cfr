@@ -103,13 +103,25 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
    *   A form element(s) array.
    */
   public function confGetForm($conf, $label) {
+
     if (!is_array($conf)) {
       $conf = [];
     }
-    $form = [
-      '#type' => 'fieldset',
-      '#title' => $label,
-    ];
+
+    if (NULL !== $label && '' !== $label && 1) {
+      $form = [
+        '#type' => 'fieldset',
+        '#title' => $label,
+      ];
+    }
+    else {
+      $form = [
+        '#type' => 'container',
+      ];
+    }
+
+    $form['#attributes']['class'][] = 'cfrapi-child-options';
+
     foreach ($conf as $delta => $itemConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Skip non-numeric and negative keys.
@@ -119,6 +131,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
         $form[$delta] = $this->configurator->confGetForm($itemConf, t('Item !n', ['!n' => '#' . check_plain($delta)]));
       }
     }
+
     // Element for new item.
     $form[] = $this->configurator->confGetForm($this->emptyness->getEmptyConf(), t('New item'));
     // @todo AJAX button to add new item?
