@@ -19,7 +19,16 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
       return NULL;
     }
 
-    return $configurator->confGetForm($optionsConf, NULL);
+    return $configurator->confGetForm($optionsConf, $this->idGetOptionsFormLabel($id));
+  }
+
+  /**
+   * @param string $id
+   *
+   * @return string|null
+   */
+  protected function idGetOptionsFormLabel($id) {
+    return NULL;
   }
 
   /**
