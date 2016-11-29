@@ -23,13 +23,20 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
   private $argConfigurator;
 
   /**
+   * @var null|string
+   */
+  private $paramLabel;
+
+  /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $monoParamCallback
    *   Callback with exactly one parameter.
    * @param \Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface $argConfigurator
+   * @param string|null $paramLabel
    */
-  public function __construct(CallbackReflectionInterface $monoParamCallback, InlineableConfiguratorInterface $argConfigurator) {
+  public function __construct(CallbackReflectionInterface $monoParamCallback, InlineableConfiguratorInterface $argConfigurator, $paramLabel = NULL) {
     $this->callback = $monoParamCallback;
     $this->argConfigurator = $argConfigurator;
+    $this->paramLabel = $paramLabel;
   }
 
   /**
@@ -51,6 +58,14 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
    * @return array
    */
   public function confGetForm($conf, $label) {
+
+    if (NULL === $label) {
+      $label = $this->paramLabel;
+    }
+    elseif (NULL !== $this->paramLabel) {
+      $label .= ' | ' . $this->paramLabel;
+    }
+
     return $this->argConfigurator->confGetForm($conf, $label);
   }
 
