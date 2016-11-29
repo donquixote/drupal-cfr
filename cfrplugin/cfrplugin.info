@@ -1,6 +1,7 @@
 name = Value configurator plugin
 core = 7.x
-package = cfr
+package = CFR
+project = cfr
 
 dependencies[] = cfrapi
 dependencies[] = cfrfamily

@@ -2,6 +2,7 @@ name = Cfr plugin disvovery
 description = Annotation-based discovery tool for cfrplugin
 core = 7.x
 package = CFR
+project = cfr
 
 dependencies[] = composer_manager
 dependencies[] = xautoload (>=5.x)

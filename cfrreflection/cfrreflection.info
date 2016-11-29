@@ -1,5 +1,7 @@
 name = Value configurator reflection
 core = 7.x
+package = CFR
+project = cfr
 
 dependencies[] = cfrapi
 dependencies[] = cfrfamily

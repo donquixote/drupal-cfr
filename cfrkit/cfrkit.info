@@ -1,5 +1,7 @@
 name = Cfr Kit
 description = Collection of common reusable configurator classes.
 core = 7.x
+package = CFR
+project = cfr
 
 dependencies[] = cfrapi
