@@ -2,13 +2,13 @@
 
 namespace Drupal\cfrreflection\Configurator;
 
+use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
-use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
+use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorBase;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
-use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 
 class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
 
