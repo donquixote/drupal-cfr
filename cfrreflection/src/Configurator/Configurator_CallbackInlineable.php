@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrreflection\Configurator;
 
+use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
@@ -26,6 +27,17 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
    * @var null|string
    */
   private $paramLabel;
+
+  /**
+   * @param string $className
+   * @param \Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface $argConfigurator
+   *
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   */
+  public static function createFromClassName($className, InlineableConfiguratorInterface $argConfigurator) {
+    $callback = CallbackReflection_ClassConstruction::createFromClassName($className);
+    return new self($callback, $argConfigurator);
+  }
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $monoParamCallback
