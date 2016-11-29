@@ -4,6 +4,7 @@ namespace Drupal\cfrreflection\CfrGen\CallbackToConfigurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
+use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
 use Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface;
@@ -58,8 +59,11 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
       if ($argConfigurator instanceof InlineableConfiguratorInterface) {
         return new Configurator_CallbackInlineable($valueCallback, $argConfigurator, $paramLabel);
       }
+      elseif ($argConfigurator instanceof ConfiguratorInterface) {
+        # return new Configurator_CallbackMono($valueCallback, $argConfigurator);
+      }
       else {
-
+        // Pass through.
       }
     }
 
