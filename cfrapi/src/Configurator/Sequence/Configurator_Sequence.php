@@ -108,6 +108,8 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       $conf = [];
     }
 
+    $obj = $this;
+
     if (NULL !== $label && '' !== $label && 1) {
       $form = [
         '#type' => 'fieldset',
@@ -122,20 +124,79 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
 
     $form['#attributes']['class'][] = 'cfrapi-child-options';
 
-    foreach ($conf as $delta => $itemConf) {
+    return $form + [
+      '#input' => TRUE,
+      '#default_value' => $conf,
+      '#process' => [function (array $element, array &$form_state) use ($obj, $conf) {
+        return $obj->elementProcess($element, $conf);
+      }],
+      '#after_build' => [function (array $element, array &$form_state) use ($obj, $conf) {
+        return $obj->elementAfterBuild($element, $form_state, $conf);
+      }],
+    ];
+  }
+
+  /**
+   * @param array $element
+   * @param array $conf
+   *
+   * @return array
+   */
+  private function elementProcess(array $element, array $conf) {
+
+    $value = $element['#value'];
+    if (!is_array($value)) {
+      $value = [];
+    }
+
+    foreach ($value as $delta => $itemValue) {
+
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Skip non-numeric and negative keys.
         continue;
       }
-      if (!$this->emptyness->confIsEmpty($itemConf)) {
-        $form[$delta] = $this->configurator->confGetForm($itemConf, t('Item !n', ['!n' => '#' . check_plain($delta)]));
+
+      if ($this->emptyness->confIsEmpty($itemValue)) {
+        // Skip empty items.
+        continue;
       }
+
+      $itemConf = isset($conf[$delta]) ? $conf[$delta] : NULL;
+      $element[$delta] = $this->configurator->confGetForm($itemConf, t('Item !n', ['!n' => '#' . check_plain($delta)]));
     }
 
     // Element for new item.
-    $form[] = $this->configurator->confGetForm($this->emptyness->getEmptyConf(), t('New item'));
+    $element[] = $this->configurator->confGetForm($this->emptyness->getEmptyConf(), t('New item'));
     // @todo AJAX button to add new item?
     // @todo Drag and drop to rearrange items.
-    return $form;
+
+    return $element;
+  }
+
+  /**
+   * Callback for '#after_build' to clean up empty items in the form value.
+   *
+   * @param array $element
+   * @param array $form_state
+   * @param array $conf
+   *
+   * @return array
+   */
+  private function elementAfterBuild(array $element, array &$form_state, array $conf) {
+
+    $value = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
+    if (!is_array($value)) {
+      $value = [];
+    }
+
+    foreach ($value as $delta => $itemInput) {
+      if ($this->emptyness->confIsEmpty($itemInput)) {
+        unset($value[$delta]);
+      }
+    }
+
+    drupal_array_set_nested_value($form_state['values'], $element['#parents'], $value);
+
+    return $element;
   }
 }
