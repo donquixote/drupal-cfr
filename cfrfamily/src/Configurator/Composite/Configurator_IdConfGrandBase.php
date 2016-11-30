@@ -8,6 +8,7 @@ use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
+use Drupal\cfrapi\Util\ConfUtil;
 use Drupal\cfrapi\Util\FormUtil;
 use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
 
@@ -131,16 +132,73 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
     list($id, $optionsConf) = $this->confGetIdOptions($conf);
 
+    $obj = $this;
+
     $form = [
       '#type' => 'container',
       '#attributes' => ['class' => ['cfr-drilldown']],
       '#tree' => TRUE,
       $this->idKey => $this->idBuildSelectElement($id, $label),
-      $this->optionsKey => $this->idConfBuildOptionsFormWrapper($id, $optionsConf),
-      '#process' => [[FormUtil::class, 'elementsBuildDependency']],
+      '#input' => TRUE,
+      '#title' => $label,
+      '#default_value' => $conf = [
+        $this->idKey => $id,
+        $this->optionsKey => $optionsConf,
+      ],
+      '#process' => [function (array $element, array &$form_state, array &$form) use ($obj, $id, $optionsConf) {
+        $element = $obj->processElement($element, $form_state, $id, $optionsConf);
+        $element = FormUtil::elementsBuildDependency($element, $form_state, $form);
+        return $element;
+      }],
+      '#after_build' => [function (array $element, array &$form_state) use ($obj, $id, $optionsConf) {
+        return $obj->elementAfterBuild($element, $form_state, $id, $optionsConf);
+      }],
     ];
 
     return $form;
+  }
+
+  /**
+   * @param array $element
+   * @param array $form_state
+   * @param string $defaultId
+   * @param mixed $defaultOptionsConf
+   *
+   * @return array
+   */
+  private function processElement(array $element, array &$form_state, $defaultId, $defaultOptionsConf) {
+    $value = $element['#value'];
+    $id = isset($value[$this->idKey]) ? $value[$this->idKey] : NULL;
+    if ($id !== $defaultId) {
+      $defaultOptionsConf = NULL;
+    }
+    $prevId = isset($value['_previous_id']) ? $value['_previous_id'] : NULL;
+    if (NULL !== $prevId && $id !== $prevId && isset($form_state['input'])) {
+      // Don't let values leak from one plugin to the other.
+      ConfUtil::confUnsetNestedValue($form_state['input'], array_merge($element['#parents'], [$this->optionsKey]));
+      # $defaultOptionsConf = NULL;
+    }
+    $element[$this->optionsKey] = $this->idConfBuildOptionsFormWrapper($id, $defaultOptionsConf);
+    $element[$this->optionsKey]['_previous_id'] = [
+      '#type' => 'hidden',
+      '#value' => $id,
+      '#parents' => array_merge($element['#parents'], ['_previous_id']),
+      '#weight' => -99,
+    ];
+    return $element;
+  }
+
+  /**
+   * @param array $element
+   * @param array $form_state
+   * @param string $id
+   * @param mixed $defaultOptionsConf
+   *
+   * @return array
+   */
+  private function elementAfterBuild(array $element, array &$form_state, $id, $defaultOptionsConf) {
+    ConfUtil::confUnsetNestedValue($form_state['input'], array_merge($element['#parents'], ['_previous_id']));
+    return $element;
   }
 
   /**
@@ -156,6 +214,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
       '#type' => 'select',
       '#options' => $this->getSelectOptions(),
       '#default_value' => $id,
+      '#attributes' => ['class' => ['cfr-drilldown-select']],
     ];
 
     if ($this->required) {
