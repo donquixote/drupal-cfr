@@ -15,10 +15,19 @@ class CfrContext implements CfrContextInterface {
   private $machineName;
 
   /**
+   * @param mixed[] $values
+   *
    * @return static
    */
-  public static function create() {
-    return new static();
+  public static function create(array $values = []) {
+    return new static($values);
+  }
+
+  /**
+   * @param mixed[] $values
+   */
+  public function __construct(array $values = []) {
+    $this->values = $values;
   }
 
   /**
