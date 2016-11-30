@@ -48,9 +48,6 @@ function cfrplugin_example_form(array $form, array $form_state) {
   if (isset($_GET['plugin'])) {
     $settings = $_GET['plugin'];
   }
-  elseif (isset($form_state['values']['plugin'])) {
-    $settings = $form_state['values']['plugin'];
-  }
   else {
     $settings = [];
   }
@@ -60,8 +57,13 @@ function cfrplugin_example_form(array $form, array $form_state) {
   # dpm($container->typeToDefmap->typeGetDefmap(EntityImageInterface::class)->getDefinitionsById());
   # $cfrLegend = $container->typeToCfrLegend->typeGetCfrLegend(EntityDisplayInterface::class, $context);
 
-  $configurator = cfrplugin()->interfaceGetConfigurator(EntityDisplayInterface::class, $context);
-  $form['plugin'] = $configurator->confGetForm($settings, t('Entity display'));
+  $form['plugin'] = [
+    '#type' => 'cfrplugin',
+    '#cfrplugin_interface' => EntityDisplayInterface::class,
+    '#title' => t('Entity display'),
+    '#default_value' => $settings,
+    '#cfrplugin_context' => $context,
+  ];
 
   $form['agree'] = [
     '#type' => 'checkbox',
@@ -87,15 +89,9 @@ function cfrplugin_example_form(array $form, array $form_state) {
  */
 function cfrplugin_example_node_demo_form(array $form, array $form_state, $node) {
 
-  if (isset($_GET['plugin'])) {
-    $settings = $_GET['plugin'];
-  }
-  elseif (isset($form_state['values']['plugin'])) {
-    $settings = $form_state['values']['plugin'];
-  }
-  else {
-    $settings = [];
-  }
+  $settings = isset($_GET['plugin'])
+    ? $_GET['plugin']
+    : [];
 
   $context = new CfrContext();
   $context->paramNameSetValue('entityType', 'node');
@@ -104,7 +100,13 @@ function cfrplugin_example_node_demo_form(array $form, array $form_state, $node)
   $context->paramNameSetValue('bundle_name', $node->type);
   $configurator = cfrplugin()->interfaceGetConfigurator(EntityDisplayInterface::class, $context);
 
-  $form['plugin'] = $configurator->confGetForm($settings, t('Entity display'));
+  $form['plugin'] = [
+    '#type' => 'cfrplugin',
+    '#cfrplugin_interface' => EntityDisplayInterface::class,
+    '#cfrplugin_context' => $context,
+    '#title' => t('Entity display'),
+    '#default_value' => $settings,
+  ];
 
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = [
