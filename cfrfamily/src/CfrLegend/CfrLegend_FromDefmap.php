@@ -138,8 +138,6 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
       return new CfrLegendItem($label, $groupLabel, $configurator);
     }
 
-    $label .= '…';
-
     if (1
       && array_key_exists('inline', $definition)
       && TRUE === $definition['inline']

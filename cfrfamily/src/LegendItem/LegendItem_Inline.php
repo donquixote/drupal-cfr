@@ -74,4 +74,11 @@ class LegendItem_Inline implements CfrLegendItemInterface {
   public function withLabels($label, $groupLabel) {
     return new self($this->decorated->withLabels($label, '?'), $groupLabel);
   }
+
+  /**
+   * @return bool
+   */
+  public function isOptionless() {
+    return $this->decorated->isOptionless();
+  }
 }

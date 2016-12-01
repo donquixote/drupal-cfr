@@ -3,6 +3,7 @@
 namespace Drupal\cfrfamily\CfrLegendItem;
 
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
+use Drupal\cfrapi\PossiblyOptionless\PossiblyOptionlessInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\LegendItem\LegendItem;
 
@@ -56,5 +57,14 @@ class CfrLegendItem extends LegendItem implements CfrLegendItemInterface {
    */
   public function withLabels($label, $groupLabel) {
     return new self($label, $groupLabel, $this->configurator);
+  }
+
+  /**
+   * @return bool
+   */
+  public function isOptionless() {
+    return $this->configurator instanceof PossiblyOptionlessInterface
+      ? $this->configurator->isOptionless()
+      : FALSE;
   }
 }

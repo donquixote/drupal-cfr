@@ -35,4 +35,11 @@ class CfrLegendItem_NoConf extends LegendItem implements CfrLegendItemInterface 
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
     return NULL;
   }
+
+  /**
+   * @return bool
+   */
+  public function isOptionless() {
+    return TRUE;
+  }
 }

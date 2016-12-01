@@ -29,9 +29,15 @@ class CfrLegend_InlineExpanded implements CfrLegendInterface {
     foreach ($this->decorated->getLegendItems() as $id => $item) {
       if ($depth > 0 && $item instanceof ParentLegendItemInterface && NULL !== $inlineLegend = $item->getCfrLegend()) {
         foreach ($inlineLegend->getLegendItems($depth - 1) as $inlineId => $inlineItem) {
-          $items[$id . '/' . $inlineId] = $inlineItem->withLabels($inlineItem->getLabel(), $item->getLabel());
+          $items[$id . '/' . $inlineId] = $inlineItem->withLabels(
+            $item->getLabel() . ': ' . $inlineItem->getLabel(),
+            # $item->getLabel() . ' » ' . $inlineItem->getLabel(),
+            # $item->getGroupLabel() . ' » ' . $item->getLabel() . ' » ' . $inlineItem->getLabel(),
+            # $inlineItem->getLabel() . ' (' . $item->getLabel() . ' | ' . $item->getGroupLabel() . ')',
+            $inlineItem->getGroupLabel());
         }
-        $items[$id] = $item->withLabels(t('more ..'), $item->getLabel());
+        # $items[$id] = $item->withLabels(t('more ..'), $item->getLabel());
+        $items[$id] = $item;
       }
       else {
         $items[$id] = $item;

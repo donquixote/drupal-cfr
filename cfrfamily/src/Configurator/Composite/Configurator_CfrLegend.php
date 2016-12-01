@@ -42,11 +42,15 @@ class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements Inl
     $options = [];
     $groups = [];
     foreach ($this->legend->getLegendItems() as $id => $item) {
+      $itemLabel = $item->getLabel();
+      if (!$item->isOptionless()) {
+        $itemLabel .= '…';
+      }
       if (NULL === $groupLabel = $item->getGroupLabel()) {
-        $options[$id] = $item->getLabel();
+        $options[$id] = $itemLabel;
       }
       else {
-        $groups[$groupLabel][$id] = $item->getLabel();
+        $groups[$groupLabel][$id] = $itemLabel;
       }
     }
 
