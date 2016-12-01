@@ -3,11 +3,14 @@
 namespace Drupal\cfrplugin\DIC;
 
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers;
+use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrplugin\Util\ServiceFactoryUtil;
 use Drupal\cfrrealm\Container\CfrRealmContainerBase;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Cache;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscovery;
 use Drupal\cfrrealm\DefinitionToConfigurator\DefinitionToConfigurator_Proxy;
+use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_Buffer;
+use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfrFamily;
 use Drupal\cfrrealm\TypeToDefinitionsbyid\TypeToDefinitionsbyid;
 use Drupal\cfrrealm\TypeToDefmap\TypeToDefmap;
 use Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfigurator_ValueCallback;
@@ -45,6 +48,19 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    */
   public function __construct($cacheSuffix) {
     $this->cacheSuffix = $cacheSuffix;
+  }
+
+  /**
+   * Overrides the parent implementation to add a decorator layer.
+   *
+   * @return \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
+   *
+   * @see $typeToConfigurator
+   */
+  protected function get_typeToConfigurator() {
+    $typeToConfigurator = new TypeToConfigurator_ViaCfrFamily($this->typeToCfrFamily);
+    $typeToConfigurator = new TypeToConfigurator_CfrPlugin($typeToConfigurator);
+    return new TypeToConfigurator_Buffer($typeToConfigurator);
   }
 
   /**

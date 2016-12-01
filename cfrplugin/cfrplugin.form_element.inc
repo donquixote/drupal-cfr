@@ -18,6 +18,15 @@ function cfrplugin_element_info() {
       '#cfrplugin_interface' => NULL,
       '#cfrplugin_context' => NULL,
     ],
+    // This element type only exists for cfrpreset to allow it to add links to
+    // export cfrplugin configurations as presets.
+    // Otherwise, it behaves completely like 'container'.
+    'cfrplugin_drilldown_container' => [
+      '#theme_wrappers' => array('container'),
+      '#process' => array('form_process_container'),
+      '#cfrplugin_interface' => NULL,
+      '#cfrplugin_context' => NULL,
+    ],
   ];
 }
 
