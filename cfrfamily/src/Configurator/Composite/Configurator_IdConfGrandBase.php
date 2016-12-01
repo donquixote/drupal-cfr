@@ -45,6 +45,11 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   private $idValueToValue;
 
   /**
+   * @var callable|null
+   */
+  private $formProcessCallback;
+
+  /**
    * @param bool $required
    * @param \Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface|null $idValueToValue
    * @param string $idKey
@@ -121,6 +126,17 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   }
 
   /**
+   * @param callable $formProcessCallback
+   *
+   * @return static
+   */
+  public function withFormProcessCallback($formProcessCallback) {
+    $clone = clone $this;
+    $clone->formProcessCallback = $formProcessCallback;
+    return $clone;
+  }
+
+  /**
    * @param array $conf
    *   Configuration from a form, config file or storage.
    * @param string|null $label
@@ -154,6 +170,10 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
         return $obj->elementAfterBuild($element, $form_state, $id, $optionsConf);
       }],
     ];
+
+    if (NULL !== $this->formProcessCallback) {
+      $form = call_user_func($this->formProcessCallback, $form);
+    }
 
     return $form;
   }
