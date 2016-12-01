@@ -7,7 +7,7 @@ interface IdToDefinitionInterface {
   /**
    * @param string $id
    *
-   * @return array
+   * @return array|null
    *   A configurator definition array.
    */
   public function idGetDefinition($id);
