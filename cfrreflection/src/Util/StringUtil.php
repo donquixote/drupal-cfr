@@ -90,6 +90,17 @@ final class StringUtil extends UtilBase {
   }
 
   /**
+   * @param string $class
+   *
+   * @return string
+   */
+  public static function classGetShortname($class) {
+    return (FALSE !== $pos = strrpos($class, '\\'))
+      ? substr($class, $pos + 1)
+      : $class;
+  }
+
+  /**
    * @param string $methodName
    *
    * @return string
