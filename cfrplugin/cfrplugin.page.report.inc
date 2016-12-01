@@ -7,56 +7,70 @@ use Drupal\cfrreflection\Util\StringUtil;
  *
  * @return string|array
  */
-function _cfrplugin_report_page() {
+function _cfrplugin_report_overview_page() {
 
   $services = CfrPluginHub::getContainer();
-  $definitionToLabel = $services->definitionToLabel;
-  $definitionToGroupLabel = $services->definitionToGrouplabel;
-
   $definitions = $services->definitionsByTypeAndId->getDefinitionsByTypeAndId();
 
   $rows = [];
+  $rows_grouped = [];
   foreach ($definitions as $interface => $interface_definitions) {
-    $interface_label = _cfrplugin_interface_get_title($interface);
-    $interface_label = '<h2>' . $interface_label . '</h2><code>' . $interface . '</code>';
+
+    $label = StringUtil::interfaceGenerateLabel($interface);
+    $count = t('@n plugin definitions', ['@n' => count($interface_definitions)]);
+    $interface_shortname = StringUtil::classGetShortname($interface);
+
+    $path = 'admin/reports/cfrplugin/' . _cfrplugin_interface_slug($interface);
+
+    $row = [
+      $label,
+      l($count, $path),
+      l($interface_shortname, $path . '/code'),
+      '<code>' . $interface . '</code>',
+    ];
+
+    $fragments = explode('\\', $interface);
+    if (1
+      && 'Drupal' === $fragments[0]
+      && isset($fragments[2])
+      && module_exists($fragments[1])
+    ) {
+      $rows_grouped[$fragments[1]][] = $row;
+    }
+    else {
+      $rows[] = $row;
+    }
+  }
+
+  $modules_info = system_get_info('module_enabled');
+
+  foreach ($rows_grouped as $module => $module_rows) {
+
+    $module_label = isset($modules_info[$module])
+      ? $modules_info[$module]['name']
+      : $module;
+
     $rows[] = [
       [
-        'data' => $interface_label,
-        'colspan' => 2,
+        'colspan' => 4,
+        'data' => '<h3>' . $module_label . '</h3>',
       ],
     ];
-    foreach ($interface_definitions as $key => $definition) {
-      $label = '<strong>' . $definitionToLabel->definitionGetLabel($definition, $key) . '</strong>';
-      if (NULL !== $groupLabel = $definitionToGroupLabel->definitionGetLabel($definition, null)) {
-        $label = '(' . $groupLabel . ')<br/>' . $label;
-      }
-      $label .= '<br/><code>' . $key . '</code>';
-      $rows[] = [
-        $label,
-        '<pre>' . var_export($definition, TRUE) . '</pre>',
-      ];
+
+    foreach ($module_rows as $row) {
+      $rows[] = $row;
     }
   }
 
   return [
+    '#header' => [
+      t('Human name'),
+      t('List'),
+      t('Code'),
+      t('Interface'),
+    ],
     /* @see theme_table() */
     '#theme' => 'table',
     '#rows' => $rows,
   ];
-}
-
-/**
- * @param string $interface
- *
- * @return string
- */
-function _cfrplugin_interface_get_title($interface) {
-  $title = $interface;
-  if (FALSE !== $pos = strrpos($title, '\\')) {
-    $title = substr($title, $pos + 1);
-  }
-  if ('Interface' === substr($title, -9) && 'Interface' !== $title) {
-    $title = substr($title, 0, -9);
-  }
-  return StringUtil::methodNameGenerateLabel($title);
 }
