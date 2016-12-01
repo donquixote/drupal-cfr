@@ -3,6 +3,8 @@ use Drupal\cfrapi\Context\CfrContext;
 
 /**
  * Implements hook_element_info().
+ *
+ * @return array[]
  */
 function cfrplugin_element_info() {
 
