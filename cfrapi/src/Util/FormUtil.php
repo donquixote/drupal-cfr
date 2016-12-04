@@ -75,7 +75,10 @@ final class FormUtil extends UtilBase {
       && $form_state['view'] instanceof \view
     ) {
       // @todo Does this always work?
-      $dependedElement['#ajax']['path'] = $_GET['q'];
+      $dependedElement['#ajax']['path'] = empty($form_state['url'])
+        ? url($_GET['q'], array('absolute' => TRUE))
+        : $form_state['url'];
+
       # drupal_array_set_nested_value($form_state['values'], $element['#parents'], [], TRUE);
       # drupal_array_set_nested_value($form_state['input'], $element['#parents'], [], TRUE);
     }
