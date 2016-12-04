@@ -1,5 +1,6 @@
 <?php
 use Drupal\cfrapi\Context\CfrContext;
+use Drupal\cfrreflection\Util\StringUtil;
 
 /**
  * Implements hook_element_info().
@@ -18,14 +19,19 @@ function cfrplugin_element_info() {
       '#cfrplugin_interface' => NULL,
       '#cfrplugin_context' => NULL,
     ],
-    // This element type only exists for cfrpreset to allow it to add links to
-    // export cfrplugin configurations as presets.
-    // Otherwise, it behaves completely like 'container'.
+    // Drilldown form elements can exist for many purposes.
+    // But the main purpose is to choose the id and options for a cfr plugin.
+    // While other drilldowns use a regular '#type' => 'container', the
+    // drilldowns for cfrplugin use '#type' => '#cfrplugin_drilldown_container'.
+    // For such containers we want to be able to add additional links and tools.
     'cfrplugin_drilldown_container' => [
-      '#theme_wrappers' => array('container'),
-      '#process' => array('form_process_container'),
+      '#theme_wrappers' => ['container'],
+      /* @see form_process_container() */
+      '#process' => ['form_process_container'],
       '#cfrplugin_interface' => NULL,
       '#cfrplugin_context' => NULL,
+      /* @see _cfrplugin_pre_render_drilldown_container() */
+      '#pre_render' => ['_cfrplugin_pre_render_drilldown_container'],
     ],
   ];
 }
@@ -71,4 +77,69 @@ function _cfrplugin_element_value(array $element, $input = FALSE, array $form_st
   }
 
   return [];
+}
+
+/**
+ * Callback for '#pre_render'.
+ *
+ * @param array $element
+ *
+ * @return array
+ */
+function _cfrplugin_pre_render_drilldown_container(array $element) {
+
+  $interface = $element['#cfrplugin_interface'];
+  $interface_label = StringUtil::interfaceGenerateLabel($interface);
+  $replacements = ['@type' => $interface_label];
+  $interface_slug = _cfrplugin_interface_slug($interface);
+
+  $element['#attributes']['data:cfrplugin_interface'] = $interface;
+
+  $tools = [];
+
+  $tools['copy']['#markup']
+    = '<a class="cfrplugin-copy" href="#">' . t('Copy "@type" configuration (local storage)', $replacements) . '</a>';
+
+  $tools['paste']['#markup']
+    = '<a class="cfrplugin-paste" href="#">' . t('Paste "@type" configuration (local storage)', $replacements) . '</a>';
+
+  $tools[]['#markup'] = '<hr/>';
+
+  # $tools[]['#markup'] = '<strong>' . check_plain($interface_label) . '</strong>';
+
+  if (user_access('view cfrplugin report')) {
+    $tools['report'] = [
+      '#markup' => l(
+        t('About "@type" plugins', $replacements),
+        "admin/reports/cfrplugin/$interface_slug",
+        ['attributes' => [
+          'target' => '_blank',
+          'title' => t('Definitions for @type plugins.', $replacements),
+        ]]),
+    ];
+  }
+
+  if ([] === $tools) {
+    # return $element;
+  }
+
+  $element['tools'] = [
+    '#weight' => -999,
+    '#type' => 'container',
+    '#attributes' => [
+      'class' => ['cfrplugin-tools'],
+      'style' => 'display: none;',
+    ],
+    'top' => [
+      '#markup' => '<a>' . t('tools') . '</a>',
+    ],
+    'items' => $tools + [
+      '#theme' => 'themekit_item_list',
+    ],
+  ];
+
+  $element['#attached']['css'][] = drupal_get_path('module', 'cfrplugin') . '/css/cfrplugin.drilldown-tools.css';
+  $element['#attached']['js'][] = drupal_get_path('module', 'cfrplugin') . '/js/cfrplugin.drilldown-tools.js';
+
+  return $element;
 }

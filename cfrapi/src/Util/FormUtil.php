@@ -90,7 +90,7 @@ final class FormUtil extends UtilBase {
       ];
     }
 
-    $dependingElement['#prefix'] = '<div id="' . $uniqid . '">';
+    $dependingElement['#prefix'] = '<div id="' . $uniqid . '" class="cfrapi-depending-element-container">';
     $dependingElement['#suffix'] = '</div>';
     $dependingElement['#tree'] = TRUE;
 
