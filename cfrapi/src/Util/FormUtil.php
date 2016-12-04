@@ -5,31 +5,6 @@ namespace Drupal\cfrapi\Util;
 final class FormUtil extends UtilBase {
 
   /**
-   * @param array $form_state
-   * @param array $trail_of_keys
-   *
-   * @return mixed|null
-   */
-  public static function formStateGetFormValue(array $form_state, array $trail_of_keys) {
-
-    if (1
-      && isset($form_state['values'])
-      && NULL !== ($v = self::arrayGetNestedValue($form_state['values'], $trail_of_keys))
-    ) {
-      return $v;
-    }
-
-    if (1
-      && isset($form_state['input'])
-      && NULL !== $v = self::arrayGetNestedValue($form_state['input'], $trail_of_keys)
-    ) {
-      return $v;
-    }
-
-    return NULL;
-  }
-
-  /**
    * @param array $array
    * @param string[] $trail_of_keys
    *
