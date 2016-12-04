@@ -65,18 +65,4 @@ final class UiUtil extends UtilBase {
     return 1 === preg_match($regex, $interface);
   }
 
-  /**
-   * @param string $module
-   *
-   * @return string
-   */
-  public static function moduleFindLabel($module) {
-    if (NULL === $this->modulesInfo) {
-      $this->modulesInfo = system_get_info('module_enabled');
-    }
-    return isset($this->modulesInfo[$module]['name'])
-      ? $this->modulesInfo[$module]['name']
-      : $module;
-  }
-
 }
