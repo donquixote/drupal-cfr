@@ -35,7 +35,9 @@ final class StringUtil extends UtilBase {
       $regexp_by_example[$example_string] = self::camelCaseExplodeExampleToRegex($example_string);
     }
     $array = self::camelCaseExplodeWithRegex($regexp_by_example[$example_string], $string);
-    if ($lowercase) $array = array_map('strtolower', $array);
+    if ($lowercase) {
+      $array = array_map('strtolower', $array);
+    }
     return is_string($glue) ? implode($glue, $array) : $array;
   }
 
