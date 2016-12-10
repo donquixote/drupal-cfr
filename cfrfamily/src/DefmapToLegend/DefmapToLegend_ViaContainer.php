@@ -27,6 +27,6 @@ class DefmapToLegend_ViaContainer implements DefmapToLegendInterface {
    * @return \Drupal\cfrapi\Legend\LegendInterface
    */
   public function defmapGetLegend(DefinitionMapInterface $definitionMap, CfrContextInterface $context) {
-    return $this->defmapToContainer->defmapGetContainer($definitionMap, $context);
+    return $this->defmapToContainer->defmapGetContainer($definitionMap, $context)->legend;
   }
 }
