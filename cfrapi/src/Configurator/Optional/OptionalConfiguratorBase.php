@@ -9,7 +9,7 @@ use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 abstract class OptionalConfiguratorBase implements OptionalConfiguratorInterface, ConfEmptynessInterface {
 
   /**
-   * @var
+   * @var bool
    */
   private $required;
 
