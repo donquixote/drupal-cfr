@@ -2,7 +2,9 @@
 
 namespace Drupal\cfrfamily\IdValueToValue;
 
-interface IdValueToValueInterface {
+use Drupal\cfrfamily\IdPhpToPhp\IdPhpToPhpInterface;
+
+interface IdValueToValueInterface extends IdPhpToPhpInterface {
 
   /**
    * @param string $id

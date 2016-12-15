@@ -11,11 +11,9 @@ use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 use Drupal\cfrapi\Util\FormUtil;
-use Drupal\cfrfamily\IdPhpToPhp\IdPhpToPhpInterface;
-use Drupal\cfrfamily\IdPhpToPhp\IdPhpToPhpUtil;
 use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
 
-abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInterface, IdValueToValueInterface, IdPhpToPhpInterface {
+abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInterface, IdValueToValueInterface {
 
   /**
    * @var bool
@@ -374,7 +372,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
       return $php;
     }
 
-    return IdPhpToPhpUtil::objIdPhpGetPhp($this->idValueToValue, $id, $php, $helper);
+    return $this->idValueToValue->idPhpGetPhp($id, $php, $helper);
   }
 
   /**
