@@ -406,10 +406,11 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   /**
    * @param string $id
    * @param string $php
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    */
-  public function idPhpGetPhp($id, $php) {
+  public function idPhpGetPhp($id, $php, CodegenHelperInterface $helper) {
 
     return '['
     . "\n  " . var_export($this->idKey, TRUE) . ' => ' . var_export($id, TRUE) . ','

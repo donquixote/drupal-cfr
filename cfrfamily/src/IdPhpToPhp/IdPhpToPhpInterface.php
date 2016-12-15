@@ -2,6 +2,8 @@
 
 namespace Drupal\cfrfamily\IdPhpToPhp;
 
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+
 /**
  * @see \Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface::idValueGetValue()
  */
@@ -11,14 +13,11 @@ interface IdPhpToPhpInterface {
    * @param string $id
    * @param string $php
    *   PHP code to generate a value.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP code to generate a value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  function idPhpGetPhp($id, $php);
+  public function idPhpGetPhp($id, $php, CodegenHelperInterface $helper);
 
 }

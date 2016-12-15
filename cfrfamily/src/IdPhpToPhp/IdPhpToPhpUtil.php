@@ -23,7 +23,7 @@ final class IdPhpToPhpUtil extends UtilBase {
       return $helper->notSupported($object, ['id' => $id, 'php' => $php], "Object does not implement IdPhpToPhpInterface.");
     }
 
-    return $object->idPhpGetPhp($id, $php);
+    return $object->idPhpGetPhp($id, $php, $helper);
   }
 
 }
