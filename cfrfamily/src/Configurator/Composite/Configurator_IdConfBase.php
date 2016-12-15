@@ -5,9 +5,8 @@ namespace Drupal\cfrfamily\Configurator\Composite;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
 
-abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase implements IdConfToPhpInterface {
+abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
 
   /**
    * @param string $id
