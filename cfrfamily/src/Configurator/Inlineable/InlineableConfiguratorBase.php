@@ -5,7 +5,6 @@ namespace Drupal\cfrfamily\Configurator\Inlineable;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Util\ConfUtil;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 
 abstract class InlineableConfiguratorBase implements InlineableConfiguratorInterface {
 
@@ -50,7 +49,7 @@ abstract class InlineableConfiguratorBase implements InlineableConfiguratorInter
       return $helper->incompatibleConfiguration($optionsConf, "Required id missing.");
     }
 
-    return IdConfToPhpUtil::objIdConfGetPhp($this, $id, $optionsConf, $helper);
+    return $this->idConfGetPhp($id, $optionsConf, $helper);
   }
 
   /**

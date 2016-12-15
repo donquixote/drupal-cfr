@@ -4,10 +4,9 @@ namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
-class IdConfToValue_IdToConfigurator implements IdConfToValueInterface, IdConfToPhpInterface {
+class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
 
   /**
    * @var \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface

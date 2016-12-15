@@ -12,10 +12,8 @@ use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorBase;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 
-class Configurator_CallbackInlineable extends InlineableConfiguratorBase implements IdConfToPhpInterface {
+class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
 
   /**
    * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface
@@ -125,7 +123,7 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase impleme
    *   PHP statement to generate the value.
    */
   function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
-    $php = IdConfToPhpUtil::objIdConfGetPhp($this->argConfigurator, $id, $conf, $helper);
+    $php = $this->argConfigurator->idConfGetPhp($id, $conf, $helper);
 
     if (!$this->callback instanceof ArgsPhpToPhpInterface) {
       return $helper->notSupported($this->callback, ['id' => $id, 'php' => $php], "Callback does not implement ArgsPhpToPhpInterface.");

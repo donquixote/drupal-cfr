@@ -6,11 +6,9 @@ use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface;
 
-class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements InlineableConfiguratorInterface, IdConfToPhpInterface {
+class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements InlineableConfiguratorInterface {
 
   /**
    * @var \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
@@ -131,7 +129,7 @@ class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements Inl
    * @return string
    */
   public function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
-    return IdConfToPhpUtil::objIdConfGetPhp($this->idConfToValue, $id, $conf, $helper);
+    return $this->idConfToValue->idConfGetPhp($id, $conf, $helper);
   }
 
   /**

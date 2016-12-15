@@ -7,11 +7,9 @@ use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
-class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface, IdConfToPhpInterface {
+class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
 
   /**
    * @var \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface
@@ -93,7 +91,7 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface, IdConfToP
       }
       $subId = substr($id, $pos + 1);
       // @todo This is not 100% consistent with confGetValue().
-      return IdConfToPhpUtil::objIdConfGetPhp($configurator, $subId, $conf, $helper);
+      return $configurator->idConfGetPhp($subId, $conf, $helper);
     }
 
     return $helper->incompatibleConfiguration($id, "Unknown id.");

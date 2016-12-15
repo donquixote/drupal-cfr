@@ -6,10 +6,8 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\CfrLegendItem\ParentLegendItemInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
-use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 
-class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface, IdConfToPhpInterface {
+class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
 
   /**
    * @var \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
@@ -76,7 +74,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface, IdCo
   function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
 
     if ($this->legend->idIsKnown($id)) {
-      return IdConfToPhpUtil::objIdConfGetPhp($this->idConfToValue, $id, $conf, $helper);
+      return $this->idConfToValue->idConfGetPhp($id, $conf, $helper);
     }
 
     $pos = 0;
@@ -96,7 +94,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface, IdCo
         continue;
       }
       $subId = substr($id, $pos + 1);
-      return IdConfToPhpUtil::objIdConfGetPhp($inlineLegend, $subId, $conf, $helper);
+      return $inlineLegend->idConfGetPhp($subId, $conf, $helper);
     }
 
     return $helper->incompatibleConfiguration($id, "Unknown id.");

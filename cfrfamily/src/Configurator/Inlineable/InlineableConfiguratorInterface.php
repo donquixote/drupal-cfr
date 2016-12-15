@@ -4,15 +4,8 @@ namespace Drupal\cfrfamily\Configurator\Inlineable;
 
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
+use Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface;
 
-interface InlineableConfiguratorInterface extends ConfiguratorInterface, CfrLegendProviderInterface {
-
-  /**
-   * @param string $id
-   * @param mixed $optionsConf
-   *
-   * @return mixed
-   */
-  public function idConfGetValue($id, $optionsConf);
+interface InlineableConfiguratorInterface extends ConfiguratorInterface, CfrLegendProviderInterface, IdConfToValueInterface {
 
 }

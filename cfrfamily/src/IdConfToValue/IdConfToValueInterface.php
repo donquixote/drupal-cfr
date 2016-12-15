@@ -2,7 +2,9 @@
 
 namespace Drupal\cfrfamily\IdConfToValue;
 
-interface IdConfToValueInterface {
+use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
+
+interface IdConfToValueInterface extends IdConfToPhpInterface {
 
   /**
    * @param string|null $id
