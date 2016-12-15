@@ -4,9 +4,8 @@ namespace Drupal\cfrkit\Configurator;
 
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Optionable\Configurator_TextfieldBase;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 
-class Configurator_Textfield extends Configurator_TextfieldBase implements ConfToPhpInterface {
+class Configurator_Textfield extends Configurator_TextfieldBase {
 
   /**
    * @param mixed $conf

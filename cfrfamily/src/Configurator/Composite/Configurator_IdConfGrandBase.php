@@ -7,7 +7,6 @@ use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\ConfUtil;
@@ -16,7 +15,7 @@ use Drupal\cfrfamily\IdPhpToPhp\IdPhpToPhpInterface;
 use Drupal\cfrfamily\IdPhpToPhp\IdPhpToPhpUtil;
 use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
 
-abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInterface, IdValueToValueInterface, IdPhpToPhpInterface, ConfToPhpInterface {
+abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInterface, IdValueToValueInterface, IdPhpToPhpInterface {
 
   /**
    * @var bool

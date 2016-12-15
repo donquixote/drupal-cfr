@@ -3,14 +3,13 @@
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\PhpProvider\PhpProviderInterface;
 use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
 
 /**
  * @see \Drupal\cfrapi\ValueProvider\ValueProvider_FromCfrConf
  */
-class Configurator_FromValueProvider extends Configurator_OptionlessBase implements ConfToPhpInterface {
+class Configurator_FromValueProvider extends Configurator_OptionlessBase {
 
   /**
    * @var \Drupal\cfrapi\ValueProvider\ValueProviderInterface

@@ -5,9 +5,8 @@ namespace Drupal\cfrapi\Configurator\Group;
 use Donquixote\CallbackReflection\ArgsPhpToPhp\ArgsPhpToPhpInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 
-class Configurator_GroupWithValueCallback extends Configurator_GroupBase implements ConfToPhpInterface {
+class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
 
   /**
    * @var callable

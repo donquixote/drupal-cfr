@@ -4,7 +4,6 @@ namespace Drupal\cfrapi\ValueProvider;
 
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\PhpProvider\PhpProviderInterface;
 
 class ValueProvider_FromCfrConf implements ValueProviderInterface, PhpProviderInterface {
@@ -42,6 +41,6 @@ class ValueProvider_FromCfrConf implements ValueProviderInterface, PhpProviderIn
    *   PHP statement to generate the value.
    */
   public function getPhp(CodegenHelperInterface $helper) {
-    return ConfToPhpUtil::objConfGetPhp($this->configurator, $this->conf, $helper);
+    return $this->configurator->confGetPhp($this->conf, $helper);
   }
 }

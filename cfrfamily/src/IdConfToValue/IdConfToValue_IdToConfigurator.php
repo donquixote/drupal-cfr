@@ -4,7 +4,6 @@ namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
@@ -61,6 +60,6 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface, IdConfTo
       return $helper->incompatibleConfiguration($id, "Unknown id.");
     }
 
-    return ConfToPhpUtil::objConfGetPhp($configurator, $conf, $helper);
+    return $configurator->confGetPhp($conf, $helper);
   }
 }

@@ -1,7 +1,6 @@
 <?php
 use Donquixote\CallbackReflection\Util\CodegenUtil;
 use Drupal\cfrapi\CodegenHelper\CodegenHelper;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
 use Drupal\cfrplugin\Util\UiUtil;
 
@@ -56,11 +55,6 @@ function _cfrplugin_report_interface_demo_page($interface) {
       $out['object']['notice']['#markup'] = t('No dump utility available. Install devel and/or krumong.');
     }
   }
-
-  if (!$configurator instanceof ConfToPhpInterface) {
-    return $out;
-  }
-
 
   $out['codegen'] = [
     '#type' => 'fieldset',

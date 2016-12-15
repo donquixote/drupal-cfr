@@ -5,10 +5,9 @@ namespace Drupal\cfrapi\Configurator\Broken;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueBase;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenConfiguratorInterface, ConfToPhpInterface {
+abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenConfiguratorInterface {
 
   /**
    * @param mixed $conf

@@ -4,7 +4,6 @@ namespace Drupal\cfrfamily\Configurator\Composite;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
 
@@ -82,7 +81,7 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase impl
       return $helper->incompatibleConfiguration($id, "Unknown id.");
     }
 
-    return ConfToPhpUtil::objConfGetPhp($configurator, $conf, $helper);
+    return $configurator->confGetPhp($conf, $helper);
   }
 
   /**

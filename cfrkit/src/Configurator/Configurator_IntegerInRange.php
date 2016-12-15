@@ -5,10 +5,9 @@ namespace Drupal\cfrkit\Configurator;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-class Configurator_IntegerInRange implements ConfiguratorInterface, ConfToPhpInterface {
+class Configurator_IntegerInRange implements ConfiguratorInterface {
 
   /**
    * @var int|null

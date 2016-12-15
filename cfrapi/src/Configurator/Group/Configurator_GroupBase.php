@@ -6,7 +6,6 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
@@ -171,7 +170,7 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
         ? $conf[$key]
         : NULL;
 
-      $php_statements[$key] = ConfToPhpUtil::objConfGetPhp($configurator, $key_conf, $helper);
+      $php_statements[$key] = $configurator->confGetPhp($key_conf, $helper);
     }
 
     return $php_statements;

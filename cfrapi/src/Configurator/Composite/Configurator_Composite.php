@@ -5,13 +5,11 @@ namespace Drupal\cfrapi\Configurator\Composite;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
 use Drupal\cfrapi\ConfToValue\ConfToValueInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-class Configurator_Composite implements ConfiguratorInterface, ConfToPhpInterface {
+class Configurator_Composite implements ConfiguratorInterface {
 
   /**
    * @var \Drupal\cfrapi\ConfToForm\ConfToFormInterface
@@ -82,6 +80,6 @@ class Configurator_Composite implements ConfiguratorInterface, ConfToPhpInterfac
    *   PHP statement to generate the value.
    */
   public function confGetPhp($conf, CodegenHelperInterface $helper) {
-    return ConfToPhpUtil::objConfGetPhp($this->confToValue, $conf, $helper);
+    return $this->confToValue->confGetPhp($conf, $helper);
   }
 }

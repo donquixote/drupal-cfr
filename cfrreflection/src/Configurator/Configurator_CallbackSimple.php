@@ -10,9 +10,8 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_OptionlessBase;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 
-class Configurator_CallbackSimple extends Configurator_OptionlessBase implements ConfToPhpInterface {
+class Configurator_CallbackSimple extends Configurator_OptionlessBase {
 
   /**
    * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface

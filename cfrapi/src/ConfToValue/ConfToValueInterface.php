@@ -2,7 +2,9 @@
 
 namespace Drupal\cfrapi\ConfToValue;
 
-interface ConfToValueInterface {
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+
+interface ConfToValueInterface extends ConfToPhpInterface {
 
   /**
    * @param mixed $conf

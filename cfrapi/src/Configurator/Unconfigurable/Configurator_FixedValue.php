@@ -3,9 +3,8 @@
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 
-class Configurator_FixedValue extends Configurator_OptionlessBase implements ConfToPhpInterface {
+class Configurator_FixedValue extends Configurator_OptionlessBase {
 
   /**
    * @var mixed

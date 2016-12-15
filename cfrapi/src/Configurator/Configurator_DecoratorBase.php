@@ -3,7 +3,6 @@
 namespace Drupal\cfrapi\Configurator;
 
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 abstract class Configurator_DecoratorBase implements ConfiguratorInterface {
@@ -66,6 +65,6 @@ abstract class Configurator_DecoratorBase implements ConfiguratorInterface {
    *   PHP statement to generate the value.
    */
   public function confGetPhp($conf, CodegenHelperInterface $helper) {
-    return ConfToPhpUtil::objConfGetPhp($this->decorated, $conf, $helper);
+    return $this->decorated->confGetPhp($conf, $helper);
   }
 }

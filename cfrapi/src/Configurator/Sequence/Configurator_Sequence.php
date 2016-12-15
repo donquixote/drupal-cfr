@@ -7,15 +7,12 @@ use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhp_NotSupported;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
  * @see \Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence
  */
-class Configurator_Sequence implements OptionalConfiguratorInterface, ConfToPhpInterface {
+class Configurator_Sequence implements OptionalConfiguratorInterface {
 
   /**
    * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface
@@ -222,10 +219,6 @@ class Configurator_Sequence implements OptionalConfiguratorInterface, ConfToPhpI
       return $helper->incompatibleConfiguration($conf, "Configuration must be an array or NULL.");
     }
 
-    $confToPhp = !$this->configurator instanceof ConfToPhpInterface
-      ? new ConfToPhp_NotSupported($this->configurator)
-      : $this->configurator;
-
     $phpStatements = array();
     foreach ($conf as $delta => $deltaConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
@@ -236,7 +229,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface, ConfToPhpI
         // Skip empty values.
         continue;
       }
-      $phpStatements[] = $confToPhp->confGetPhp($deltaConf, $helper);
+      $phpStatements[] = $this->configurator->confGetPhp($deltaConf, $helper);
     }
 
 

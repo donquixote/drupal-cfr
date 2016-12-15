@@ -6,10 +6,9 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-abstract class Configurator_SelectBase implements OptionalConfiguratorInterface, ConfToPhpInterface {
+abstract class Configurator_SelectBase implements OptionalConfiguratorInterface {
 
   /**
    * @var bool

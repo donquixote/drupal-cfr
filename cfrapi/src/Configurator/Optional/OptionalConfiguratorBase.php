@@ -5,10 +5,9 @@ namespace Drupal\cfrapi\Configurator\Optional;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-abstract class OptionalConfiguratorBase implements OptionalConfiguratorInterface, ConfEmptynessInterface, ConfToPhpInterface {
+abstract class OptionalConfiguratorBase implements OptionalConfiguratorInterface, ConfEmptynessInterface {
 
   /**
    * @var bool

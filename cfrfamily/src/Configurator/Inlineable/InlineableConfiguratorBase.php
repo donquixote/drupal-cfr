@@ -4,11 +4,10 @@ namespace Drupal\cfrfamily\Configurator\Inlineable;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 
-abstract class InlineableConfiguratorBase implements InlineableConfiguratorInterface, ConfToPhpInterface {
+abstract class InlineableConfiguratorBase implements InlineableConfiguratorInterface {
 
   /**
    * @var string

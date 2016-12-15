@@ -4,10 +4,9 @@ namespace Drupal\cfrapi\Configurator\Bool;
 
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-class Configurator_Checkbox implements ConfiguratorInterface, ConfToPhpInterface {
+class Configurator_Checkbox implements ConfiguratorInterface {
 
   /**
    * Builds the argument value to use at the position represented by this

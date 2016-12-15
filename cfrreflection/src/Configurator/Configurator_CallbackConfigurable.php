@@ -11,10 +11,9 @@ use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Group\Configurator_GroupBase;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrreflection\Util\CfrReflectionUtil;
 
-class Configurator_CallbackConfigurable extends Configurator_GroupBase implements ConfToPhpInterface {
+class Configurator_CallbackConfigurable extends Configurator_GroupBase {
 
   /**
    * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface
