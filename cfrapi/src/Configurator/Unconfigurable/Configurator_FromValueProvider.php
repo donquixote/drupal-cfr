@@ -3,7 +3,6 @@
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
-use Drupal\cfrapi\PhpProvider\PhpProviderInterface;
 use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
 
 /**
@@ -43,10 +42,6 @@ class Configurator_FromValueProvider extends Configurator_OptionlessBase {
    *   PHP statement to generate the value.
    */
   public function confGetPhp($conf, CodegenHelperInterface $helper) {
-
-    if (!$this->valueProvider instanceof PhpProviderInterface) {
-      return $helper->notSupported($this->valueProvider, $conf, "Object does not implement PhpProviderInterface.");
-    }
 
     return $this->valueProvider->getPhp($helper);
   }

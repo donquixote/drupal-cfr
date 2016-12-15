@@ -2,7 +2,9 @@
 
 namespace Drupal\cfrapi\ValueProvider;
 
-interface ValueProviderInterface {
+use Drupal\cfrapi\PhpProvider\PhpProviderInterface;
+
+interface ValueProviderInterface extends PhpProviderInterface {
 
   /**
    * @return mixed

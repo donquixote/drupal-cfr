@@ -4,9 +4,8 @@ namespace Drupal\cfrapi\ValueProvider;
 
 use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\PhpProvider\PhpProviderInterface;
 
-class ValueProvider_FromCfrConf implements ValueProviderInterface, PhpProviderInterface {
+class ValueProvider_FromCfrConf implements ValueProviderInterface {
 
   /**
    * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface
