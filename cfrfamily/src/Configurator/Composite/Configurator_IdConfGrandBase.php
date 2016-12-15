@@ -4,11 +4,11 @@ namespace Drupal\cfrfamily\Configurator\Composite;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 use Drupal\cfrapi\Util\FormUtil;
@@ -351,35 +351,31 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public function confGetPhp($conf) {
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
 
     list($id, $optionsConf) = $this->confGetIdOptions($conf);
 
     if (NULL === $id) {
       if ($this->required) {
-        throw new InvalidConfigurationException("Required id missing");
+        return $helper->incompatibleConfiguration($conf, "Required id missing.");
       }
       else {
-        // @todo Check if default value is primitive.
-        return var_export($this->defaultValue, TRUE);
+        return $helper->export($this->defaultValue);
       }
     }
 
-    $php = $this->idConfGetPhp($id, $optionsConf);
+    $php = $this->idConfGetPhp($id, $optionsConf, $helper);
 
     if (NULL === $this->idValueToValue) {
       return $php;
     }
 
-    return IdPhpToPhpUtil::objIdPhpGetPhp($this->idValueToValue, $id, $php);
+    return IdPhpToPhpUtil::objIdPhpGetPhp($this->idValueToValue, $id, $php, $helper);
   }
 
   /**
@@ -416,10 +412,10 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    */
   public function idPhpGetPhp($id, $php) {
 
-    return 'array('
+    return '['
     . "\n  " . var_export($this->idKey, TRUE) . ' => ' . var_export($id, TRUE) . ','
     . "\n  " . var_export($this->optionsKey, TRUE) . ' => ' . $php . ','
-    . "\n)";
+    . "\n]";
   }
 
   /**
@@ -491,10 +487,11 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   abstract protected function idConfGetValue($id, $optionsConf);
 
   /**
-   * @param $id
-   * @param $optionsConf
+   * @param string $id
+   * @param mixed $optionsConf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    */
-  abstract protected function idConfGetPhp($id, $optionsConf);
+  abstract protected function idConfGetPhp($id, $optionsConf, CodegenHelperInterface $helper);
 }

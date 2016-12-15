@@ -3,10 +3,12 @@
 namespace Drupal\cfrkit\Configurator;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-class Configurator_IntegerInRange implements ConfiguratorInterface {
+class Configurator_IntegerInRange implements ConfiguratorInterface, ConfToPhpInterface {
 
   /**
    * @var int|null
@@ -113,9 +115,8 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
 
   /**
    * @param array $element
-   * @param array $form_state
    */
-  public static function elementValidateMin(array $element, array &$form_state) {
+  public static function elementValidateMin(array $element /* , array &$form_state */) {
 
     $v = $element['#value'];
 
@@ -135,9 +136,8 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
 
   /**
    * @param array $element
-   * @param array $form_state
    */
-  public static function elementValidateMax(array $element, array &$form_state) {
+  public static function elementValidateMax(array $element /* , array &$form_state */) {
 
     $v = $element['#value'];
 
@@ -170,11 +170,14 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
    */
   public function confGetValue($conf) {
 
-    if (!is_int($conf)) {
+    if (is_string($conf)) {
       if ((string)(int)$conf !== $conf) {
         return new BrokenValue($this, get_defined_vars(), "Value must be an integer.");
       }
       $conf = (int)$conf;
+    }
+    elseif (!is_int($conf)) {
+      return new BrokenValue($this, get_defined_vars(), "Value must be an integer.");
     }
 
     if (NULL !== $this->min && $conf < $this->min) {
@@ -186,5 +189,36 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
     }
 
     return $conf;
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   */
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+
+    if (is_string($conf)) {
+      if ((string)(int)$conf !== $conf) {
+        return $helper->incompatibleConfiguration($conf, "Value must be an integer.");
+      }
+      $conf = (int)$conf;
+    }
+    elseif (!is_int($conf)) {
+      return $helper->incompatibleConfiguration($conf, "Value must be an integer.");
+    }
+
+    if (NULL !== $this->min && $conf < $this->min) {
+      return $helper->incompatibleConfiguration($conf, "Value must be greater than or equal to $this->min.");
+    }
+
+    if (NULL !== $this->max && $conf > $this->max) {
+      return $helper->incompatibleConfiguration($conf, "Value must be no greater than $this->max.");
+    }
+
+    return var_export($conf, TRUE);
   }
 }

@@ -2,8 +2,8 @@
 
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
 
 class Configurator_FixedValue extends Configurator_OptionlessBase implements ConfToPhpInterface {
 
@@ -40,22 +40,19 @@ class Configurator_FixedValue extends Configurator_OptionlessBase implements Con
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public function confGetPhp($conf) {
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+
     if (FALSE === $this->php) {
       $type = gettype($this->fixedValue);
-      throw new PhpGenerationNotSupportedException("This fixed value of type '$type' does not support code generation.");
+      return $helper->notSupported($this, $conf, "This fixed value of type '$type' does not support code generation.");
     }
     elseif (NULL === $this->php) {
-      // @todo Check if var_export() is applicable.
-      return var_export($this->fixedValue, TRUE);
+      return $helper->export($this->fixedValue);
     }
     else {
       return $this->php;

@@ -4,9 +4,9 @@ namespace Drupal\cfrapi\Configurator\Group;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
@@ -18,12 +18,12 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
   /**
    * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface[]
    */
-  private $configurators;
+  private $configurators = [];
 
   /**
    * @var string[]
    */
-  private $labels;
+  private $labels = [];
 
   /**
    * @param array $paramConfigurators
@@ -125,18 +125,39 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
     return $values;
   }
 
+
   /**
    * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   */
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+
+    if (array() === $this->configurators) {
+      return '[]';
+    }
+
+    $php = '';
+    foreach ($this->confGetPhpStatements($conf, $helper) as $key => $php_statement) {
+      $php .= "\n  " . var_export($key, TRUE) . ' => ' . $php_statement . ',';
+    }
+
+    return "[$php\n]";
+  }
+
+  /**
+   * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string[]
    *   PHP statements to generate the values.
    *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   *
    * @see \Drupal\cfrapi\GroupConfToPhpStatements\GroupConfToPhpStatementsInterface
    */
-  public function confGetPhpStatements($conf) {
+  public function confGetPhpStatements($conf, CodegenHelperInterface $helper) {
 
     if (!is_array($conf)) {
       // If all values are optional, this might still work.
@@ -150,15 +171,7 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
         ? $conf[$key]
         : NULL;
 
-      if ($configurator instanceof ConfToPhpInterface) {
-        $php_statements[$key] = $configurator->confGetPhp($key_conf);
-      }
-      else {
-        # $value = $configurator->confGetValue($key_conf);
-        // @todo Check if $value is primitive and exportable.
-        $class = get_class($configurator);
-        throw new PhpGenerationNotSupportedException("\$this->configurators['$key'] of class '$class' does not support code generation.");
-      }
+      $php_statements[$key] = ConfToPhpUtil::objConfGetPhp($configurator, $key_conf, $helper);
     }
 
     return $php_statements;

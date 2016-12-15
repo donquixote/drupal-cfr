@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\ValueProvider;
 
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\PhpProvider\PhpProviderInterface;
@@ -35,14 +36,12 @@ class ValueProvider_FromCfrConf implements ValueProviderInterface, PhpProviderIn
   }
 
   /**
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public function getPhp() {
-    return ConfToPhpUtil::objConfGetPhp($this->configurator, $this->conf);
+  public function getPhp(CodegenHelperInterface $helper) {
+    return ConfToPhpUtil::objConfGetPhp($this->configurator, $this->conf, $helper);
   }
 }

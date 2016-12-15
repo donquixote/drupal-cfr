@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator\Bool;
 
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
@@ -53,14 +54,12 @@ class Configurator_Checkbox implements ConfiguratorInterface, ConfToPhpInterface
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
-  public function confGetPhp($conf) {
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
     return !empty($conf) ? 'true' : 'false';
   }
 }

@@ -4,12 +4,12 @@ namespace Drupal\cfrapi\Configurator\Sequence;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhp_NotSupported;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
-use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
-use Drupal\cfrapi\PhpToPhp\PhpToPhpUtil;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
@@ -207,30 +207,24 @@ class Configurator_Sequence implements OptionalConfiguratorInterface, ConfToPhpI
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public function confGetPhp($conf) {
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
 
-    if (NULL === $conf || array() === $conf) {
-      return 'array()';
+    if (NULL === $conf || [] === $conf) {
+      return '[]';
     }
 
     if (!is_array($conf)) {
-      $type = gettype($conf);
-      throw new InvalidConfigurationException("Configuration must be an array or NULL. $type found instead.");
+      return $helper->incompatibleConfiguration($conf, "Configuration must be an array or NULL.");
     }
 
-    $configurator = $this->configurator;
-    if (!$configurator instanceof ConfToPhpInterface) {
-      $class = get_class($configurator);
-      throw new PhpGenerationNotSupportedException("\$this->configurator of class '$class' does not support code generation.");
-    }
+    $confToPhp = !$this->configurator instanceof ConfToPhpInterface
+      ? new ConfToPhp_NotSupported($this->configurator)
+      : $this->configurator;
 
     $phpStatements = array();
     foreach ($conf as $delta => $deltaConf) {
@@ -242,9 +236,16 @@ class Configurator_Sequence implements OptionalConfiguratorInterface, ConfToPhpI
         // Skip empty values.
         continue;
       }
-      $phpStatements[] = $configurator->confGetPhp($deltaConf);
+      $phpStatements[] = $confToPhp->confGetPhp($deltaConf, $helper);
     }
 
-    return PhpToPhpUtil::phpStatementsGetArrayPhp($phpStatements);
+
+    $php = '';
+    foreach (array_values($phpStatements) as $delta => $deltaPhp) {
+      $php .= "\n// Item #$delta"
+        . "\n  " . $deltaPhp . ',';
+    }
+
+    return "[$php\n]";
   }
 }

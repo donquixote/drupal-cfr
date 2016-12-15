@@ -39,5 +39,4 @@ class Configurator_GroupReparentV2V extends Configurator_GroupReparent {
     }
     return $value;
   }
-
 }

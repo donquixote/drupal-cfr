@@ -2,16 +2,16 @@
 
 namespace Drupal\cfrapi\PhpProvider;
 
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+
 interface PhpProviderInterface {
 
   /**
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public function getPhp();
+  public function getPhp(CodegenHelperInterface $helper);
 
 }

@@ -41,11 +41,21 @@ function cfrplugin_menu() {
   $items[$interface_base . '/code'] = [
     'type' => MENU_LOCAL_TASK,
     'access arguments' => [$perm],
-    'title' => 'View code',
+    'title' => 'Interface',
     /* @see _cfrplugin_report_interface_code_page() */
     'page callback' => '_cfrplugin_report_interface_code_page',
     'page arguments' => [3],
     'file' => 'cfrplugin.page.report.interface.code.inc',
+  ];
+
+  $items[$interface_base . '/demo'] = [
+    'type' => MENU_LOCAL_TASK,
+    'access arguments' => [$perm],
+    'title' => 'Demo',
+    /* @see _cfrplugin_report_interface_demo_page() */
+    'page callback' => '_cfrplugin_report_interface_demo_page',
+    'page arguments' => [3],
+    'file' => 'cfrplugin.page.report.interface.demo.inc',
   ];
 
   /* @see _cfrplugin_definition_load() */

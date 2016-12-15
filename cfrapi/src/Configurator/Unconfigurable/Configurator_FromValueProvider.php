@@ -2,8 +2,9 @@
 
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\PhpProvider\PhpProviderUtil;
+use Drupal\cfrapi\PhpProvider\PhpProviderInterface;
 use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
 
 /**
@@ -37,15 +38,17 @@ class Configurator_FromValueProvider extends Configurator_OptionlessBase impleme
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public function confGetPhp($conf) {
-    return PhpProviderUtil::objGetPhp($this->valueProvider);
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+
+    if (!$this->valueProvider instanceof PhpProviderInterface) {
+      return $helper->notSupported($this->valueProvider, $conf, "Object does not implement PhpProviderInterface.");
+    }
+
+    return $this->valueProvider->getPhp($helper);
   }
 }

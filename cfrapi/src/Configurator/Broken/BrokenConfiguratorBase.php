@@ -4,8 +4,8 @@ namespace Drupal\cfrapi\Configurator\Broken;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueBase;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\Exception\BrokenConfiguratorException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenConfiguratorInterface, ConfToPhpInterface {
@@ -50,14 +50,13 @@ abstract class BrokenConfiguratorBase extends BrokenValueBase implements BrokenC
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  function confGetPhp($conf) {
-    throw new BrokenConfiguratorException("Broken configurator");
+  function confGetPhp($conf, CodegenHelperInterface $helper) {
+    return $helper->brokenConfigurator($conf, '');
   }
 
 }

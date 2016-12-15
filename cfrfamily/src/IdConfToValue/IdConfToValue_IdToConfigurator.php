@@ -3,9 +3,12 @@
 namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
+use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
-class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
+class IdConfToValue_IdToConfigurator implements IdConfToValueInterface, IdConfToPhpInterface {
 
   /**
    * @var \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface
@@ -36,5 +39,28 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
     }
 
     return $configurator->confGetValue($conf);
+  }
+
+  /**
+   * @param string|int $id
+   * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
+
+    if (NULL === $id) {
+      return $helper->incompatibleConfiguration($id, "Required id missing.");
+    }
+
+    if (NULL === $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
+      return $helper->incompatibleConfiguration($id, "Unknown id.");
+    }
+
+    return ConfToPhpUtil::objConfGetPhp($configurator, $conf, $helper);
   }
 }

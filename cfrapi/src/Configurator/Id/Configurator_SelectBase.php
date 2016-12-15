@@ -3,10 +3,10 @@
 namespace Drupal\cfrapi\Configurator\Id;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 abstract class Configurator_SelectBase implements OptionalConfiguratorInterface, ConfToPhpInterface {
@@ -109,28 +109,25 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface,
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public function confGetPhp($conf) {
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
     if (is_numeric($conf)) {
       $conf = (string)$conf;
     }
     elseif (NULL === $conf || '' === $conf) {
-      throw new InvalidConfigurationException("Required id missing.");
+      return $helper->incompatibleConfiguration($conf, "Required id missing.");
     }
     elseif (!is_string($conf)) {
-      throw new InvalidConfigurationException("Invalid id type.");
+      return $helper->incompatibleConfiguration($conf, "Id must be a string or integer.");
     }
     elseif (!$this->idIsKnown($conf)) {
-      throw new InvalidConfigurationException("Unknown id '$conf'.");
+      return $helper->incompatibleConfiguration($conf, "Unknown id.");
     }
-    return var_export($conf, TRUE);
+    return $helper->export($conf);
   }
 
   /**

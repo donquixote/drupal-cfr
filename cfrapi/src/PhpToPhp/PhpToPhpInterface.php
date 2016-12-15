@@ -2,6 +2,9 @@
 
 namespace Drupal\cfrapi\PhpToPhp;
 
+/**
+ * @see \Drupal\cfrapi\ValueToValue\ValueToValueInterface
+ */
 interface PhpToPhpInterface {
 
   /**
@@ -10,9 +13,6 @@ interface PhpToPhpInterface {
    *
    * @return string
    *   Modified PHP code to generate a value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
   public function phpGetPhp($php);
 

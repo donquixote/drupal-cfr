@@ -3,8 +3,8 @@
 namespace Drupal\cfrfamily\Configurator\Composite;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
 
@@ -69,18 +69,20 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase impl
 
   /**
    * @param string $id
-   * @param mixed $optionsConf
+   * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
+   *
    * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
-  public function idConfGetPhp($id, $optionsConf) {
+  public function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
 
     if (!$configurator = $this->idGetConfigurator($id)) {
-      throw new InvalidConfigurationException("Unknown id " . var_export($id, TRUE) . ".");
+      return $helper->incompatibleConfiguration($id, "Unknown id.");
     }
 
-    return ConfToPhpUtil::objConfGetPhp($configurator, $optionsConf);
+    return ConfToPhpUtil::objConfGetPhp($configurator, $conf, $helper);
   }
 
   /**

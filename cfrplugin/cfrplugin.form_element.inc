@@ -117,6 +117,17 @@ function _cfrplugin_pre_render_drilldown_container(array $element) {
           'title' => t('Definitions for @type plugins.', $replacements),
         ]]),
     ];
+
+    $tools['demo'] = [
+      '#markup' => l(
+        t('Demo / Code generator.'),
+        "admin/reports/cfrplugin/$interface_slug/demo",
+        ['attributes' => [
+          'class' => ['cfrplugin-demo'],
+          'target' => '_blank',
+          'title' => t('Demo / Code generator.'),
+        ]]),
+    ];
   }
 
   if ([] === $tools) {

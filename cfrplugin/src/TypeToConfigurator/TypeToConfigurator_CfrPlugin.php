@@ -41,7 +41,9 @@ class TypeToConfigurator_CfrPlugin implements TypeToConfiguratorInterface {
    */
   public function typeGetOptionalConfigurator($type, CfrContextInterface $context = NULL, $defaultValue = NULL) {
     $configurator = $this->decorated->typeGetOptionalConfigurator($type, $context, $defaultValue);
-    return $this->processConfigurator($configurator, $type, $context);
+    /** @var \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface $configurator */
+    $configurator = $this->processConfigurator($configurator, $type, $context);
+    return $configurator;
   }
 
   /**

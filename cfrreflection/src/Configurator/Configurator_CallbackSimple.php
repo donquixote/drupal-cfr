@@ -7,10 +7,10 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_OptionlessBase;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
-use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
 
 class Configurator_CallbackSimple extends Configurator_OptionlessBase implements ConfToPhpInterface {
 
@@ -68,22 +68,17 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase implements
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
-  public function confGetPhp($conf) {
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
 
-    $callback = $this->callback;
-    if (!$callback instanceof ArgsPhpToPhpInterface) {
-      $class = get_class($callback);
-      throw new PhpGenerationNotSupportedException("\$this->callback of class '$class' does not support code generation.");
+    if (!$this->callback instanceof ArgsPhpToPhpInterface) {
+      return $helper->notSupported($this->callback, [], "Callback does not implement ArgsPhpToPhpInterface.");
     }
 
-    // @todo Cast any exceptions from the callback.
-    return $callback->argsPhpGetPhp(array());
+    return $this->callback->argsPhpGetPhp(array());
   }
 }

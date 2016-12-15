@@ -2,17 +2,17 @@
 
 namespace Drupal\cfrapi\GroupConfToPhpStatements;
 
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+
 interface GroupConfToPhpStatementsInterface {
 
   /**
    * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string[]
    *   PHP statements to generate the values.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
-  public function confGetPhpStatements($conf);
+  public function confGetPhpStatements($conf, CodegenHelperInterface $helper);
 
 }

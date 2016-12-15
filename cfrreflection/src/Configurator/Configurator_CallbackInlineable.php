@@ -7,7 +7,7 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
-use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorBase;
@@ -119,24 +119,18 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase impleme
   /**
    * @param string|int $id
    * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  function idConfGetPhp($id, $conf) {
-    $php = IdConfToPhpUtil::objIdConfGetPhp($this->argConfigurator, $id, $conf);
+  function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
+    $php = IdConfToPhpUtil::objIdConfGetPhp($this->argConfigurator, $id, $conf, $helper);
 
-    $callback = $this->callback;
-    if (!$callback instanceof ArgsPhpToPhpInterface) {
-      $class = get_class($callback);
-      throw new PhpGenerationNotSupportedException("\$this->callback of class '$class' does not support code generation.");
+    if (!$this->callback instanceof ArgsPhpToPhpInterface) {
+      return $helper->notSupported($this->callback, ['id' => $id, 'php' => $php], "Callback does not implement ArgsPhpToPhpInterface.");
     }
 
-    // @todo Convert any exceptions.
-    return $callback->argsPhpGetPhp(array($php));
+    return $this->callback->argsPhpGetPhp(array($php));
   }
 }

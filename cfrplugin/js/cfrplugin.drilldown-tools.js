@@ -142,6 +142,13 @@
 
         $tools.appendTo($selectWrapper).show();
 
+        $('.cfrplugin-demo', $tools).click(function(event){
+          var formValuesAll = $form.serializeArray();
+          var values = extractValues(formValuesAll, name + '[options]', 'plugin[options]');
+          values['plugin[id]'] = $select.val();
+          this.search = '?' + $.param(values);
+        });
+
         $('.cfrplugin-copy', $tools).click(function(event){
           // event.preventDefault();
           var formValuesAll = $form.serializeArray();

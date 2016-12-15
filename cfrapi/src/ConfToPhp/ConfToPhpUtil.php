@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\ConfToPhp;
 
-use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Util\UtilBase;
 
 final class ConfToPhpUtil extends UtilBase {
@@ -10,22 +10,23 @@ final class ConfToPhpUtil extends UtilBase {
   /**
    * @param mixed $object
    * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
-  public static function objConfGetPhp($object, $conf) {
-    if (!$object instanceof ConfToPhpInterface) {
-      if (!is_object($object)) {
-        $type = gettype($object);
-        throw new PhpGenerationNotSupportedException("Variable of type '$type' is not an object.");
-      }
-      throw new PhpGenerationNotSupportedException("Object of class '$class' does not support code generation.");
+  public static function objConfGetPhp($object, $conf, CodegenHelperInterface $helper) {
+
+    if ($object instanceof ConfToPhpInterface) {
+      return $object->confGetPhp($conf, $helper);
     }
-    return $object->confGetPhp($conf);
+
+    if (!is_object($object)) {
+      $type = gettype($object);
+      return $helper->notSupported($object, $conf, "Variable of type '$type' is not an object.");
+    }
+
+    return $helper->notSupported($object, $conf, "Object does not implement ConfToPhpInterface.");
   }
 
 }

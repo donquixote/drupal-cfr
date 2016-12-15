@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\PhpToPhp;
 
-use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Util\UtilBase;
 
 final class PhpToPhpUtil extends UtilBase {
@@ -11,18 +11,17 @@ final class PhpToPhpUtil extends UtilBase {
    * @param mixed $object
    * @param string $php
    *   PHP code to generate a value.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   Modified PHP code to generate a value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public static function objPhpGetPhp($object, $php) {
+  public static function objPhpGetPhp($object, $php, CodegenHelperInterface $helper) {
+
     if (!$object instanceof PhpToPhpInterface) {
-      $class = get_class($object);
-      throw new PhpGenerationNotSupportedException("Object of class '$class' does not support code generation.");
+      return $helper->notSupported($object, NULL, "Object does not implement PhpProviderInterface.");
     }
+
     return $object->phpGetPhp($php);
   }
 
@@ -39,8 +38,8 @@ final class PhpToPhpUtil extends UtilBase {
     }
 
     return '' !== $php
-      ? 'array(' . $php . "\n" . ')'
-      : 'array()';
+      ? "[$php\n]"
+      : '[]';
   }
 
   /**
@@ -56,8 +55,8 @@ final class PhpToPhpUtil extends UtilBase {
     }
 
     return '' !== $php
-      ? 'array(' . $php . "\n" . ')'
-      : 'array()';
+      ? "[$php\n]"
+      : '[]';
   }
 
 }

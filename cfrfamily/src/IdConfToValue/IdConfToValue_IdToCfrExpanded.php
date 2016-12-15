@@ -4,11 +4,15 @@ namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
+use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
+use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
+use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
-class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
+class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface, IdConfToPhpInterface {
 
   /**
    * @var \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface
@@ -57,5 +61,42 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
     }
 
     return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
+  }
+
+  /**
+   * @param string|int $id
+   * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   */
+  function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
+
+    if (NULL === $id) {
+      return $helper->incompatibleConfiguration($id, "Required id missing.");
+    }
+
+    if (NULL !== $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
+      if (!$configurator instanceof BrokenConfiguratorInterface) {
+        return ConfToPhpUtil::objConfGetPhp($configurator, $conf, $helper);
+      }
+    }
+
+    $pos = 0;
+    while (FALSE !== $pos = strpos($id, '/', $pos + 1)) {
+      $k = substr($id, 0, $pos);
+      if (NULL === $configurator = $this->idToConfigurator->idGetConfigurator($k)) {
+        continue;
+      }
+      if (!$configurator instanceof InlineableConfiguratorInterface) {
+        continue;
+      }
+      $subId = substr($id, $pos + 1);
+      // @todo This is not 100% consistent with confGetValue().
+      return IdConfToPhpUtil::objIdConfGetPhp($configurator, $subId, $conf, $helper);
+    }
+
+    return $helper->incompatibleConfiguration($id, "Unknown id.");
   }
 }

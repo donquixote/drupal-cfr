@@ -2,6 +2,6 @@
 
 namespace Drupal\cfrapi\Exception;
 
-class BrokenConfiguratorException extends \Exception {
+class BrokenConfiguratorException extends ConfToValueException {
 
 }

@@ -3,10 +3,13 @@
 namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\CfrLegendItem\ParentLegendItemInterface;
+use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpInterface;
+use Drupal\cfrfamily\IdConfToPhp\IdConfToPhpUtil;
 
-class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
+class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface, IdConfToPhpInterface {
 
   /**
    * @var \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
@@ -62,4 +65,40 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
     return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
   }
 
+  /**
+   * @param string|int $id
+   * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   */
+  function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
+
+    if ($this->legend->idIsKnown($id)) {
+      return IdConfToPhpUtil::objIdConfGetPhp($this->idConfToValue, $id, $conf, $helper);
+    }
+
+    $pos = 0;
+    while (FALSE !== $pos = strpos($id, '/', $pos + 1)) {
+      $k = substr($id, 0, $pos);
+      if (!$this->legend->idIsKnown($k)) {
+        continue;
+      }
+      $outerLegendItem = $this->legend->idGetLegendItem($k);
+      if (!$outerLegendItem instanceof ParentLegendItemInterface) {
+        continue;
+      }
+      if (NULL === $inlineLegend = $outerLegendItem->getCfrLegend()) {
+        continue;
+      }
+      if (!$inlineLegend instanceof IdConfToValueInterface) {
+        continue;
+      }
+      $subId = substr($id, $pos + 1);
+      return IdConfToPhpUtil::objIdConfGetPhp($inlineLegend, $subId, $conf, $helper);
+    }
+
+    return $helper->incompatibleConfiguration($id, "Unknown id.");
+  }
 }

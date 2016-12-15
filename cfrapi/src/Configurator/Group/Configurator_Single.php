@@ -4,6 +4,7 @@ namespace Drupal\cfrapi\Configurator\Group;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
 use Drupal\cfrapi\ConfToPhp\ConfToPhpUtil;
@@ -63,31 +64,26 @@ class Configurator_Single implements GroupConfiguratorInterface, GroupConfToPhpS
 
   /**
    * @param mixed $conf
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string[]
    *   PHP statements to generate the values.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
-  public function confGetPhpStatements($conf) {
-    $php = ConfToPhpUtil::objConfGetPhp($this->configurator, $conf);
+  public function confGetPhpStatements($conf, CodegenHelperInterface $helper) {
+    $php = ConfToPhpUtil::objConfGetPhp($this->configurator, $conf, $helper);
     return array($php);
   }
 
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
    */
-  public function confGetPhp($conf) {
-    $php = ConfToPhpUtil::objConfGetPhp($this->configurator, $conf);
-    return 'array(' . $php . ')';
+  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+    $php = ConfToPhpUtil::objConfGetPhp($this->configurator, $conf, $helper);
+    return "[$php]";
   }
 }
