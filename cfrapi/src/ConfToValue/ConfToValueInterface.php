@@ -2,9 +2,9 @@
 
 namespace Drupal\cfrapi\ConfToValue;
 
-use Drupal\cfrapi\ConfToPhp\ConfToPhpInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
-interface ConfToValueInterface extends ConfToPhpInterface {
+interface ConfToValueInterface {
 
   /**
    * @param mixed $conf
@@ -14,5 +14,15 @@ interface ConfToValueInterface extends ConfToPhpInterface {
    *   Value to be used in the application.
    */
   public function confGetValue($conf);
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   */
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper);
 
 }
