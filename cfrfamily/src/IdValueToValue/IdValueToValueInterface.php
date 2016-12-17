@@ -2,9 +2,9 @@
 
 namespace Drupal\cfrfamily\IdValueToValue;
 
-use Drupal\cfrfamily\IdPhpToPhp\IdPhpToPhpInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
-interface IdValueToValueInterface extends IdPhpToPhpInterface {
+interface IdValueToValueInterface {
 
   /**
    * @param string $id
@@ -15,5 +15,16 @@ interface IdValueToValueInterface extends IdPhpToPhpInterface {
    *   Transformed or combined value.
    */
   public function idValueGetValue($id, $value);
+
+  /**
+   * @param string $id
+   * @param string $php
+   *   PHP code to generate a value.
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP code to generate a value.
+   */
+  public function idPhpGetPhp($id, $php, CfrCodegenHelperInterface $helper);
 
 }
