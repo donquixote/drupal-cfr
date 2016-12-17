@@ -87,8 +87,6 @@ class Configurator_GroupReparent extends Configurator_Group {
    *
    * @return string[]
    *   PHP statements to generate the values.
-   *
-   * @see \Drupal\cfrapi\GroupConfToPhpStatements\GroupConfToPhpStatementsInterface
    */
   public function confGetPhpStatements($conf, CfrCodegenHelperInterface $helper) {
     $conf = $this->extractConf($conf);

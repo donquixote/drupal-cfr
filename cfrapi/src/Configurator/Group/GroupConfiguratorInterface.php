@@ -1,6 +1,8 @@
 <?php
 namespace Drupal\cfrapi\Configurator\Group;
 
+use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 
 /**
@@ -9,5 +11,23 @@ use Drupal\cfrapi\Configurator\ConfiguratorInterface;
  * This is useful e.g. for a function signature.
  */
 interface GroupConfiguratorInterface extends ConfiguratorInterface {
+
+  /**
+   * Same formal signature, but returns an array as a value.
+   *
+   * @param mixed $conf
+   *
+   * @return mixed[]|BrokenValueInterface
+   */
+  public function confGetValue($conf);
+
+  /**
+   * @param mixed $conf
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
+   *
+   * @return string[]
+   *   PHP statements to generate the values.
+   */
+  public function confGetPhpStatements($conf, CfrCodegenHelperInterface $helper);
 
 }

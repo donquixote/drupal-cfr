@@ -6,10 +6,9 @@ use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\GroupConfToPhpStatements\GroupConfToPhpStatementsInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-class Configurator_Single implements GroupConfiguratorInterface, GroupConfToPhpStatementsInterface {
+class Configurator_Single implements GroupConfiguratorInterface {
 
   /**
    * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface
@@ -61,11 +60,15 @@ class Configurator_Single implements GroupConfiguratorInterface, GroupConfToPhpS
   }
 
   /**
+   * Allows this to be subclassed implementing GroupConfiguratorInterface.
+   *
    * @param mixed $conf
    * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string[]
    *   PHP statements to generate the values.
+   *
+   * @see GroupConfiguratorInterface::confGetPhpStatements()
    */
   public function confGetPhpStatements($conf, CfrCodegenHelperInterface $helper) {
     $php = $this->configurator->confGetPhp($conf, $helper);

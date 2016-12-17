@@ -148,13 +148,15 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
   }
 
   /**
+   * Allows this to be subclassed implementing GroupConfiguratorInterface.
+   *
    * @param mixed $conf
    * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string[]
    *   PHP statements to generate the values.
    *
-   * @see \Drupal\cfrapi\GroupConfToPhpStatements\GroupConfToPhpStatementsInterface
+   * @see GroupConfiguratorInterface::confGetPhpStatements()
    */
   public function confGetPhpStatements($conf, CfrCodegenHelperInterface $helper) {
 
