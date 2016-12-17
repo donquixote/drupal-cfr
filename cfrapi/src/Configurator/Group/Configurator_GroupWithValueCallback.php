@@ -2,9 +2,8 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Donquixote\CallbackReflection\ArgsPhpToPhp\ArgsPhpToPhpInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
 
@@ -39,24 +38,18 @@ class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
 
     $php = parent::confGetPhp($conf, $helper);
 
     $callbackReflection = CallbackUtil::callableGetCallback($this->valueCallback);
 
-    if ($callbackReflection instanceof ArgsPhpToPhpInterface) {
-      return $callbackReflection->argsPhpGetPhp([$php]);
-    }
-
-    return 'call_user_func('
-      . "\n" . $helper->export($this->valueCallback) . ','
-      . "\n" . $php . ')';
+    return $callbackReflection->argsPhpGetPhp([$php], $helper);
   }
 
 }

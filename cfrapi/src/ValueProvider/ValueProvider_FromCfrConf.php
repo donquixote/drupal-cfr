@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\ValueProvider;
 
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 
 class ValueProvider_FromCfrConf implements ValueProviderInterface {
@@ -34,12 +34,12 @@ class ValueProvider_FromCfrConf implements ValueProviderInterface {
   }
 
   /**
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function getPhp(CodegenHelperInterface $helper) {
+  public function getPhp(CfrCodegenHelperInterface $helper) {
     return $this->configurator->confGetPhp($this->conf, $helper);
   }
 }

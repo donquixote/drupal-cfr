@@ -3,7 +3,7 @@
 namespace Drupal\cfrfamily\Configurator\Inlineable;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 
 abstract class InlineableConfiguratorBase implements InlineableConfiguratorInterface {
@@ -36,12 +36,12 @@ abstract class InlineableConfiguratorBase implements InlineableConfiguratorInter
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  final function confGetPhp($conf, CodegenHelperInterface $helper) {
+  final function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
 
     list($id, $optionsConf) = $this->confGetIdOptions($conf);
 

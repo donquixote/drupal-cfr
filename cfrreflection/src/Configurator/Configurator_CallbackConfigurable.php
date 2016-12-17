@@ -2,14 +2,13 @@
 
 namespace Drupal\cfrreflection\Configurator;
 
-use Donquixote\CallbackReflection\ArgsPhpToPhp\ArgsPhpToPhpInterface;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ObjectMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Group\Configurator_GroupBase;
 use Drupal\cfrreflection\Util\CfrReflectionUtil;
 
@@ -124,19 +123,13 @@ class Configurator_CallbackConfigurable extends Configurator_GroupBase {
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CodegenHelperInterface $helper) {
-
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
     $php_statements = parent::confGetPhpStatements($conf, $helper);
-
-    if (!$this->callback instanceof ArgsPhpToPhpInterface) {
-      return $helper->notSupported($this->callback, $php_statements, "Callback does not implement ArgsPhpToPhpInterface.");
-    }
-
-    return $this->callback->argsPhpGetPhp($php_statements);
+    return $this->callback->argsPhpGetPhp($php_statements, $helper);
   }
 }

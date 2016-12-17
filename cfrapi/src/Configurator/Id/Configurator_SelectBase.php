@@ -3,7 +3,7 @@
 namespace Drupal\cfrapi\Configurator\Id;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
@@ -108,12 +108,12 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
     if (is_numeric($conf)) {
       $conf = (string)$conf;
     }

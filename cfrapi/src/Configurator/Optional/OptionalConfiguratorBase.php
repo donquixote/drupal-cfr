@@ -3,7 +3,7 @@
 namespace Drupal\cfrapi\Configurator\Optional;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
@@ -82,12 +82,12 @@ abstract class OptionalConfiguratorBase implements OptionalConfiguratorInterface
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
 
     if ($this->confIsEmpty($conf)) {
       if ($this->required) {
@@ -109,11 +109,11 @@ abstract class OptionalConfiguratorBase implements OptionalConfiguratorInterface
 
   /**
    * @param mixed $conf
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return mixed
    */
-  protected function nonEmptyConfGetPhp($conf, CodegenHelperInterface $helper) {
+  protected function nonEmptyConfGetPhp($conf, CfrCodegenHelperInterface $helper) {
     return $helper->notSupported($this, $conf, "nonEmptyConfGetPhp() not supported.");
   }
 

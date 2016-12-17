@@ -4,7 +4,7 @@ namespace Drupal\cfrapi\Configurator\Group;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\GroupConfToPhpStatements\GroupConfToPhpStatementsInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
@@ -62,12 +62,12 @@ class Configurator_Single implements GroupConfiguratorInterface, GroupConfToPhpS
 
   /**
    * @param mixed $conf
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string[]
    *   PHP statements to generate the values.
    */
-  public function confGetPhpStatements($conf, CodegenHelperInterface $helper) {
+  public function confGetPhpStatements($conf, CfrCodegenHelperInterface $helper) {
     $php = $this->configurator->confGetPhp($conf, $helper);
     return array($php);
   }
@@ -75,12 +75,12 @@ class Configurator_Single implements GroupConfiguratorInterface, GroupConfToPhpS
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
     $php = $this->configurator->confGetPhp($conf, $helper);
     return "[$php]";
   }

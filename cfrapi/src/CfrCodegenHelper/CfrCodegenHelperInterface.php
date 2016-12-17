@@ -1,17 +1,10 @@
 <?php
 
-namespace Drupal\cfrapi\CodegenHelper;
+namespace Drupal\cfrapi\CfrCodegenHelper;
 
-interface CodegenHelperInterface {
+use Donquixote\CallbackReflection\CodegenHelper\CodegenHelperInterface;
 
-  /**
-   * Replacement of var_export()
-   *
-   * @param mixed $value
-   *
-   * @return string
-   */
-  public function export($value);
+interface CfrCodegenHelperInterface extends CodegenHelperInterface {
 
   /**
    * @param mixed $conf

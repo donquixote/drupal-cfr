@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator\Unconfigurable;
 
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
 
 /**
@@ -36,12 +36,12 @@ class Configurator_FromValueProvider extends Configurator_OptionlessBase {
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
 
     return $this->valueProvider->getPhp($helper);
   }

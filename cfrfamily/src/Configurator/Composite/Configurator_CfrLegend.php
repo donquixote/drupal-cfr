@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrfamily\Configurator\Composite;
 
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
@@ -124,11 +124,11 @@ class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements Inl
   /**
    * @param string $id
    * @param mixed $conf
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
+  public function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
     return $this->idConfToValue->idConfGetPhp($id, $conf, $helper);
   }
 

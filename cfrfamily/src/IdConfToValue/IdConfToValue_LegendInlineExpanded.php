@@ -3,7 +3,7 @@
 namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\CfrLegendItem\ParentLegendItemInterface;
 
@@ -66,12 +66,12 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
   /**
    * @param string|int $id
    * @param mixed $conf
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
+  function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
 
     if ($this->legend->idIsKnown($id)) {
       return $this->idConfToValue->idConfGetPhp($id, $conf, $helper);

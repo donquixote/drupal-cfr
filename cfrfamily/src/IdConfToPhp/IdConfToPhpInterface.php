@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrfamily\IdConfToPhp;
 
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 /**
  * @see \Drupal\cfrfamily\IdConfToValue\IdConfToValueInterface::idConfGetValue()
@@ -13,11 +13,11 @@ interface IdConfToPhpInterface {
   /**
    * @param string|int $id
    * @param mixed $conf
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  function idConfGetPhp($id, $conf, CodegenHelperInterface $helper);
+  function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper);
 
 }

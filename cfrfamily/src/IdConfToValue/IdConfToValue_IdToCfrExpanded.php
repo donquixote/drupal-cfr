@@ -4,7 +4,7 @@ namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
@@ -63,12 +63,12 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
   /**
    * @param string|int $id
    * @param mixed $conf
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  function idConfGetPhp($id, $conf, CodegenHelperInterface $helper) {
+  function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
 
     if (NULL === $id) {
       return $helper->incompatibleConfiguration($id, "Required id missing.");

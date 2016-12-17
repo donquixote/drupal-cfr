@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\ConfUtil;
@@ -83,14 +83,14 @@ class Configurator_GroupReparent extends Configurator_Group {
 
   /**
    * @param mixed $conf
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string[]
    *   PHP statements to generate the values.
    *
    * @see \Drupal\cfrapi\GroupConfToPhpStatements\GroupConfToPhpStatementsInterface
    */
-  public function confGetPhpStatements($conf, CodegenHelperInterface $helper) {
+  public function confGetPhpStatements($conf, CfrCodegenHelperInterface $helper) {
     $conf = $this->extractConf($conf);
 
     $php_statements = parent::confGetPhpStatements($conf, $helper);

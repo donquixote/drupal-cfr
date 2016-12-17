@@ -1,7 +1,0 @@
-{
-  "minimum-stability": "dev",
-  "name": "Drupal 7 Configurator reflection",
-  "require": {
-    "donquixote/callback-reflection": "~0.0"
-  }
-}

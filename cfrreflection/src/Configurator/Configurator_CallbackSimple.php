@@ -2,12 +2,11 @@
 
 namespace Drupal\cfrreflection\Configurator;
 
-use Donquixote\CallbackReflection\ArgsPhpToPhp\ArgsPhpToPhpInterface;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_OptionlessBase;
 
@@ -67,17 +66,12 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase {
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CodegenHelperInterface $helper) {
-
-    if (!$this->callback instanceof ArgsPhpToPhpInterface) {
-      return $helper->notSupported($this->callback, [], "Callback does not implement ArgsPhpToPhpInterface.");
-    }
-
-    return $this->callback->argsPhpGetPhp(array());
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
+    return $this->callback->argsPhpGetPhp([], $helper);
   }
 }

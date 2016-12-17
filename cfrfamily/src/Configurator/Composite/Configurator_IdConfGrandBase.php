@@ -4,7 +4,7 @@ namespace Drupal\cfrfamily\Configurator\Composite;
 
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
-use Drupal\cfrapi\CodegenHelper\CodegenHelperInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
@@ -348,12 +348,12 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CodegenHelperInterface $helper) {
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
 
     list($id, $optionsConf) = $this->confGetIdOptions($conf);
 
@@ -404,11 +404,11 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   /**
    * @param string $id
    * @param string $php
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function idPhpGetPhp($id, $php, CodegenHelperInterface $helper) {
+  public function idPhpGetPhp($id, $php, CfrCodegenHelperInterface $helper) {
 
     return '['
     . "\n  " . var_export($this->idKey, TRUE) . ' => ' . var_export($id, TRUE) . ','
@@ -487,9 +487,9 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   /**
    * @param string $id
    * @param mixed $optionsConf
-   * @param \Drupal\cfrapi\CodegenHelper\CodegenHelperInterface $helper
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  abstract protected function idConfGetPhp($id, $optionsConf, CodegenHelperInterface $helper);
+  abstract protected function idConfGetPhp($id, $optionsConf, CfrCodegenHelperInterface $helper);
 }

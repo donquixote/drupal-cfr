@@ -1,6 +1,6 @@
 <?php
 use Donquixote\CallbackReflection\Util\CodegenUtil;
-use Drupal\cfrapi\CodegenHelper\CodegenHelper;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
 use Drupal\cfrplugin\Util\UiUtil;
 
@@ -61,7 +61,7 @@ function _cfrplugin_report_interface_demo_page($interface) {
     '#title' => t('Generated PHP code'),
   ];
 
-  $php = $configurator->confGetPhp($settings, new CodegenHelper());
+  $php = $configurator->confGetPhp($settings, new CfrCodegenHelper());
   $php = CodegenUtil::autoIndent($php, '  ', '    ');
   $aliases = CodegenUtil::aliasify($php);
   $aliases_php = '';
