@@ -233,11 +233,15 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     }
 
 
-    $php = '';
+    $phpParts = [];
     foreach (array_values($phpStatements) as $delta => $deltaPhp) {
-      $php .= "\n// Item #$delta"
-        . "\n  " . $deltaPhp . ',';
+      $phpParts[] = ''
+        # . "\n"
+        . "\n// Sequence item #$delta"
+        . "\n  $deltaPhp ,";
     }
+
+    $php = implode("\n", $phpParts);
 
     return "[$php\n]";
   }
