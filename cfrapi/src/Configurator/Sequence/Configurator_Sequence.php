@@ -2,7 +2,8 @@
 
 namespace Drupal\cfrapi\Configurator\Sequence;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_At;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IncompatibleConfiguration;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
@@ -55,15 +56,16 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     if (NULL === $conf) {
       return [];
     }
+
     if (!is_array($conf)) {
-      return new BrokenValue($this, get_defined_vars(), 'Configuration must be an array or NULL.');
+      return new BrokenValue_IncompatibleConfiguration($conf, 'Configuration must be an array or NULL.');
     }
 
     $values = [];
     foreach ($conf as $delta => $deltaConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Fail on non-numeric and negative keys.
-        return new BrokenValue($this, get_defined_vars(), "Deltas must be non-negative integers.");
+        return new BrokenValue_IncompatibleConfiguration($conf, "Sequence array keys must be non-negative integers.");
       }
       if ($this->emptyness->confIsEmpty($deltaConf)) {
         // Skip empty values.
@@ -72,7 +74,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       $deltaValue = $this->configurator->confGetValue($deltaConf);
       $values[] = $deltaValue;
       if ($deltaValue instanceof BrokenValueInterface) {
-        return new BrokenValue($this, get_defined_vars(), 'One of the values is broken.');
+        return new BrokenValue_At($deltaValue, $delta);
       }
       // @todo Really? Why do the values need to be objects?
       if (!is_object($deltaValue)) {

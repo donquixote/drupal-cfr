@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_At;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
@@ -120,7 +120,7 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
       }
       $values[$key] = $value;
       if ($value instanceof BrokenValueInterface) {
-        return new BrokenValue($this, get_defined_vars(), "Value for key '$key' is broken.");
+        return new BrokenValue_At($value, $key);
       }
     }
 

@@ -2,7 +2,8 @@
 
 namespace Drupal\cfrapi\Configurator\Id;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IdEmpty;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IdUnknown;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
@@ -92,14 +93,14 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
 
     if (NULL === $id = $this->confGetId($conf)) {
       if ($this->required) {
-        return new BrokenValue($this, get_defined_vars(), 'Required id.');
+        return new BrokenValue_IdEmpty();
       }
 
       return NULL;
     }
 
     if (!$this->idIsKnown($id)) {
-      return new BrokenValue($this, get_defined_vars(), "Unknown id '$id'.");
+      return new BrokenValue_IdUnknown($id);
     }
 
     return $id;

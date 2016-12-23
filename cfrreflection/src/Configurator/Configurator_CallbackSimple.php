@@ -5,7 +5,7 @@ namespace Drupal\cfrreflection\Configurator;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_Exception;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_OptionlessBase;
@@ -60,7 +60,7 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase {
       return $this->callback->invokeArgs([]);
     }
     catch (\Exception $e) {
-      return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');
+      return new BrokenValue_Exception($e, 'Exception during callback.');
     }
   }
 

@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrfamily\Configurator\Composite;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IdUnknown;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
@@ -59,7 +59,7 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
   public function idConfGetValue($id, $optionsConf) {
 
     if (!$configurator = $this->idGetConfigurator($id)) {
-      return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
+      return new BrokenValue_IdUnknown($id);
     }
 
     return $configurator->confGetValue($optionsConf);

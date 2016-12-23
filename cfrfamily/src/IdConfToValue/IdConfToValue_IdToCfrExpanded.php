@@ -2,7 +2,8 @@
 
 namespace Drupal\cfrfamily\IdConfToValue;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IdEmpty;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IdUnknown;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
@@ -32,7 +33,7 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
   public function idConfGetValue($id, $conf) {
 
     if (NULL === $id) {
-      return new BrokenValue($this, get_defined_vars(), 'Required.');
+      return new BrokenValue_IdEmpty();
     }
 
     if (NULL !== $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
@@ -57,7 +58,7 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
       }
     }
 
-    return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
+    return new BrokenValue_IdUnknown($id);
   }
 
   /**

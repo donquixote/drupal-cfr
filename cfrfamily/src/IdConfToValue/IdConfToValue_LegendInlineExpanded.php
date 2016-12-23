@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrfamily\IdConfToValue;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IdUnknown;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\CfrLegendItem\ParentLegendItemInterface;
@@ -60,7 +60,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
       return $inlineLegend->idConfGetValue($subId, $conf);
     }
 
-    return new BrokenValue($this, get_defined_vars(), 'Unknown id.');
+    return new BrokenValue_IdUnknown($id);
   }
 
   /**

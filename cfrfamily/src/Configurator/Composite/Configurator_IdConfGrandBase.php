@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrfamily\Configurator\Composite;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IdEmpty;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
@@ -325,7 +325,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
     if (NULL === $id) {
       if ($this->required) {
-        return new BrokenValue($this, get_defined_vars(), 'Required.');
+        return new BrokenValue_IdEmpty();
       }
       else {
         return $this->defaultValue;

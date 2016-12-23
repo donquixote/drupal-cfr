@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrkit\Configurator;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IncompatibleConfiguration;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
@@ -171,20 +171,20 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
 
     if (is_string($conf)) {
       if ((string)(int)$conf !== $conf) {
-        return new BrokenValue($this, get_defined_vars(), "Value must be an integer.");
+        return new BrokenValue_IncompatibleConfiguration($conf, "Value must be an integer.");
       }
       $conf = (int)$conf;
     }
     elseif (!is_int($conf)) {
-      return new BrokenValue($this, get_defined_vars(), "Value must be an integer.");
+      return new BrokenValue_IncompatibleConfiguration($conf, "Value must be an integer.");
     }
 
     if (NULL !== $this->min && $conf < $this->min) {
-      return new BrokenValue($this, get_defined_vars(), "Value must be greater than or equal to $this->min.");
+      return new BrokenValue_IncompatibleConfiguration($this, "Value must be greater than or equal to $this->min.");
     }
 
     if (NULL !== $this->max && $conf > $this->max) {
-      return new BrokenValue($this, get_defined_vars(), "Value must be no greater than $this->max.");
+      return new BrokenValue_IncompatibleConfiguration($this, "Value must be no greater than $this->max.");
     }
 
     return $conf;

@@ -7,7 +7,8 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_ObjectMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_Exception;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IncompatibleConfiguration;
 use Drupal\cfrapi\ValueToValue\ValueToValueInterface;
 
 class ValueToValue_Callback implements ValueToValueInterface {
@@ -76,7 +77,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
   public function valueGetValue($args) {
 
     if (!is_array($args)) {
-      return new BrokenValue($this, get_defined_vars(), 'Non-array callback arguments.');
+      return new BrokenValue_IncompatibleConfiguration($args, 'Non-array callback arguments.');
     }
 
     // @todo Validate arguments.
@@ -84,7 +85,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
       return $this->callback->invokeArgs($args);
     }
     catch (\Exception $e) {
-      return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');
+      return new BrokenValue_Exception($e, 'Exception during callback.');
     }
   }
 

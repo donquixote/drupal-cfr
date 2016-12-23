@@ -3,7 +3,8 @@
 namespace Drupal\cfrreflection\Util;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_CallbackReflectionArg;
+use Drupal\cfrapi\BrokenValue\BrokenValue_CallbackReflectionArgs;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\Util\UtilBase;
 
@@ -41,18 +42,15 @@ final class CfrReflectionUtil extends UtilBase {
 
     foreach ($args as $arg) {
       if ($arg instanceof BrokenValueInterface) {
-        # dpm(ddebug_backtrace(TRUE), __METHOD__);
-        # \Drupal\krumong\dpm($callback, 'CALLBACK');
-        # dpm($args, 'ARGS');
-        break;
+        // This is a programming error, because the calling code is responsible to clear the arguments.
+        return new BrokenValue_CallbackReflectionArgs($callback, $args, 'Callback arguments must not contain BrokenValue objects.');
       }
     }
 
     $params = $callback->getReflectionParameters();
 
     if (array_keys($params) !== array_keys($args)) {
-      # dpm('Wrong arg count', __METHOD__);
-      return new BrokenValue(NULL, get_defined_vars(), 'Wrong argument count.');
+      return new BrokenValue_CallbackReflectionArgs($callback, $args, 'Wrong argument count.');
     }
 
     foreach ($callback->getReflectionParameters() as $i => $param) {
@@ -67,19 +65,18 @@ final class CfrReflectionUtil extends UtilBase {
       if ($param->isArray()) {
         if (!is_array($arg)) {
           # dpm('Param must be array.', __METHOD__);
-          return new BrokenValue(NULL, get_defined_vars(), 'Param must be array.');
+          return new BrokenValue_CallbackReflectionArg($callback, $args, $i, "Argument $i must be an array.");
         }
       }
 
       if ($paramClass = $param->getClass()) {
         if (!is_object($arg)) {
-          return new BrokenValue(NULL, get_defined_vars(), 'Parameter must be an object.');
+          return new BrokenValue_CallbackReflectionArg($callback, $args, $i, "Argument $i must be an object.");
         }
         if (!$paramClass->isInstance($arg)) {
-          # dpm('Param type mismatch.', __METHOD__);
           $argExport = var_export($arg, TRUE);
           $paramClassExport = var_export($paramClass->getName(), TRUE);
-          return new BrokenValue(NULL, get_defined_vars(), "Expected $paramClassExport, found $argExport");
+          return new BrokenValue_CallbackReflectionArg($callback, $args, $i, "Argument $i must implement $paramClassExport, found $argExport.");
         }
       }
     }

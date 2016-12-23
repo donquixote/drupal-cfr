@@ -4,7 +4,7 @@ namespace Drupal\cfrreflection\Configurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_Exception;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Configurator_DecoratorBase;
@@ -62,7 +62,7 @@ class Configurator_CallbackMono extends Configurator_DecoratorBase {
       return $this->callback->invokeArgs([$arg]);
     }
     catch (\Exception $e) {
-      return new BrokenValue($this, get_defined_vars(), 'Exception during callback.');
+      return new BrokenValue_Exception($e, 'Exception during callback.');
     }
   }
 

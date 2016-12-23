@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrfamily\Configurator\Inlineable;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValue_IdEmpty;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 
@@ -29,7 +29,7 @@ abstract class InlineableConfiguratorBase implements InlineableConfiguratorInter
     list($id, $conf) = $this->confGetIdOptions($conf);
 
     if (NULL === $id) {
-      return new BrokenValue($this, get_defined_vars(), 'No id specified.');
+      return new BrokenValue_IdEmpty();
     }
 
     return $this->idConfGetValue($id, $conf);
