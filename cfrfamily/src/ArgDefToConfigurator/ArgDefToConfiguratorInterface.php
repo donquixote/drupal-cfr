@@ -16,7 +16,9 @@ interface ArgDefToConfiguratorInterface {
 
   /**
    * @param mixed $arg
+   *   A specific value from the plugin definition.
    * @param array $definition
+   *   The entire plugin definition.
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface

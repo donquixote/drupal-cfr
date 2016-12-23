@@ -12,6 +12,7 @@ interface ValueToCallbackInterface {
 
   /**
    * @param mixed $value
+   *   A value that specifies a callback, typically from a plugin definition.
    *
    * @return \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface|null
    */
