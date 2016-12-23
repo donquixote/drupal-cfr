@@ -11,6 +11,7 @@ use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorBase;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
+use Drupal\cfrreflection\Util\CfrReflectionUtil;
 
 class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
 
@@ -100,11 +101,17 @@ class Configurator_CallbackInlineable extends InlineableConfiguratorBase {
    * @return mixed
    */
   public function idConfGetValue($id, $optionsConf) {
+
     $arg = $this->argConfigurator->idConfGetValue($id, $optionsConf);
+
     if ($arg instanceof BrokenValueInterface) {
       return $arg;
     }
-    // @todo Validate $arg.
+
+    if (NULL !== $brokenValue = CfrReflectionUtil::callbackArgsInvalid($this->callback, [$arg])) {
+      return $brokenValue;
+    }
+
     try {
       return $this->callback->invokeArgs([$arg]);
     }
