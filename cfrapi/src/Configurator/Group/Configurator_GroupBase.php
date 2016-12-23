@@ -104,10 +104,12 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
    * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
   public function confGetValue($conf) {
+
     if (!is_array($conf)) {
       // If all values are optional, this might still work.
       $conf = [];
     }
+
     $values = [];
     foreach ($this->configurators as $key => $configurator) {
       if (array_key_exists($key, $conf)) {
@@ -121,6 +123,7 @@ abstract class Configurator_GroupBase implements ConfiguratorInterface {
         return new BrokenValue($this, get_defined_vars(), "Value for key '$key' is broken.");
       }
     }
+
     return $values;
   }
 

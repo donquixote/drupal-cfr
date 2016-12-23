@@ -55,6 +55,7 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase {
    *   Value to be used in the application.
    */
   public function confGetValue($conf) {
+
     try {
       return $this->callback->invokeArgs([]);
     }
