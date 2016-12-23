@@ -9,6 +9,7 @@ use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Configurator_DecoratorBase;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
+use Drupal\cfrreflection\Util\CfrReflectionUtil;
 
 class Configurator_CallbackMono extends Configurator_DecoratorBase {
 
@@ -46,11 +47,17 @@ class Configurator_CallbackMono extends Configurator_DecoratorBase {
    *   Value to be used in the application.
    */
   public function confGetValue($conf) {
+
     $arg = parent::confGetValue($conf);
+
     if ($arg instanceof BrokenValueInterface) {
       return $arg;
     }
-    // @todo Validate $arg.
+
+    if (NULL !== $brokenValue = CfrReflectionUtil::callbackArgsInvalid($this->callback, [$arg])) {
+      return $brokenValue;
+    }
+
     try {
       return $this->callback->invokeArgs([$arg]);
     }
