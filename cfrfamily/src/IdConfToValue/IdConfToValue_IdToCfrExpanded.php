@@ -5,7 +5,6 @@ namespace Drupal\cfrfamily\IdConfToValue;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
@@ -36,9 +35,7 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
     }
 
     if (NULL !== $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
-      if (!$configurator instanceof BrokenConfiguratorInterface) {
-        return $configurator->confGetValue($conf);
-      }
+      return $configurator->confGetValue($conf);
     }
 
     $pos = 0;
@@ -75,9 +72,7 @@ class IdConfToValue_IdToCfrExpanded implements IdConfToValueInterface {
     }
 
     if (NULL !== $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
-      if (!$configurator instanceof BrokenConfiguratorInterface) {
-        return $configurator->confGetPhp($conf, $helper);
-      }
+      return $configurator->confGetPhp($conf, $helper);
     }
 
     $pos = 0;
