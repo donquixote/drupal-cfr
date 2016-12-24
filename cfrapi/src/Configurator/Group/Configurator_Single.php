@@ -2,7 +2,6 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\BrokenValue\BrokenValueInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
@@ -32,7 +31,7 @@ class Configurator_Single implements GroupConfiguratorInterface {
   public function confGetValue($conf) {
     $value = $this->configurator->confGetValue($conf);
     if ($value instanceof BrokenValueInterface) {
-      return new BrokenValue($this, get_defined_vars(), 'Value is broken.');
+      return $value;
     }
     return [$value];
   }
