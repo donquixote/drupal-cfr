@@ -28,7 +28,7 @@ class DefinitionToConfigurator_Proxy implements DefinitionToConfiguratorInterfac
    * @param array $definition
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
   public function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL) {
     if (NULL === $this->instance) {
