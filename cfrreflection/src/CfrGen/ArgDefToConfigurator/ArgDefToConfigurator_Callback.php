@@ -3,7 +3,6 @@
 namespace Drupal\cfrreflection\CfrGen\ArgDefToConfigurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflection_BoundParameters;
-use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfiguratorInterface;
 use Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfiguratorInterface;
@@ -49,7 +48,7 @@ class ArgDefToConfigurator_Callback implements ArgDefToConfiguratorInterface {
     $factory = $this->valueToCallback->valueGetCallback($arg);
 
     if (NULL === $factory) {
-      return new BrokenConfigurator($this, get_defined_vars(), 'Class not found, or factory not callable.');
+      return NULL;
     }
 
     if (!empty($definition[$this->argsKey])) {
