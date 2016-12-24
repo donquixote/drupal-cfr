@@ -2,8 +2,6 @@
 
 namespace Drupal\cfrfamily\DefinitionToConfigurator;
 
-use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
-use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfiguratorInterface;
 
@@ -32,16 +30,7 @@ class DefinitionToConfigurator_Mappers implements DefinitionToConfiguratorInterf
 
     foreach ($this->mappers as $key => $mapper) {
       if (isset($definition[$key])) {
-        $candidate = $mapper->argDefinitionGetConfigurator($definition[$key], $definition, $context);
-        if ($candidate instanceof ConfiguratorInterface) {
-          if ($candidate instanceof BrokenConfiguratorInterface) {
-            return NULL;
-          }
-          return $candidate;
-        }
-        elseif (NULL !== $candidate) {
-          return NULL;
-        }
+        return $mapper->argDefinitionGetConfigurator($definition[$key], $definition, $context);
       }
     }
 
