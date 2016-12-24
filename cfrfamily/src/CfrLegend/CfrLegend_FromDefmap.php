@@ -2,8 +2,6 @@
 
 namespace Drupal\cfrfamily\CfrLegend;
 
-use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
-use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\PossiblyOptionless\PossiblyOptionlessInterface;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem_Parent;
@@ -109,13 +107,9 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
    * @return bool
    */
   public function idIsKnown($id) {
-    $definition = $this->definitionMap->idGetDefinition($id);
-    if (NULL === $definition) {
-      return FALSE;
-    }
-    $configurator = $this->idToConfigurator->idGetConfigurator($id);
-
-    return $configurator instanceof ConfiguratorInterface && !$configurator instanceof BrokenConfiguratorInterface;
+    return 1
+      && NULL !== $this->definitionMap->idGetDefinition($id)
+      && NULL !== $this->idToConfigurator->idGetConfigurator($id);
   }
 
   /**
@@ -126,8 +120,7 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
    */
   private function idDefinitionGetLegendItem($id, array $definition) {
 
-    $configurator = $this->idToConfigurator->idGetConfigurator($id);
-    if (!$configurator instanceof ConfiguratorInterface || $configurator instanceof BrokenConfiguratorInterface) {
+    if (NULL === $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
       return NULL;
     }
 
