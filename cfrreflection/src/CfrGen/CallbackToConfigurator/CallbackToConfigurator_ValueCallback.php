@@ -49,6 +49,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
   public function callbackGetConfigurator(CallbackReflectionInterface $valueCallback, CfrContextInterface $context = NULL) {
 
     $params = $valueCallback->getReflectionParameters();
+
     if (0 === $nParams = count($params)) {
       return new Configurator_CallbackSimple($valueCallback);
     }
