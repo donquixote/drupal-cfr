@@ -5,8 +5,6 @@ namespace Drupal\cfrreflection\CfrGen\CallbackToConfigurator;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
-use Drupal\cfrapi\Util\ContextReflectionUtil;
-use Drupal\cfrreflection\Util\CfrReflectionUtil;
 
 /**
  * Creates a configurator for a callback, where the callback return value is the
@@ -22,12 +20,21 @@ class CallbackToConfigurator_ConfiguratorFactory implements CallbackToConfigurat
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $configuratorFactoryCallback, CfrContextInterface $context = NULL) {
 
-    $serialArgs = NULL === $context
-      ? CfrReflectionUtil::paramsGetArgs($configuratorFactoryCallback->getReflectionParameters())
-      : ContextReflectionUtil::paramsContextGetArgs($configuratorFactoryCallback->getReflectionParameters(), $context);
+    $serialArgs = [];
+    foreach ($configuratorFactoryCallback->getReflectionParameters() as $i => $param) {
 
-    if (!is_array($serialArgs)) {
-      return NULL;
+      // @todo Only accept optional parameters.
+      if ($context && $context->paramValueExists($param)) {
+        $arg = $context->paramGetValue($param);
+      }
+      elseif ($param->isOptional()) {
+        $arg = $param->getDefaultValue();
+      }
+      else {
+        return NULL;
+      }
+
+      $serialArgs[] = $arg;
     }
 
     $configuratorCandidate = $configuratorFactoryCallback->invokeArgs($serialArgs);
