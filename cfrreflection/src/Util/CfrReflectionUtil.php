@@ -10,28 +10,6 @@ use Drupal\cfrapi\Util\UtilBase;
 final class CfrReflectionUtil extends UtilBase {
 
   /**
-   * @param \ReflectionParameter[] $params
-   *
-   * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
-   *   Serial arguments array.
-   */
-  public static function paramsGetArgs(array $params) {
-
-    $serialArgs = [];
-    foreach ($params as $i => $param) {
-      if ($param->isOptional()) {
-        $arg = $param->getDefaultValue();
-      }
-      else {
-        return new BrokenValue(NULL, get_defined_vars(), 'Cannot resolve argument. ' . __METHOD__);
-      }
-      $serialArgs[] = $arg;
-    }
-
-    return $serialArgs;
-  }
-
-  /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
    * @param mixed[] $args
    *
