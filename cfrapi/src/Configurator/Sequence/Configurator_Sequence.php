@@ -226,7 +226,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     foreach ($conf as $delta => $deltaConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Fail on non-numeric and negative keys.
-        return new BrokenValue($this, get_defined_vars(), "Deltas must be non-negative integers.");
+        return $helper->incompatibleConfiguration($conf, "Sequence array keys must be non-negative integers.");
       }
       if ($this->emptyness->confIsEmpty($deltaConf)) {
         // Skip empty values.
