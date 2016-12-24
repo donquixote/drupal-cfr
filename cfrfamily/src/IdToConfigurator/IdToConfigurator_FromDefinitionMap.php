@@ -47,7 +47,7 @@ class IdToConfigurator_FromDefinitionMap implements IdToConfiguratorInterface {
   public function idGetConfigurator($id) {
     $definition = $this->definitionMap->idGetDefinition($id);
     if (NULL === $definition) {
-      return new BrokenConfigurator($this, get_defined_vars(), 'No definition found.');
+      return NULL;
     }
     return $this->definitionToConfigurator->definitionGetConfigurator($definition, $this->context);
   }
