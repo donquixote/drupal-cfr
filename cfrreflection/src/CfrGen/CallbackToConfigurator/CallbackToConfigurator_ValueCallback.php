@@ -42,7 +42,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $valueCallback
-   * @param \Drupal\cfrapi\Context\CfrContextInterface $context
+   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */

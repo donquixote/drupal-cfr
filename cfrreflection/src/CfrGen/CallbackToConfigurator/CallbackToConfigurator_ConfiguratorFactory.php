@@ -17,9 +17,9 @@ class CallbackToConfigurator_ConfiguratorFactory implements CallbackToConfigurat
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $configuratorFactoryCallback
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|NULL $context
+   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    *
-   * @return \Drupal\cfrapi\Configurator\Broken\BrokenConfigurator|null|object
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $configuratorFactoryCallback, CfrContextInterface $context = NULL) {
 
