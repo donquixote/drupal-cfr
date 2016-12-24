@@ -45,22 +45,6 @@ class CfrCodegenHelper extends CodegenHelperBase implements CfrCodegenHelperInte
   }
 
   /**
-   * @param mixed $conf
-   * @param string $message
-   *
-   * @return string
-   */
-  public function brokenConfigurator($conf, $message = '') {
-
-    $this->problems[] = t('Broken configurator.');
-
-    /* @see CodegenFailureUtil::brokenConfigurator() */
-    return CodegenFailureUtil::class . "::brokenConfigurator("
-      . "\n  " . $this->export($conf) . ','
-      . "\n  " . var_export($message, TRUE) . ')';
-  }
-
-  /**
    * @param object $object
    * @param mixed $conf
    * @param string $message
