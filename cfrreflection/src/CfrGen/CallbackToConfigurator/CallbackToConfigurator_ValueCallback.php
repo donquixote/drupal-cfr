@@ -3,7 +3,6 @@
 namespace Drupal\cfrreflection\CfrGen\CallbackToConfigurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
@@ -44,7 +43,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $valueCallback
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $valueCallback, CfrContextInterface $context = NULL) {
 
@@ -73,7 +72,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
     foreach ($params as $i => $param) {
       $paramConfigurators[] = $paramConfigurator = $this->paramToConfigurator->paramGetConfigurator($param, $context);
       if (FALSE === $paramConfigurator || NULL === $paramConfigurator) {
-        return new BrokenConfigurator($this, get_defined_vars(), "Unable to build configurator for parameter '$i'.");
+        return NULL;
       }
       $paramLabels[] = $this->paramToLabel->paramGetLabel($param);
     }

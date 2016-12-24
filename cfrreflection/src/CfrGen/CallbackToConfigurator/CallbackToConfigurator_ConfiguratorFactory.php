@@ -3,7 +3,6 @@
 namespace Drupal\cfrreflection\CfrGen\CallbackToConfigurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrapi\Util\ContextReflectionUtil;
@@ -19,7 +18,7 @@ class CallbackToConfigurator_ConfiguratorFactory implements CallbackToConfigurat
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $configuratorFactoryCallback
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $configuratorFactoryCallback, CfrContextInterface $context = NULL) {
 
@@ -28,7 +27,7 @@ class CallbackToConfigurator_ConfiguratorFactory implements CallbackToConfigurat
       : ContextReflectionUtil::paramsContextGetArgs($configuratorFactoryCallback->getReflectionParameters(), $context);
 
     if (!is_array($serialArgs)) {
-      return new BrokenConfigurator($this, get_defined_vars(), 'Insufficient context.');
+      return NULL;
     }
 
     $configuratorCandidate = $configuratorFactoryCallback->invokeArgs($serialArgs);
@@ -37,7 +36,7 @@ class CallbackToConfigurator_ConfiguratorFactory implements CallbackToConfigurat
       return $configuratorCandidate;
     }
     else {
-      return new BrokenConfigurator($this, get_defined_vars(), 'Callback did not return a configurator.');
+      return NULL;
     }
   }
 }
