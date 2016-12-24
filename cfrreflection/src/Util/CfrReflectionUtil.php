@@ -16,6 +16,7 @@ final class CfrReflectionUtil extends UtilBase {
    *   Serial arguments array.
    */
   public static function paramsGetArgs(array $params) {
+
     $serialArgs = [];
     foreach ($params as $i => $param) {
       if ($param->isOptional()) {
@@ -26,6 +27,7 @@ final class CfrReflectionUtil extends UtilBase {
       }
       $serialArgs[] = $arg;
     }
+
     return $serialArgs;
   }
 
@@ -36,6 +38,7 @@ final class CfrReflectionUtil extends UtilBase {
    * @return null|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
   public static function callbackArgsInvalid(CallbackReflectionInterface $callback, array $args) {
+
     foreach ($args as $arg) {
       if ($arg instanceof BrokenValueInterface) {
         # dpm(ddebug_backtrace(TRUE), __METHOD__);
@@ -44,24 +47,30 @@ final class CfrReflectionUtil extends UtilBase {
         break;
       }
     }
+
     $params = $callback->getReflectionParameters();
+
     if (array_keys($params) !== array_keys($args)) {
       # dpm('Wrong arg count', __METHOD__);
       return new BrokenValue(NULL, get_defined_vars(), 'Wrong argument count.');
     }
+
     foreach ($callback->getReflectionParameters() as $i => $param) {
       $arg = $args[$i];
+
       if ($param->isOptional()) {
         if ($arg === $param->getDefaultValue()) {
           return NULL;
         }
       }
+
       if ($param->isArray()) {
         if (!is_array($arg)) {
           # dpm('Param must be array.', __METHOD__);
           return new BrokenValue(NULL, get_defined_vars(), 'Param must be array.');
         }
       }
+
       if ($paramClass = $param->getClass()) {
         if (!is_object($arg)) {
           return new BrokenValue(NULL, get_defined_vars(), 'Parameter must be an object.');
@@ -74,6 +83,8 @@ final class CfrReflectionUtil extends UtilBase {
         }
       }
     }
+
     return NULL;
   }
+
 }

@@ -51,12 +51,14 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
    * @return mixed[]|\Drupal\cfrapi\BrokenValue\BrokenValueInterface
    */
   public function confGetValue($conf) {
+
     if (NULL === $conf) {
       return [];
     }
     if (!is_array($conf)) {
       return new BrokenValue($this, get_defined_vars(), 'Configuration must be an array or NULL.');
     }
+
     $values = [];
     foreach ($conf as $delta => $deltaConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
@@ -78,6 +80,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
         break;
       }
     }
+
     return $values;
   }
 
@@ -231,7 +234,6 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       }
       $phpStatements[] = $this->configurator->confGetPhp($deltaConf, $helper);
     }
-
 
     $phpParts = [];
     foreach (array_values($phpStatements) as $delta => $deltaPhp) {

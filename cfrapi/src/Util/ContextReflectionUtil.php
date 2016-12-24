@@ -15,6 +15,7 @@ final class ContextReflectionUtil extends UtilBase {
    *   Serial arguments array.
    */
   public static function paramsContextGetArgs(array $params, CfrContextInterface $context) {
+
     $serialArgs = [];
     foreach ($params as $i => $param) {
       if ($context->paramValueExists($param)) {
@@ -28,6 +29,7 @@ final class ContextReflectionUtil extends UtilBase {
       }
       $serialArgs[] = $arg;
     }
+
     return $serialArgs;
   }
 
@@ -41,6 +43,7 @@ final class ContextReflectionUtil extends UtilBase {
    *   Serial arguments array, or NULL if not possible.
    */
   public static function paramsContextNamedArgsGetArgs(array $params, CfrContextInterface $context, array $namedArgs) {
+
     $serialArgs = [];
     foreach ($params as $i => $param) {
       $k = $param->getName();
@@ -61,6 +64,7 @@ final class ContextReflectionUtil extends UtilBase {
       }
       $serialArgs[] = $arg;
     }
+
     return $serialArgs;
   }
 

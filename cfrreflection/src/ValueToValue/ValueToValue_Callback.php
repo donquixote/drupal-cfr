@@ -74,9 +74,11 @@ class ValueToValue_Callback implements ValueToValueInterface {
    * @return mixed
    */
   public function valueGetValue($args) {
+
     if (!is_array($args)) {
       return new BrokenValue($this, get_defined_vars(), 'Non-array callback arguments.');
     }
+
     // @todo Validate arguments.
     try {
       return $this->callback->invokeArgs($args);
