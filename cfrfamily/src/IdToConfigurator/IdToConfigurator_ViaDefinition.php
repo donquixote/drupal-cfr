@@ -2,7 +2,6 @@
 
 namespace Drupal\cfrfamily\IdToConfigurator;
 
-use Drupal\cfrapi\Configurator\Broken\BrokenConfiguratorInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
 use Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface;
@@ -52,16 +51,6 @@ class IdToConfigurator_ViaDefinition implements IdToConfiguratorInterface {
       return NULL;
     }
 
-    $configurator = $this->definitionToConfigurator->definitionGetConfigurator($definition, $this->context);
-
-    if (NULL === $configurator) {
-      return NULL;
-    }
-
-    if ($configurator instanceof BrokenConfiguratorInterface) {
-      return NULL;
-    }
-
-    return $configurator;
+    return $this->definitionToConfigurator->definitionGetConfigurator($definition, $this->context);
   }
 }
