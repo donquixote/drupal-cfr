@@ -16,7 +16,7 @@ class CallbackToConfigurator_UndesignatedCallback implements CallbackToConfigura
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $callback, CfrContextInterface $context = NULL) {
 
