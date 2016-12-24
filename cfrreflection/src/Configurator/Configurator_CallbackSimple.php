@@ -7,7 +7,6 @@ use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\BrokenValue\BrokenValue;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator;
 use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_OptionlessBase;
 
 class Configurator_CallbackSimple extends Configurator_OptionlessBase {
@@ -35,7 +34,7 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase {
   public static function createFromCallable($callable) {
     $callback = CallbackUtil::callableGetCallback($callable);
     if (NULL === $callback) {
-      return new BrokenConfigurator(NULL, get_defined_vars(), 'Not a valid callback.');
+      return NULL;
     }
     return new Configurator_CallbackSimple($callback);
   }
