@@ -6,7 +6,7 @@ use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegend_FromDefmap;
 use Drupal\cfrfamily\Configurator\Composite\Configurator_CfrLegend;
-use Drupal\cfrfamily\IdToConfigurator\IdToConfigurator_FromDefinitionMap;
+use Drupal\cfrfamily\IdToConfigurator\IdToConfigurator_ViaDefinition;
 use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
@@ -108,7 +108,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
    * @see $idToConfigurator
    */
   protected function get_idToConfigurator() {
-    return new IdToConfigurator_FromDefinitionMap(
+    return new IdToConfigurator_ViaDefinition(
       $this->definitionMap,
       $this->definitionToConfigurator,
       $this->context);
