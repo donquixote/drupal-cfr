@@ -7,6 +7,10 @@ use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
 
+/**
+ * @deprecated in favour of:
+ * @see \Drupal\cfrfamily\IdToConfigurator\IdToConfigurator_ViaDefinition
+ */
 class IdToConfigurator_FromDefinitionMap implements IdToConfiguratorInterface {
 
   /**
