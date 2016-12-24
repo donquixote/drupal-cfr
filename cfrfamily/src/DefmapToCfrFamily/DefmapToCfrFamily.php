@@ -6,7 +6,7 @@ use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\CfrFamily\CfrFamily;
 use Drupal\cfrfamily\CfrLegend\CfrLegend_FromDefmap;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
-use Drupal\cfrfamily\IdToConfigurator\IdToConfigurator_FromDefinitionMap;
+use Drupal\cfrfamily\IdToConfigurator\IdToConfigurator_ViaDefinition;
 use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
@@ -51,7 +51,7 @@ class DefmapToCfrFamily implements DefmapToCfrFamilyInterface {
    * @return \Drupal\cfrfamily\CfrFamily\CfrFamilyInterface
    */
   public function defmapGetCfrFamily(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL) {
-    $configuratorMap = new IdToConfigurator_FromDefinitionMap($definitionMap, $this->definitionToConfigurator, $context);
+    $configuratorMap = new IdToConfigurator_ViaDefinition($definitionMap, $this->definitionToConfigurator, $context);
     $legend = new CfrLegend_FromDefmap($definitionMap, $configuratorMap, $this->definitionToLabel, $this->definitionToGrouplabel);
     return $this->create($legend, $configuratorMap);
   }
