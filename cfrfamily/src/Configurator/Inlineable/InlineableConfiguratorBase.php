@@ -48,7 +48,7 @@ abstract class InlineableConfiguratorBase implements InlineableConfiguratorInter
     list($id, $optionsConf) = $this->confGetIdOptions($conf);
 
     if (NULL === $id) {
-      return $helper->incompatibleConfiguration($optionsConf, "Required id missing.");
+      return $helper->incompatibleConfiguration($conf, "Required id missing.");
     }
 
     return $this->idConfGetPhp($id, $optionsConf, $helper);
