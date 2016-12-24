@@ -2,7 +2,6 @@
 
 namespace Drupal\cfrapi\Util;
 
-use Drupal\cfrapi\Exception\BrokenConfiguratorException;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
 
@@ -38,16 +37,6 @@ final class CodegenFailureUtil extends UtilBase {
    */
   public static function recursiveArray() {
     throw new PhpGenerationNotSupportedException(NULL, "Cannot export recursive arrays.");
-  }
-
-  /**
-   * @param mixed $conf
-   * @param string $message
-   *
-   * @throws \Drupal\cfrapi\Exception\BrokenConfiguratorException
-   */
-  public static function brokenConfigurator($conf, $message) {
-    throw new BrokenConfiguratorException($conf, $message);
   }
 
   /**
