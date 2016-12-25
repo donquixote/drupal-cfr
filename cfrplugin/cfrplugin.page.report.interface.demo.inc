@@ -27,34 +27,18 @@ function _cfrplugin_report_interface_demo_page($interface) {
     return $out;
   }
 
+  $out['summary'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Plugin summary'),
+    'summary' => [
+      '#markup' => $configurator->confGetSummary($settings, new SummaryBuilder_Static()),
+    ],
+  ];
+
+  $out['conf'] = _cfrplugin_ui_dump_data($settings, t('Configuration data'));
+
   $object = $configurator->confGetValue($settings);
-
-  if ($object instanceof $interface) {
-
-    $out['summary'] = [
-      '#type' => 'fieldset',
-      '#title' => t('Plugin summary'),
-      'summary' => [
-        '#markup' => $configurator->confGetSummary($settings, new SummaryBuilder_Static()),
-      ],
-    ];
-
-    $out['object'] = [
-      '#type' => 'fieldset',
-      '#title' => t('Behavior object'),
-    ];
-
-    if (function_exists('krumong')) {
-      $out['object']['dump']['#markup'] = krumong()->dump($object);
-    }
-    elseif (function_exists('dpm')) {
-      $out['object']['dump']['#markup'] = krumo_ob($object);
-      $out['object']['notice']['#markup'] = '<p>' . t('Install krumong to see private and protected member variables.') . '</p>';
-    }
-    else {
-      $out['object']['notice']['#markup'] = t('No dump utility available. Install devel and/or krumong.');
-    }
-  }
+  $out['object'] = _cfrplugin_ui_dump_data($object, t('Behavior object'));
 
   $out['codegen'] = [
     '#type' => 'fieldset',
@@ -98,6 +82,33 @@ EOT;
   $out['codegen']['code']['#markup'] = UiUtil::highlightPhp($php);
 
   return $out;
+}
+
+/**
+ * @param mixed $data
+ * @param string $label
+ *
+ * @return array
+ */
+function _cfrplugin_ui_dump_data($data, $label) {
+
+  $element = [
+    '#type' => 'fieldset',
+    '#title' => $label,
+  ];
+
+  if (function_exists('krumong')) {
+    $element['dump']['#markup'] = krumong()->dump($data);
+  }
+  elseif (function_exists('dpm')) {
+    $element['dump']['#markup'] = krumo_ob($data);
+    $element['notice']['#markup'] = '<p>' . t('Install krumong to see private and protected member variables.') . '</p>';
+  }
+  else {
+    $element['notice']['#markup'] = t('No dump utility available. Install devel and/or krumong.');
+  }
+
+  return $element;
 }
 
 /**
