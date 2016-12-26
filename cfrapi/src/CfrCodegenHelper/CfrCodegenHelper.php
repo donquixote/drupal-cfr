@@ -23,7 +23,8 @@ class CfrCodegenHelper extends CodegenHelperBase implements CfrCodegenHelperInte
     $this->problems[] = t('Recursion detected.');
 
     /* @see CodegenFailureUtil::recursionDetected() */
-    return CodegenFailureUtil::class . "::recursionDetected("
+    return '// @todo Fix the configuration to prevent recursion.'
+      . "\n" . CodegenFailureUtil::class . "::recursionDetected("
       . "\n  " . $this->export($conf) . ','
       . "\n  " . var_export($message, TRUE) . ')';
   }
@@ -39,7 +40,8 @@ class CfrCodegenHelper extends CodegenHelperBase implements CfrCodegenHelperInte
     $this->problems[] = t('Incompatible configuration.');
 
     /* @see CodegenFailureUtil::incompatibleConfiguration() */
-    return CodegenFailureUtil::class . "::incompatibleConfiguration("
+    return '// @todo Fix the configuration, before exporting this to code!'
+      . "\n" . CodegenFailureUtil::class . "::incompatibleConfiguration("
       . "\n  " . $this->export($conf) . ','
       . "\n  " . var_export($message, TRUE) . ')';
   }
@@ -56,7 +58,8 @@ class CfrCodegenHelper extends CodegenHelperBase implements CfrCodegenHelperInte
     $this->problems[] = t('PHP generation not supported.');
 
     /* @see CodegenFailureUtil::notSupported() */
-    return CodegenFailureUtil::class . "::notSupported("
+    return '// @todo Fix the generated code manually.'
+      . "\n" . CodegenFailureUtil::class . "::notSupported("
       . "\n  " . get_class($object) . '::class,'
       . "\n  " . $this->export($conf) . ','
       . "\n  " . var_export($message, TRUE) . ')';
