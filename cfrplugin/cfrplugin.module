@@ -17,11 +17,15 @@ function cfrplugin() {
 
 /**
  * Implements hook_permission().
+ *
+ * @return array[]
  */
 function cfrplugin_permission() {
   return [
     'view cfrplugin report' =>  [
       'title' => t('View report of Cfr plugins'),
+      'restrict access' => TRUE,
+      'warning' => t('The report page might reveal some implementation details.'),
     ],
   ];
 }
