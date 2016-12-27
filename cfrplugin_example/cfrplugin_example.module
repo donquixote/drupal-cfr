@@ -114,17 +114,25 @@ function cfrplugin_example_node_demo_form(array $form, array $form_state, $node)
     '#value' => t('Show'),
   ];
 
-  if ($settings) {
+  if (!$settings) {
+    return $form;
+  }
+
+  try {
     $entityDisplayCandidate = $configurator->confGetValue($settings);
-    # \Drupal\krumong\dpm($settings, 'SETTINGS');
-    # \Drupal\krumong\dpm($entityDisplayCandidate, 'ENTITY DISPLAY');
-    if ($entityDisplayCandidate instanceof EntityDisplayInterface) {
-      $form['demo'] = [
-        '#type' => 'fieldset',
-        '#title' => t('Node displayed with this display plugin.'),
-        'content' => $entityDisplayCandidate->buildEntity('node', $node),
-      ];
-    }
+  }
+  catch (\Exception $e) {
+    drupal_set_message(t('The configuration seems to be invalid.'), 'warning');
+    return $form;
+  }
+
+
+  if ($entityDisplayCandidate instanceof EntityDisplayInterface) {
+    $form['demo'] = [
+      '#type' => 'fieldset',
+      '#title' => t('Node displayed with this display plugin.'),
+      'content' => $entityDisplayCandidate->buildEntity('node', $node),
+    ];
   }
 
   return $form;
