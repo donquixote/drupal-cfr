@@ -65,4 +65,73 @@ final class UiUtil extends UtilBase {
     return 1 === preg_match($regex, $interface);
   }
 
+  /**
+   * @param \Exception $e
+   *
+   * @return array
+   */
+  public static function displayException(\Exception $e) {
+
+    $file = $e->getFile();
+    $e_class = get_class($e);
+    $e_class_reflection = new \ReflectionClass($e_class);
+
+    return [
+      'text' => [
+        '#markup' => ''
+          // @todo This should probably be in a template. One day.
+          . '<dl>'
+          . '  <dt>' . t('Exception in line %line of %file', ['%line' => $e->getLine(), '%file' => basename($file)]) . '</dt>'
+          . '  <dd><code>' . check_plain($file) . '</code></dd>'
+          . '  <dt>' . t('Exception class: %class', ['%class' => $e_class_reflection->getShortName()]) . '</dt>'
+          . '  <dd>' . check_plain($e_class) . '</dt>'
+          . '  <dt>' . t('Exception message:') . '</dt>'
+          . '  <dd>' . check_plain($e->getMessage()) . '</dd>'
+          . '</dl>',
+      ],
+      'trace_label' => [
+        '#markup' => '<div>' . t('Exception stack trace') . ':</div>',
+      ],
+      'trace' => self::dumpData(BacktraceUtil::exceptionGetRelativeNicetrace($e)),
+    ];
+  }
+
+  /**
+   * @param mixed $data
+   * @param string $fieldset_label
+   *
+   * @return array
+   */
+  public static function dumpDataInFieldset($data, $fieldset_label) {
+
+    return self::dumpData($data)
+      + [
+        '#type' => 'fieldset',
+        '#title' => $fieldset_label,
+      ];
+  }
+
+  /**
+   * @param mixed $data
+   *
+   * @return array
+   */
+  public static function dumpData($data) {
+
+    $element = [];
+
+    if (function_exists('krumong')) {
+      $element['dump']['#markup'] = krumong()->dump($data);
+    }
+    elseif (function_exists('dpm')) {
+      $element['dump']['#markup'] = krumo_ob($data);
+      $element['notice']['#markup'] = '<p>' . t('Install krumong to see private and protected member variables.') . '</p>';
+    }
+    else {
+      $element['notice']['#markup'] = t('No dump utility available. Install devel and/or krumong.');
+    }
+
+    return $element;
+  }
+
 }
