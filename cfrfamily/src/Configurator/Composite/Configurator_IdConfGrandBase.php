@@ -218,6 +218,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    */
   private function elementAfterBuild(array $element, array &$form_state, $id, $defaultOptionsConf) {
     ConfUtil::confUnsetNestedValue($form_state['input'], array_merge($element['#parents'], ['_previous_id']));
+    ConfUtil::confUnsetNestedValue($form_state['values'], array_merge($element['#parents'], ['_previous_id']));
     return $element;
   }
 
