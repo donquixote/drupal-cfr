@@ -130,7 +130,8 @@ EOT
  *
  * @return array
  */
-function cfrplugin_report_interface_demo_page_form(array $form, array &$form_state, $interface, $settings) {
+function cfrplugin_report_interface_demo_page_form(array $form,
+  /** @noinspection PhpUnusedParameterInspection */ array &$form_state, $interface, $settings) {
 
   $form['plugin'] = [
     '#type' => 'cfrplugin',
@@ -152,7 +153,8 @@ function cfrplugin_report_interface_demo_page_form(array $form, array &$form_sta
  * @param array $form
  * @param array $form_state
  */
-function cfrplugin_report_interface_demo_page_form_submit(array &$form, array &$form_state) {
+function cfrplugin_report_interface_demo_page_form_submit(
+  /** @noinspection PhpUnusedParameterInspection */ array &$form, array &$form_state) {
   $options['query']['plugin'] = $form_state['values']['plugin'];
   drupal_goto($_GET['q'], $options);
 }

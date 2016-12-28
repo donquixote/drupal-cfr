@@ -43,7 +43,9 @@ function cfrplugin_element_info() {
  *
  * @return array
  */
-function _cfrplugin_element_process(array $element, array &$form_state, array &$form) {
+function _cfrplugin_element_process(array $element,
+  /** @noinspection PhpUnusedParameterInspection */ array &$form_state,
+  /** @noinspection PhpUnusedParameterInspection */ array &$form) {
 
   $cfrContext = $element['#cfrplugin_context'];
   if (is_array($cfrContext)) {
@@ -66,7 +68,8 @@ function _cfrplugin_element_process(array $element, array &$form_state, array &$
  *
  * @return mixed;
  */
-function _cfrplugin_element_value(array $element, $input = FALSE, array $form_state = []) {
+function _cfrplugin_element_value(array $element, $input = FALSE,
+  /** @noinspection PhpUnusedParameterInspection */ array $form_state = []) {
 
   if (FALSE !== $input) {
     return $input;
