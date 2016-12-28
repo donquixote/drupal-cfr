@@ -129,11 +129,11 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     return $form + [
       '#input' => TRUE,
       '#default_value' => $conf,
-      '#process' => [function (array $element, array &$form_state) use ($obj, $conf) {
+      '#process' => [function (array $element /*, array &$form_state */) use ($obj, $conf) {
         return $obj->elementProcess($element, $conf);
       }],
-      '#after_build' => [function (array $element, array &$form_state) use ($obj, $conf) {
-        return $obj->elementAfterBuild($element, $form_state, $conf);
+      '#after_build' => [function (array $element, array &$form_state) use ($obj) {
+        return $obj->elementAfterBuild($element, $form_state);
       }],
     ];
   }
@@ -180,11 +180,10 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
    *
    * @param array $element
    * @param array $form_state
-   * @param array $conf
    *
    * @return array
    */
-  private function elementAfterBuild(array $element, array &$form_state, array $conf) {
+  private function elementAfterBuild(array $element, array &$form_state) {
 
     $value = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
     if (!is_array($value)) {
