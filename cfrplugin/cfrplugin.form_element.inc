@@ -133,10 +133,6 @@ function _cfrplugin_pre_render_drilldown_container(array $element) {
     ];
   }
 
-  if ([] === $tools) {
-    # return $element;
-  }
-
   $element['tools'] = [
     '#weight' => -999,
     '#type' => 'container',
