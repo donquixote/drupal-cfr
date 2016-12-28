@@ -65,11 +65,10 @@ final class BacktraceUtil extends UtilBase {
 
   /**
    * @param array[] $backtrace
-   * @param int $pop
    *
    * @return array[]
    */
-  public static function nicetrace(array $backtrace, $pop = 0) {
+  public static function nicetrace(array $backtrace) {
 
     $paths = [DRUPAL_ROOT => strlen(DRUPAL_ROOT) + 1];
     return NicetraceUtil::backtraceGetNicetrace($backtrace, $paths);
