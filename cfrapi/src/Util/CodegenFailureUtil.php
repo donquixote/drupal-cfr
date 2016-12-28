@@ -12,7 +12,8 @@ final class CodegenFailureUtil extends UtilBase {
    *
    * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
    */
-  public static function cannotExportObject($class) {
+  public static function cannotExportObject(
+    /** @noinspection PhpUnusedParameterInspection */ $class) {
     throw new PhpGenerationNotSupportedException("Cannot export object to PHP.");
   }
 
@@ -45,7 +46,8 @@ final class CodegenFailureUtil extends UtilBase {
    *
    * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
-  public static function incompatibleConfiguration($conf, $message) {
+  public static function incompatibleConfiguration(
+    /** @noinspection PhpUnusedParameterInspection */ $conf, $message) {
     throw new InvalidConfigurationException($message);
   }
 
@@ -55,7 +57,8 @@ final class CodegenFailureUtil extends UtilBase {
    *
    * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
    */
-  public static function notSupported($conf, $message) {
+  public static function notSupported(
+    /** @noinspection PhpUnusedParameterInspection */ $conf, $message) {
     throw new PhpGenerationNotSupportedException($message);
   }
 
