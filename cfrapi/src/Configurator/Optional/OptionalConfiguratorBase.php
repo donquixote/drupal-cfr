@@ -106,6 +106,8 @@ abstract class OptionalConfiguratorBase implements OptionalConfiguratorInterface
    * @param mixed $conf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   abstract protected function nonEmptyConfGetValue($conf);
 
