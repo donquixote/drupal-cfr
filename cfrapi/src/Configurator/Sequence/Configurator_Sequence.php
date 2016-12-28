@@ -197,6 +197,8 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       }
     }
 
+    $value = array_values($value);
+
     drupal_array_set_nested_value($form_state['values'], $element['#parents'], $value);
 
     return $element;
