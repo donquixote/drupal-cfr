@@ -3,6 +3,7 @@
 namespace Drupal\cfrreflection\Configurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
+use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Configurator_DecoratorBase;
@@ -24,6 +25,18 @@ class Configurator_CallbackMono extends Configurator_DecoratorBase {
    */
   public static function createFromClassName($className, ConfiguratorInterface $argConfigurator) {
     $callback = CallbackReflection_ClassConstruction::createFromClassName($className);
+    return new self($callback, $argConfigurator);
+  }
+
+  /**
+   * @param string $className
+   * @param string $methodName
+   * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $argConfigurator
+   *
+   * @return \Drupal\cfrreflection\Configurator\Configurator_CallbackMono
+   */
+  public static function createFromClassStaticMethod($className, $methodName, ConfiguratorInterface $argConfigurator) {
+    $callback = CallbackReflection_StaticMethod::create($className, $methodName);
     return new self($callback, $argConfigurator);
   }
 
