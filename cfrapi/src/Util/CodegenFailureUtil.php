@@ -13,7 +13,7 @@ final class CodegenFailureUtil extends UtilBase {
    * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
    */
   public static function cannotExportObject($class) {
-    throw new PhpGenerationNotSupportedException($class, "Cannot export object to PHP.");
+    throw new PhpGenerationNotSupportedException("Cannot export object to PHP.");
   }
 
   /**
@@ -22,21 +22,21 @@ final class CodegenFailureUtil extends UtilBase {
    * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
    */
   public static function cannotExportClosure($message) {
-    throw new PhpGenerationNotSupportedException(NULL, $message);
+    throw new PhpGenerationNotSupportedException($message);
   }
 
   /**
    * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
    */
   public static function recursionDetected() {
-    throw new PhpGenerationNotSupportedException(NULL, "Recursion detected.");
+    throw new PhpGenerationNotSupportedException("Recursion detected.");
   }
 
   /**
    * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
    */
   public static function recursiveArray() {
-    throw new PhpGenerationNotSupportedException(NULL, "Cannot export recursive arrays.");
+    throw new PhpGenerationNotSupportedException("Cannot export recursive arrays.");
   }
 
   /**
@@ -46,7 +46,7 @@ final class CodegenFailureUtil extends UtilBase {
    * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public static function incompatibleConfiguration($conf, $message) {
-    throw new InvalidConfigurationException($conf, $message);
+    throw new InvalidConfigurationException($message);
   }
 
   /**
@@ -56,7 +56,7 @@ final class CodegenFailureUtil extends UtilBase {
    * @throws \Drupal\cfrapi\Exception\PhpGenerationNotSupportedException
    */
   public static function notSupported($conf, $message) {
-    throw new PhpGenerationNotSupportedException($conf, $message);
+    throw new PhpGenerationNotSupportedException($message);
   }
 
 }
