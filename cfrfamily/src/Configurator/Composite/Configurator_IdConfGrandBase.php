@@ -280,18 +280,6 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   }
 
   /**
-   * @param string $id
-   *
-   * @return string
-   */
-  private function idGetOptionsLabel($id) {
-    $idLabel = $this->idGetLabel($id);
-    return empty($idLabel)
-      ? t('Options')
-      : t('Options for "@name"', ['@name' => $idLabel]);
-  }
-
-  /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
    * @param \Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface $summaryBuilder
