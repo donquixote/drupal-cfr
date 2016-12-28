@@ -110,8 +110,9 @@ EOT;
 <ul>
   <li>Implement <code>hook_cfrplugin_info()</code> similar to how other modules do it.</li>
   <li>Set up a PSR-4 namespace directory structure for your class files.</li>
+  <li>Replace "myPlugin", "My plugin" and "class C" with more suitable names, and put the class into a namespace.</li>
   <li>Leave the <code>@return</code> tag in place, because it tells cfrplugindiscovery about the plugin type.</li>
-  <li>Fix all <code>@todo</code> items. These occur if code generation was not successful.</li>
+  <li>Fix all <code>@todo</code> items. These occur if code generation was incomplete.</li>
 </ul>
 EOT
   );
