@@ -166,8 +166,8 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
         $element = FormUtil::elementsBuildDependency($element, $form_state, $form);
         return $element;
       }],
-      '#after_build' => [function (array $element, array &$form_state) use ($obj, $id, $optionsConf) {
-        return $obj->elementAfterBuild($element, $form_state, $id, $optionsConf);
+      '#after_build' => [function (array $element, array &$form_state) use ($obj) {
+        return $obj->elementAfterBuild($element, $form_state);
       }],
     ];
 
@@ -211,12 +211,10 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   /**
    * @param array $element
    * @param array $form_state
-   * @param string $id
-   * @param mixed $defaultOptionsConf
    *
    * @return array
    */
-  private function elementAfterBuild(array $element, array &$form_state, $id, $defaultOptionsConf) {
+  private function elementAfterBuild(array $element, array &$form_state) {
     ConfUtil::confUnsetNestedValue($form_state['input'], array_merge($element['#parents'], ['_previous_id']));
     ConfUtil::confUnsetNestedValue($form_state['values'], array_merge($element['#parents'], ['_previous_id']));
     return $element;
