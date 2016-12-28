@@ -19,7 +19,7 @@ function cfrplugin_example_menu() {
     'node/%node/cfrplugin-example' => [
       'page callback' => 'drupal_get_form',
       'title' => 'Entdisp example',
-      /* @see cfrplugin_example_form() */
+      /* @see cfrplugin_example_node_demo_form() */
       'page arguments' => ['cfrplugin_example_node_demo_form', 1],
       'access arguments' => ['administer site configuration'],
       'type' => MENU_LOCAL_TASK,
