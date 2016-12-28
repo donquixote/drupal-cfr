@@ -240,7 +240,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       $phpParts[] = ''
         # . "\n"
         . "\n// Sequence item #$delta"
-        . "\n  $deltaPhp ,";
+        . "\n  $deltaPhp,";
     }
 
     $php = implode("\n", $phpParts);
