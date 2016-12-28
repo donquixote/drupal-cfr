@@ -27,6 +27,9 @@ final class CfrReflectionUtil extends UtilBase {
     try {
       return $callback->invokeArgs($args);
     }
+    catch (InvalidConfigurationException $e) {
+      throw $e;
+    }
     catch (\Exception $e) {
       throw new InvalidConfigurationException('Exception during callback', NULL, $e);
     }
