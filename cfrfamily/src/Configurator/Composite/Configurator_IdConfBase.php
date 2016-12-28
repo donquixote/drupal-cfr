@@ -28,7 +28,8 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
    *
    * @return string|null
    */
-  protected function idGetOptionsFormLabel($id) {
+  protected function idGetOptionsFormLabel(
+    /** @noinspection PhpUnusedParameterInspection */ $id) {
     return NULL;
   }
 
