@@ -4,7 +4,6 @@ namespace Drupal\cfrapi\Configurator\Group;
 
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrreflection\Util\CfrReflectionUtil;
 
 class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
 
