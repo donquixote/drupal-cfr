@@ -18,9 +18,13 @@ final class DocUtil extends UtilBase {
 
     $names = [];
     foreach (explode('|', $m[1]) as $alias) {
+
       if ('' === $alias) {
         continue;
       }
+
+      // My IDE warns about ReDoS with (...*...)+, but I think this one is safe.
+      /** @noinspection NotOptimalRegularExpressionsInspection */
       if ('\\' === $alias[0] && preg_match('~(\\\\[a-zA-Z_][a-zA-Z_0-9]*)+~', $alias)) {
         $names[] = substr($alias, 1);
       }
