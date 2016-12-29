@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\cfrkit\Configurator;
+namespace Drupal\cfrapi\Configurator;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Optionable\Configurator_TextfieldBase;

@@ -1,8 +1,6 @@
 <?php
 
-namespace Drupal\cfrkit\Legend;
-
-use Drupal\cfrapi\Legend\LegendInterface;
+namespace Drupal\cfrapi\Legend;
 
 /**
  * A legend to choose a permission from the Drupal permission system.

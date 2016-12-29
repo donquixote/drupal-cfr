@@ -1,9 +1,8 @@
 <?php
 
-namespace Drupal\cfrkit\Configurator;
+namespace Drupal\cfrapi\Configurator;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
