@@ -17,6 +17,8 @@ interface GroupConfiguratorInterface extends ConfiguratorInterface {
    * @param mixed $conf
    *
    * @return mixed[]
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function confGetValue($conf);
 
