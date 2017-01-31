@@ -1,5 +1,5 @@
 
-.cfrplugin-tools {
+div.cfrplugin-tools {
   opacity: 0;
   transition: opacity 60ms;
   display: inline-block;
@@ -7,11 +7,11 @@
   position: relative;
 }
 
-.cfr-drilldown > .form-type-select:hover > .cfrplugin-tools {
+.cfr-drilldown > .form-type-select:hover > div.cfrplugin-tools {
   opacity: 1;
 }
 
-.cfrplugin-tools > a {
+div.cfrplugin-tools > a {
   text-indent: -999px;
   display: inline-block;
   margin: 0 5px;
@@ -21,7 +21,7 @@
   text-decoration: none;
 }
 
-.cfrplugin-tools > a::before {
+div.cfrplugin-tools > a::before {
   content: '|||';
   display: block;
   transform: rotate(90deg);
@@ -29,10 +29,10 @@
   text-indent: 0;
 }
 
-.cfrplugin-tools:hover {
+div.cfrplugin-tools:hover {
 }
 
-.cfrplugin-tools > ul {
+div.cfrplugin-tools > ul {
   display: none;
   list-style: none;
   margin: -1px -200px 0 0;
@@ -43,20 +43,20 @@
   z-index: 100;
 }
 
-.cfrplugin-tools:hover > ul {
+div.cfrplugin-tools:hover > ul {
   display: block;
 }
 
-.cfrplugin-tools > ul > li {
+div.cfrplugin-tools > ul > li {
   display: block;
   list-style: none;
 }
 
-.cfrplugin-tools > ul > li > hr {
+div.cfrplugin-tools > ul > li > hr {
   margin: 5px 0;
 }
 
-.cfrplugin-tools > ul > li > a {
+div.cfrplugin-tools > ul > li > a {
   display: block;
   padding: 0 9px;
   transition: opacity 60ms;
@@ -65,7 +65,7 @@
   opacity: 0.7;
 }
 
-.cfrplugin-tools > ul > li  a:hover {
+div.cfrplugin-tools > ul > li  a:hover {
   text-decoration: none;
   opacity: 1;
 }
