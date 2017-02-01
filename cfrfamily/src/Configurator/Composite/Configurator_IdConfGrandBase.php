@@ -236,6 +236,15 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
       '#attributes' => ['class' => ['cfr-drilldown-select']],
     ];
 
+    if (NULL !== $id && !self::idExistsInSelectOptions($id, $element['#options'])) {
+      $element['#options'][$id] = t("Unknown id '@id'", ['@id' => $id]);
+      $element['#element_validate'][] = function(array $element) use ($id) {
+        if ((string)$id === (string)$element['#value']) {
+          form_error($element, t("Unknown id %id. Maybe the id did exist in the past, but it currently does not.", ['%id' => $id]));
+        }
+      };
+    }
+
     if ($this->required) {
       $element['#required'] = TRUE;
     }
@@ -244,6 +253,27 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
     }
 
     return $element;
+  }
+
+  /**
+   * @param string $id
+   * @param array $options
+   *
+   * @return bool
+   */
+  private static function idExistsInSelectOptions($id, $options) {
+
+    if (isset($options[$id]) && !is_array($options[$id])) {
+      return TRUE;
+    }
+
+    foreach ($options as $optgroup) {
+      if (is_array($optgroup) && isset($optgroup[$id])) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
   }
 
   /**
