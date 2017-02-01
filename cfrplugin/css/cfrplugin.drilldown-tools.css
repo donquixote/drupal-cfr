@@ -1,5 +1,5 @@
 
-div.cfrplugin-tools {
+.cfrplugin-tools {
   opacity: 0;
   transition: opacity 60ms;
   display: inline-block;
@@ -7,11 +7,11 @@ div.cfrplugin-tools {
   position: relative;
 }
 
-.cfr-drilldown > .form-type-select:hover > div.cfrplugin-tools {
+.cfr-drilldown > .form-type-select:hover > .cfrplugin-tools {
   opacity: 1;
 }
 
-div.cfrplugin-tools > a {
+.cfrplugin-tools > .cfrplugin-tools-handle {
   text-indent: -999px;
   display: inline-block;
   margin: 0 5px;
@@ -21,7 +21,7 @@ div.cfrplugin-tools > a {
   text-decoration: none;
 }
 
-div.cfrplugin-tools > a::before {
+.cfrplugin-tools > .cfrplugin-tools-handle::before {
   content: '|||';
   display: block;
   transform: rotate(90deg);
@@ -29,10 +29,10 @@ div.cfrplugin-tools > a::before {
   text-indent: 0;
 }
 
-div.cfrplugin-tools:hover {
+.cfrplugin-tools:hover {
 }
 
-div.cfrplugin-tools > ul {
+.cfrplugin-tools-dropdown {
   display: none;
   list-style: none;
   margin: -1px -200px 0 0;
@@ -43,29 +43,35 @@ div.cfrplugin-tools > ul {
   z-index: 100;
 }
 
-div.cfrplugin-tools:hover > ul {
+.cfrplugin-tools:hover > .cfrplugin-tools-dropdown {
   display: block;
 }
 
-div.cfrplugin-tools > ul > li {
-  display: block;
-  list-style: none;
-}
-
-div.cfrplugin-tools > ul > li > hr {
+.cfrplugin-tools-dropdown > hr {
   margin: 5px 0;
+  background: #aaa;
 }
 
-div.cfrplugin-tools > ul > li > a {
+.cfrplugin-tools-dropdown > a,
+.cfrplugin-tools-dropdown > a:link,
+.cfrplugin-tools-dropdown > a:visited,
+.cfrplugin-tools-dropdown > a:focus {
   display: block;
   padding: 0 9px;
   transition: opacity 60ms;
   color: inherit;
   text-decoration: none;
   opacity: 0.7;
+  cursor: pointer;
 }
 
-div.cfrplugin-tools > ul > li  a:hover {
+.cfrplugin-tools-dropdown > a:hover {
   text-decoration: none;
   opacity: 1;
+  color: inherit;
+}
+
+.cfrplugin-tools-dropdown > a:active {
+  color: black;
+  text-shadow: 0 0 2px #eee;
 }

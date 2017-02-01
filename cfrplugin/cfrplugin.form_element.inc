@@ -101,10 +101,10 @@ function _cfrplugin_pre_render_drilldown_container(array $element) {
   $tools = [];
 
   $tools['copy']['#markup']
-    = '<a class="cfrplugin-copy" href="#">' . t('Copy "@type" configuration (local storage)', $replacements) . '</a>';
+    = '<a class="cfrplugin-copy">' . t('Copy "@type" configuration (local storage)', $replacements) . '</a>';
 
   $tools['paste']['#markup']
-    = '<a class="cfrplugin-paste" href="#">' . t('Paste "@type" configuration (local storage)', $replacements) . '</a>';
+    = '<a class="cfrplugin-paste">' . t('Paste "@type" configuration (local storage)', $replacements) . '</a>';
 
   $tools[]['#markup'] = '<hr/>';
 
@@ -141,10 +141,17 @@ function _cfrplugin_pre_render_drilldown_container(array $element) {
       'style' => 'display: none;',
     ],
     'top' => [
-      '#markup' => '<a>' . t('tools') . '</a>',
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => 'cfrplugin-tools-handle',
+      ],
+      '#children' => t('tools'),
     ],
     'items' => $tools + [
-      '#theme' => 'themekit_item_list',
+      '#theme_wrappers' => ['container'],
+      '#attributes' => [
+        'class' => ['cfrplugin-tools-dropdown'],
+      ],
     ],
   ];
 
