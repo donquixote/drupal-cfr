@@ -13,6 +13,7 @@
 
 .cfrplugin-tools > .cfrplugin-tools-handle {
   text-indent: -999px;
+  overflow: hidden;
   display: inline-block;
   margin: 0 5px;
   width: 1em;
