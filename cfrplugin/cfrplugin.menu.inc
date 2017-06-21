@@ -85,7 +85,7 @@ function cfrplugin_menu() {
 function _cfrplugin_interface_load($arg) {
   $interface = str_replace('.', '\\', $arg);
   if (!UiUtil::interfaceNameIsValid($interface)) {
-    return NULL;
+    return FALSE;
   }
   // At this point, $interface looks like a valid class name. But it could still
   // be a non-existing interface, and possibly something ridiculously long.
@@ -115,16 +115,16 @@ function _cfrplugin_report_interface_page_title($interface) {
  * @param string $arg
  * @param string $interface_arg
  *
- * @return array
+ * @return array|false
  */
 function _cfrplugin_definition_load($arg, $interface_arg) {
 
-  if (NULL === $interface = _cfrplugin_interface_load($interface_arg)) {
-    return NULL;
+  if (FALSE === $interface = _cfrplugin_interface_load($interface_arg)) {
+    return FALSE;
   }
 
   if (NULL === $definition = CfrPluginHub::getContainer()->typeToDefmap->typeGetDefmap($interface)->idGetDefinition($arg)) {
-    return NULL;
+    return FALSE;
   }
 
   return [
