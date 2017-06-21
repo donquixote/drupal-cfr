@@ -112,9 +112,9 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
 
     $obj = $this;
 
-    if (NULL !== $label && '' !== $label && 1) {
+    if (NULL !== $label && '' !== $label && 0 !== $label) {
       $form = [
-        '#type' => 'fieldset',
+        '#type' => 'container',
         '#title' => $label,
       ];
     }
@@ -199,6 +199,10 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     $value = array_values($value);
 
     drupal_array_set_nested_value($form_state['values'], $element['#parents'], $value);
+
+    if (isset($element['#title']) && '' !== $element['#title']) {
+      $element['#theme_wrappers'][] = 'form_element';
+    }
 
     return $element;
   }
