@@ -52,9 +52,11 @@ function _cfrplugin_element_process(array $element,
     $cfrContext = new CfrContext($cfrContext);
   }
 
-  $element['cfrplugin'] = cfrplugin()
-    ->interfaceGetConfigurator($element['#cfrplugin_interface'], $cfrContext)
-    ->confGetForm($element['#default_value'], $element['#title']);
+  $configurator = empty($element['#required'])
+    ? cfrplugin()->interfaceGetOptionalConfigurator($element['#cfrplugin_interface'], $cfrContext)
+    : cfrplugin()->interfaceGetConfigurator($element['#cfrplugin_interface'], $cfrContext);
+
+  $element['cfrplugin'] = $configurator->confGetForm($element['#default_value'], $element['#title']);
 
   $element['cfrplugin']['#parents'] = $element['#parents'];
 
