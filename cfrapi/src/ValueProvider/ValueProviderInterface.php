@@ -3,8 +3,9 @@
 namespace Drupal\cfrapi\ValueProvider;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
+use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
 
-interface ValueProviderInterface {
+interface ValueProviderInterface extends CfrSchemaInterface {
 
   /**
    * @return mixed
