@@ -2,7 +2,9 @@
 
 namespace Drupal\cfrapi\Legend;
 
-interface LegendInterface {
+use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
+
+interface LegendInterface extends CfrSchemaInterface {
 
   /**
    * @return mixed[]
