@@ -27,6 +27,6 @@ class Configurator_Textfield extends Configurator_TextfieldBase {
    *   PHP statement to generate the value.
    */
   public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
-    return is_string($conf) ? var_export($conf, TRUE) : "''";
+    return is_string($conf) ? var_export($conf, TRUE) : '';
   }
 }
