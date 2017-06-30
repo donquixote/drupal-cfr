@@ -3,23 +3,34 @@
 namespace Drupal\cfrapi\CfrSchemaToConfigurator\Partial;
 
 use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
-use Drupal\cfrapi\CfrSchema\Iface\IfaceSchemaInterface;
-use Drupal\cfrapi\CfrSchema\ValueToValue\ValueToValueSchemaInterface;
 use Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface;
 use Drupal\cfrapi\CfrSchema\Group\GroupSchemaInterface;
+use Drupal\cfrapi\CfrSchema\Iface\IfaceSchemaInterface;
 use Drupal\cfrapi\CfrSchema\Options\OptionsSchemaInterface;
 use Drupal\cfrapi\CfrSchema\Sequence\SequenceSchemaInterface;
+use Drupal\cfrapi\CfrSchema\ValueToValue\ValueToValueSchemaInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 use Drupal\cfrapi\Configurator\Configurator_DrilldownSchema;
-use Drupal\cfrapi\Configurator\Configurator_ValueToValue;
+use Drupal\cfrapi\Configurator\Configurator_ValueToValueSchema;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Configurator\Group\Configurator_GroupSchema;
 use Drupal\cfrapi\Configurator\Id\Configurator_LegendSelect;
 use Drupal\cfrapi\Configurator\Sequence\Configurator_Sequence;
+use Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface;
 
 class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfiguratorPartialInterface {
 
+  /**
+   * @var \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
+   */
+  private $typeToConfigurator;
 
+  /**
+   * @param \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $typeToConfigurator
+   */
+  public function __construct(TypeToConfiguratorInterface $typeToConfigurator) {
+    $this->typeToConfigurator = $typeToConfigurator;
+  }
 
   /**
    * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
@@ -48,7 +59,7 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
     if ($cfrSchema instanceof ValueToValueSchemaInterface) {
       $decoratedSchema = $cfrSchema->getDecorated();
       $decoratedConfigurator = $cfrSchemaToConfigurator->cfrSchemaGetConfigurator($decoratedSchema);
-      return new Configurator_ValueToValue($decoratedConfigurator, $cfrSchema);
+      return new Configurator_ValueToValueSchema($decoratedConfigurator, $cfrSchema);
     }
 
     if ($cfrSchema instanceof DrilldownSchemaInterface) {
@@ -75,7 +86,10 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
     }
 
     if ($cfrSchema instanceof IfaceSchemaInterface) {
-
+      // @todo What about optionality?
+      $interface = $cfrSchema->getInterface();
+      $context = $cfrSchema->getContext();
+      return $this->typeToConfigurator->typeGetConfigurator($interface, $context);
     }
 
     // Not supported.
