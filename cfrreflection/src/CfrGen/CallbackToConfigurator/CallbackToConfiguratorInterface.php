@@ -11,7 +11,9 @@ interface CallbackToConfiguratorInterface {
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   *
+   * @throws \Drupal\cfrfamily\Exception\DefinitionToConfiguratorException
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $callback, CfrContextInterface $context = NULL);
 
