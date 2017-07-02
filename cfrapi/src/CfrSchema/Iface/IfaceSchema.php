@@ -26,7 +26,7 @@ class IfaceSchema implements IfaceSchemaInterface {
    */
   public static function createSequence($interface, CfrContextInterface $context = NULL) {
     return new SequenceSchema(
-      self::createOptional($interface, $context));
+      new self($interface, $context));
   }
 
   /**

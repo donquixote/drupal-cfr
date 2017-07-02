@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrplugindiscovery\ClassFileToDefinitions;
 
+use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotations;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface;
@@ -127,6 +128,15 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
 
       $pluginTypeNames = $this->reflectionMethodGetReturnTypeNames($confGetValueMethod);
     }
+    elseif ($reflectionClass->implementsInterface(CfrSchemaInterface::class)) {
+      $stubDefinition = ['schema_class' => $reflectionClass->getName()];
+
+      if (NULL === $confGetValueMethod = $reflectionClass->getMethod('confGetValue')) {
+        return [];
+      }
+
+      $pluginTypeNames = $this->reflectionMethodGetReturnTypeNames($confGetValueMethod);
+    }
     else {
       $stubDefinition = ['handler_class' => $reflectionClass->getName()];
 
@@ -170,6 +180,12 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
         // We simply assume that
         return self::configuratorFactoryGetDefinitions($method, $annotations);
       }
+      elseif (is_a($returnTypeName, CfrSchemaInterface::class, TRUE)) {
+        // The method returns a configurator object.
+        // The actual plugin type has to be determined elsewhere:
+        // We simply assume that
+        return self::schemaFactoryGetDefinitions($method, $annotations);
+      }
     }
 
     $name = $method->getDeclaringClass()->getName() . '::' . $method->getName();
@@ -196,6 +212,27 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
 
     $definition = [
       'configurator_factory' => $name,
+    ];
+
+    $pluginTypeNames = self::classGetPluginTypeNames($method->getDeclaringClass());
+    $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $name);
+    return DefinitionUtil::buildDefinitionsByTypeAndId($pluginTypeNames, $definitionsById);
+  }
+
+  /**
+   * @param \ReflectionMethod $method
+   * @param array[] $annotations
+   *   E.g. [['id' => 'entityTitle', 'label' => 'Entity title'], ..]
+   *
+   * @return array[][]
+   *   Format: $[$pluginType][$pluginId] = $pluginDefinition
+   */
+  private static function schemaFactoryGetDefinitions(\ReflectionMethod $method, array $annotations) {
+
+    $name = $method->getDeclaringClass()->getName() . '::' . $method->getName();
+
+    $definition = [
+      'schema_factory' => $name,
     ];
 
     $pluginTypeNames = self::classGetPluginTypeNames($method->getDeclaringClass());

@@ -11,4 +11,19 @@ interface CallbackSchemaInterface extends CfrSchemaInterface {
    */
   public function getCallback();
 
+  /**
+   * @return \Drupal\cfrapi\CfrSchema\CfrSchemaInterface[]
+   */
+  public function getExplicitParamSchemas();
+
+  /**
+   * @return string[]
+   */
+  public function getExplicitParamLabels();
+
+  /**
+   * @return \Drupal\cfrapi\Context\CfrContextInterface|null
+   */
+  public function getContext();
+
 }

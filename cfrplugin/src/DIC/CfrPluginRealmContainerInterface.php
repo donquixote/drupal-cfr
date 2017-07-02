@@ -9,6 +9,7 @@ use Drupal\cfrrealm\Container\CfrRealmContainerInterface;
  *
  * Part of the cycle using reflection:
  * @property \Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfiguratorInterface $callbackToConfigurator
+ * @property \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
  * @property \Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface $paramToConfigurator
  * @property \Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface $paramToLabel
  */

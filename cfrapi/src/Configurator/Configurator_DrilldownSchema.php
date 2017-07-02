@@ -22,16 +22,18 @@ class Configurator_DrilldownSchema extends Configurator_IdConfBase {
   /**
    * @param \Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface $drilldownSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+   * @param bool $required
    */
   public function __construct(
     DrilldownSchemaInterface $drilldownSchema,
-    CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+    CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator,
+    $required = TRUE
   ) {
     $this->drilldownSchema = $drilldownSchema;
     $this->cfrSchemaToConfigurator = $cfrSchemaToConfigurator;
 
     parent::__construct(
-      TRUE,
+      $required,
       ($drilldownSchema instanceof IdValueToValueInterface)
         ? $drilldownSchema
         : NULL);
@@ -65,7 +67,9 @@ class Configurator_DrilldownSchema extends Configurator_IdConfBase {
       return NULL;
     }
 
-    if (FALSE === $configurator = $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator($cfrSchema, $this->cfrSchemaToConfigurator)) {
+    if (FALSE === $configurator = $this->cfrSchemaToConfigurator
+        ->cfrSchemaGetConfigurator($cfrSchema)
+    ) {
       // @todo Throw an exception instead?
       return NULL;
     }

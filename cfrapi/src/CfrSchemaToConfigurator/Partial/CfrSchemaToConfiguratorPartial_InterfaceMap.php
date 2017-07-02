@@ -8,13 +8,13 @@ use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 class CfrSchemaToConfiguratorPartial_InterfaceMap implements CfrSchemaToConfiguratorPartialInterface {
 
   /**
-   * @var \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface[]
+   * @var \Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfiguratorPartialInterface[]
    *   Format: $[$interface] = $cfrSchemaToConfigurator
    */
   private $map;
 
   /**
-   * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface[] $map
+   * @param \Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfiguratorPartialInterface[] $map
    *   Format: $[$interface] = $cfrSchemaToConfigurator
    */
   public function __construct(array $map) {
@@ -39,6 +39,19 @@ class CfrSchemaToConfiguratorPartial_InterfaceMap implements CfrSchemaToConfigur
       }
     }
 
+    return FALSE;
+  }
+
+  /**
+   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+   *
+   * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface|false
+   */
+  public function cfrSchemaGetOptionalConfigurator(
+    CfrSchemaInterface $cfrSchema,
+    CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+  ) {
     return FALSE;
   }
 }

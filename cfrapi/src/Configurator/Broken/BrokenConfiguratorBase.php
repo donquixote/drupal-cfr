@@ -1,23 +1,14 @@
 <?php
 
-namespace Drupal\cfrapi\Configurator;
+namespace Drupal\cfrapi\Configurator\Broken;
 
+use Drupal\cfrapi\BrokenValue\BrokenValue;
+use Drupal\cfrapi\BrokenValue\BrokenValueBase;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-abstract class Configurator_DecoratorBase implements ConfiguratorInterface {
-
-  /**
-   * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface
-   */
-  private $decorated;
-
-  /**
-   * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $decorated
-   */
-  protected function __construct(ConfiguratorInterface $decorated) {
-    $this->decorated = $decorated;
-  }
+abstract class BrokenConfiguratorBase implements BrokenConfiguratorInterface {
 
   /**
    * @param mixed $conf
@@ -28,21 +19,21 @@ abstract class Configurator_DecoratorBase implements ConfiguratorInterface {
    * @return array
    */
   public function confGetForm($conf, $label) {
-    return $this->decorated->confGetForm($conf, $label);
+    // @todo Add an element that causes validation to fail.
+    return [
+      '#markup' => '- ' . t('Broken configurator') . ' -<pre>' . print_r($this, TRUE) . '</pre>',
+    ];
   }
 
   /**
    * @param mixed $conf
    *   Configuration from a form, config file or storage.
    * @param \Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface $summaryBuilder
-   *   An object that controls the format of the summary.
    *
-   * @return mixed|string|null
-   *   A string summary is always allowed. But other values may be returned if
-   *   $summaryBuilder generates them.
+   * @return null|string
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    return $this->decorated->confGetSummary($conf, $summaryBuilder);
+    return '- ' . t('Broken configurator') . ' -';
   }
 
   /**
@@ -55,7 +46,7 @@ abstract class Configurator_DecoratorBase implements ConfiguratorInterface {
    * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
-    return $this->decorated->confGetValue($conf);
+    throw new ConfToValueException("Broken configurator");
   }
 
   /**
@@ -66,7 +57,8 @@ abstract class Configurator_DecoratorBase implements ConfiguratorInterface {
    * @return string
    *   PHP statement to generate the value.
    */
-  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
-    return $this->decorated->confGetPhp($conf, $helper);
+  function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
+    return $helper->incompatibleConfiguration($conf, 'Broken configurator');
   }
+
 }

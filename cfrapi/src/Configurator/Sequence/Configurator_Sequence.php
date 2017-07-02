@@ -4,6 +4,8 @@ namespace Drupal\cfrapi\Configurator\Sequence;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
+use Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface;
+use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
@@ -24,6 +26,24 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
   private $emptyness;
 
   /**
+   * @var callable|null
+   */
+  private $itemLabelCallback;
+
+  /**
+   * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $configurator
+   * @param \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface $emptyness
+   *
+   * @return \Drupal\cfrapi\Configurator\Sequence\Configurator_SequenceBase
+   */
+  public static function create(
+    ConfiguratorInterface $configurator,
+    ConfEmptynessInterface $emptyness
+  ) {
+    return new Configurator_Sequence2($configurator, $emptyness);
+  }
+
+  /**
    * @param \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface $configurator
    */
   public function __construct(OptionalConfiguratorInterface $configurator) {
@@ -31,6 +51,17 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     if (NULL === $this->emptyness = $configurator->getEmptyness()) {
       throw new \InvalidArgumentException("The provided configurator has no valid values that count as empty.");
     }
+  }
+
+  /**
+   * @param callable|null $itemLabelCallback
+   *
+   * @return static
+   */
+  public function withItemLabelCallback($itemLabelCallback) {
+    $clone = clone $this;
+    $clone->itemLabelCallback = $itemLabelCallback;
+    return $clone;
   }
 
   /**
@@ -164,15 +195,35 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       }
 
       $itemConf = isset($conf[$delta]) ? $conf[$delta] : NULL;
-      $element[$delta] = $this->configurator->confGetForm($itemConf, t('Item !n', ['!n' => '#' . check_plain($delta)]));
+      $element[$delta] = $this->configurator->confGetForm(
+        $itemConf,
+        $this->deltaGetItemLabel($delta));
     }
 
     // Element for new item.
-    $element[] = $this->configurator->confGetForm($this->emptyness->getEmptyConf(), t('New item'));
+    $element[] = $this->configurator->confGetForm(
+      $this->emptyness->getEmptyConf(),
+      $this->deltaGetItemLabel(NULL));
     // @todo AJAX button to add new item?
     // @todo Drag and drop to rearrange items.
 
     return $element;
+  }
+
+  /**
+   * @param int|string|null $delta
+   *
+   * @return string
+   */
+  private function deltaGetItemLabel($delta) {
+
+    if (NULL !== $this->itemLabelCallback) {
+      return call_user_func($this->itemLabelCallback, $delta);
+    }
+
+    return (NULL === $delta)
+      ? t('New item')
+      : t('Item !n', ['!n' => '#' . check_plain($delta)]);
   }
 
   /**

@@ -2,6 +2,9 @@
 
 namespace Drupal\cfrplugin\DIC;
 
+use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfigurator_FromPartial;
+use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
+use Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfiguratorPartial_Hardcoded;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrplugin\Util\ServiceFactoryUtil;
@@ -97,12 +100,27 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
       function() {
         $definitionToConfigurator = new DefinitionToConfigurator_Mappers();
         // $this can be used since PHP 5.4.
-        $mappers = ServiceFactoryUtil::createDeftocfrMappers($this->callbackToConfigurator);
+        $mappers = ServiceFactoryUtil::createDeftocfrMappers(
+          $this->callbackToConfigurator,
+          $this->cfrSchemaToConfigurator);
         foreach ($mappers as $key => $mapper) {
           $definitionToConfigurator->keySetMapper($key, $mapper);
         }
         return $definitionToConfigurator;
       });
+  }
+
+  /**
+   * @return \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   *
+   * @see $cfrSchemaToConfigurator
+   */
+  protected function get_cfrSchemaToConfigurator() {
+    return new CfrSchemaToConfigurator_FromPartial(
+      new CfrSchemaToConfiguratorPartial_Hardcoded(
+        $this->typeToConfigurator,
+        $this->paramToConfigurator,
+        $this->paramToLabel));
   }
 
   /**
