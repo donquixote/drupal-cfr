@@ -3,7 +3,7 @@
 namespace Drupal\cfrapi\Configurator;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\CfrSchema\ValueToValue\ValueToValueSchemaInterface;
+use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 
 class Configurator_ValueToValueSchemaOptional extends Configurator_ValueToValueSchema implements OptionalConfiguratorInterface {
@@ -20,12 +20,12 @@ class Configurator_ValueToValueSchemaOptional extends Configurator_ValueToValueS
 
   /**
    * @param \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface $decorated
-   * @param \Drupal\cfrapi\CfrSchema\ValueToValue\ValueToValueSchemaInterface $valueToValueSchema
+   * @param \Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface $valueToValueSchema
    * @param mixed $defaultValue
    */
   public function __construct(
     OptionalConfiguratorInterface $decorated,
-    ValueToValueSchemaInterface $valueToValueSchema,
+    CfSchema_ValueToValueInterface $valueToValueSchema,
     $defaultValue = NULL
   ) {
     parent::__construct($decorated, $valueToValueSchema);

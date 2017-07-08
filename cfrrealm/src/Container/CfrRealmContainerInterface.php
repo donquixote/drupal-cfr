@@ -11,8 +11,15 @@ namespace Drupal\cfrrealm\Container;
  * Main cycle of circular dependencies:
  * @property \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $typeToConfigurator
  * @property \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface $typeToCfrFamily
+ * @property \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface $typeToCfrSchema_tagged
+ * @property \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface $typeToCfrSchema
+ * @property \Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface $defmapToDrilldownSchema
  * @property \Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface $defmapToCfrFamily
  * @property \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
+ * @property \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface $definitionToCfrSchema_proxy
+ * @property \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface $definitionToCfrSchema
+ * @property \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator_proxy
+ * @property \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
  *
  * Non-circular:
  * @property \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel

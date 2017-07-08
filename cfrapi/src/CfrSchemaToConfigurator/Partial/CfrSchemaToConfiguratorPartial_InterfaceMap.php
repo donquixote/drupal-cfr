@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\CfrSchemaToConfigurator\Partial;
 
-use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 
 class CfrSchemaToConfiguratorPartial_InterfaceMap implements CfrSchemaToConfiguratorPartialInterface {
@@ -22,13 +22,13 @@ class CfrSchemaToConfiguratorPartial_InterfaceMap implements CfrSchemaToConfigur
   }
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $cfrSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|false
    */
   public function cfrSchemaGetConfigurator(
-    CfrSchemaInterface $cfrSchema,
+    CfSchemaInterface $cfrSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator)
   {
     foreach ($this->map as $interface => $mapped) {
@@ -43,13 +43,13 @@ class CfrSchemaToConfiguratorPartial_InterfaceMap implements CfrSchemaToConfigur
   }
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $cfrSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface|false
    */
   public function cfrSchemaGetOptionalConfigurator(
-    CfrSchemaInterface $cfrSchema,
+    CfSchemaInterface $cfrSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
   ) {
     return FALSE;

@@ -137,7 +137,7 @@ abstract class RecursiveLegend_InlineExpandedBase implements RecursiveLegendInte
     while (FALSE !== $pos = strpos($combinedId, '/', $pos + 1)) {
       $idPrefix = substr($combinedId, 0, $pos);
       if (NULL !== $inlineLegend = $this->idGetInlineLegend($idPrefix)) {
-        if (NULL !== $labelPrefix = $this->decorated->idGetLabel($idPrefix)) {
+        if (NULL !== /* $labelPrefix = */ $this->decorated->idGetLabel($idPrefix)) {
           $idSuffix = substr($combinedId, $pos + 1);
           if (NULL !== $label = $inlineLegend->idGetLabel($idSuffix)) {
             return $label;

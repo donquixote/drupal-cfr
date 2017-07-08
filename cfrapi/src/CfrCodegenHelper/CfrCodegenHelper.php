@@ -44,7 +44,7 @@ class CfrCodegenHelper extends CodegenHelperBase implements CfrCodegenHelperInte
     $this->problems[] = t('Incompatible configuration.');
 
     $php = ''
-      . "\n" . '$conf = ' . var_export($conf, TRUE) . ';'
+      . "\n" . '$conf = ' . $this->export($conf) . ';'
       . "\n" . 'throw new \\' . InvalidConfigurationException::class . '(' . var_export($message, TRUE) . ');';
 
     return '// @todo Fix the configuration, before exporting this to code!'

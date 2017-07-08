@@ -2,26 +2,28 @@
 
 namespace Drupal\cfrapi\CfrSchemaToConfigurator\Partial;
 
-use Drupal\cfrapi\CfrSchema\Callback\CallbackSchemaInterface;
-use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
-use Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface;
-use Drupal\cfrapi\CfrSchema\Group\GroupSchemaInterface;
-use Drupal\cfrapi\CfrSchema\Iface\IfaceSchemaInterface;
-use Drupal\cfrapi\CfrSchema\Optional\OptionalSchemaInterface;
-use Drupal\cfrapi\CfrSchema\Options\OptionsSchemaInterface;
-use Drupal\cfrapi\CfrSchema\Sequence\SequenceSchemaInterface;
-use Drupal\cfrapi\CfrSchema\ValueToValue\ValueToValueSchemaInterface;
+use Donquixote\Cf\Schema\Callback\CfSchema_CallbackInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
+use Donquixote\Cf\Schema\Group\CfSchema_GroupInterface;
+use Donquixote\Cf\Schema\Iface\CfSchema_IfaceInterface;
+use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
+use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
+use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
+use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 use Drupal\cfrapi\Configurator\Configurator_DrilldownSchema;
 use Drupal\cfrapi\Configurator\Configurator_ValueToValueSchema;
 use Drupal\cfrapi\Configurator\Configurator_ValueToValueSchemaOptional;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\Configurator\Group\Configurator_Group;
 use Drupal\cfrapi\Configurator\Group\Configurator_GroupSchema;
-use Drupal\cfrapi\Configurator\Id\Configurator_LegendSelect;
+use Drupal\cfrapi\Configurator\Id\Configurator_OptionsSchemaSelect;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\Configurator\Sequence\Configurator_Sequence;
+use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_FromValueProvider;
 use Drupal\cfrapi\Exception\UnsupportedSchemaException;
+use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
+use Drupal\cfrrealm\CfrSchema\CfSchema_Neutral_IfaceTransformed;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface;
 use Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface;
 use Drupal\cfrreflection\Configurator\Configurator_CallbackConfigurable;
@@ -60,55 +62,59 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
   }
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $cfrSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|false
    * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
   public function cfrSchemaGetConfigurator(
-    CfrSchemaInterface $cfrSchema,
+    CfSchemaInterface $cfrSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
   ) {
-    if ($cfrSchema instanceof OptionalSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_OptionalInterface) {
       return $cfrSchemaToConfigurator->cfrSchemaGetOptionalConfigurator(
-        $cfrSchema->getCfrSchema());
+        $cfrSchema->getDecorated());
+    }
+
+    if ($cfrSchema instanceof ValueProviderInterface) {
+      return new Configurator_FromValueProvider($cfrSchema);
     }
 
     if ($cfrSchema instanceof ConfiguratorInterface) {
       return $cfrSchema;
     }
 
-    if ($cfrSchema instanceof ValueToValueSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_ValueToValueInterface) {
       $decoratedSchema = $cfrSchema->getDecorated();
       $decoratedConfigurator = $cfrSchemaToConfigurator->cfrSchemaGetConfigurator($decoratedSchema);
       return new Configurator_ValueToValueSchema($decoratedConfigurator, $cfrSchema);
     }
 
-    if ($cfrSchema instanceof DrilldownSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_DrilldownInterface) {
       return new Configurator_DrilldownSchema(
         $cfrSchema,
         $cfrSchemaToConfigurator);
     }
 
-    if ($cfrSchema instanceof OptionsSchemaInterface) {
-      return new Configurator_LegendSelect($cfrSchema);
+    if ($cfrSchema instanceof CfSchema_OptionsInterface) {
+      return new Configurator_OptionsSchemaSelect($cfrSchema);
     }
 
-    if ($cfrSchema instanceof GroupSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_GroupInterface) {
       return $this->groupSchemaGetConfigurator(
         $cfrSchema,
         $cfrSchemaToConfigurator);
     }
 
-    if ($cfrSchema instanceof SequenceSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_SequenceInterface) {
       $itemSchema = $cfrSchema->getItemSchema();
       $itemConfigurator = $cfrSchemaToConfigurator->cfrSchemaGetOptionalConfigurator($itemSchema);
       // @todo What if there is no such configurator?
       return new Configurator_Sequence($itemConfigurator);
     }
 
-    if ($cfrSchema instanceof IfaceSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_IfaceInterface) {
       // @todo What about optionality?
       $interface = $cfrSchema->getInterface();
       $context = $cfrSchema->getContext();
@@ -121,7 +127,19 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
       return $configurator;
     }
 
-    if ($cfrSchema instanceof CallbackSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_Neutral_IfaceTransformed) {
+      $interface = $cfrSchema->getInterface();
+      $context = $cfrSchema->getContext();
+      $configurator = $this->typeToConfigurator->typeGetConfigurator(
+        $interface,
+        $context);
+      if (!$configurator) {
+        throw new UnsupportedSchemaException("There is no configurator for interface $interface.");
+      }
+      return $configurator;
+    }
+
+    if ($cfrSchema instanceof CfSchema_CallbackInterface) {
       return $this->callbackSchemaGetConfigurator(
         $cfrSchema,
         $cfrSchemaToConfigurator);
@@ -132,13 +150,14 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
   }
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $cfrSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface|false
+   * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
   public function cfrSchemaGetOptionalConfigurator(
-    CfrSchemaInterface $cfrSchema,
+    CfSchemaInterface $cfrSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
   ) {
     /*
@@ -160,7 +179,7 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
       }
     }
 
-    if ($cfrSchema instanceof ValueToValueSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_ValueToValueInterface) {
       return new Configurator_ValueToValueSchemaOptional(
         $cfrSchemaToConfigurator->cfrSchemaGetOptionalConfigurator(
           $cfrSchema->getDecorated()),
@@ -168,31 +187,31 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
         NULL);
     }
 
-    if ($cfrSchema instanceof DrilldownSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_DrilldownInterface) {
       return new Configurator_DrilldownSchema(
         $cfrSchema,
         $cfrSchemaToConfigurator,
         FALSE);
     }
 
-    if ($cfrSchema instanceof OptionsSchemaInterface) {
-      return Configurator_LegendSelect::createOptional($cfrSchema);
+    if ($cfrSchema instanceof CfSchema_OptionsInterface) {
+      return Configurator_OptionsSchemaSelect::createOptional($cfrSchema);
     }
 
-    if ($cfrSchema instanceof GroupSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_GroupInterface) {
       // @todo Find a solution to make groups optionable?
       return FALSE;
     }
 
     // Sequence is already optional.
-    if ($cfrSchema instanceof SequenceSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_SequenceInterface) {
       $itemConfigurator = $cfrSchemaToConfigurator->cfrSchemaGetOptionalConfigurator(
         $cfrSchema->getItemSchema());
       // @todo What if there is no such configurator?
       return new Configurator_Sequence($itemConfigurator);
     }
 
-    if ($cfrSchema instanceof IfaceSchemaInterface) {
+    if ($cfrSchema instanceof CfSchema_IfaceInterface) {
       return $this->typeToConfigurator->typeGetOptionalConfigurator(
         $cfrSchema->getInterface(),
         $cfrSchema->getContext());
@@ -203,33 +222,30 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
   }
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\Group\GroupSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\Group\CfSchema_GroupInterface $cfrSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return bool|\Drupal\cfrapi\Configurator\ConfiguratorInterface|false
+   * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
   private function groupSchemaGetConfigurator(
-    GroupSchemaInterface $cfrSchema,
+    CfSchema_GroupInterface $cfrSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
   ) {
-    $configurators = [];
-    foreach ($cfrSchema->getItemSchemas() as $k => $itemSchema) {
-      $configurators[$k] = $cfrSchemaToConfigurator->cfrSchemaGetConfigurator($itemSchema);
-    }
-
-    return Configurator_Group::createFromConfigurators(
-      $configurators,
-      $cfrSchema->getLabels());
+    return new Configurator_GroupSchema(
+      $cfrSchema,
+      $cfrSchemaToConfigurator);
   }
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\Callback\CallbackSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\Callback\CfSchema_CallbackInterface $cfrSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return bool|\Drupal\cfrapi\Configurator\ConfiguratorInterface|false
+   * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
   private function callbackSchemaGetConfigurator(
-    CallbackSchemaInterface $cfrSchema,
+    CfSchema_CallbackInterface $cfrSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
   ) {
     $callback = $cfrSchema->getCallback();

@@ -2,17 +2,15 @@
 
 namespace Drupal\cfrreflection\CfrGen\CallbackToConfigurator;
 
-use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
-use Drupal\cfrapi\Configurator\ConfiguratorInterface;
-use Drupal\cfrapi\Context\CfrContextInterface;
+use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 
 /**
  * Creates a configurator for a callback, where the callback return value is the
  * configurator, and the callback parameters represent the context.
  */
-class CallbackToConfigurator_SchemaFactory implements CallbackToConfiguratorInterface {
+class CallbackToConfigurator_SchemaFactory extends CallbackToConfiguratorBase {
 
   /**
    * @var \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
@@ -27,47 +25,25 @@ class CallbackToConfigurator_SchemaFactory implements CallbackToConfiguratorInte
   }
 
   /**
-   * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $schemaFactoryCallback
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
+   * @param mixed $schemaCandidate
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
-  public function callbackGetConfigurator(CallbackReflectionInterface $schemaFactoryCallback, CfrContextInterface $context = NULL) {
+  protected function candidateGetConfigurator($schemaCandidate) {
 
-    $serialArgs = [];
-    foreach ($schemaFactoryCallback->getReflectionParameters() as $i => $param) {
-
-      // @todo Only accept optional parameters.
-      if ($context && $context->paramValueExists($param)) {
-        $arg = $context->paramGetValue($param);
-      }
-      elseif ($param->isOptional()) {
-        $arg = $param->getDefaultValue();
+    if (!$schemaCandidate instanceof CfSchemaInterface) {
+      if (is_object($schemaCandidate)) {
+        $class = get_class($schemaCandidate);
+        throw new ConfiguratorCreationException("The schema factory is expected to return a CfrSchema object, but returned a $class object instead.");
       }
       else {
-        return NULL;
+        $export = var_export($schemaCandidate, TRUE);
+        throw new ConfiguratorCreationException("The schema factory returned non-object value $export.");
       }
-
-      $serialArgs[] = $arg;
     }
 
-    $schemaCandidate = $schemaFactoryCallback->invokeArgs($serialArgs);
-
-    if (!$schemaCandidate instanceof CfrSchemaInterface) {
-      return NULL;
-    }
-
-    try {
-      $configuratorCandidate = $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator($schemaCandidate);
-    }
-    catch (\Exception $e) {
-      return NULL;
-    }
-
-    if (!$configuratorCandidate instanceof ConfiguratorInterface) {
-      return NULL;
-    }
-
-    return $configuratorCandidate;
+    return $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator($schemaCandidate);
   }
 }

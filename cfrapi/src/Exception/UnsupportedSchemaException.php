@@ -2,6 +2,6 @@
 
 namespace Drupal\cfrapi\Exception;
 
-class UnsupportedSchemaException extends \Exception {
+class UnsupportedSchemaException extends ConfiguratorCreationException {
 
 }

@@ -183,6 +183,7 @@ abstract class Configurator_SequenceBase implements OptionalConfiguratorInterfac
         continue;
       }
 
+      // @todo Why use $itemValue above, and $itemConf down here?
       $itemConf = isset($conf[$delta]) ? $conf[$delta] : NULL;
       $element[$delta] = $this->configurator->confGetForm(
         $itemConf,
@@ -192,7 +193,7 @@ abstract class Configurator_SequenceBase implements OptionalConfiguratorInterfac
     // Element for new item.
     $element[] = $this->configurator->confGetForm(
       $this->emptyness->getEmptyConf(),
-      $this->deltaGetItemLabel(NULL));
+      $this->deltaGetItemLabel(NULL ));
     // @todo AJAX button to add new item?
     // @todo Drag and drop to rearrange items.
 
@@ -276,6 +277,21 @@ abstract class Configurator_SequenceBase implements OptionalConfiguratorInterfac
         continue;
       }
       $phpStatements[] = $this->configurator->confGetPhp($deltaConf, $helper);
+    }
+
+    return $this->itemsPhpGetPhp($phpStatements, $helper);
+  }
+
+  /**
+   * @param string[] $phpStatements
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
+   *
+   * @return string
+   */
+  protected function itemsPhpGetPhp(array $phpStatements, CfrCodegenHelperInterface $helper) {
+
+    if ([] === $phpStatements) {
+      return '[]';
     }
 
     $phpParts = [];

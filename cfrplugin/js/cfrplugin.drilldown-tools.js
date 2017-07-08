@@ -142,11 +142,34 @@
 
         $tools.appendTo($selectWrapper).show();
 
-        $('.cfrplugin-demo', $tools).click(function(event){
+        $('.cfrplugin-demo', $tools).mousedown(function(event){
           var formValuesAll = $form.serializeArray();
           var values = extractValues(formValuesAll, name + '[options]', 'plugin[options]');
           values['plugin[id]'] = $select.val();
           this.search = '?' + $.param(values);
+        });
+
+        $('.cfrplugin-inspect', $tools).each(function(event){
+          var link = this;
+          var $link = $(link);
+          var href = link.href;
+          var linkText = link.innerHTML;
+
+          function up() {
+            var id = $select.val();
+            var optionText = $select.find(':selected').text();
+            if (!id) {
+              $link.hide();
+            }
+            else {
+              link.href = href + '/plugin/' + id;
+              link.innerHTML = linkText.replace('@name', optionText);
+              $link.show();
+            }
+          }
+
+          up();
+          $select.change(up);
         });
 
         $('.cfrplugin-copy', $tools).click(function(event){

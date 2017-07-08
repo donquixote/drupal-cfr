@@ -4,6 +4,7 @@ namespace Drupal\cfrfamily\DefinitionToConfigurator;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfiguratorInterface;
+use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 
 class DefinitionToConfigurator_Mappers implements DefinitionToConfiguratorInterface {
 
@@ -24,7 +25,9 @@ class DefinitionToConfigurator_Mappers implements DefinitionToConfiguratorInterf
    * @param array $definition
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
   public function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL) {
 
@@ -34,6 +37,6 @@ class DefinitionToConfigurator_Mappers implements DefinitionToConfiguratorInterf
       }
     }
 
-    return NULL;
+    throw new ConfiguratorCreationException("None of the mappers could handle the definition provided.");
   }
 }

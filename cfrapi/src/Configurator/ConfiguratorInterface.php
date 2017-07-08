@@ -2,10 +2,10 @@
 
 namespace Drupal\cfrapi\Configurator;
 
-use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\ConfToValue\ConfToValueInterface;
 use Drupal\cfrapi\RawConfigurator\RawConfiguratorInterface;
 
-interface ConfiguratorInterface extends RawConfiguratorInterface, ConfToValueInterface, CfrSchemaInterface {
+interface ConfiguratorInterface extends RawConfiguratorInterface, ConfToValueInterface, CfSchemaInterface {
 
 }

@@ -6,7 +6,7 @@ use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\Configurator\Inlineable\InlineableConfiguratorInterface;
-use Drupal\cfrfamily\Exception\DefinitionToConfiguratorException;
+use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 use Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface;
 use Drupal\cfrreflection\Configurator\Configurator_CallbackConfigurable;
 use Drupal\cfrreflection\Configurator\Configurator_CallbackInlineable;
@@ -46,7 +46,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    *
-   * @throws \Drupal\cfrfamily\Exception\DefinitionToConfiguratorException
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $valueCallback, CfrContextInterface $context = NULL) {
 
@@ -72,11 +72,11 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
 
     $paramConfigurators = [];
     $paramLabels = [];
-    foreach ($params as $i => $param) {
+    foreach ($params as $param) {
       $paramConfigurators[] = $paramConfigurator = $this->paramToConfigurator->paramGetConfigurator($param, $context);
       if (FALSE === $paramConfigurator || NULL === $paramConfigurator) {
         $paramName = $param->getName();
-        throw new DefinitionToConfiguratorException("No configurator could be constructed for parameter $paramName.");
+        throw new ConfiguratorCreationException("No configurator could be constructed for parameter $paramName.");
       }
       $paramLabels[] = $this->paramToLabel->paramGetLabel($param);
     }

@@ -21,7 +21,9 @@ interface ArgDefToConfiguratorInterface {
    *   The entire plugin definition.
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
   public function argDefinitionGetConfigurator($arg, array $definition, CfrContextInterface $context = NULL);
 }

@@ -3,17 +3,19 @@
 namespace Drupal\cfrplugin\DIC;
 
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfigurator_FromPartial;
-use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
+use Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfigurator_Proxy;
 use Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfiguratorPartial_Hardcoded;
+use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchema_Mappers;
+use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchema_Proxy;
+use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchema_Replacer;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrplugin\Util\ServiceFactoryUtil;
+use Drupal\cfrrealm\CfrSchemaReplacer\CfrSchemaReplacer_Hardcoded;
 use Drupal\cfrrealm\Container\CfrRealmContainerBase;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Cache;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscovery;
 use Drupal\cfrrealm\DefinitionToConfigurator\DefinitionToConfigurator_Proxy;
-use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_Buffer;
-use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfrFamily;
 use Drupal\cfrrealm\TypeToDefinitionsbyid\TypeToDefinitionsbyid;
 use Drupal\cfrrealm\TypeToDefmap\TypeToDefmap;
 use Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfigurator_ValueCallback;
@@ -57,13 +59,13 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    * Overrides the parent implementation to add a decorator layer.
    *
    * @return \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
-   *
-   * @see $typeToConfigurator
    */
-  protected function get_typeToConfigurator() {
-    $typeToConfigurator = new TypeToConfigurator_ViaCfrFamily($this->typeToCfrFamily);
+  protected function getTypeToConfiguratorUnbuffered() {
+
+    $typeToConfigurator = parent::getTypeToConfiguratorUnbuffered();
     $typeToConfigurator = new TypeToConfigurator_CfrPlugin($typeToConfigurator);
-    return new TypeToConfigurator_Buffer($typeToConfigurator);
+
+    return $typeToConfigurator;
   }
 
   /**
@@ -90,6 +92,37 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
+   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface
+   *
+   * @see $definitionToCfrSchema_proxy
+   */
+  protected function get_definitionToCfrSchema_proxy() {
+    return new DefinitionToCfrSchema_Proxy(
+      function() {
+        // $this can be used since PHP 5.4.
+        return $this->definitionToCfrSchema;
+      });
+  }
+
+  /**
+   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface
+   *
+   * @see $definitionToCfrSchema
+   */
+  protected function get_definitionToCfrSchema() {
+
+    $definitionToCfrSchema = DefinitionToCfrSchema_Mappers::create();
+
+    $definitionToCfrSchema = new DefinitionToCfrSchema_Replacer(
+      $definitionToCfrSchema,
+      new CfrSchemaReplacer_Hardcoded(
+        $this->typeToCfrSchema_tagged,
+        $this->paramToLabel));
+
+    return $definitionToCfrSchema;
+  }
+
+  /**
    * @return \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface
    *
    * @see $definitionToConfigurator
@@ -107,6 +140,18 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
           $definitionToConfigurator->keySetMapper($key, $mapper);
         }
         return $definitionToConfigurator;
+      });
+  }
+
+  /**
+   * @return \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   *
+   * @see $cfrSchemaToConfigurator_proxy
+   */
+  protected function get_cfrSchemaToConfigurator_proxy() {
+    return new CfrSchemaToConfigurator_Proxy(
+      function() {
+        return $this->cfrSchemaToConfigurator;
       });
   }
 

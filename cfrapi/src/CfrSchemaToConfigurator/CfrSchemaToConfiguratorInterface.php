@@ -2,24 +2,26 @@
 
 namespace Drupal\cfrapi\CfrSchemaToConfigurator;
 
-use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 
 interface CfrSchemaToConfiguratorInterface {
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   *
    * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
-  public function cfrSchemaGetConfigurator(CfrSchemaInterface $cfrSchema);
+  public function cfrSchemaGetConfigurator(CfSchemaInterface $schema);
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
+   *
    * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
-  public function cfrSchemaGetOptionalConfigurator(CfrSchemaInterface $cfrSchema);
+  public function cfrSchemaGetOptionalConfigurator(CfSchemaInterface $schema);
 
 }

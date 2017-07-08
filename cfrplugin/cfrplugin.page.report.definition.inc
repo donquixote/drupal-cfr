@@ -1,5 +1,8 @@
 <?php
+
 use Drupal\cfrplugin\Hub\CfrPluginHub;
+use Drupal\cfrplugin\Util\UiCodeUtil;
+use Drupal\cfrplugin\Util\UiDefinitionUtil;
 use Drupal\cfrreflection\Util\StringUtil;
 
 /**
@@ -36,7 +39,10 @@ function _cfrplugin_report_definition_page(array $df) {
     '<h3>' . $definitionToLabel->definitionGetLabel($definition, $key) . '</h3>',
   ];
 
-  if (NULL !== $groupLabel = $definitionToGroupLabel->definitionGetLabel($definition, null)) {
+  if (NULL !== $groupLabel = $definitionToGroupLabel->definitionGetLabel(
+    $definition,
+    NULL)
+  ) {
     $rows[] = [
       t('Group label'),
       $groupLabel,
@@ -48,32 +54,40 @@ function _cfrplugin_report_definition_page(array $df) {
     '<pre>' . var_export($definition, TRUE) . '</pre>',
   ];
 
-  $values_to_dump = [];
-
   try {
     $configurator = $definitionToConfigurator->definitionGetConfigurator($definition);
 
-    $values_to_dump['configurator'] = $configurator;
-  }
-  catch (\Exception $e) {
-    $values_to_dump['exception'] = $e;
-  }
-
-  $dumped = _cfrplugin_report_dump_values($values_to_dump);
-
-  foreach ([
-    'configurator' => t('Configurator'),
-    'exception' => t('Exception'),
-    'no_devel' => '',
-  ] as $key => $label) {
-
-    if (!isset($dumped[$key])) {
-      continue;
-    }
+    $reflObject = new ReflectionObject($configurator);
 
     $rows[] = [
       t('Configurator'),
-      $dumped[$key],
+      t(
+        'Object of class !class in namespace !namespace',
+        [
+          '!class' => '<pre>' . check_plain($reflObject->getShortName()) . '</pre>',
+          '!namespace' => '<pre>' . check_plain($reflObject->getNamespaceName()) . '</pre>',
+        ]),
+    ];
+  }
+  catch (\Exception $e) {
+
+    $rows[] = [
+      t('Problem'),
+      check_plain($e->getMessage()),
+    ];
+  }
+
+  if (NULL !== $snippet = UiDefinitionUtil::definitionGetCodeSnippet(
+    $definition)
+  ) {
+    $rows[] = [
+      t('Code snippet'),
+      UiCodeUtil::highlightPhp(''
+        . '<?php'
+        . "\n[..]"
+        . "\n"
+        . "\n"
+        . $snippet),
     ];
   }
 
@@ -81,34 +95,4 @@ function _cfrplugin_report_definition_page(array $df) {
     '#theme' => 'table',
     '#rows' => $rows,
   ];
-}
-
-/**
- * @param mixed[] $values_to_dump
- *
- * @return string[]
- */
-function _cfrplugin_report_dump_values(array $values_to_dump) {
-
-  $dumped = [];
-  if (function_exists('Drupal\krumong\dpm')) {
-    foreach ($values_to_dump as $k => $v) {
-      if (NULL === $v) {
-        $dumped[$k] = 'NULL';
-      }
-      else {
-        $dumped[$k] = krumong()->dump($v);
-      }
-    }
-  }
-  elseif (function_exists('kdevel_print_object')) {
-    foreach ($values_to_dump as $k => $v) {
-      $dumped[$k] = kdevel_print_object($v);
-    }
-  }
-  else {
-    $dumped['no_devel'] = t('Devel is not installed.');
-  }
-
-  return $dumped;
 }

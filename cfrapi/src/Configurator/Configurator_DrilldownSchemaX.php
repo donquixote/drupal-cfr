@@ -2,8 +2,8 @@
 
 namespace Drupal\cfrapi\Configurator;
 
+use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
@@ -29,7 +29,7 @@ class Configurator_DrilldownSchemaX implements ConfiguratorInterface {
   private $optionsKey = 'options';
 
   /**
-   * @var \Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface
+   * @var \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface
    */
   private $drilldownSchema;
 
@@ -44,10 +44,10 @@ class Configurator_DrilldownSchemaX implements ConfiguratorInterface {
   private $formProcessCallback;
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface $drilldownSchema
+   * @param \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface $drilldownSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    */
-  public function __construct(DrilldownSchemaInterface $drilldownSchema, CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator) {
+  public function __construct(CfSchema_DrilldownInterface $drilldownSchema, CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator) {
     $this->drilldownSchema = $drilldownSchema;
     $this->cfrSchemaToConfigurator = $cfrSchemaToConfigurator;
   }
@@ -179,10 +179,16 @@ class Configurator_DrilldownSchemaX implements ConfiguratorInterface {
    */
   private function idBuildSelectElement($id, $label) {
 
+    $options = $this->drilldownSchema->getGroupedOptions();
+    if (!empty($options[''])) {
+      $options = $options[''] + $options;
+    }
+    unset($options['']);
+
     $element = [
       '#title' => ($label !== NULL) ? $label : $this->idLabel,
       '#type' => 'select',
-      '#options' => $this->drilldownSchema->getSelectOptions(),
+      '#options' => $options,
       '#default_value' => $id,
       '#attributes' => ['class' => ['cfr-drilldown-select']],
     ];
@@ -336,7 +342,8 @@ class Configurator_DrilldownSchemaX implements ConfiguratorInterface {
         throw new InvalidConfigurationException("Required id missing.");
       }
       else {
-        return $this->defaultValue;
+        return NULL;
+        # return $this->defaultValue;
       }
     }
 
@@ -412,11 +419,11 @@ class Configurator_DrilldownSchemaX implements ConfiguratorInterface {
    */
   private function idGetConfigurator($id) {
 
-    if (NULL === $cfrSchema = $this->drilldownSchema->idGetCfrSchema()) {
+    if (NULL === $cfrSchema = $this->drilldownSchema->idGetSchema($id)) {
       return NULL;
     }
 
-    if (FALSE === $configurator = $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator($cfrSchema, $this->cfrSchemaToConfigurator)) {
+    if (FALSE === $configurator = $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator($cfrSchema)) {
       // @todo Throw an exception instead?
       return NULL;
     }

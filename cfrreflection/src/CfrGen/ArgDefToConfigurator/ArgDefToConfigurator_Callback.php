@@ -5,6 +5,7 @@ namespace Drupal\cfrreflection\CfrGen\ArgDefToConfigurator;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_BoundParameters;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfiguratorInterface;
+use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 use Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfiguratorInterface;
 use Drupal\cfrreflection\ValueToCallback\ValueToCallbackInterface;
 
@@ -41,14 +42,17 @@ class ArgDefToConfigurator_Callback implements ArgDefToConfiguratorInterface {
    * @param array $definition
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
   public function argDefinitionGetConfigurator($arg, array $definition, CfrContextInterface $context = NULL) {
 
     $factory = $this->valueToCallback->valueGetCallback($arg);
 
     if (NULL === $factory) {
-      return NULL;
+      $argExport = var_export($arg, TRUE);
+      throw new ConfiguratorCreationException("No factory could be constructed from $argExport.");
     }
 
     if (!empty($definition[$this->argsKey])) {

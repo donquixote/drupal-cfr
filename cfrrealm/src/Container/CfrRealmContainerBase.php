@@ -8,9 +8,14 @@ use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel_FromModuleName;
 use Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamily;
 use Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamily_InlineExpanded;
 use Drupal\cfrfamily\DefmapToContainer\DefmapToContainer;
+use Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchema;
 use Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamily_ViaDefmap;
+use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchema_AddTag;
+use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchema_Buffer;
+use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchema_InlineExpanded;
+use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchema_ViaDefmap;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_Buffer;
-use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfrFamily;
+use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfrSchema;
 use Drupal\cfrrealm\TypeToContainer\TypeToContainer_Buffer;
 use Drupal\cfrrealm\TypeToContainer\TypeToContainer_ViaDefmap;
 
@@ -25,9 +30,72 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
    * @see $typeToConfigurator
    */
   protected function get_typeToConfigurator() {
-    $typeToConfigurator = new TypeToConfigurator_ViaCfrFamily($this->typeToCfrFamily);
-    return new TypeToConfigurator_Buffer($typeToConfigurator);
+
+    $typeToConfigurator = $this->getTypeToConfiguratorUnbuffered();
+
+    $typeToConfigurator = new TypeToConfigurator_Buffer($typeToConfigurator);
+
+    return $typeToConfigurator;
   }
+
+  /**
+   * @return \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
+   */
+  protected function getTypeToConfiguratorUnbuffered() {
+    return new TypeToConfigurator_ViaCfrSchema(
+      $this->typeToCfrSchema,
+      $this->cfrSchemaToConfigurator_proxy);
+  }
+
+  /**
+   * @return \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface
+   *
+   * @see $typeToCfrSchema_tagged
+   */
+  protected function get_typeToCfrSchema_tagged() {
+
+    $typeToCfrSchema = $this->typeToCfrSchema;
+    $typeToCfrSchema = new TypeToCfrSchema_AddTag($typeToCfrSchema);
+    $typeToCfrSchema = new TypeToCfrSchema_Buffer($typeToCfrSchema);
+
+    return $typeToCfrSchema;
+  }
+
+  /**
+   * @return \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface
+   *
+   * @see $typeToCfrSchema
+   */
+  protected function get_typeToCfrSchema() {
+
+    $typeToCfrSchema = new TypeToCfrSchema_ViaDefmap(
+      $this->typeToDefmap,
+      $this->defmapToDrilldownSchema);
+
+    $typeToCfrSchema = new TypeToCfrSchema_InlineExpanded(
+      $typeToCfrSchema,
+      $this->typeToDefmap);
+
+    # $typeToCfrSchema = new TypeToCfrSchema_AddTag($typeToCfrSchema);
+
+    $typeToCfrSchema = new TypeToCfrSchema_Buffer($typeToCfrSchema);
+
+    return $typeToCfrSchema;
+  }
+
+  /**
+   * @return \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   *
+   * @see $cfrSchemaToConfigurator_proxy
+   */
+  abstract protected function get_cfrSchemaToConfigurator_proxy();
+
+  /**
+   * @return \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   *
+   * @see $cfrSchemaToConfigurator
+   */
+  abstract protected function get_cfrSchemaToConfigurator();
 
   /**
    * @return \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface
@@ -36,6 +104,18 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
    */
   protected function get_typeToCfrFamily() {
     return new TypeToCfrFamily_ViaDefmap($this->typeToDefmap, $this->defmapToCfrFamily);
+  }
+
+  /**
+   * @return \Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface
+   *
+   * @see $defmapToDrilldownSchema
+   */
+  protected function get_defmapToDrilldownSchema() {
+    return new DefmapToDrilldownSchema(
+      $this->definitionToCfrSchema_proxy,
+      $this->definitionToLabel,
+      $this->definitionToGrouplabel);
   }
 
   /**
@@ -48,6 +128,13 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
       ? new DefmapToCfrFamily_InlineExpanded($this->definitionToConfigurator, $this->definitionToLabel, $this->definitionToGrouplabel)
       : new DefmapToCfrFamily($this->definitionToConfigurator, $this->definitionToLabel, $this->definitionToGrouplabel);
   }
+
+  /**
+   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface
+   *
+   * @see $definitionToCfrSchema
+   */
+  abstract protected function get_definitionToCfrSchema();
 
   /**
    * @return \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface

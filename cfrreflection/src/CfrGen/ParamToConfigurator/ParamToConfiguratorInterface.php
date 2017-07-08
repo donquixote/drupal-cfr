@@ -10,7 +10,7 @@ interface ParamToConfiguratorInterface {
    * @param \ReflectionParameter $param
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|mixed
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
   public function paramGetConfigurator(\ReflectionParameter $param, CfrContextInterface $context = NULL);
 

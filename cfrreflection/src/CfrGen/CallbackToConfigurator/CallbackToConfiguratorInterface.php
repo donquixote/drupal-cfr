@@ -13,7 +13,7 @@ interface CallbackToConfiguratorInterface {
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    *
-   * @throws \Drupal\cfrfamily\Exception\DefinitionToConfiguratorException
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $callback, CfrContextInterface $context = NULL);
 

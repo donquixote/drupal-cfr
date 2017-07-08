@@ -31,7 +31,7 @@ class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInte
     $definitions = [];
     $suffix = '_' . $this->hook;
     foreach (module_implements($this->hook) as $module) {
-      foreach ($moduleResult = $this->moduleGetDefinitionsByTypeAndId($module, $suffix) as $type => $definitionsById) {
+      foreach ($this->moduleGetDefinitionsByTypeAndId($module, $suffix) as $type => $definitionsById) {
         foreach ($definitionsById as $id => $definition) {
           if (!isset($definition['module'])) {
             $definition['module'] = $module;

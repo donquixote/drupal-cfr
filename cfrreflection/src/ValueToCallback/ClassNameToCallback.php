@@ -9,7 +9,7 @@ class ClassNameToCallback implements ValueToCallbackInterface {
   /**
    * @param mixed $class
    *
-   * @return \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
+   * @return \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface|null
    */
   public function valueGetCallback($class) {
     return CallbackReflection_ClassConstruction::createFromClassNameCandidate($class);

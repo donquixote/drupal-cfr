@@ -2,15 +2,19 @@
 
 namespace Drupal\cfrapi\Configurator;
 
-use Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
+use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
+use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
+use Drupal\cfrapi\Exception\ConfiguratorCreationException;
+use Drupal\cfrapi\PossiblyOptionless\PossiblyOptionlessInterface;
 use Drupal\cfrfamily\Configurator\Composite\Configurator_IdConfBase;
 use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
 
 class Configurator_DrilldownSchema extends Configurator_IdConfBase {
 
   /**
-   * @var \Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface
+   * @var \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface
    */
   private $drilldownSchema;
 
@@ -20,12 +24,12 @@ class Configurator_DrilldownSchema extends Configurator_IdConfBase {
   private $cfrSchemaToConfigurator;
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface $drilldownSchema
+   * @param \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface $drilldownSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    * @param bool $required
    */
   public function __construct(
-    DrilldownSchemaInterface $drilldownSchema,
+    CfSchema_DrilldownInterface $drilldownSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator,
     $required = TRUE
   ) {
@@ -43,7 +47,37 @@ class Configurator_DrilldownSchema extends Configurator_IdConfBase {
    * @return string[]|string[][]|mixed[]
    */
   protected function getSelectOptions() {
-    return $this->drilldownSchema->getSelectOptions();
+
+    $options = $this->drilldownSchema->getGroupedOptions();
+
+    foreach ($options as /* $groupLabel => */ &$groupOptions) {
+      foreach ($groupOptions as $id => &$label) {
+        if (NULL === $schema = $this->drilldownSchema->idGetSchema($id)) {
+          unset($groupOptions[$id]);
+          continue;
+        }
+        if ($schema instanceof CfSchema_OptionlessInterface) {
+          continue;
+        }
+        if ($schema instanceof PossiblyOptionlessInterface) {
+          if ($schema->isOptionless()) {
+            continue;
+          }
+        }
+        $label .= '…';
+      }
+
+      asort($groupOptions);
+    }
+
+    ksort($options);
+
+    if (!empty($options[''])) {
+      $options = $options[''] + $options;
+    }
+    unset($options['']);
+
+    return $options;
   }
 
   /**
@@ -58,22 +92,49 @@ class Configurator_DrilldownSchema extends Configurator_IdConfBase {
   /**
    * @param string $id
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
    */
   protected function idGetConfigurator($id) {
 
     // @todo Cache this!
-    if (NULL === $cfrSchema = $this->drilldownSchema->idGetCfrSchema($id)) {
+    if (NULL === $cfrSchema = $this->drilldownSchema->idGetSchema($id)) {
       return NULL;
     }
 
-    if (FALSE === $configurator = $this->cfrSchemaToConfigurator
-        ->cfrSchemaGetConfigurator($cfrSchema)
-    ) {
-      // @todo Throw an exception instead?
+    try {
+      return $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator(
+        $cfrSchema);
+    }
+    catch (ConfiguratorCreationException $e) {
+      # dpm($e->getMessage(), get_class($cfrSchema));
       return NULL;
     }
+  }
 
-    return $configurator;
+  /**
+   * @param string $id
+   * @param mixed $optionsConf
+   *
+   * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  public function idConfGetValue($id, $optionsConf) {
+    $value = parent::idConfGetValue($id, $optionsConf);
+    return $this->drilldownSchema->idValueGetValue($id, $value);
+  }
+
+  /**
+   * @param string $id
+   * @param mixed $conf
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
+   *
+   * @return string
+   *
+   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   */
+  public function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
+    $php = parent::idConfGetPhp($id, $conf, $helper);
+    return $this->drilldownSchema->idPhpGetPhp($id, $php, $helper);
   }
 }

@@ -4,6 +4,7 @@ namespace Drupal\cfrreflection\CfrGen\CallbackToConfigurator;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
+use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 
 abstract class CallbackToConfiguratorBase implements CallbackToConfiguratorInterface {
 
@@ -13,12 +14,12 @@ abstract class CallbackToConfiguratorBase implements CallbackToConfiguratorInter
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    *
-   * @throws \Drupal\cfrfamily\Exception\DefinitionToConfiguratorException
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
   public function callbackGetConfigurator(CallbackReflectionInterface $schemaFactoryCallback, CfrContextInterface $context = NULL) {
 
     $serialArgs = [];
-    foreach ($schemaFactoryCallback->getReflectionParameters() as $i => $param) {
+    foreach ($schemaFactoryCallback->getReflectionParameters() as $param) {
 
       // @todo Only accept optional parameters.
       if ($context && $context->paramValueExists($param)) {
@@ -28,7 +29,8 @@ abstract class CallbackToConfiguratorBase implements CallbackToConfiguratorInter
         $arg = $param->getDefaultValue();
       }
       else {
-        return NULL;
+        $paramName = $param->getName();
+        throw new ConfiguratorCreationException("Leftover parameter '$paramName' for the factory callback provided.");
       }
 
       $serialArgs[] = $arg;
@@ -44,7 +46,7 @@ abstract class CallbackToConfiguratorBase implements CallbackToConfiguratorInter
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    *
-   * @throws \Drupal\cfrfamily\Exception\DefinitionToConfiguratorException
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
   abstract protected function candidateGetConfigurator($candidate);
 }

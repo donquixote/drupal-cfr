@@ -17,6 +17,7 @@ final class ServiceFactoryUtil extends UtilBase {
 
   /**
    * @param \Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfiguratorInterface $valueCtc
+   * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return \Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfiguratorInterface[]
    */

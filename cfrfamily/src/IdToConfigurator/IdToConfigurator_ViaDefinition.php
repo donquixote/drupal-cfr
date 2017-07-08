@@ -3,6 +3,7 @@
 namespace Drupal\cfrfamily\IdToConfigurator;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
+use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
 use Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface;
 
@@ -51,6 +52,12 @@ class IdToConfigurator_ViaDefinition implements IdToConfiguratorInterface {
       return NULL;
     }
 
-    return $this->definitionToConfigurator->definitionGetConfigurator($definition, $this->context);
+    try {
+      return $this->definitionToConfigurator->definitionGetConfigurator($definition, $this->context);
+    }
+    catch (ConfiguratorCreationException $e) {
+      // @todo Report this in watchdog?
+      return NULL;
+    }
   }
 }

@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrplugindiscovery\ClassFileToDefinitions;
 
-use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotations;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface;
@@ -128,7 +128,7 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
 
       $pluginTypeNames = $this->reflectionMethodGetReturnTypeNames($confGetValueMethod);
     }
-    elseif ($reflectionClass->implementsInterface(CfrSchemaInterface::class)) {
+    elseif ($reflectionClass->implementsInterface(CfSchemaInterface::class)) {
       $stubDefinition = ['schema_class' => $reflectionClass->getName()];
 
       if (NULL === $confGetValueMethod = $reflectionClass->getMethod('confGetValue')) {
@@ -180,7 +180,7 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
         // We simply assume that
         return self::configuratorFactoryGetDefinitions($method, $annotations);
       }
-      elseif (is_a($returnTypeName, CfrSchemaInterface::class, TRUE)) {
+      elseif (is_a($returnTypeName, CfSchemaInterface::class, TRUE)) {
         // The method returns a configurator object.
         // The actual plugin type has to be determined elsewhere:
         // We simply assume that

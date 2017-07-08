@@ -2,17 +2,16 @@
 
 namespace Drupal\cfrrealm\TypeToDrilldownSchema;
 
-use Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 
 interface TypeToDrilldownSchemaInterface {
 
   /**
    * @param string $type
-   * @param \Drupal\cfrapi\Context\CfrContextInterface $context
+   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    *
-   * @return \Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface
+   * @return \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface
    */
-  public function typeGetDrilldownSchema($type, CfrContextInterface $context) : DrilldownSchemaInterface;
+  public function typeGetDrilldownSchema($type, CfrContextInterface $context = NULL);
 
 }

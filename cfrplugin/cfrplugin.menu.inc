@@ -59,7 +59,7 @@ function cfrplugin_menu() {
   ];
 
   /* @see _cfrplugin_definition_load() */
-  $items[$interface_base . '/plugin/%_cfrplugin_definition'] = [
+  $items[$definition_base = $interface_base . '/plugin/%_cfrplugin_definition'] = [
     'type' => MENU_NORMAL_ITEM,
     'load arguments' => [3],
     'access arguments' => [$perm],
@@ -70,6 +70,36 @@ function cfrplugin_menu() {
     'page callback' => '_cfrplugin_report_definition_page',
     'page arguments' => [5],
     'file' => 'cfrplugin.page.report.definition.inc',
+  ];
+
+  $items[$definition_base . '/definition'] = [
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'title' => 'Definition',
+    'weight' => -10,
+  ];
+
+  if (module_exists('devel')) {
+    $items[$definition_base . '/devel'] = [
+      'type' => MENU_LOCAL_TASK,
+      'load arguments' => [3],
+      'access arguments' => [$perm],
+      'title' => 'Devel',
+      /* @see _cfrplugin_report_definition_devel_page() */
+      'page callback' => '_cfrplugin_report_definition_devel_page',
+      'page arguments' => [5],
+      'file' => 'cfrplugin.page.report.definition.devel.inc',
+    ];
+  }
+
+  $items[$definition_base . '/code'] = [
+    'type' => MENU_LOCAL_TASK,
+    'load arguments' => [3],
+    'access arguments' => [$perm],
+    'title' => 'Code',
+    /* @see _cfrplugin_report_definition_code_page() */
+    'page callback' => '_cfrplugin_report_definition_code_page',
+    'page arguments' => [5],
+    'file' => 'cfrplugin.page.report.definition.code.inc',
   ];
 
   return $items;

@@ -2,30 +2,31 @@
 
 namespace Drupal\cfrapi\CfrSchemaToConfigurator\Partial;
 
-use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 
 interface CfrSchemaToConfiguratorPartialInterface {
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|false
    * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
   public function cfrSchemaGetConfigurator(
-    CfrSchemaInterface $cfrSchema,
+    CfSchemaInterface $schema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator);
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface|false
+   * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
   public function cfrSchemaGetOptionalConfigurator(
-    CfrSchemaInterface $cfrSchema,
+    CfSchemaInterface $schema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator);
 
 }

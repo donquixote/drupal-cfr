@@ -10,7 +10,9 @@ interface DefinitionToConfiguratorInterface {
    * @param array $definition
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
-   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface|null
+   * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfiguratorCreationException
    */
   public function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL);
 

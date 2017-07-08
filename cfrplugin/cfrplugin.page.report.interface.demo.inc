@@ -3,6 +3,8 @@ use Donquixote\CallbackReflection\Util\CodegenUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
+use Drupal\cfrplugin\Util\UiCodeUtil;
+use Drupal\cfrplugin\Util\UiDumpUtil;
 use Drupal\cfrplugin\Util\UiUtil;
 
 /**
@@ -22,6 +24,10 @@ function _cfrplugin_report_interface_demo_page($interface) {
   /* @see cfrplugin_report_interface_demo_page_form() */
   $out['form'] = drupal_get_form('cfrplugin_report_interface_demo_page_form', $interface, $settings);
 
+  if (!empty($_GET['noshow']) || !empty($_POST)) {
+    return $out;
+  }
+
   $configurator = cfrplugin()->interfaceGetConfigurator($interface);
 
   if (!$settings) {
@@ -36,16 +42,18 @@ function _cfrplugin_report_interface_demo_page($interface) {
     ],
   ];
 
-  $out['conf'] = UiUtil::dumpDataInFieldset($settings, t('Configuration data'));
+  $out['conf'] = UiDumpUtil::dumpDataInFieldset($settings, t('Configuration data'));
 
   try {
     $object = $configurator->confGetValue($settings);
     if ($object instanceof $interface) {
-      $out['object'] = UiUtil::dumpDataInFieldset($object, t('Behavior object'));
+      $out['object'] = UiDumpUtil::dumpDataInFieldset($object, t('Behavior object'));
     }
     else {
       drupal_set_message(t('The confGetValue() method had an unexpected return value.'), 'warning');
-      $out['object'] = UiUtil::dumpDataInFieldset($object, t('Unexpected value or object'));
+      $out['object'] = UiDumpUtil::dumpDataInFieldset($object, t('Unexpected value or object'));
+
+      # \Drupal\krumong\dpm(get_defined_vars());
     }
   }
   catch (\Exception $e) {
@@ -60,7 +68,7 @@ function _cfrplugin_report_interface_demo_page($interface) {
         '#title' => t('Exception'),
         '#description' => '<p>' . t('Cfrplugin was unable to generate a behavior object for the given configuration.') . '</p>',
       ]
-      + UiUtil::displayException($e);
+      + UiDumpUtil::displayException($e);
   }
 
   $out['codegen'] = [
@@ -117,7 +125,7 @@ EOT;
 EOT
   );
 
-  $out['codegen']['code']['#markup'] = UiUtil::highlightPhp($php);
+  $out['codegen']['code']['#markup'] = UiCodeUtil::highlightPhp($php);
 
   return $out;
 }

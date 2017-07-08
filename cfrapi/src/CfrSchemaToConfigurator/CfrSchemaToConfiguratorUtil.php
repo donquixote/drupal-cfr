@@ -2,14 +2,14 @@
 
 namespace Drupal\cfrapi\CfrSchemaToConfigurator;
 
-use Drupal\cfrapi\CfrSchema\Drilldown\DrilldownSchemaInterface;
+use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Drupal\cfrapi\Configurator\Configurator_DrilldownSchema;
 use Drupal\cfrapi\Util\UtilBase;
 
 final class CfrSchemaToConfiguratorUtil extends UtilBase {
 
   public static function drilldown(
-    DrilldownSchemaInterface $drilldownSchema,
+    CfSchema_DrilldownInterface $drilldownSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
   ) {
     return new Configurator_DrilldownSchema($drilldownSchema, $cfrSchemaToConfigurator);

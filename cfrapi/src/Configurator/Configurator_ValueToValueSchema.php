@@ -3,24 +3,47 @@
 namespace Drupal\cfrapi\Configurator;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\CfrSchema\ValueToValue\ValueToValueSchemaInterface;
+use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
 
 class Configurator_ValueToValueSchema extends Configurator_DecoratorBase {
 
   /**
-   * @var \Drupal\cfrapi\CfrSchema\ValueToValue\ValueToValueSchemaInterface
+   * @var \Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface
    */
   private $valueToValueSchema;
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\ValueToValue\ValueToValueSchemaInterface $valueToValueSchema
+   * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $decorated
+   * @param \Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface $valueToValueSchema
    */
   public function __construct(
     ConfiguratorInterface $decorated,
-    ValueToValueSchemaInterface $valueToValueSchema
+    CfSchema_ValueToValueInterface $valueToValueSchema
   ) {
     parent::__construct($decorated);
     $this->valueToValueSchema = $valueToValueSchema;
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   * @param string|null $label
+   *   Label for the form element, specifying the purpose where it is used.
+   *
+   * @return array
+   */
+  public function confGetForm($conf, $label) {
+
+    $paramLabel = $this->valueToValueSchema->getLabel();
+
+    if (NULL === $label) {
+      $label = $paramLabel;
+    }
+    elseif (NULL !== $this->valueToValueSchema->getLabel()) {
+      $label .= ' | ' . $paramLabel;
+    }
+
+    return parent::confGetForm($conf, $label);
   }
 
   /**

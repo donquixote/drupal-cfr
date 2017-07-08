@@ -24,6 +24,15 @@ function cfrapi_element_info() {
 }
 
 /**
+ * Implements hook_xautoload().
+ *
+ * @param \Drupal\xautoload\Adapter\LocalDirectoryAdapter $adapter
+ */
+function cfrapi_xautoload($adapter) {
+  $adapter->addPsr4('Donquixote\Cf', 'cf');
+}
+
+/**
  * @param array $element
  * @param array $form_state
  *

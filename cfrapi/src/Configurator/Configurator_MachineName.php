@@ -116,7 +116,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
     }
 
     if (NULL !== $msg = $this->machineNameGetError($conf)) {
-      return $helper->incompatibleConfiguration($conf,$msg);
+      return $helper->incompatibleConfiguration($conf, $msg);
     }
 
     return var_export($conf, TRUE);

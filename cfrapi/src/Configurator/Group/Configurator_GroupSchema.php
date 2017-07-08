@@ -2,46 +2,48 @@
 
 namespace Drupal\cfrapi\Configurator\Group;
 
-use Drupal\cfrapi\CfrSchema\Group\GroupSchemaInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
+use Donquixote\Cf\Schema\Group\CfSchema_GroupInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 
 class Configurator_GroupSchema extends Configurator_GroupGrandBase {
 
   /**
-   * @var \Drupal\cfrapi\CfrSchema\Group\GroupSchemaInterface
+   * @var \Donquixote\Cf\Schema\Group\CfSchema_GroupInterface
    */
   private $groupSchema;
 
   /**
-   * @var \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   * @var \Drupal\cfrapi\Configurator\ConfiguratorInterface[]
    */
-  private $cfrSchemaToConfigurator;
+  private $configurators;
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\Group\GroupSchemaInterface $groupSchema
+   * @param \Donquixote\Cf\Schema\Group\CfSchema_GroupInterface $groupSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+   *
+   * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
   public function __construct(
-    GroupSchemaInterface $groupSchema,
+    CfSchema_GroupInterface $groupSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
   ) {
+    // Construct all configurators here, when throwing exceptions is still
+    // allowed.
+    $configurators = [];
+    foreach ($groupSchema->getItemSchemas() as $k => $itemSchema) {
+      $configurators[$k] = $cfrSchemaToConfigurator->cfrSchemaGetConfigurator($itemSchema);
+    }
+
+    $this->configurators = $configurators;
     $this->groupSchema = $groupSchema;
-    $this->cfrSchemaToConfigurator = $cfrSchemaToConfigurator;
   }
 
   /**
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface[]
    */
   protected function getConfigurators() {
-
-    // @todo Cache the configurators.
-
-    $configurators = [];
-    foreach ($this->groupSchema->getItemSchemas() as $key => $itemSchema) {
-      $configurators[$key] = $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator($itemSchema);
-    }
-
-    return $configurators;
+    return $this->configurators;
   }
 
   /**
@@ -53,11 +55,28 @@ class Configurator_GroupSchema extends Configurator_GroupGrandBase {
 
   /**
    * @param mixed $conf
+   *   Configuration from a form, config file or storage.
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @return mixed
+   *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
     $values = parent::confGetValue($conf);
     return $this->groupSchema->valuesGetValue($values);
+  }
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   */
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
+    $itemsPhp = parent::confGetPhpStatements($conf, $helper);
+    return $this->groupSchema->itemsPhpGetPhp($itemsPhp, $helper);
   }
 }

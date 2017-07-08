@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\CfrSchemaToConfigurator;
 
-use Drupal\cfrapi\CfrSchema\CfrSchemaInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfiguratorPartialInterface;
 use Drupal\cfrapi\Exception\UnsupportedSchemaException;
 
@@ -21,14 +21,14 @@ class CfrSchemaToConfigurator_FromPartial implements CfrSchemaToConfiguratorInte
   }
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    *
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
-  public function cfrSchemaGetConfigurator(CfrSchemaInterface $cfrSchema) {
+  public function cfrSchemaGetConfigurator(CfSchemaInterface $schema) {
 
-    if (FALSE === $configurator = $this->partial->cfrSchemaGetConfigurator($cfrSchema, $this)) {
+    if (FALSE === $configurator = $this->partial->cfrSchemaGetConfigurator($schema, $this)) {
       throw new UnsupportedSchemaException("Unsupported schema.");
     }
 
@@ -36,12 +36,12 @@ class CfrSchemaToConfigurator_FromPartial implements CfrSchemaToConfiguratorInte
   }
 
   /**
-   * @param \Drupal\cfrapi\CfrSchema\CfrSchemaInterface $cfrSchema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $cfrSchema
    *
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    * @throws \Drupal\cfrapi\Exception\UnsupportedSchemaException
    */
-  public function cfrSchemaGetOptionalConfigurator(CfrSchemaInterface $cfrSchema) {
+  public function cfrSchemaGetOptionalConfigurator(CfSchemaInterface $cfrSchema) {
 
     if (FALSE === $configurator = $this->partial->cfrSchemaGetOptionalConfigurator(
       $cfrSchema,

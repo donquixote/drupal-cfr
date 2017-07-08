@@ -113,6 +113,18 @@ function _cfrplugin_pre_render_drilldown_container(array $element) {
   # $tools[]['#markup'] = '<strong>' . check_plain($interface_label) . '</strong>';
 
   if (user_access('view cfrplugin report')) {
+
+    $tools['inspect'] = [
+      '#markup' => l(
+        t('About "@name" plugin'),
+        "admin/reports/cfrplugin/$interface_slug",
+        ['attributes' => [
+          'class' => ['cfrplugin-inspect'],
+          'target' => '_blank',
+          'title' => t('About this plugin.'),
+        ]]),
+    ];
+
     $tools['report'] = [
       '#markup' => l(
         t('About "@type" plugins', $replacements),
