@@ -65,10 +65,41 @@ class Configurator_GroupReparent extends Configurator_Group {
   public function confGetValue($conf) {
     $conf = $this->extractConf($conf);
     $result = parent::confGetValue($conf);
+
+    return self::reparent(
+      $result,
+      array_reverse($this->keysReparent));
+  }
+
+
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
+   *
+   * @return string
+   *   PHP statement to generate the value.
+   */
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
+    $conf = $this->extractConf($conf);
+    $resultPhp = parent::confGetPhp($conf, $helper);
+    $mapPhp = var_export(array_reverse($this->keysReparent), TRUE);
+
+    return '\\' . self::class . "::reparent($resultPhp, $mapPhp)";
+  }
+
+  /**
+   * @param array $result
+   * @param array $map
+   *
+   * @return array
+   */
+  public static function reparent(array $result, array $map) {
+
     if (!is_array($result)) {
       return $result;
     }
-    foreach (array_reverse($this->keysReparent) as $key => $parents) {
+    foreach ($map as $key => $parents) {
       if (isset($result[$key])) {
         $value = $result[$key];
         unset($result[$key]);
@@ -81,33 +112,6 @@ class Configurator_GroupReparent extends Configurator_Group {
       }
     }
     return $result;
-  }
-
-  /**
-   * @param mixed $conf
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
-   *
-   * @return string[]
-   *   PHP statements to generate the values.
-   */
-  public function confGetPhpStatements($conf, CfrCodegenHelperInterface $helper) {
-    $conf = $this->extractConf($conf);
-
-    $php_statements = parent::confGetPhpStatements($conf, $helper);
-    foreach (array_reverse($this->keysReparent) as $key => $parents) {
-      if (isset($php_statements[$key])) {
-        $php_statement = $php_statements[$key];
-        unset($php_statements[$key]);
-        if (is_array($php_statement)) {
-          ConfUtil::confMergeNestedValue($result, $parents, $php_statement);
-        }
-        else {
-          ConfUtil::confSetNestedValue($result, $parents, $php_statement);
-        }
-      }
-    }
-
-    return $php_statements;
   }
 
   /**
