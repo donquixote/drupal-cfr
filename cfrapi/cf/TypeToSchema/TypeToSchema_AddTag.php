@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\TypeToSchema;
 
-use Donquixote\Cf\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfContextInterface;
 use Donquixote\cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
 
 class TypeToSchema_AddTag implements TypeToSchemaInterface {
@@ -21,11 +21,11 @@ class TypeToSchema_AddTag implements TypeToSchemaInterface {
 
   /**
    * @param string $interface
-   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfContextInterface|null $context
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */
-  public function typeGetCfrSchema($interface, CfrContextInterface $context = NULL) {
+  public function typeGetCfrSchema($interface, CfContextInterface $context = NULL) {
 
     return new CfSchema_Neutral_IfaceTransformed(
       $this->decorated->typeGetCfrSchema($interface, $context),

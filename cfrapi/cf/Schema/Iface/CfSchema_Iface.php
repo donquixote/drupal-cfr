@@ -4,7 +4,7 @@ namespace Donquixote\Cf\Schema\Iface;
 
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional;
 use Donquixote\Cf\Schema\Sequence\CfSchema_Sequence;
-use Donquixote\Cf\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfContextInterface;
 
 class CfSchema_Iface implements CfSchema_IfaceInterface {
 
@@ -14,36 +14,36 @@ class CfSchema_Iface implements CfSchema_IfaceInterface {
   private $interface;
 
   /**
-   * @var \Donquixote\Cf\Context\CfrContextInterface|NULL
+   * @var \Donquixote\Cf\Context\CfContextInterface|NULL
    */
   private $context;
 
   /**
    * @param string $interface
-   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfContextInterface|null $context
    *
    * @return \Donquixote\Cf\Schema\Sequence\CfSchema_Sequence
    */
-  public static function createSequence($interface, CfrContextInterface $context = NULL) {
+  public static function createSequence($interface, CfContextInterface $context = NULL) {
     return new CfSchema_Sequence(
       new self($interface, $context));
   }
 
   /**
    * @param string $interface
-   * @param \Donquixote\Cf\Context\CfrContextInterface|NULL $context
+   * @param \Donquixote\Cf\Context\CfContextInterface|NULL $context
    *
    * @return \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface
    */
-  public static function createOptional($interface, CfrContextInterface $context = NULL) {
+  public static function createOptional($interface, CfContextInterface $context = NULL) {
     return new CfSchema_Optional(new self($interface, $context));
   }
 
   /**
    * @param string $interface
-   * @param \Donquixote\Cf\Context\CfrContextInterface|NULL $context
+   * @param \Donquixote\Cf\Context\CfContextInterface|NULL $context
    */
-  public function __construct($interface, CfrContextInterface $context = NULL) {
+  public function __construct($interface, CfContextInterface $context = NULL) {
     $this->interface = $interface;
     $this->context = $context;
   }
@@ -56,7 +56,7 @@ class CfSchema_Iface implements CfSchema_IfaceInterface {
   }
 
   /**
-   * @return \Donquixote\Cf\Context\CfrContextInterface|null
+   * @return \Donquixote\Cf\Context\CfContextInterface|null
    */
   public function getContext() {
     return $this->context;

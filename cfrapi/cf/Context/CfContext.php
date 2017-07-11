@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Context;
 
-class CfrContext implements CfrContextInterface {
+class CfContext implements CfContextInterface {
 
   /**
    * @var mixed[]
@@ -48,7 +48,7 @@ class CfrContext implements CfrContextInterface {
    */
   public function paramValueExists(\ReflectionParameter $param) {
     if ($typeHintReflClass = $param->getClass()) {
-      if ($typeHintReflClass->getName() === CfrContextInterface::class) {
+      if ($typeHintReflClass->getName() === CfContextInterface::class) {
         return TRUE;
       }
     }
@@ -62,7 +62,7 @@ class CfrContext implements CfrContextInterface {
    */
   public function paramGetValue(\ReflectionParameter $param) {
     if ($typeHintReflClass = $param->getClass()) {
-      if ($typeHintReflClass->getName() === CfrContextInterface::class) {
+      if ($typeHintReflClass->getName() === CfContextInterface::class) {
         return $this;
       }
     }

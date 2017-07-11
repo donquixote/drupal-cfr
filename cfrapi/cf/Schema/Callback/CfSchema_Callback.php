@@ -7,7 +7,7 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Iface\CfSchema_Iface;
-use Donquixote\Cf\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfContextInterface;
 
 class CfSchema_Callback implements CfSchema_CallbackInterface {
 
@@ -27,17 +27,17 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   private $explicitLabels = [];
 
   /**
-   * @var \Donquixote\Cf\Context\CfrContextInterface|null
+   * @var \Donquixote\Cf\Context\CfContextInterface|null
    */
   private $context;
 
   /**
    * @param string $class
-   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfContextInterface|null $context
    *
    * @return \Donquixote\Cf\Schema\Callback\CfSchema_Callback
    */
-  public static function createFromClass($class, CfrContextInterface $context = NULL) {
+  public static function createFromClass($class, CfContextInterface $context = NULL) {
 
     return new self(
       CallbackReflection_ClassConstruction::create($class),
@@ -47,11 +47,11 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   /**
    * @param string $class
    * @param string $methodName
-   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfContextInterface|null $context
    *
    * @return self
    */
-  public static function createFromClassStaticMethod($class, $methodName, CfrContextInterface $context = NULL) {
+  public static function createFromClassStaticMethod($class, $methodName, CfContextInterface $context = NULL) {
 
     return new self(
       CallbackReflection_StaticMethod::create(
@@ -62,22 +62,22 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callbackReflection
-   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfContextInterface|null $context
    */
   public function __construct(
     CallbackReflectionInterface $callbackReflection,
-    CfrContextInterface $context = NULL
+    CfContextInterface $context = NULL
   ) {
     $this->callbackReflection = $callbackReflection;
     $this->context = $context;
   }
 
   /**
-   * @param \Donquixote\Cf\Context\CfrContextInterface|NULL $context
+   * @param \Donquixote\Cf\Context\CfContextInterface|NULL $context
    *
    * @return static
    */
-  public function withContext(CfrContextInterface $context = NULL) {
+  public function withContext(CfContextInterface $context = NULL) {
     $clone = clone $this;
     $clone->context = $context;
     return $clone;
@@ -175,7 +175,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   }
 
   /**
-   * @return \Donquixote\Cf\Context\CfrContextInterface|null
+   * @return \Donquixote\Cf\Context\CfContextInterface|null
    */
   public function getContext() {
     return $this->context;

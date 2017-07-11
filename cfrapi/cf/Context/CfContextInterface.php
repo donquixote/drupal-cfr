@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Context;
 
-interface CfrContextInterface {
+interface CfContextInterface {
 
   /**
    * @param \ReflectionParameter $param
