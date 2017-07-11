@@ -2,10 +2,10 @@
 
 namespace Drupal\cfrapi\ValueProvider;
 
+use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Donquixote\Cf\Schema\CfSchemaInterface;
 
-interface ValueProviderInterface extends CfSchemaInterface {
+interface ValueProviderInterface extends CfSchema_OptionlessInterface {
 
   /**
    * @return mixed

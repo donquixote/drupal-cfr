@@ -4,7 +4,7 @@ namespace Donquixote\Cf\Schema\Sequence;
 
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface;
+use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 
 class CfSchema_Sequence extends CfSchema_Sequence_PassthruBase {
 
@@ -24,11 +24,11 @@ class CfSchema_Sequence extends CfSchema_Sequence_PassthruBase {
    * Returns a version of this schema where internal schemas are replaced,
    * recursively.
    *
-   * @param \Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface $replacer
+   * @param \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $replacer
    *
    * @return static
    */
-  public function withReplacements(CfrSchemaReplacerInterface $replacer) {
+  public function withReplacements(SchemaReplacerInterface $replacer) {
 
     if (NULL === $replacement = $replacer->schemaGetReplacement($this->itemSchema)) {
       return $this;

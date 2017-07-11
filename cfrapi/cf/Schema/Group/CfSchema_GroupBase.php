@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Schema\Group;
 
-use Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface;
+use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 
 abstract class CfSchema_GroupBase implements CfSchema_GroupInterface {
 
@@ -29,11 +29,11 @@ abstract class CfSchema_GroupBase implements CfSchema_GroupInterface {
    * Returns a version of this schema where internal schemas are replaced,
    * recursively.
    *
-   * @param \Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface $replacer
+   * @param \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $replacer
    *
    * @return static
    */
-  public function withReplacements(CfrSchemaReplacerInterface $replacer) {
+  public function withReplacements(SchemaReplacerInterface $replacer) {
 
     $replacements = $this->schemas;
     foreach ($this->schemas as $k => $schema) {

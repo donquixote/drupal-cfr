@@ -3,36 +3,36 @@
 namespace Donquixote\Cf\Form\D7\Partial;
 
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
-use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Group\CfSchema_GroupInterface;
 
 class PartialD7Formator_Group implements PartialD7FormatorInterface {
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @var \Donquixote\Cf\Schema\Group\CfSchema_GroupInterface
+   */
+  private $schema;
+
+  /**
+   * @param \Donquixote\Cf\Schema\Group\CfSchema_GroupInterface $schema
+   */
+  public function __construct(CfSchema_GroupInterface $schema) {
+    $this->schema = $schema;
+  }
+
+  /**
    * @param mixed $conf
    * @param string $label
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
-   * @param bool $required
    *
    * @return array
    */
-  public function schemaConfGetD7Form(
-    CfSchemaInterface $schema, $conf, $label, D7FormatorHelperInterface $helper, $required
-  ) {
-    if (!$schema instanceof CfSchema_GroupInterface) {
-      return $helper->unknownSchema();
-    }
-
-    if (!$required) {
-      return NULL;
-    }
+  public function confGetD7Form($conf, $label, D7FormatorHelperInterface $helper) {
 
     if (!is_array($conf)) {
       $conf = [];
     }
 
-    $labels = $schema->getLabels();
+    $labels = $this->schema->getLabels();
 
     $form = [];
 
@@ -40,7 +40,7 @@ class PartialD7Formator_Group implements PartialD7FormatorInterface {
       $form['#title'] = $label;
     }
 
-    foreach ($schema->getItemSchemas() as $key => $itemSchema) {
+    foreach ($this->schema->getItemSchemas() as $key => $itemSchema) {
 
       $itemConf = isset($conf[$key])
         ? $conf[$key]
@@ -51,9 +51,8 @@ class PartialD7Formator_Group implements PartialD7FormatorInterface {
         : $key;
 
       $form[$key] = $helper->schemaConfGetD7Form(
-        $itemSchema,
-        $itemConf,
-        $itemLabel);
+        $itemSchema, $itemConf, $itemLabel
+      );
     }
 
     return $form;

@@ -2,8 +2,6 @@
 
 namespace Donquixote\Cf\Schema\Drilldown;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-
 abstract class CfSchema_Drilldown_ArrifyBase implements CfSchema_DrilldownInterface {
 
   /**
@@ -12,7 +10,7 @@ abstract class CfSchema_Drilldown_ArrifyBase implements CfSchema_DrilldownInterf
    *
    * @return mixed
    *
-   * @throws \Drupal\cfrapi\Exception\ConfToValueException
+   * @throws \Donquixote\Cf\Exception\EvaluatorException
    */
   public function idValueGetValue($id, $value) {
 
@@ -25,11 +23,10 @@ abstract class CfSchema_Drilldown_ArrifyBase implements CfSchema_DrilldownInterf
   /**
    * @param string|int $id
    * @param string $php
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return mixed
    */
-  final public function idPhpGetPhp($id, $php, CfrCodegenHelperInterface $helper) {
+  final public function idPhpGetPhp($id, $php) {
 
     $idKeyPhp = var_export($this->getIdKey(), TRUE);
     $optionsKeyPhp = var_export($this->getOptionsKey(), TRUE);

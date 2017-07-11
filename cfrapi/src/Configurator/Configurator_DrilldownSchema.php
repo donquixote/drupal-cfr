@@ -2,9 +2,9 @@
 
 namespace Drupal\cfrapi\Configurator;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 use Drupal\cfrapi\PossiblyOptionless\PossiblyOptionlessInterface;
@@ -135,6 +135,6 @@ class Configurator_DrilldownSchema extends Configurator_IdConfBase {
    */
   public function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
     $php = parent::idConfGetPhp($id, $conf, $helper);
-    return $this->drilldownSchema->idPhpGetPhp($id, $php, $helper);
+    return $this->drilldownSchema->idPhpGetPhp($id, $php);
   }
 }

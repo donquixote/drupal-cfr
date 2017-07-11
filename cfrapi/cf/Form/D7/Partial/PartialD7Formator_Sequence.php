@@ -2,34 +2,48 @@
 
 namespace Donquixote\Cf\Form\D7\Partial;
 
-use Donquixote\Cf\Schema\CfSchemaInterface;
-use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
+use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
 
 class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @var \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface
+   */
+  private $schema;
+
+  /**
+   * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
+   */
+  public function __construct(CfSchema_SequenceInterface $schema) {
+    $this->schema = $schema;
+  }
+
+  /**
    * @param mixed $conf
    * @param string $label
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
-   * @param bool $required
    *
    * @return array|null
    */
-  public function schemaConfGetD7Form(
-    CfSchemaInterface $schema, $conf, $label, D7FormatorHelperInterface $helper, $required)
-  {
-    if (!$schema instanceof CfSchema_SequenceInterface) {
-      return $helper->unknownSchema();
-    }
+  public function confGetD7Form($conf, $label, D7FormatorHelperInterface $helper) {
+
+    return [
+      '#markup' => $helper->translate('Currently, sequences are not supported.'),
+    ];
+  }
+
+  /**
+   * @param mixed $conf
+   * @param string $label
+   * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
+   *
+   * @return array|null
+   */
+  public function _confGetForm($conf, $label, D7FormatorHelperInterface $helper) {
 
     if (!is_array($conf)) {
       $conf = [];
-    }
-
-    if (!$required) {
-      return NULL;
     }
 
     $_this = $this;
@@ -52,19 +66,17 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
       '#input' => TRUE,
       '#default_value' => $conf,
       '#process' => [
-        function (array $element /*, array &$form_state */) use ($_this, $schema, $helper) {
+        function (array $element /*, array &$form_state */) use ($_this, $helper) {
           return $_this->elementProcess(
             $element,
-            $schema,
             $helper);
         },
       ],
       '#after_build' => [
-        function (array $element, array &$form_state) use ($_this, $schema, $helper) {
+        function (array $element, array &$form_state) use ($_this, $helper) {
           return $_this->elementAfterBuild(
             $element,
             $form_state,
-            $schema,
             $helper);
         },
       ],
@@ -75,23 +87,19 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
 
   /**
    * @param array $element
-   * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $sequenceSchema
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
    *
    * @return array
    */
-  private function elementProcess(
-    array $element,
-    CfSchema_SequenceInterface $sequenceSchema,
-    D7FormatorHelperInterface $helper)
-  {
+  private function elementProcess(array $element, D7FormatorHelperInterface $helper) {
+
     $conf = $element['#value'];
 
     if (!is_array($conf)) {
       $conf = [];
     }
 
-    $itemSchema = $sequenceSchema->getItemSchema();
+    $itemSchema = $this->schema->getItemSchema();
 
     foreach ($conf as $delta => $itemConf) {
 
@@ -100,8 +108,9 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
         continue;
       }
 
-      list($itemEnabled, $itemConf) = $helper->schemaConfGetStatusAndOptions(
-        $itemSchema, $itemConf);
+      // @todo Find another way, not using any "emptyness".
+      list($itemEnabled, $itemConf) = [false, null];
+         # = $helper->schemaConfGetStatusAndOptions($itemSchema, $itemConf);
 
       if (!$itemEnabled) {
         // Skip empty items.
@@ -109,35 +118,26 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
       }
 
       $element[$delta] = $helper->schemaConfGetD7Form(
-        $sequenceSchema->getItemSchema(),
-        $itemConf,
-        $this->deltaGetItemLabel($delta, $sequenceSchema, $helper),
-        FALSE);
+        $this->schema->getItemSchema(), $itemConf, $this->deltaGetItemLabel($delta, $helper)
+      );
     }
 
     // Element for new item.
     $element[] = $helper->schemaConfGetD7Form(
-      $itemSchema,
-      $helper->schemaGetEmptyConf(),
-      $this->deltaGetItemLabel(NULL, $sequenceSchema, $helper),
-      FALSE);
+      $itemSchema, NULL, $this->deltaGetItemLabel(NULL, $helper)
+    );
 
     return $element;
   }
 
   /**
    * @param int|null $delta
-   * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $sequenceSchema
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
    *
    * @return string
    */
-  private function deltaGetItemLabel(
-    $delta,
-    CfSchema_SequenceInterface $sequenceSchema,
-    D7FormatorHelperInterface $helper)
-  {
-    return $sequenceSchema->deltaGetItemLabel($delta, $helper);
+  private function deltaGetItemLabel($delta, D7FormatorHelperInterface $helper) {
+    return $this->schema->deltaGetItemLabel($delta, $helper);
 
     /*
     return (NULL === $delta)
@@ -151,7 +151,6 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
    *
    * @param array $element
    * @param array $form_state
-   * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $sequenceSchema
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
    *
    * @return array
@@ -159,8 +158,7 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
   private function elementAfterBuild(
     array $element,
     array &$form_state,
-    CfSchema_SequenceInterface $sequenceSchema,
-    D7FormatorHelperInterface $helper)
+    /** @noinspection PhpUnusedParameterInspection */ D7FormatorHelperInterface $helper)
   {
     $conf = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
 
@@ -168,10 +166,11 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
       $conf = [];
     }
 
-    $itemSchema = $sequenceSchema->getItemSchema();
+    # $itemSchema = $this->schema->getItemSchema();
 
     foreach ($conf as $delta => $itemConf) {
-      list($enabled) = $helper->schemaConfGetStatusAndOptions($itemSchema, $itemConf);
+      list($enabled) = [false, null];
+        # = $helper->schemaConfGetStatusAndOptions($itemSchema, $itemConf);
       if (!$enabled) {
         unset($conf[$delta]);
       }

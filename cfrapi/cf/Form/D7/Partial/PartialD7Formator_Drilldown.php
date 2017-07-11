@@ -4,31 +4,34 @@ namespace Donquixote\Cf\Form\D7\Partial;
 
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Form\D7\Util\D7FormUtil;
-use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Util\ConfUtil;
 
+/**
+ * @Cf
+ */
 class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @var \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface
+   */
+  private $schema;
+
+  /**
+   * @param \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface $schema
+   */
+  public function __construct(CfSchema_DrilldownInterface $schema) {
+    $this->schema = $schema;
+  }
+
+  /**
    * @param mixed $conf
    * @param string $label
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
-   * @param bool $required
    *
    * @return array
    */
-  public function schemaConfGetD7Form(
-    CfSchemaInterface $schema,
-    $conf,
-    $label,
-    D7FormatorHelperInterface $helper,
-    $required)
-  {
-    if (!$schema instanceof CfSchema_DrilldownInterface) {
-      return $helper->unknownSchema();
-    }
+  public function confGetD7Form($conf, $label, D7FormatorHelperInterface $helper) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf);
 
@@ -39,10 +42,9 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
       '#attributes' => ['class' => ['cfr-drilldown']],
       '#tree' => TRUE,
       'id' => D7FormUtil::optionsSchemaBuildSelectElement(
-        $schema,
+        $this->schema,
         $id,
-        $label,
-        $required),
+        $label),
       '#input' => TRUE,
       '#title' => $label,
       '#default_value' => $conf = [
@@ -50,12 +52,11 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
         'options' => $optionsConf,
       ],
       '#process' => [
-        function (array $element, array &$form_state, array &$form) use ($_this, $id, $schema, $optionsConf, $helper) {
+        function (array $element, array &$form_state, array &$form) use ($_this, $id, $optionsConf, $helper) {
 
           $element = $_this->processElement(
             $element,
             $form_state,
-            $schema,
             $id,
             $optionsConf,
             $helper);
@@ -82,7 +83,6 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
   /**
    * @param array $element
    * @param array $form_state
-   * @param \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface $schema
    * @param string $defaultId
    * @param mixed $defaultOptionsConf
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
@@ -92,7 +92,6 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
   private function processElement(
     array $element,
     array &$form_state,
-    CfSchema_DrilldownInterface $schema,
     $defaultId,
     $defaultOptionsConf,
     D7FormatorHelperInterface $helper)
@@ -119,7 +118,6 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
     }
 
     $element['options'] = $this->idConfBuildOptionsFormWrapper(
-      $schema,
       $id,
       $defaultOptionsConf,
       $helper);
@@ -154,7 +152,6 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
   }
 
   /**
-   * @param \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface $schema
    * @param string|null $id
    * @param mixed $subConf
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
@@ -162,7 +159,6 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
    * @return array
    */
   private function idConfBuildOptionsFormWrapper(
-    CfSchema_DrilldownInterface $schema,
     $id,
     $subConf,
     D7FormatorHelperInterface $helper)
@@ -171,14 +167,13 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
       return [];
     }
 
-    if (NULL === $subSchema = $schema->idGetSchema($id)) {
+    if (NULL === $subSchema = $this->schema->idGetSchema($id)) {
       return [];
     }
 
     $optionsForm = $helper->schemaConfGetD7Form(
-      $subSchema,
-      $subConf,
-      NULL);
+      $subSchema, $subConf, NULL
+    );
 
     if (empty($optionsForm)) {
       return [];

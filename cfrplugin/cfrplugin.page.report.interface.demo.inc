@@ -1,11 +1,11 @@
 <?php
+
 use Donquixote\CallbackReflection\Util\CodegenUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
 use Drupal\cfrplugin\Util\UiCodeUtil;
 use Drupal\cfrplugin\Util\UiDumpUtil;
-use Drupal\cfrplugin\Util\UiUtil;
 
 /**
  * @param string $interface

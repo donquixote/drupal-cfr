@@ -2,8 +2,6 @@
 
 namespace Donquixote\Cf\Schema\Options;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-
 abstract class CfSchema_Options_PassthruBase implements CfSchema_OptionsInterface {
 
   /**
@@ -11,7 +9,7 @@ abstract class CfSchema_Options_PassthruBase implements CfSchema_OptionsInterfac
    *
    * @return string|int
    *
-   * @throws \Drupal\cfrapi\Exception\ConfToValueException
+   * @throws \Donquixote\Cf\Exception\EvaluatorException
    */
   final public function idGetValue($id) {
     return $id;
@@ -19,11 +17,10 @@ abstract class CfSchema_Options_PassthruBase implements CfSchema_OptionsInterfac
 
   /**
    * @param string|int $id
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function idGetPhp($id, CfrCodegenHelperInterface $helper) {
+  public function idGetPhp($id) {
     return var_export($id, TRUE);
   }
 }

@@ -54,7 +54,7 @@ trait BrokenConfiguratorTrait {
    *
    * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
-  public function confGetValue($conf) {
+  public function confGetValue(/** @noinspection PhpUnusedParameterInspection */ $conf) {
     throw new ConfToValueException("Broken configurator");
   }
 

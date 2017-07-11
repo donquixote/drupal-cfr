@@ -9,10 +9,11 @@ namespace Drupal\cfrrealm\Container;
  * resolved through a proxy object for $definitionToConfigurator.
  *
  * Main cycle of circular dependencies:
+ *
  * @property \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $typeToConfigurator
  * @property \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface $typeToCfrFamily
- * @property \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface $typeToCfrSchema_tagged
- * @property \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface $typeToCfrSchema
+ * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToCfrSchema_tagged
+ * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToCfrSchema
  * @property \Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface $defmapToDrilldownSchema
  * @property \Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface $defmapToCfrFamily
  * @property \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator

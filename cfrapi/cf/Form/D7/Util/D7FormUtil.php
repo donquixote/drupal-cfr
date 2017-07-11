@@ -88,8 +88,8 @@ class D7FormUtil extends UtilBase {
     AbstractOptionsSchemaInterface $schema,
     $id,
     $label,
-    $required)
-  {
+    $required = TRUE
+  ) {
     $element = [
       '#title' => $label,
       '#type' => 'select',

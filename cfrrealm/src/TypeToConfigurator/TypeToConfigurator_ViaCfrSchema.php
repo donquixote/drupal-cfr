@@ -7,12 +7,12 @@ use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator_Exception;
 use Drupal\cfrapi\Configurator\Broken\OptionalBrokenConfigurator_Exception;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrapi\Exception\ConfiguratorCreationException;
-use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface;
+use Donquixote\Cf\TypeToSchema\TypeToSchemaInterface;
 
 class TypeToConfigurator_ViaCfrSchema implements TypeToConfiguratorInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface
+   * @var \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface
    */
   private $typeToCfrSchema;
 
@@ -22,11 +22,11 @@ class TypeToConfigurator_ViaCfrSchema implements TypeToConfiguratorInterface {
   private $cfrSchemaToConfigurator;
 
   /**
-   * @param \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface $typeToCfrSchema
+   * @param \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToCfrSchema
    * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
    */
   public function __construct(
-    TypeToCfrSchemaInterface $typeToCfrSchema,
+    TypeToSchemaInterface $typeToCfrSchema,
     CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
   ) {
     $this->typeToCfrSchema = $typeToCfrSchema;

@@ -10,10 +10,10 @@ use Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamily_InlineExpanded;
 use Drupal\cfrfamily\DefmapToContainer\DefmapToContainer;
 use Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchema;
 use Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamily_ViaDefmap;
-use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchema_AddTag;
-use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchema_Buffer;
-use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchema_InlineExpanded;
-use Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchema_ViaDefmap;
+use Donquixote\Cf\TypeToSchema\TypeToSchema_AddTag;
+use Donquixote\Cf\TypeToSchema\TypeToSchema_Buffer;
+use Donquixote\Cf\TypeToSchema\TypeToSchema_InlineExpanded;
+use Donquixote\Cf\TypeToSchema\TypeToSchema_ViaDefmap;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_Buffer;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfrSchema;
 use Drupal\cfrrealm\TypeToContainer\TypeToContainer_Buffer;
@@ -48,37 +48,37 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   }
 
   /**
-   * @return \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface
+   * @return \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface
    *
    * @see $typeToCfrSchema_tagged
    */
   protected function get_typeToCfrSchema_tagged() {
 
     $typeToCfrSchema = $this->typeToCfrSchema;
-    $typeToCfrSchema = new TypeToCfrSchema_AddTag($typeToCfrSchema);
-    $typeToCfrSchema = new TypeToCfrSchema_Buffer($typeToCfrSchema);
+    $typeToCfrSchema = new TypeToSchema_AddTag($typeToCfrSchema);
+    $typeToCfrSchema = new TypeToSchema_Buffer($typeToCfrSchema);
 
     return $typeToCfrSchema;
   }
 
   /**
-   * @return \Drupal\cfrrealm\TypeToCfrSchema\TypeToCfrSchemaInterface
+   * @return \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface
    *
    * @see $typeToCfrSchema
    */
   protected function get_typeToCfrSchema() {
 
-    $typeToCfrSchema = new TypeToCfrSchema_ViaDefmap(
+    $typeToCfrSchema = new TypeToSchema_ViaDefmap(
       $this->typeToDefmap,
       $this->defmapToDrilldownSchema);
 
-    $typeToCfrSchema = new TypeToCfrSchema_InlineExpanded(
+    $typeToCfrSchema = new TypeToSchema_InlineExpanded(
       $typeToCfrSchema,
       $this->typeToDefmap);
 
     # $typeToCfrSchema = new TypeToCfrSchema_AddTag($typeToCfrSchema);
 
-    $typeToCfrSchema = new TypeToCfrSchema_Buffer($typeToCfrSchema);
+    $typeToCfrSchema = new TypeToSchema_Buffer($typeToCfrSchema);
 
     return $typeToCfrSchema;
   }

@@ -2,8 +2,14 @@
 
 namespace Donquixote\Cf\Schema\Optionless;
 
-use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 
-interface CfSchema_OptionlessInterface extends ValueProviderInterface {
+/**
+ * Common base interface for all schemas that are not configurable.
+ *
+ * A schema class needs to implement one of the child interfaces to actually do
+ * something.
+ */
+interface CfSchema_OptionlessInterface extends CfSchemaInterface {
 
 }

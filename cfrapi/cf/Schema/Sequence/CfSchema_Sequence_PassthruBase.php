@@ -2,8 +2,6 @@
 
 namespace Donquixote\Cf\Schema\Sequence;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-
 abstract class CfSchema_Sequence_PassthruBase implements CfSchema_SequenceInterface {
 
   /**
@@ -17,11 +15,10 @@ abstract class CfSchema_Sequence_PassthruBase implements CfSchema_SequenceInterf
 
   /**
    * @param array $itemsPhp
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return mixed
    */
-  final public function itemsPhpGetPhp(array $itemsPhp, CfrCodegenHelperInterface $helper) {
+  final public function itemsPhpGetPhp(array $itemsPhp) {
 
     if ([] === $itemsPhp) {
       return '[]';

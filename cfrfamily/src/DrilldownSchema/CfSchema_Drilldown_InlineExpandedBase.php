@@ -2,7 +2,6 @@
 
 namespace Drupal\cfrfamily\DrilldownSchema;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_Drilldown_FromOptionsSchema;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
@@ -141,14 +140,13 @@ abstract class CfSchema_Drilldown_InlineExpandedBase implements CfSchema_Drilldo
   /**
    * @param string|int $combinedId
    * @param string $php
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return mixed
    */
-  public function idPhpGetPhp($combinedId, $php, CfrCodegenHelperInterface $helper) {
+  public function idPhpGetPhp($combinedId, $php) {
 
     if (FALSE === /* $pos = */ strpos($combinedId, '/')) {
-      return $this->decorated->idPhpGetPhp($combinedId, $php, $helper);
+      return $this->decorated->idPhpGetPhp($combinedId, $php);
     }
 
     list($prefix, $suffix) = explode('/', $combinedId, 2);
@@ -157,9 +155,9 @@ abstract class CfSchema_Drilldown_InlineExpandedBase implements CfSchema_Drilldo
       return NULL;
     }
 
-    $php = $schema->idPhpGetPhp($suffix, $php, $helper);
+    $php = $schema->idPhpGetPhp($suffix, $php);
 
-    $php = $this->decorated->idPhpGetPhp($prefix, $php, $helper);
+    $php = $this->decorated->idPhpGetPhp($prefix, $php);
 
     return $php;
   }

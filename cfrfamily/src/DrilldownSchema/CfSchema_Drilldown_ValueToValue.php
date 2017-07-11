@@ -2,9 +2,9 @@
 
 namespace Drupal\cfrfamily\DrilldownSchema;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
 
 class CfSchema_Drilldown_ValueToValue extends CfSchema_Drilldown_DecoratorBase {
 
@@ -42,12 +42,12 @@ class CfSchema_Drilldown_ValueToValue extends CfSchema_Drilldown_DecoratorBase {
   /**
    * @param string|int $id
    * @param string $php
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return mixed
    */
-  public function idPhpGetPhp($id, $php, CfrCodegenHelperInterface $helper) {
-    $php = parent::idPhpGetPhp($id, $php, $helper);
+  public function idPhpGetPhp($id, $php) {
+    $php = parent::idPhpGetPhp($id, $php);
+    $helper = new CfrCodegenHelper();
     $php = $this->valueToValue->phpGetPhp($php, $helper);
     return $php;
   }

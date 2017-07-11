@@ -4,7 +4,6 @@ namespace Donquixote\Cf\Schema\Sequence;
 
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Schema\Transformable\CfSchema_TransformableInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 interface CfSchema_SequenceInterface extends CfSchema_TransformableInterface {
 
@@ -23,11 +22,10 @@ interface CfSchema_SequenceInterface extends CfSchema_TransformableInterface {
 
   /**
    * @param string[] $itemsPhp
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function itemsPhpGetPhp(array $itemsPhp, CfrCodegenHelperInterface $helper);
+  public function itemsPhpGetPhp(array $itemsPhp);
 
   /**
    * @param int $delta

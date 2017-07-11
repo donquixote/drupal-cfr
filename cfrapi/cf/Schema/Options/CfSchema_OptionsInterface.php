@@ -3,10 +3,9 @@
 namespace Donquixote\Cf\Schema\Options;
 
 use Donquixote\Cf\Schema\CfSchemaLocalInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 /**
- * @todo Maybe "Options" should be renamed to "Legend"?
+ * @todo Maybe "Options" should be renamed to "Choice"?
  */
 interface CfSchema_OptionsInterface extends CfSchemaLocalInterface, AbstractOptionsSchemaInterface {
 
@@ -15,16 +14,15 @@ interface CfSchema_OptionsInterface extends CfSchemaLocalInterface, AbstractOpti
    *
    * @return mixed
    *
-   * @throws \Drupal\cfrapi\Exception\ConfToValueException
+   * @throws \Donquixote\Cf\Exception\EvaluatorException
    */
   public function idGetValue($id);
 
   /**
    * @param string|int $id
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function idGetPhp($id, CfrCodegenHelperInterface $helper);
+  public function idGetPhp($id);
 
 }

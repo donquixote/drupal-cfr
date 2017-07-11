@@ -2,8 +2,6 @@
 
 namespace Donquixote\Cf\Schema\Group;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-
 class GroupSchema extends CfSchema_GroupBase {
 
   /**
@@ -18,11 +16,10 @@ class GroupSchema extends CfSchema_GroupBase {
 
   /**
    * @param string[] $itemsPhp
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function itemsPhpGetPhp(array $itemsPhp, CfrCodegenHelperInterface $helper) {
+  public function itemsPhpGetPhp(array $itemsPhp) {
 
     if ([] === $itemsPhp) {
       return '[]';

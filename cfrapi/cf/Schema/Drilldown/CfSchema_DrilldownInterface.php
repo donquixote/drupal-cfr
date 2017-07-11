@@ -4,7 +4,6 @@ namespace Donquixote\Cf\Schema\Drilldown;
 
 use Donquixote\Cf\Schema\CfSchemaLocalInterface;
 use Donquixote\Cf\Schema\Options\AbstractOptionsSchemaInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 interface CfSchema_DrilldownInterface extends CfSchemaLocalInterface, AbstractOptionsSchemaInterface {
 
@@ -23,17 +22,16 @@ interface CfSchema_DrilldownInterface extends CfSchemaLocalInterface, AbstractOp
    *
    * @return mixed
    *
-   * @throws \Drupal\cfrapi\Exception\ConfToValueException
+   * @throws \Donquixote\Cf\Exception\EvaluatorException
    */
   public function idValueGetValue($id, $value);
 
   /**
    * @param string|int $id
    * @param string $php
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return mixed
    */
-  public function idPhpGetPhp($id, $php, CfrCodegenHelperInterface $helper);
+  public function idPhpGetPhp($id, $php);
 
 }

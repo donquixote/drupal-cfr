@@ -5,8 +5,8 @@ namespace Donquixote\Cf\Schema\Group;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
+use Donquixote\CallbackReflection\CodegenHelper\CodegenHelper;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 class GroupSchema_Callback extends CfSchema_GroupBase {
 
@@ -78,11 +78,12 @@ class GroupSchema_Callback extends CfSchema_GroupBase {
 
   /**
    * @param string[] $itemsPhp
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function itemsPhpGetPhp(array $itemsPhp, CfrCodegenHelperInterface $helper) {
+  public function itemsPhpGetPhp(array $itemsPhp) {
+    // @todo Does the helper need to be passed into this method?
+    $helper = new CodegenHelper();
     return $this->callbackReflection->argsPhpGetPhp($itemsPhp, $helper);
   }
 }

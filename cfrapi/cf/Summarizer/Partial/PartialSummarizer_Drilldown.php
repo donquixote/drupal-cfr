@@ -2,29 +2,35 @@
 
 namespace Donquixote\Cf\Summarizer\Partial;
 
-use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Summarizer\Helper\SummaryHelperInterface;
 use Donquixote\Cf\Util\ConfUtil;
 use Donquixote\Cf\Util\HtmlUtil;
 
+/**
+ * @Cf
+ */
 class PartialSummarizer_Drilldown implements PartialSummarizerInterface {
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @var \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface
+   */
+  private $schema;
+
+  /**
+   * @param \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface $schema
+   */
+  public function __construct(CfSchema_DrilldownInterface $schema) {
+    $this->schema = $schema;
+  }
+
+  /**
    * @param mixed $conf
    * @param \Donquixote\Cf\Summarizer\Helper\SummaryHelperInterface $helper
    *
    * @return null|string
    */
-  public function schemaConfGetSummary(
-    CfSchemaInterface $schema,
-    $conf,
-    SummaryHelperInterface $helper)
-  {
-    if (!$schema instanceof CfSchema_DrilldownInterface) {
-      return $helper->unknownSchema();
-    }
+  public function schemaConfGetSummary($conf, SummaryHelperInterface $helper) {
 
     list($id, $subConf) = ConfUtil::confGetIdOptions($conf);
 
@@ -32,11 +38,11 @@ class PartialSummarizer_Drilldown implements PartialSummarizerInterface {
       return '- ' . $helper->translate('None') . ' -';
     }
 
-    if (NULL === $subSchema = $schema->idGetSchema($id)) {
+    if (NULL === $subSchema = $this->schema->idGetSchema($id)) {
       return '- ' . $helper->translate('Unknown id') . ' -';
     }
 
-    if (NULL === $idLabelUnsafe = $schema->idGetLabel($id)) {
+    if (NULL === $idLabelUnsafe = $this->schema->idGetLabel($id)) {
       return '- ' . $helper->translate('Unknown id') . ' -';
     }
 

@@ -2,35 +2,26 @@
 
 namespace Donquixote\Cf\Evaluator;
 
-use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\ConfToValue\Helper\ConfToValueHelperInterface;
+use Donquixote\Cf\ConfToPhp\Helper\PhpHelperInterface;
 
 interface EvaluatorInterface {
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param mixed $conf
-   *
-   * @return bool
-   *   TRUE, if $conf is both valid and empty.
-   *   FALSE, if $conf is either invalid or non-empty.
-   */
-  # public function schemaConfIsEmpty(CfSchemaInterface $schema, $conf);
-
-  /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
-   * @param mixed $conf
+   * @param \Donquixote\Cf\ConfToValue\Helper\ConfToValueHelperInterface $helper
    *
    * @return mixed
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Donquixote\Cf\Exception\EvaluatorException
    */
-  public function schemaConfGetValue(CfSchemaInterface $schema, $conf);
+  public function confGetValue($conf, ConfToValueHelperInterface $helper);
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param mixed $conf
+   * @param \Donquixote\Cf\ConfToPhp\Helper\PhpHelperInterface $helper
    *
    * @return string
    */
-  public function schemaConfGetPhp(CfSchemaInterface $schema, $conf);
+  public function confGetPhp($conf, PhpHelperInterface $helper);
 
 }

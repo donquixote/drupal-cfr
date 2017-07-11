@@ -3,10 +3,8 @@
 namespace Donquixote\Cf\Schema\ValueToValue;
 
 use Donquixote\Cf\Schema\Transformable\CfSchema_TransformableInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\ValueToValue\ValueToValueInterface;
 
-interface CfSchema_ValueToValueInterface extends CfSchema_TransformableInterface, ValueToValueInterface {
+interface CfSchema_ValueToValueInterface extends CfSchema_TransformableInterface {
 
   /**
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
@@ -27,10 +25,9 @@ interface CfSchema_ValueToValueInterface extends CfSchema_TransformableInterface
 
   /**
    * @param string $php
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function phpGetPhp($php, CfrCodegenHelperInterface $helper);
+  public function phpGetPhp($php);
 
 }

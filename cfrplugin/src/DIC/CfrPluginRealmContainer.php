@@ -11,7 +11,7 @@ use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchema_Replacer;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrplugin\Util\ServiceFactoryUtil;
-use Drupal\cfrrealm\CfrSchemaReplacer\CfrSchemaReplacer_Hardcoded;
+use Drupal\cfrrealm\CfrSchemaReplacer\SchemaReplacer_Hardcoded;
 use Drupal\cfrrealm\Container\CfrRealmContainerBase;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Cache;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscovery;
@@ -115,7 +115,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
 
     $definitionToCfrSchema = new DefinitionToCfrSchema_Replacer(
       $definitionToCfrSchema,
-      new CfrSchemaReplacer_Hardcoded(
+      new SchemaReplacer_Hardcoded(
         $this->typeToCfrSchema_tagged,
         $this->paramToLabel));
 

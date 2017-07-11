@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Schema\Group;
 
-use Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface;
+use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 
 class CfSchema_GroupEmpty extends CfSchema_Group_PassthruBase {
 
@@ -27,11 +27,11 @@ class CfSchema_GroupEmpty extends CfSchema_Group_PassthruBase {
    *
    * A schema is considered "better" if it is closer to actual implementation.
    *
-   * @param \Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface $replacer
+   * @param \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $replacer
    *
    * @return static
    */
-  public function withReplacements(CfrSchemaReplacerInterface $replacer) {
+  public function withReplacements(SchemaReplacerInterface $replacer) {
     return $this;
   }
 }

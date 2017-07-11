@@ -104,6 +104,6 @@ class Configurator_OptionsSchemaSelect extends Configurator_SelectBase {
       return $helper->incompatibleConfiguration($conf, $e->getMessage());
     }
 
-    return $this->optionsSchema->idGetPhp($id, $helper);
+    return $this->optionsSchema->idGetPhp($id);
   }
 }

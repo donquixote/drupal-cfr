@@ -5,8 +5,8 @@ namespace Donquixote\Cf\Schema\ValueToValue;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
+use Donquixote\CallbackReflection\CodegenHelper\CodegenHelper;
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 class CfSchema_ValueToValue_Callback extends CfSchema_ValueToValueBase {
 
@@ -59,11 +59,11 @@ class CfSchema_ValueToValue_Callback extends CfSchema_ValueToValueBase {
 
   /**
    * @param string $php
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function phpGetPhp($php, CfrCodegenHelperInterface $helper) {
+  public function phpGetPhp($php) {
+    $helper = new CodegenHelper();
     return $this->callback->argsPhpGetPhp([$php], $helper);
   }
 }

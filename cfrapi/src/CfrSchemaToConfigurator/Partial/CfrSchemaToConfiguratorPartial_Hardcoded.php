@@ -23,7 +23,7 @@ use Drupal\cfrapi\Configurator\Sequence\Configurator_Sequence;
 use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_FromValueProvider;
 use Drupal\cfrapi\Exception\UnsupportedSchemaException;
 use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
-use Drupal\cfrrealm\CfrSchema\CfSchema_Neutral_IfaceTransformed;
+use Donquixote\cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface;
 use Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface;
 use Drupal\cfrreflection\Configurator\Configurator_CallbackConfigurable;

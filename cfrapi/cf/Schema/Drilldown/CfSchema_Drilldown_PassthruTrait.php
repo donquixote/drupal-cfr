@@ -2,8 +2,6 @@
 
 namespace Donquixote\Cf\Schema\Drilldown;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-
 trait CfSchema_Drilldown_PassthruTrait {
 
   /**
@@ -12,7 +10,7 @@ trait CfSchema_Drilldown_PassthruTrait {
    *
    * @return mixed
    *
-   * @throws \Drupal\cfrapi\Exception\ConfToValueException
+   * @throws \Donquixote\Cf\Exception\EvaluatorException
    * @see \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface::idValueGetValue()
    */
   public function idValueGetValue(
@@ -25,15 +23,13 @@ trait CfSchema_Drilldown_PassthruTrait {
   /**
    * @param string|int $id
    * @param string $php
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return mixed
    * @see \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface::idPhpGetPhp()
    */
   final public function idPhpGetPhp(
     /** @noinspection PhpUnusedParameterInspection */ $id,
-    $php,
-    /** @noinspection PhpUnusedParameterInspection */ CfrCodegenHelperInterface $helper
+    $php
   ) {
     return $php;
   }

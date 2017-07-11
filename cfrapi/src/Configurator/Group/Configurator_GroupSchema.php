@@ -77,6 +77,6 @@ class Configurator_GroupSchema extends Configurator_GroupGrandBase {
    */
   public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
     $itemsPhp = parent::confGetPhpStatements($conf, $helper);
-    return $this->groupSchema->itemsPhpGetPhp($itemsPhp, $helper);
+    return $this->groupSchema->itemsPhpGetPhp($itemsPhp);
   }
 }

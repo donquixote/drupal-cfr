@@ -3,7 +3,6 @@
 namespace Drupal\cfrfamily\DrilldownSchema;
 
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 abstract class CfSchema_Drilldown_DecoratorBase implements CfSchema_DrilldownInterface {
 
@@ -70,11 +69,10 @@ abstract class CfSchema_Drilldown_DecoratorBase implements CfSchema_DrilldownInt
   /**
    * @param string|int $id
    * @param string $php
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return mixed
    */
-  public function idPhpGetPhp($id, $php, CfrCodegenHelperInterface $helper) {
-    return $this->decorated->idPhpGetPhp($id, $php, $helper);
+  public function idPhpGetPhp($id, $php) {
+    return $this->decorated->idPhpGetPhp($id, $php);
   }
 }

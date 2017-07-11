@@ -2,27 +2,32 @@
 
 namespace Donquixote\Cf\Form\D7\Partial;
 
-use Donquixote\Cf\Schema\CfSchemaInterface;
-use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
+use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 
 class PartialD7Formator_Optionless implements PartialD7FormatorInterface {
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @Cf
+   *
+   * @param \Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface $schema
+   *
+   * @return \Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface
+   */
+  public static function create(
+    /** @noinspection PhpUnusedParameterInspection */ CfSchema_OptionlessInterface $schema
+  ) {
+    return new self();
+  }
+
+  /**
    * @param mixed $conf
    * @param string $label
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
-   * @param bool $required
    *
    * @return array
    */
-  public function schemaConfGetD7Form(CfSchemaInterface $schema, $conf, $label, D7FormatorHelperInterface $helper, $required) {
-
-    if (!$schema instanceof CfSchema_OptionlessInterface) {
-      return $helper->unknownSchema();
-    }
-
+  public function confGetD7Form($conf, $label, D7FormatorHelperInterface $helper) {
     return [];
   }
 }

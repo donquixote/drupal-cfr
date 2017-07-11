@@ -2,38 +2,71 @@
 
 namespace Donquixote\Cf\Summarizer\Partial;
 
-use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\Summarizer\Helper\SummaryHelperInterface;
+use Donquixote\Cf\Util\HtmlUtil;
 
 class PartialSummarizer_Optional implements PartialSummarizerInterface {
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $optionalSchema
+   * @var \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface
+   */
+  private $schema;
+
+  /**
+   * @param \Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface $schemaToEmptyness
+   *
+   * @return \Closure
+   */
+  public static function getFactory(SchemaToEmptynessInterface $schemaToEmptyness) {
+
+    /**
+     * @param \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface $schema
+     *
+     * @return \Donquixote\Cf\Summarizer\Partial\PartialSummarizerInterface
+     */
+    return function(CfSchema_OptionalInterface $schema) use ($schemaToEmptyness) {
+
+      if (NULL === $emptyness = $schemaToEmptyness->schemaGetEmptyness($schema)) {
+        return new self($schema);
+      }
+
+      return new PartialSummarizer_OptionalWithEmptyness($schema, $emptyness);
+    };
+  }
+
+  /**
+   * @param \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface $schema
+   */
+  public function __construct(CfSchema_OptionalInterface $schema) {
+    $this->schema = $schema;
+  }
+
+  /**
    * @param mixed $conf
    * @param \Donquixote\Cf\Summarizer\Helper\SummaryHelperInterface $helper
    *
    * @return string
    */
-  public function schemaConfGetSummary(CfSchemaInterface $optionalSchema, $conf, SummaryHelperInterface $helper) {
+  public function schemaConfGetSummary($conf, SummaryHelperInterface $helper) {
 
-    if (!$optionalSchema instanceof CfSchema_OptionalInterface) {
-      return $helper->unknownSchema();
+    if (!is_array($conf) || empty($conf['enabled'])) {
+
+      if (NULL === $summaryUnsafe = $this->schema->getEmptySummary()) {
+        return NULL;
+      }
+
+      // The schema's summary might not be designed for HTML.
+      return HtmlUtil::sanitize($summaryUnsafe);
     }
 
-    $decoratedSchema = $optionalSchema->getDecorated();
+    $subConf = isset($conf['options'])
+      ? $conf['options']
+      : NULL;
 
-    list($enabled, $conf) = $helper->schemaConfGetStatusAndOptions(
-      $decoratedSchema, $conf);
-
-    if ($enabled) {
-      return $helper->schemaConfGetSummary($decoratedSchema, $conf);
-    }
-
-    if (NULL !== $summary = $optionalSchema->getEmptySummary()) {
-      return $summary;
-    }
-
-    return $helper->translate('None');
+    return $helper->schemaConfGetSummary(
+      $this->schema->getDecorated(),
+      $subConf);
   }
 }

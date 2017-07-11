@@ -41,9 +41,11 @@ class ValueProvider_FixedValue implements ValueProviderInterface {
    *   PHP statement to generate the value.
    */
   public function getPhp(CfrCodegenHelperInterface $helper) {
+
     if (NULL !== $this->php) {
       return $this->php;
     }
+
     return $helper->export($this->value);
   }
 }

@@ -3,7 +3,6 @@
 namespace Donquixote\Cf\Schema\Group;
 
 use Donquixote\Cf\Schema\Transformable\CfSchema_TransformableInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 interface CfSchema_GroupInterface extends CfSchema_TransformableInterface {
 
@@ -28,10 +27,9 @@ interface CfSchema_GroupInterface extends CfSchema_TransformableInterface {
 
   /**
    * @param string[] $itemsPhp
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
    */
-  public function itemsPhpGetPhp(array $itemsPhp, CfrCodegenHelperInterface $helper);
+  public function itemsPhpGetPhp(array $itemsPhp);
 
 }

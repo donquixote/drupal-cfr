@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrfamily\DefinitionToCfrSchema;
 
-use Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface;
+use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 
 class DefinitionToCfrSchema_Replacer implements DefinitionToCfrSchemaInterface {
@@ -13,17 +13,17 @@ class DefinitionToCfrSchema_Replacer implements DefinitionToCfrSchemaInterface {
   private $decorated;
 
   /**
-   * @var \Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface
+   * @var \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface
    */
   private $replacer;
 
   /**
    * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface $decorated
-   * @param \Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface $replacer
+   * @param \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $replacer
    */
   public function __construct(
     DefinitionToCfrSchemaInterface $decorated,
-    CfrSchemaReplacerInterface $replacer
+    SchemaReplacerInterface $replacer
   ) {
     $this->decorated = $decorated;
     $this->replacer = $replacer;

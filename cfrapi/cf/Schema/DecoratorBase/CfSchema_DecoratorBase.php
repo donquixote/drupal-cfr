@@ -4,7 +4,7 @@ namespace Donquixote\Cf\Schema\DecoratorBase;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Transformable\CfSchema_TransformableInterface;
-use Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface;
+use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 
 class CfSchema_DecoratorBase implements CfSchema_TransformableInterface {
 
@@ -26,11 +26,11 @@ class CfSchema_DecoratorBase implements CfSchema_TransformableInterface {
    *
    * A schema is considered "better" if it is closer to actual implementation.
    *
-   * @param \Drupal\cfrapi\CfrSchemaReplacer\CfrSchemaReplacerInterface $replacer
+   * @param \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $replacer
    *
    * @return static
    */
-  public function withReplacements(CfrSchemaReplacerInterface $replacer) {
+  public function withReplacements(SchemaReplacerInterface $replacer) {
 
     if (NULL === $replacement = $replacer->schemaGetReplacement(
         $this->decorated)
