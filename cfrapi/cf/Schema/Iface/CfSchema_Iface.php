@@ -4,7 +4,7 @@ namespace Donquixote\Cf\Schema\Iface;
 
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional;
 use Donquixote\Cf\Schema\Sequence\CfSchema_Sequence;
-use Drupal\cfrapi\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfrContextInterface;
 
 class CfSchema_Iface implements CfSchema_IfaceInterface {
 
@@ -14,13 +14,13 @@ class CfSchema_Iface implements CfSchema_IfaceInterface {
   private $interface;
 
   /**
-   * @var \Drupal\cfrapi\Context\CfrContextInterface|NULL
+   * @var \Donquixote\Cf\Context\CfrContextInterface|NULL
    */
   private $context;
 
   /**
    * @param string $interface
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
    *
    * @return \Donquixote\Cf\Schema\Sequence\CfSchema_Sequence
    */
@@ -31,7 +31,7 @@ class CfSchema_Iface implements CfSchema_IfaceInterface {
 
   /**
    * @param string $interface
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|NULL $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|NULL $context
    *
    * @return \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface
    */
@@ -41,7 +41,7 @@ class CfSchema_Iface implements CfSchema_IfaceInterface {
 
   /**
    * @param string $interface
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|NULL $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|NULL $context
    */
   public function __construct($interface, CfrContextInterface $context = NULL) {
     $this->interface = $interface;
@@ -56,7 +56,7 @@ class CfSchema_Iface implements CfSchema_IfaceInterface {
   }
 
   /**
-   * @return \Drupal\cfrapi\Context\CfrContextInterface|null
+   * @return \Donquixote\Cf\Context\CfrContextInterface|null
    */
   public function getContext() {
     return $this->context;

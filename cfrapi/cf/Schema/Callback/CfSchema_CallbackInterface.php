@@ -22,7 +22,7 @@ interface CfSchema_CallbackInterface extends CfSchemaLocalInterface {
   public function getExplicitParamLabels();
 
   /**
-   * @return \Drupal\cfrapi\Context\CfrContextInterface|null
+   * @return \Donquixote\Cf\Context\CfrContextInterface|null
    */
   public function getContext();
 

@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\TypeToSchema;
 
-use Drupal\cfrapi\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfrContextInterface;
 
 class TypeToSchema_Buffer implements TypeToSchemaInterface {
 
@@ -25,7 +25,7 @@ class TypeToSchema_Buffer implements TypeToSchemaInterface {
 
   /**
    * @param string $type
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */

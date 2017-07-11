@@ -7,7 +7,7 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Iface\CfSchema_Iface;
-use Drupal\cfrapi\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfrContextInterface;
 
 class CfSchema_Callback implements CfSchema_CallbackInterface {
 
@@ -27,13 +27,13 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   private $explicitLabels = [];
 
   /**
-   * @var \Drupal\cfrapi\Context\CfrContextInterface|null
+   * @var \Donquixote\Cf\Context\CfrContextInterface|null
    */
   private $context;
 
   /**
    * @param string $class
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
    *
    * @return \Donquixote\Cf\Schema\Callback\CfSchema_Callback
    */
@@ -47,7 +47,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   /**
    * @param string $class
    * @param string $methodName
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
    *
    * @return self
    */
@@ -62,7 +62,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callbackReflection
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
    */
   public function __construct(
     CallbackReflectionInterface $callbackReflection,
@@ -73,7 +73,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   }
 
   /**
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|NULL $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|NULL $context
    *
    * @return static
    */
@@ -175,7 +175,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   }
 
   /**
-   * @return \Drupal\cfrapi\Context\CfrContextInterface|null
+   * @return \Donquixote\Cf\Context\CfrContextInterface|null
    */
   public function getContext() {
     return $this->context;

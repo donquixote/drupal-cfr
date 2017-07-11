@@ -12,7 +12,7 @@ interface CfSchema_IfaceInterface extends CfSchemaLocalInterface {
   public function getInterface();
 
   /**
-   * @return \Drupal\cfrapi\Context\CfrContextInterface|null
+   * @return \Donquixote\Cf\Context\CfrContextInterface|null
    */
   public function getContext();
 

@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\TypeToSchema;
 
-use Drupal\cfrapi\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfrContextInterface;
 use Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface;
 use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
 
@@ -32,7 +32,7 @@ class TypeToSchema_ViaDefmap implements TypeToSchemaInterface {
 
   /**
    * @param string $type
-   * @param \Drupal\cfrapi\Context\CfrContextInterface $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface $context
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */

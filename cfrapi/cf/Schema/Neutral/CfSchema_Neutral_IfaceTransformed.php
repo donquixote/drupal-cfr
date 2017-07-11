@@ -3,7 +3,7 @@
 namespace Donquixote\cf\Schema\Neutral;
 
 use Donquixote\cf\Schema\CfSchemaInterface;
-use Drupal\cfrapi\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfrContextInterface;
 
 class CfSchema_Neutral_IfaceTransformed extends CfSchema_NeutralBase {
 
@@ -13,14 +13,14 @@ class CfSchema_Neutral_IfaceTransformed extends CfSchema_NeutralBase {
   private $interface;
 
   /**
-   * @var \Drupal\cfrapi\Context\CfrContextInterface|null
+   * @var \Donquixote\Cf\Context\CfrContextInterface|null
    */
   private $context;
 
   /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $decorated
    * @param string $interface
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
    */
   public function __construct(
     CfSchemaInterface $decorated,
@@ -40,7 +40,7 @@ class CfSchema_Neutral_IfaceTransformed extends CfSchema_NeutralBase {
   }
 
   /**
-   * @return \Drupal\cfrapi\Context\CfrContextInterface|null
+   * @return \Donquixote\Cf\Context\CfrContextInterface|null
    */
   public function getContext() {
     return $this->context;

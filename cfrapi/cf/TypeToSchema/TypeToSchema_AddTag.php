@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\TypeToSchema;
 
-use Drupal\cfrapi\Context\CfrContextInterface;
+use Donquixote\Cf\Context\CfrContextInterface;
 use Donquixote\cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
 
 class TypeToSchema_AddTag implements TypeToSchemaInterface {
@@ -21,7 +21,7 @@ class TypeToSchema_AddTag implements TypeToSchemaInterface {
 
   /**
    * @param string $interface
-   * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
+   * @param \Donquixote\Cf\Context\CfrContextInterface|null $context
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */
