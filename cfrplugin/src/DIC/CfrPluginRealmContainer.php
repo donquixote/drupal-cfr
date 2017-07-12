@@ -5,9 +5,9 @@ namespace Drupal\cfrplugin\DIC;
 use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfigurator_FromPartial;
 use Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfigurator_Proxy;
 use Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfiguratorPartial_Hardcoded;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchema_Mappers;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchema_Proxy;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchema_Replacer;
+use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Mappers;
+use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Proxy;
+use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Replacer;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrplugin\Util\ServiceFactoryUtil;
@@ -92,12 +92,12 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface
+   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
    *
    * @see $definitionToCfrSchema_proxy
    */
   protected function get_definitionToCfrSchema_proxy() {
-    return new DefinitionToCfrSchema_Proxy(
+    return new DefinitionToSchema_Proxy(
       function() {
         // $this can be used since PHP 5.4.
         return $this->definitionToCfrSchema;
@@ -105,15 +105,15 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface
+   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
    *
    * @see $definitionToCfrSchema
    */
   protected function get_definitionToCfrSchema() {
 
-    $definitionToCfrSchema = DefinitionToCfrSchema_Mappers::create();
+    $definitionToCfrSchema = DefinitionToSchema_Mappers::create();
 
-    $definitionToCfrSchema = new DefinitionToCfrSchema_Replacer(
+    $definitionToCfrSchema = new DefinitionToSchema_Replacer(
       $definitionToCfrSchema,
       new SchemaReplacer_Hardcoded(
         $this->typeToCfrSchema_tagged,

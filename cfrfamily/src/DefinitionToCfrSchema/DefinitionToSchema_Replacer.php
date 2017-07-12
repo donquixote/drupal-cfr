@@ -5,10 +5,10 @@ namespace Drupal\cfrfamily\DefinitionToCfrSchema;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 
-class DefinitionToCfrSchema_Replacer implements DefinitionToCfrSchemaInterface {
+class DefinitionToSchema_Replacer implements DefinitionToSchemaInterface {
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface
+   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
    */
   private $decorated;
 
@@ -18,11 +18,11 @@ class DefinitionToCfrSchema_Replacer implements DefinitionToCfrSchemaInterface {
   private $replacer;
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface $decorated
+   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $decorated
    * @param \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $replacer
    */
   public function __construct(
-    DefinitionToCfrSchemaInterface $decorated,
+    DefinitionToSchemaInterface $decorated,
     SchemaReplacerInterface $replacer
   ) {
     $this->decorated = $decorated;
@@ -37,11 +37,11 @@ class DefinitionToCfrSchema_Replacer implements DefinitionToCfrSchemaInterface {
    *
    * @throws \Drupal\cfrapi\Exception\SchemaCreationException
    */
-  public function definitionGetCfrSchema(
+  public function definitionGetSchema(
     array $definition,
     CfrContextInterface $context = NULL
   ) {
-    $cfrSchema = $this->decorated->definitionGetCfrSchema(
+    $cfrSchema = $this->decorated->definitionGetSchema(
       $definition,
       $context);
 

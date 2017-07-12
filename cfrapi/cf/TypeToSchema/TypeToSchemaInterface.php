@@ -12,6 +12,6 @@ interface TypeToSchemaInterface {
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */
-  public function typeGetCfrSchema($type, CfContextInterface $context = NULL);
+  public function typeGetSchema($type, CfContextInterface $context = NULL);
 
 }

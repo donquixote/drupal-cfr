@@ -7,7 +7,7 @@ use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrapi\Exception\SchemaCreationException;
 
-class DefinitionToCfrSchemaHelper_CfrSchema implements DefinitionToCfrSchemaHelperInterface {
+class DefinitionToCfrSchemaHelper_Schema implements DefinitionToSchemaHelperInterface {
 
   /**
    * @param object $object
@@ -16,7 +16,7 @@ class DefinitionToCfrSchemaHelper_CfrSchema implements DefinitionToCfrSchemaHelp
    *
    * @throws \Drupal\cfrapi\Exception\SchemaCreationException
    */
-  public function objectGetCfrSchema($object) {
+  public function objectGetSchema($object) {
 
     if ($object instanceof CfSchemaInterface) {
       return $object;
@@ -33,7 +33,7 @@ class DefinitionToCfrSchemaHelper_CfrSchema implements DefinitionToCfrSchemaHelp
    *
    * @throws \Drupal\cfrapi\Exception\SchemaCreationException
    */
-  public function factoryGetCfrSchema(CallbackReflectionInterface $factory, CfrContextInterface $context = NULL) {
+  public function factoryGetSchema(CallbackReflectionInterface $factory, CfrContextInterface $context = NULL) {
 
     $serialArgs = [];
     foreach ($factory->getReflectionParameters() as $param) {

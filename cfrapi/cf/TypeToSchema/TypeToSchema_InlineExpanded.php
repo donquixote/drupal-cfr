@@ -37,16 +37,16 @@ class TypeToSchema_InlineExpanded implements TypeToSchemaInterface {
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */
-  public function typeGetCfrSchema($type, CfContextInterface $context = NULL) {
+  public function typeGetSchema($type, CfContextInterface $context = NULL) {
 
-    $schema = $this->decorated->typeGetCfrSchema($type, $context);
+    $schema = $this->decorated->typeGetSchema($type, $context);
 
-    if ($schema instanceof CfSchema_DrilldownInterface) {
-      $schema = new CfSchema_Drilldown_InlineExpanded(
-        $schema,
-        $this->typeToDefmap->typeGetDefmap($type));
+    if (!$schema instanceof CfSchema_DrilldownInterface) {
+      return $schema;
     }
 
-    return $schema;
+    return new CfSchema_Drilldown_InlineExpanded(
+      $schema,
+      $this->typeToDefmap->typeGetDefmap($type));
   }
 }

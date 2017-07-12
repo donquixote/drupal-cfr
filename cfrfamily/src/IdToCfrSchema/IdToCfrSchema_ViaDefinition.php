@@ -4,7 +4,7 @@ namespace Drupal\cfrfamily\IdToCfrSchema;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrapi\Exception\SchemaCreationException;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface;
+use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface;
 use Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface;
 
 class IdToCfrSchema_ViaDefinition implements IdToCfrSchemaInterface {
@@ -15,7 +15,7 @@ class IdToCfrSchema_ViaDefinition implements IdToCfrSchemaInterface {
   private $idToDefinition;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface
+   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
    */
   private $definitionToCfrSchema;
 
@@ -26,12 +26,12 @@ class IdToCfrSchema_ViaDefinition implements IdToCfrSchemaInterface {
 
   /**
    * @param \Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface $idToDefinition
-   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface $definitionToCfrSchema
+   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    */
   public function __construct(
     IdToDefinitionInterface $idToDefinition,
-    DefinitionToCfrSchemaInterface $definitionToCfrSchema,
+    DefinitionToSchemaInterface $definitionToCfrSchema,
     CfrContextInterface $context = NULL
   ) {
     $this->idToDefinition = $idToDefinition;
@@ -53,7 +53,7 @@ class IdToCfrSchema_ViaDefinition implements IdToCfrSchemaInterface {
     }
 
     try {
-      return $this->definitionToCfrSchema->definitionGetCfrSchema($definition, $this->context);
+      return $this->definitionToCfrSchema->definitionGetSchema($definition, $this->context);
     }
     catch (SchemaCreationException $e) {
       // @todo Report this in watchdog?

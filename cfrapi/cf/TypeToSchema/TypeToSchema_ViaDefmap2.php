@@ -1,14 +1,20 @@
 <?php
 
-namespace Drupal\cfrfamily\DefmapToDrilldownSchema;
+namespace Donquixote\Cf\TypeToSchema;
 
-use Drupal\cfrapi\Context\CfrContextInterface;
-use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
+use Donquixote\Cf\Context\CfContextInterface;
 use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
+use Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface;
 use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_FromDefinitionMap;
+use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
 
-class DefmapToDrilldownSchema implements DefmapToDrilldownSchemaInterface {
+class TypeToSchema_ViaDefmap2 implements TypeToSchemaInterface {
+
+  /**
+   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   */
+  private $typeToDefmap;
 
   /**
    * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
@@ -26,30 +32,35 @@ class DefmapToDrilldownSchema implements DefmapToDrilldownSchemaInterface {
   private $definitionToGrouplabel;
 
   /**
+   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
    * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
    */
   public function __construct(
+    TypeToDefmapInterface $typeToDefmap,
     DefinitionToSchemaInterface $definitionToCfrSchema,
     DefinitionToLabelInterface $definitionToLabel,
     DefinitionToLabelInterface $definitionToGrouplabel
   ) {
+    $this->typeToDefmap = $typeToDefmap;
     $this->definitionToCfrSchema = $definitionToCfrSchema;
     $this->definitionToLabel = $definitionToLabel;
     $this->definitionToGrouplabel = $definitionToGrouplabel;
   }
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
-   * @param \Drupal\cfrapi\Context\CfrContextInterface $context
+   * @param string $type
+   * @param \Donquixote\Cf\Context\CfContextInterface $context
    *
-   * @return \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface
+   * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */
-  public function defmapGetDrilldownSchema(DefinitionMapInterface $definitionMap, CfrContextInterface $context = NULL) {
+  public function typeGetSchema($type, CfContextInterface $context = NULL) {
+
+    $defmap = $this->typeToDefmap->typeGetDefmap($type);
 
     return new CfSchema_Drilldown_FromDefinitionMap(
-      $definitionMap,
+      $defmap,
       $this->definitionToLabel,
       $this->definitionToGrouplabel,
       $this->definitionToCfrSchema,

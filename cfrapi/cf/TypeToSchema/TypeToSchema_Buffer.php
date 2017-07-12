@@ -29,10 +29,16 @@ class TypeToSchema_Buffer implements TypeToSchemaInterface {
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */
-  public function typeGetCfrSchema($type, CfContextInterface $context = NULL) {
-    return array_key_exists($type, $this->schemas)
-      ? $this->schemas[$type]
-      : $this->schemas[$type] = $this->decorated->typeGetCfrSchema($type, $context);
+  public function typeGetSchema($type, CfContextInterface $context = NULL) {
+
+    $k = $type;
+    if (NULL !== $context) {
+      $k .= '::' . $context->getMachineName();
+    }
+
+    return array_key_exists($k, $this->schemas)
+      ? $this->schemas[$k]
+      : $this->schemas[$k] = $this->decorated->typeGetSchema($type, $context);
   }
 
 }

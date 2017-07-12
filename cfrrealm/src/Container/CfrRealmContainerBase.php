@@ -130,7 +130,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface
+   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
    *
    * @see $definitionToCfrSchema
    */

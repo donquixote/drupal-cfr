@@ -6,7 +6,7 @@ use Donquixote\Cf\Schema\Callback\CfSchema_CallbackInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\Group\CfSchema_GroupInterface;
-use Donquixote\Cf\Schema\Iface\CfSchema_IfaceInterface;
+use Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContextInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
 use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
@@ -114,7 +114,7 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
       return new Configurator_Sequence($itemConfigurator);
     }
 
-    if ($cfrSchema instanceof CfSchema_IfaceInterface) {
+    if ($cfrSchema instanceof CfSchema_IfaceWithContextInterface) {
       // @todo What about optionality?
       $interface = $cfrSchema->getInterface();
       $context = $cfrSchema->getContext();
@@ -211,7 +211,7 @@ class CfrSchemaToConfiguratorPartial_Hardcoded implements CfrSchemaToConfigurato
       return new Configurator_Sequence($itemConfigurator);
     }
 
-    if ($cfrSchema instanceof CfSchema_IfaceInterface) {
+    if ($cfrSchema instanceof CfSchema_IfaceWithContextInterface) {
       return $this->typeToConfigurator->typeGetOptionalConfigurator(
         $cfrSchema->getInterface(),
         $cfrSchema->getContext());

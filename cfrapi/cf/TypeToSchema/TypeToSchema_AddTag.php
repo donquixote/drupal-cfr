@@ -25,10 +25,10 @@ class TypeToSchema_AddTag implements TypeToSchemaInterface {
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */
-  public function typeGetCfrSchema($interface, CfContextInterface $context = NULL) {
+  public function typeGetSchema($interface, CfContextInterface $context = NULL) {
 
     return new CfSchema_Neutral_IfaceTransformed(
-      $this->decorated->typeGetCfrSchema($interface, $context),
+      $this->decorated->typeGetSchema($interface, $context),
       $interface,
       $context);
   }

@@ -6,7 +6,7 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Donquixote\Cf\Schema\Iface\CfSchema_Iface;
+use Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContext;
 use Donquixote\Cf\Context\CfContextInterface;
 
 class CfSchema_Callback implements CfSchema_CallbackInterface {
@@ -121,7 +121,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   public function withParam_Iface($index, $interface, $label = NULL) {
     return $this->withParamSchema(
       $index,
-      new CfSchema_Iface($interface, $this->context),
+      new CfSchema_IfaceWithContext($interface, $this->context),
       $label);
   }
 
@@ -135,7 +135,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   public function withParam_IfaceSequence($index, $interface, $label = NULL) {
     return $this->withParamSchema(
       $index,
-      CfSchema_Iface::createSequence($interface, $this->getContext()),
+      CfSchema_IfaceWithContext::createSequence($interface, $this->getContext()),
       $label);
   }
 
@@ -149,7 +149,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
   public function withParam_IfaceOrNull($index, $interface, $label = NULL) {
     return $this->withParamSchema(
       $index,
-      CfSchema_Iface::createOptional($interface, $this->getContext()),
+      CfSchema_IfaceWithContext::createOptional($interface, $this->getContext()),
       $label);
   }
 

@@ -4,10 +4,10 @@ namespace Drupal\cfrfamily\DefinitionToCfrSchema;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
 
-class DefinitionToCfrSchema_Proxy implements DefinitionToCfrSchemaInterface {
+class DefinitionToSchema_Proxy implements DefinitionToSchemaInterface {
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface|null
+   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface|null
    */
   private $instance;
 
@@ -31,13 +31,13 @@ class DefinitionToCfrSchema_Proxy implements DefinitionToCfrSchemaInterface {
    *
    * @throws \Drupal\cfrapi\Exception\SchemaCreationException
    */
-  public function definitionGetCfrSchema(array $definition, CfrContextInterface $context = NULL) {
+  public function definitionGetSchema(array $definition, CfrContextInterface $context = NULL) {
 
     if (NULL === $this->instance) {
       $this->instance = call_user_func($this->factory);
     }
 
-    return $this->instance->definitionGetCfrSchema($definition, $context);
+    return $this->instance->definitionGetSchema($definition, $context);
   }
 
 }

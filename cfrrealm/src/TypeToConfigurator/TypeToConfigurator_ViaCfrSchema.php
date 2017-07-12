@@ -40,7 +40,7 @@ class TypeToConfigurator_ViaCfrSchema implements TypeToConfiguratorInterface {
    * @return \Drupal\cfrapi\Configurator\ConfiguratorInterface
    */
   public function typeGetConfigurator($type, CfrContextInterface $context = NULL) {
-    $schema = $this->typeToCfrSchema->typeGetCfrSchema($type, $context);
+    $schema = $this->typeToCfrSchema->typeGetSchema($type, $context);
     try {
       return $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator($schema);
     }
@@ -57,7 +57,7 @@ class TypeToConfigurator_ViaCfrSchema implements TypeToConfiguratorInterface {
    * @return \Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface
    */
   public function typeGetOptionalConfigurator($type, CfrContextInterface $context = NULL, $defaultValue = NULL) {
-    $schema = $this->typeToCfrSchema->typeGetCfrSchema($type, $context);
+    $schema = $this->typeToCfrSchema->typeGetSchema($type, $context);
     try {
       return $this->cfrSchemaToConfigurator->cfrSchemaGetOptionalConfigurator($schema);
     }

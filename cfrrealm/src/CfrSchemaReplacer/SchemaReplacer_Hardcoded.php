@@ -5,7 +5,7 @@ namespace Drupal\cfrrealm\CfrSchemaReplacer;
 use Donquixote\Cf\Schema\Callback\CfSchema_CallbackInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Group\GroupSchema_Callback;
-use Donquixote\Cf\Schema\Iface\CfSchema_IfaceInterface;
+use Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContextInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional;
 use Donquixote\Cf\Schema\ValueProvider\CfSchema_ValueProvider_Callback;
 use Donquixote\Cf\Schema\Transformable\CfSchema_TransformableInterface;
@@ -51,8 +51,8 @@ class SchemaReplacer_Hardcoded implements SchemaReplacerInterface {
       return $cfrSchema->withReplacements($this);
     }
 
-    if ($cfrSchema instanceof CfSchema_IfaceInterface) {
-      return $this->typeToCfrSchema->typeGetCfrSchema(
+    if ($cfrSchema instanceof CfSchema_IfaceWithContextInterface) {
+      return $this->typeToCfrSchema->typeGetSchema(
         $cfrSchema->getInterface(),
         $cfrSchema->getContext());
     }
@@ -131,7 +131,7 @@ class SchemaReplacer_Hardcoded implements SchemaReplacerInterface {
       return NULL;
     }
 
-    $schema = $this->typeToCfrSchema->typeGetCfrSchema(
+    $schema = $this->typeToCfrSchema->typeGetSchema(
       $reflClassLike->getName(),
       $context);
 

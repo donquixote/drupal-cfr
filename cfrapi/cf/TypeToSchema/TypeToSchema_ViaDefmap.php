@@ -36,8 +36,10 @@ class TypeToSchema_ViaDefmap implements TypeToSchemaInterface {
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface
    */
-  public function typeGetCfrSchema($type, CfContextInterface $context = NULL) {
+  public function typeGetSchema($type, CfContextInterface $context = NULL) {
+
     $defmap = $this->typeToDefmap->typeGetDefmap($type);
+
     return $this->defmapToDrilldownSchema->defmapGetDrilldownSchema(
       $defmap,
       $context);

@@ -93,7 +93,7 @@ class CfrContext implements CfrContextInterface {
    * @return string
    */
   public function getMachineName() {
-    return isset($this->machineName)
+    return NULL !== $this->machineName
       ? $this->machineName
       : $this->machineName = md5(serialize($this->values));
   }

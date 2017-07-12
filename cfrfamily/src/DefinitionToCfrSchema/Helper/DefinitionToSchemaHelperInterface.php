@@ -3,11 +3,16 @@
 namespace Drupal\cfrfamily\DefinitionToCfrSchema\Helper;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Donquixote\Cf\Schema\Callback\CfSchema_Callback;
 use Drupal\cfrapi\Context\CfrContextInterface;
-use Drupal\cfrapi\ValueProvider\ValueProvider_FixedValue;
 
-class DefinitionToCfrSchemaHelper_Handler implements DefinitionToCfrSchemaHelperInterface {
+/**
+ * @internal
+ *
+ * These are helper objects used within
+ * @see \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Mappers,
+ *
+ */
+interface DefinitionToSchemaHelperInterface {
 
   /**
    * @param object $object
@@ -16,9 +21,7 @@ class DefinitionToCfrSchemaHelper_Handler implements DefinitionToCfrSchemaHelper
    *
    * @throws \Drupal\cfrapi\Exception\SchemaCreationException
    */
-  public function objectGetCfrSchema($object) {
-    return new ValueProvider_FixedValue($object);
-  }
+  public function objectGetSchema($object);
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $factory
@@ -28,7 +31,6 @@ class DefinitionToCfrSchemaHelper_Handler implements DefinitionToCfrSchemaHelper
    *
    * @throws \Drupal\cfrapi\Exception\SchemaCreationException
    */
-  public function factoryGetCfrSchema(CallbackReflectionInterface $factory, CfrContextInterface $context = NULL) {
-    return new CfSchema_Callback($factory, $context);
-  }
+  public function factoryGetSchema(CallbackReflectionInterface $factory, CfrContextInterface $context = NULL);
+
 }

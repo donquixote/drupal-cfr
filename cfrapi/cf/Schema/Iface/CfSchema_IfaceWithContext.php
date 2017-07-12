@@ -6,7 +6,7 @@ use Donquixote\Cf\Schema\Optional\CfSchema_Optional;
 use Donquixote\Cf\Schema\Sequence\CfSchema_Sequence;
 use Donquixote\Cf\Context\CfContextInterface;
 
-class CfSchema_Iface implements CfSchema_IfaceInterface {
+class CfSchema_IfaceWithContext implements CfSchema_IfaceWithContextInterface {
 
   /**
    * @var string
@@ -17,6 +17,11 @@ class CfSchema_Iface implements CfSchema_IfaceInterface {
    * @var \Donquixote\Cf\Context\CfContextInterface|NULL
    */
   private $context;
+
+  /**
+   * @var string
+   */
+  private $cacheId;
 
   /**
    * @param string $interface
@@ -60,5 +65,25 @@ class CfSchema_Iface implements CfSchema_IfaceInterface {
    */
   public function getContext() {
     return $this->context;
+  }
+
+  /**
+   * @return string
+   */
+  public function getCacheId() {
+    return NULL !== $this->cacheId
+      ? $this->cacheId
+      : $this->cacheId = $this->buildCacheId();
+  }
+
+  private function buildCacheId() {
+
+    $id = $this->interface;
+
+    if (NULL !== $this->context) {
+      $id .= $this->context->getMachineName();
+    }
+
+    return $id;
   }
 }

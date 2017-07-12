@@ -2,8 +2,8 @@
 
 namespace Drupal\cfrapi\Configurator;
 
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
+use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 class Configurator_ValueToValueSchema extends Configurator_DecoratorBase {
 
@@ -66,6 +66,6 @@ class Configurator_ValueToValueSchema extends Configurator_DecoratorBase {
    */
   public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
     $php = parent::confGetPhp($conf, $helper);
-    return $this->valueToValueSchema->phpGetPhp($php, $helper);
+    return $this->valueToValueSchema->phpGetPhp($php);
   }
 }

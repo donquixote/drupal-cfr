@@ -7,13 +7,13 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrapi\Exception\SchemaCreationException;
-use Drupal\cfrfamily\DefinitionToCfrSchema\Helper\DefinitionToCfrSchemaHelper_CfrSchema;
-use Drupal\cfrfamily\DefinitionToCfrSchema\Helper\DefinitionToCfrSchemaHelper_Handler;
+use Drupal\cfrfamily\DefinitionToCfrSchema\Helper\DefinitionToCfrSchemaHelper_Schema;
+use Drupal\cfrfamily\DefinitionToCfrSchema\Helper\DefinitionToSchemaHelper_Handler;
 
-class DefinitionToCfrSchema_Mappers implements DefinitionToCfrSchemaInterface {
+class DefinitionToSchema_Mappers implements DefinitionToSchemaInterface {
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\Helper\DefinitionToCfrSchemaHelperInterface[]
+   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\Helper\DefinitionToSchemaHelperInterface[]
    */
   private $helpers;
 
@@ -22,15 +22,15 @@ class DefinitionToCfrSchema_Mappers implements DefinitionToCfrSchemaInterface {
    */
   public static function create() {
     return new self([
-      'schema' => new DefinitionToCfrSchemaHelper_CfrSchema(),
+      'schema' => new DefinitionToCfrSchemaHelper_Schema(),
       // Any Configurator is also a CfrSchema.
-      'configurator' => new DefinitionToCfrSchemaHelper_CfrSchema(),
-      'handler' => new DefinitionToCfrSchemaHelper_Handler(),
+      'configurator' => new DefinitionToCfrSchemaHelper_Schema(),
+      'handler' => new DefinitionToSchemaHelper_Handler(),
     ]);
   }
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\Helper\DefinitionToCfrSchemaHelperInterface[] $helpers
+   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\Helper\DefinitionToSchemaHelperInterface[] $helpers
    */
   public function __construct(array $helpers) {
     $this->helpers = $helpers;
@@ -44,7 +44,7 @@ class DefinitionToCfrSchema_Mappers implements DefinitionToCfrSchemaInterface {
    *
    * @throws \Drupal\cfrapi\Exception\SchemaCreationException
    */
-  public function definitionGetCfrSchema(array $definition, CfrContextInterface $context = NULL) {
+  public function definitionGetSchema(array $definition, CfrContextInterface $context = NULL) {
 
     foreach ($this->helpers as $prefix => $helper) {
 
@@ -62,7 +62,7 @@ class DefinitionToCfrSchema_Mappers implements DefinitionToCfrSchemaInterface {
             $export = var_export($candidate, TRUE);
             throw new SchemaCreationException("Candidate is non-object $export.");
           }
-          return $helper->objectGetCfrSchema($candidate);
+          return $helper->objectGetSchema($candidate);
         }
         continue;
       }
@@ -73,7 +73,7 @@ class DefinitionToCfrSchema_Mappers implements DefinitionToCfrSchemaInterface {
           $factory, $definition[$argsKey]);
       }
 
-      return $helper->factoryGetCfrSchema($factory, $context);
+      return $helper->factoryGetSchema($factory, $context);
     }
 
     throw new SchemaCreationException("None of the mappers was applicable to the definition provided.");

@@ -2,11 +2,10 @@
 
 namespace Drupal\cfrapi\Evaluator;
 
-use Donquixote\Cf\ConfToValue\Helper\ConfToValueHelperInterface;
 use Donquixote\Cf\ConfToPhp\Helper\PhpHelperInterface;
+use Donquixote\Cf\ConfToValue\Helper\ConfToValueHelperInterface;
 use Donquixote\Cf\Evaluator\Evaluator_DecoratorBase;
 use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
 
 class Evaluator_ValueToValue extends Evaluator_DecoratorBase {
 
@@ -42,7 +41,6 @@ class Evaluator_ValueToValue extends Evaluator_DecoratorBase {
    */
   public function confGetPhp($conf, PhpHelperInterface $helper) {
     $php = parent::confGetPhp($conf, $helper);
-    $helper = new CfrCodegenHelper();
-    return $this->valueToValueSchema->phpGetPhp($php, $helper);
+    return $this->valueToValueSchema->phpGetPhp($php);
   }
 }

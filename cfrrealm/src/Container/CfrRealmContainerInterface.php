@@ -17,8 +17,8 @@ namespace Drupal\cfrrealm\Container;
  * @property \Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface $defmapToDrilldownSchema
  * @property \Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface $defmapToCfrFamily
  * @property \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
- * @property \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface $definitionToCfrSchema_proxy
- * @property \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToCfrSchemaInterface $definitionToCfrSchema
+ * @property \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema_proxy
+ * @property \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema
  * @property \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator_proxy
  * @property \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
  *

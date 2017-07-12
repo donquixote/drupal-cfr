@@ -7,7 +7,7 @@ use Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContext;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\TypeToSchema\TypeToSchemaInterface;
 
-class SchemaToAnythingPartial_Iface implements SchemaToAnythingPartialInterface {
+class SchemaToAnythingPartial_IfaceDefmap implements SchemaToAnythingPartialInterface {
 
   /**
    * @var \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface
