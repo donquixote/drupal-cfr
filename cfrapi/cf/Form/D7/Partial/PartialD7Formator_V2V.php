@@ -3,7 +3,6 @@
 namespace Donquixote\Cf\Form\D7\Partial;
 
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
-use Donquixote\Cf\Schema\Neutral\CfSchema_NeutralInterface;
 use Donquixote\Cf\SchemaBase\CfSchema_ValueToValueBaseInterface;
 
 /**

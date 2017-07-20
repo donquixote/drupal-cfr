@@ -3,7 +3,6 @@
 use Donquixote\CallbackReflection\Util\CodegenUtil;
 use Donquixote\Cf\Exception\EvaluatorException;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
 use Drupal\cfrplugin\Util\UiCodeUtil;
 use Drupal\cfrplugin\Util\UiDumpUtil;

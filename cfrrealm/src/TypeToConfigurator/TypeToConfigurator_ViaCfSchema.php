@@ -2,14 +2,13 @@
 
 namespace Drupal\cfrrealm\TypeToConfigurator;
 
-use Donquixote\Cf\Context\CfContext;
 use Donquixote\Cf\Context\CfContext_FromCfrContext;
-use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface;
+use Donquixote\Cf\TypeToSchema\TypeToSchemaInterface;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator_Exception;
 use Drupal\cfrapi\Configurator\Broken\OptionalBrokenConfigurator_Exception;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrapi\Exception\ConfiguratorCreationException;
-use Donquixote\Cf\TypeToSchema\TypeToSchemaInterface;
+use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface;
 
 class TypeToConfigurator_ViaCfSchema implements TypeToConfiguratorInterface {
 

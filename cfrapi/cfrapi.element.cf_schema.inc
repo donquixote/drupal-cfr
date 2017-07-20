@@ -10,7 +10,8 @@ use Drupal\cfrplugin\Hub\CfrPluginHub;
  *
  * @return mixed
  */
-function _cfrapi_cf_schema_element_value(array $element, $input, array &$form_state) {
+function _cfrapi_cf_schema_element_value(array $element, $input,
+  /** @noinspection PhpUnusedParameterInspection */ array &$form_state) {
 
   dpm(get_defined_vars(), __FUNCTION__ . '() - get_defined_vars()');
 
@@ -32,7 +33,8 @@ function _cfrapi_cf_schema_element_value(array $element, $input, array &$form_st
  *
  * @return array
  */
-function _cfrapi_cf_schema_element_process(array $element, array &$form_state) {
+function _cfrapi_cf_schema_element_process(array $element,
+  /** @noinspection PhpUnusedParameterInspection */ array &$form_state) {
 
   if (!isset($element['#cf_schema'])) {
     return $element;

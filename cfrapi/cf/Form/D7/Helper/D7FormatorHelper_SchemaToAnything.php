@@ -96,11 +96,10 @@ class D7FormatorHelper_SchemaToAnything extends TranslatorDecoratorBase implemen
 
   /**
    * @param mixed $value
-   * @param bool $em
    *
    * @return string
    */
-  private function tValue($value, $em = TRUE) {
+  private function tValue($value) {
 
     if (is_object($value)) {
       $str = $this->translate('!class object', [
@@ -111,10 +110,6 @@ class D7FormatorHelper_SchemaToAnything extends TranslatorDecoratorBase implemen
       $str = $this->translate('!type value', [
         '!type' => gettype($value),
       ]);
-    }
-
-    if ($em) {
-      # $str = '<em>' . $str . '</em>';
     }
 
     return $str;

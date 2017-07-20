@@ -47,7 +47,7 @@ class DefinitionMap_Proxy implements DefinitionMapInterface {
   }
 
   /**
-   * @return \Donquixote\Cf\DefinitionMap\DefinitionMapInterface|null
+   * @return \Donquixote\Cf\DefinitionMap\DefinitionMapInterface
    */
   private function getDefmap() {
     return NULL !== $this->defmap

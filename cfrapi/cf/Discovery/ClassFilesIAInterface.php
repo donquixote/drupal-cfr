@@ -13,7 +13,7 @@ interface ClassFilesIAInterface extends \IteratorAggregate {
   /**
    * Gets a version where all base paths are sent through ->realpath().
    *
-   * @return static
+   * @return self
    */
   public function withRealpathRoot();
 }
