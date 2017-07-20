@@ -6,14 +6,14 @@ use Drupal\cfrapi\PossiblyOptionless\PossiblyOptionlessInterface;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem;
 use Drupal\cfrfamily\CfrLegendItem\CfrLegendItem_Parent;
 use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
-use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
+use Donquixote\Cf\DefinitionMap\DefinitionMapInterface;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
 class CfrLegend_FromDefmap implements CfrLegendInterface {
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface
+   * @var \Donquixote\Cf\DefinitionMap\DefinitionMapInterface
    */
   private $definitionMap;
 
@@ -23,20 +23,20 @@ class CfrLegend_FromDefmap implements CfrLegendInterface {
   private $idToConfigurator;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToLabel;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToGroupLabel;
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
+   * @param \Donquixote\Cf\DefinitionMap\DefinitionMapInterface $definitionMap
    * @param \Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface $idToConfigurator
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGroupLabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGroupLabel
    */
   public function __construct(
     DefinitionMapInterface $definitionMap,

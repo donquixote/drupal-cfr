@@ -4,6 +4,8 @@ namespace Donquixote\Cf\Form\D7\Partial;
 
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
+use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
+use Donquixote\Cf\Util\ConfUtil;
 
 class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
 
@@ -11,6 +13,36 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
    * @var \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface
    */
   private $schema;
+
+  /**
+   * @Cf
+   *
+   * @param \Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface $schemaToEmptyness
+   *
+   * @return \Closure
+   */
+  public static function getFactory(SchemaToEmptynessInterface $schemaToEmptyness) {
+
+    /**
+     * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
+     *
+     * @return \Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface
+     */
+    return function(CfSchema_SequenceInterface $schema) use ($schemaToEmptyness) {
+
+      if (NULL !== $formator = PartialD7Formator_SequenceWithEmptyness::createOrNull(
+        $schema,
+        $schemaToEmptyness)
+      ) {
+        return $formator;
+      }
+
+      return new PartialD7Formator_Broken(
+        t("Sequences without emptyness are currently not supported."));
+
+      # return new self($schema);
+    };
+  }
 
   /**
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
@@ -28,22 +60,12 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
    */
   public function confGetD7Form($conf, $label, D7FormatorHelperInterface $helper) {
 
-    return [
-      '#markup' => $helper->translate('Currently, sequences are not supported.'),
-    ];
-  }
-
-  /**
-   * @param mixed $conf
-   * @param string $label
-   * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
-   *
-   * @return array|null
-   */
-  public function _confGetForm($conf, $label, D7FormatorHelperInterface $helper) {
-
     if (!is_array($conf)) {
       $conf = [];
+    }
+
+    if ([] === $conf) {
+      $conf = [NULL];
     }
 
     $_this = $this;
@@ -63,12 +85,18 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
     $form['#attributes']['class'][] = 'cfrapi-child-options';
 
     $form += [
+      # '#tree' => TRUE,
       '#input' => TRUE,
       '#default_value' => $conf,
+      '#_value_callback' => function (array $element, $input, array &$form_state) use ($_this) {
+        return $_this->elementValue($element, $input, $form_state);
+      },
       '#process' => [
-        function (array $element /*, array &$form_state */) use ($_this, $helper) {
+        function (array $element, array &$form_state, array $form) use ($_this, $helper) {
           return $_this->elementProcess(
             $element,
+            $form_state,
+            $form,
             $helper);
         },
       ],
@@ -87,17 +115,62 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
 
   /**
    * @param array $element
+   * @param mixed|false $input
+   * @param array $form_state
+   *
+   * @return array
+   */
+  private function elementValue(
+    array $element,
+    $input,
+    /** @noinspection PhpUnusedParameterInspection */ array &$form_state
+  ) {
+
+    if (FALSE === $input) {
+      return isset($element['#default_value'])
+        ? $element['#default_value']
+        : NULL;
+    }
+
+    return $input;
+  }
+
+  /**
+   * @param array $element
+   * @param array $form_state
+   * @param array $form
    * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
    *
    * @return array
    */
-  private function elementProcess(array $element, D7FormatorHelperInterface $helper) {
+  private function elementProcess(array $element, array &$form_state, array $form, D7FormatorHelperInterface $helper) {
+
+    $form_build_id = $form['form_build_id']['#value'];
+    $elementId = sha1($form_build_id . serialize($element['#parents']));
+
+    # $element['#attributes']['id'] = $uniqid;
 
     $conf = $element['#value'];
+    # kdpm($element, __METHOD__);
+
+    # $cconf = ConfUtil::confExtractNestedValue($form_state['values'], $element['#parents']);
+    # kdpm(get_defined_vars(), __METHOD__);
 
     if (!is_array($conf)) {
       $conf = [];
     }
+
+    if (isset($form_state['triggering_element']['#parents'])) {
+      $triggering_element_parents = $form_state['triggering_element']['#parents'];
+      $triggering_element_parents_expected = array_merge($element['#parents'], ['addmore']);
+      if ($triggering_element_parents_expected === $triggering_element_parents) {
+        // The 'addmore' was clicked. Add another item.
+        $conf[] = NULL;
+      }
+      dpm(implode(' / ', $triggering_element_parents), 'TRIGGERING ELEMENT');
+    }
+
+    # $_this = $this;
 
     $itemSchema = $this->schema->getItemSchema();
 
@@ -108,24 +181,161 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
         continue;
       }
 
-      // @todo Find another way, not using any "emptyness".
-      list($itemEnabled, $itemConf) = [false, null];
-         # = $helper->schemaConfGetStatusAndOptions($itemSchema, $itemConf);
+      $itemId = $elementId . '-' . $delta;
 
-      if (!$itemEnabled) {
-        // Skip empty items.
-        continue;
-      }
+      $itemElement = $helper->schemaConfGetD7Form(
+        $itemSchema,
+        $itemConf,
+        $this->deltaGetItemLabel($delta, $helper));
 
-      $element[$delta] = $helper->schemaConfGetD7Form(
-        $this->schema->getItemSchema(), $itemConf, $this->deltaGetItemLabel($delta, $helper)
-      );
+      $itemElement['#parents'] = array_merge($element['#parents'], [$delta]);
+
+      $element[$delta] = [
+        '#type' => 'container',
+        '#attributes' => ['id' => $itemId],
+        'item' => $itemElement,
+        'remove' => [
+          '#name' => implode('-', $element['#parents']) . '-' . $delta . '-remove',
+          '#type' => 'submit',
+          '#value' =>  t('Remove'),
+          '#submit' => [
+            // See https://api.drupal.org/api/examples/ajax_example%21ajax_example_graceful_degradation.inc/function/ajax_example_add_more_add_one/7.x-1.x
+            function (
+              /** @noinspection PhpUnusedParameterInspection */ array $form,
+              array &$form_state
+            ) {
+              $button = $form_state['triggering_element'];
+              $parents = array_slice($button['#array_parents'], 0, -1);
+              # $delta = end($parents);
+              $conf = ConfUtil::confExtractNestedValue($form_state['values'], $parents);
+              dpm(get_defined_vars(), 'CLOSURE: remove #submit');
+              # kdpm($conf, '$conf BEFORE');
+              # kdpm($form_state['values'], '$form_state[values] BEFORE');
+              ConfUtil::confUnsetNestedValue($form_state['values'], $parents);
+              ConfUtil::confUnsetNestedValue($form_state['input'], $parents);
+              # kdpm($conf, '$conf AFTER');
+              # kdpm($form_state['values'], '$form_state[values] AFTER');
+              # kdpm($button, '$button');
+              $form_state['rebuild'] = TRUE;
+            },
+          ],
+          '#limit_validation_errors' => [$element['#parents']],
+          '#ajax' => [
+            'wrapper' => $itemId,
+            # 'effect' => 'fade',
+            # 'method' => 'replace',
+            'method' => 'remove',
+            'progress' => [
+              'type' => 'throbber',
+              'message' => NULL,
+            ],
+            'effect' => 'none',
+            // See https://api.drupal.org/api/examples/ajax_example%21ajax_example_graceful_degradation.inc/function/ajax_example_add_more_callback/7.x-1.x
+            'callback' => function(array $form, array $form_state) use ($itemId) {
+              dpm('CLOSURE: remove #ajax callback');
+
+              return [
+                '#type' => 'ajax',
+                '#commands' => [
+                  ajax_command_remove('#' . $itemId),
+                ],
+              ];
+            },
+            'callback_' => function(array $form, array $form_state) use ($conf) {
+
+              dpm($conf, 'CONF');
+              end($conf);
+              $new_item_delta = key($conf);
+
+              $button = $form_state['triggering_element'];
+
+              // Go one level up in the form, to the sequence element.
+              $element = drupal_array_get_nested_value(
+                $form,
+                array_slice($button['#array_parents'], 0, -1));
+
+              # kdpm($element);
+
+              # $element['x']['#markup'] = '<div class="ajax-new-content">X</div>';
+
+              # $element
+
+              $element = $element[$new_item_delta];
+
+              return $element;
+            },
+          ],
+        ],
+      ];
     }
 
-    // Element for new item.
-    $element[] = $helper->schemaConfGetD7Form(
-      $itemSchema, NULL, $this->deltaGetItemLabel(NULL, $helper)
-    );
+    # kdpm($element, __METHOD__ . ' FINISHED ELEMENT');
+
+    $addmore = [
+      '#parents' => array_merge($element['#parents'], ['addmore']),
+      # '#tree' => TRUE,
+      '#type' => 'button',
+      '#value' =>  t('Add item'),
+      '#weight' => 10,
+      '#submit' => [
+        // See https://api.drupal.org/api/examples/ajax_example%21ajax_example_graceful_degradation.inc/function/ajax_example_add_more_add_one/7.x-1.x
+        function (array $form, array &$form_state) {
+          dpm('CLOSURE: addmore #submit');
+          $button = $form_state['triggering_element'];
+          $parents = array_slice($button['#parents'], 0, -1);
+          array_pop($parents);
+          $conf = ConfUtil::confExtractNestedValue($form_state['values'], $parents);
+          # kdpm($conf, '$conf BEFORE');
+          # kdpm($form_state['values'], '$form_state[values] BEFORE');
+          $conf[] = NULL;
+          ConfUtil::confSetNestedValue($form_state['values'], $parents, $conf);
+          # kdpm($conf, '$conf AFTER');
+          # kdpm($form_state['values'], '$form_state[values] AFTER');
+          # kdpm($button, '$button');
+          $form_state['rebuild'] = TRUE;
+        },
+      ],
+      '#limit_validation_errors' => [],
+      '#ajax' => [
+        // See https://api.drupal.org/api/examples/ajax_example%21ajax_example_graceful_degradation.inc/function/ajax_example_add_more_callback/7.x-1.x
+        'callback' => function(array $form, array $form_state) use ($conf) {
+          dpm('CLOSURE: addmore #ajax callback');
+          dpm($conf, 'CONF');
+
+          end($conf);
+          $new_item_delta = key($conf);
+
+          $button = $form_state['triggering_element'];
+
+          // Go one level up in the form, to the sequence element.
+          $element = drupal_array_get_nested_value(
+            $form,
+            array_slice($button['#array_parents'], 0, -1));
+
+          # kdpm($element);
+
+          # $element['x']['#markup'] = '<div class="ajax-new-content">X</div>';
+
+          # $element
+
+          $element = $element[$new_item_delta];
+
+          return $element;
+        },
+        'wrapper' => $elementId,
+        # 'effect' => 'fade',
+        # 'method' => 'replace',
+        'method' => 'before',
+      ],
+    ];
+
+    $element['replaceme'] = [
+      '#weight' => 9,
+      # 'addmore' => $addmore,
+      '#markup' => '<div id="' . $elementId . '"></div>',
+    ];
+
+    $element['addmore'] = $addmore;
 
     return $element;
   }
@@ -168,9 +378,9 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
 
     # $itemSchema = $this->schema->getItemSchema();
 
+    $enabled = false;
     foreach ($conf as $delta => $itemConf) {
-      list($enabled) = [false, null];
-        # = $helper->schemaConfGetStatusAndOptions($itemSchema, $itemConf);
+      # list($enabled) = $helper->schemaConfGetStatusAndOptions($itemSchema, $itemConf);
       if (!$enabled) {
         unset($conf[$delta]);
       }

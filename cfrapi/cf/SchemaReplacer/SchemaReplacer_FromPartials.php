@@ -3,7 +3,6 @@
 namespace Donquixote\Cf\SchemaReplacer;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartialInterface;
 
 class SchemaReplacer_FromPartials implements SchemaReplacerInterface {
 

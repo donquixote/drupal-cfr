@@ -3,34 +3,35 @@
 namespace Donquixote\Cf\TypeToSchema;
 
 use Donquixote\Cf\Context\CfContextInterface;
-use Donquixote\cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Mappers;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
-use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_FromDefinitionMap;
-use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_InlineExpanded;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
+use Donquixote\Cf\Schema\DrilldownVal\CfSchema_DrilldownVal_InlineExpanded;
+use Donquixote\Cf\Schema\Id\CfSchema_Id_DefmapKey;
+use Donquixote\Cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabel;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
+use Donquixote\Cf\Schema\Drilldown\CfSchema_Drilldown_FromDefinitionMap;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface;
 
 class TypeToSchema_DefmapDrilldown implements TypeToSchemaInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    */
   private $typeToDefmap;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
+   * @var \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface
    */
-  private $definitionToCfrSchema;
+  private $definitionToSchema;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToLabel;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToGrouplabel;
 
@@ -52,7 +53,7 @@ class TypeToSchema_DefmapDrilldown implements TypeToSchemaInterface {
   /**
    * Creates an instance with the most common options.
    *
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param bool $withInlineChildren
    * @param bool $withTaggingDecorator
    *
@@ -73,23 +74,23 @@ class TypeToSchema_DefmapDrilldown implements TypeToSchemaInterface {
   }
 
   /**
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
-   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
    * @param bool $withInlineChildren
    * @param bool $withTaggingDecorator
    */
   public function __construct(
     TypeToDefmapInterface $typeToDefmap,
-    DefinitionToSchemaInterface $definitionToCfrSchema,
+    DefinitionToSchemaInterface $definitionToSchema,
     DefinitionToLabelInterface $definitionToLabel,
     DefinitionToLabelInterface $definitionToGrouplabel,
     $withInlineChildren = TRUE,
     $withTaggingDecorator = TRUE
   ) {
     $this->typeToDefmap = $typeToDefmap;
-    $this->definitionToCfrSchema = $definitionToCfrSchema;
+    $this->definitionToSchema = $definitionToSchema;
     $this->definitionToLabel = $definitionToLabel;
     $this->definitionToGrouplabel = $definitionToGrouplabel;
     $this->withInlineChildren = $withInlineChildren;
@@ -129,16 +130,22 @@ class TypeToSchema_DefmapDrilldown implements TypeToSchemaInterface {
       $defmap,
       $this->definitionToLabel,
       $this->definitionToGrouplabel,
-      $this->definitionToCfrSchema,
+      $this->definitionToSchema,
       $context);
 
     if ($this->withInlineChildren) {
-      $schema = new CfSchema_Drilldown_InlineExpanded(
+
+      $inlineIdsLookup = new CfSchema_Id_DefmapKey(
+        $defmap,
+        'inline');
+
+      $schema = CfSchema_DrilldownVal_InlineExpanded::createOrSame(
         $schema,
-        $defmap);
+        $inlineIdsLookup);
     }
 
     if ($this->withTaggingDecorator) {
+
       $schema = new CfSchema_Neutral_IfaceTransformed(
         $schema,
         $type,

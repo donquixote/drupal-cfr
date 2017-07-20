@@ -2,10 +2,10 @@
 
 namespace Drupal\cfrapi\Schema\Options;
 
-use Donquixote\Cf\Schema\Options\CfSchema_Options_PassthruBase;
+use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
 use Drupal\cfrapi\Legend\LegendInterface;
 
-class CfSchema_Options_FromLegend extends CfSchema_Options_PassthruBase {
+class CfSchema_Options_FromLegend implements CfSchema_OptionsInterface {
 
   /**
    * @var \Drupal\cfrapi\Legend\LegendInterface

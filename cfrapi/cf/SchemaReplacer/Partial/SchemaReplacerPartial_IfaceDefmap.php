@@ -5,14 +5,14 @@ namespace Donquixote\Cf\SchemaReplacer\Partial;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Defmap\CfSchema_Defmap;
 use Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContextInterface;
-use Donquixote\cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
+use Donquixote\Cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface;
 
 class SchemaReplacerPartial_IfaceDefmap implements SchemaReplacerPartialInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    */
   private $typeToDefmap;
 
@@ -27,7 +27,7 @@ class SchemaReplacerPartial_IfaceDefmap implements SchemaReplacerPartialInterfac
   private $schemas = [];
 
   /**
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param bool $withInlineChildren
    * @param bool $withTaggingDecorator
    */

@@ -56,6 +56,8 @@ function _cfrplugin_element_process(array $element,
     ? cfrplugin()->interfaceGetOptionalConfigurator($element['#cfrplugin_interface'], $cfrContext)
     : cfrplugin()->interfaceGetConfigurator($element['#cfrplugin_interface'], $cfrContext);
 
+  # kdpm($configurator, __FUNCTION__);
+
   $element['cfrplugin'] = $configurator->confGetForm($element['#default_value'], $element['#title']);
 
   $element['cfrplugin']['#parents'] = $element['#parents'];

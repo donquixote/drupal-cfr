@@ -4,12 +4,12 @@ namespace Drupal\cfrrealm\TypeToCfrFamily;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface;
 
 class TypeToCfrFamily_ViaDefmap implements TypeToCfrFamilyInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    */
   private $typeToDefmap;
 
@@ -19,7 +19,7 @@ class TypeToCfrFamily_ViaDefmap implements TypeToCfrFamilyInterface {
   private $defmapToCfrFamily;
 
   /**
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param \Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface $defmapToCfrFamily
    */
   public function __construct(TypeToDefmapInterface $typeToDefmap, DefmapToCfrFamilyInterface $defmapToCfrFamily) {

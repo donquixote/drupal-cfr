@@ -7,7 +7,7 @@ use Donquixote\Cf\Schema\CfSchemaLocalInterface;
 interface CfSchema_DefmapInterface extends CfSchemaLocalInterface {
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface
+   * @return \Donquixote\Cf\DefinitionMap\DefinitionMapInterface
    */
   public function getDefinitionMap();
 

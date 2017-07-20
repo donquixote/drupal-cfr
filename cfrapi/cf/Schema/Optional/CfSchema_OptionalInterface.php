@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Schema\Optional;
 
-use Donquixote\Cf\Schema\Transformable\CfSchema_TransformableInterface;
+use Donquixote\Cf\SchemaBase\CfSchema_TransformableInterface;
 
 interface CfSchema_OptionalInterface extends CfSchema_TransformableInterface {
 

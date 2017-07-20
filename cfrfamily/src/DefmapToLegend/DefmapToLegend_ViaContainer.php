@@ -3,7 +3,7 @@
 namespace Drupal\cfrfamily\DefmapToLegend;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
-use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
+use Donquixote\Cf\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefmapToContainer\DefmapToContainerInterface;
 
 class DefmapToLegend_ViaContainer implements DefmapToLegendInterface {
@@ -21,7 +21,7 @@ class DefmapToLegend_ViaContainer implements DefmapToLegendInterface {
   }
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
+   * @param \Donquixote\Cf\DefinitionMap\DefinitionMapInterface $definitionMap
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
    * @return \Drupal\cfrapi\Legend\LegendInterface

@@ -131,9 +131,13 @@ class ClassFilesIA_NamespaceDirectory implements ClassFilesIAInterface {
           continue;
         }
 
-        yield from self::findClassFilesRecursive(
+        // "yield from" is not supported in PHP 5.*.
+        foreach ($this->findClassFilesRecursive(
           $path,
-          $terminatedNamespace . $candidate . '\\');
+          $terminatedNamespace . $candidate . '\\') as $file => $class) {
+
+          yield $file => $class;
+        }
       }
     }
   }

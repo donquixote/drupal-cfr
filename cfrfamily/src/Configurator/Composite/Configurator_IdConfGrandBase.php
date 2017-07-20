@@ -32,12 +32,12 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   /**
    * @var string
    */
-  private $idKey = 'id';
+  private $idKey;
 
   /**
    * @var string
    */
-  private $optionsKey = 'options';
+  private $optionsKey;
 
   /**
    * @var \Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface|null

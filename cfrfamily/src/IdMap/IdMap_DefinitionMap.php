@@ -2,17 +2,17 @@
 
 namespace Drupal\cfrfamily\IdMap;
 
-use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
+use Donquixote\Cf\DefinitionMap\DefinitionMapInterface;
 
 class IdMap_DefinitionMap implements IdMapInterface {
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface
+   * @var \Donquixote\Cf\DefinitionMap\DefinitionMapInterface
    */
   private $definitionMap;
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
+   * @param \Donquixote\Cf\DefinitionMap\DefinitionMapInterface $definitionMap
    */
   public function __construct(DefinitionMapInterface $definitionMap) {
     $this->definitionMap = $definitionMap;

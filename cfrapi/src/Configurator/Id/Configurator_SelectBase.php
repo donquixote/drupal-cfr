@@ -13,7 +13,7 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
   /**
    * @var bool
    */
-  private $required = TRUE;
+  private $required;
 
   /**
    * @var string|null
@@ -133,7 +133,16 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
     elseif (!$this->idIsKnown($conf)) {
       return $helper->incompatibleConfiguration($conf, "Unknown id.");
     }
-    return $helper->export($conf);
+    return $this->idGetPhp($conf);
+  }
+
+  /**
+   * @param string|int $id
+   *
+   * @return string
+   */
+  protected function idGetPhp($id) {
+    return var_export($id, TRUE);
   }
 
   /**

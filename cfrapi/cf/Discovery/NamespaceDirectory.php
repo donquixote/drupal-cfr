@@ -30,6 +30,20 @@ final class NamespaceDirectory {
   }
 
   /**
+   * @param string $class
+   *
+   * @return \Donquixote\Cf\Discovery\NamespaceDirectory
+   */
+  public static function createFromClass($class) {
+
+    $reflClass = new \ReflectionClass($class);
+
+    return self::create(
+      dirname($reflClass->getFileName()),
+      $reflClass->getNamespaceName());
+  }
+
+  /**
    * @param string $directory
    */
   private static function requireUnslashedDirectory(&$directory) {
@@ -146,13 +160,13 @@ final class NamespaceDirectory {
 
     $l = strlen($subdirName);
 
-    if ('\\' . $subdirName . '\\' !== substr($this->terminatedNamespace, -$l - 1)) {
+    if ('\\' . $subdirName . '\\' !== substr($this->terminatedNamespace, -$l - 2)) {
       return NULL;
     }
 
     return new self(
       $parentDir,
-      substr($this->terminatedNamespace, -($l + 1)));
+      substr($this->terminatedNamespace, 0, -($l + 1)));
   }
 
   /**

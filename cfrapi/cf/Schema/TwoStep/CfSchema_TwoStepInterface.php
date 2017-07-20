@@ -31,15 +31,4 @@ interface CfSchema_TwoStepInterface extends CfSchemaLocalInterface {
    */
   public function firstStepValueGetSecondStepSchema($firstStepValue);
 
-  /**
-   * @param mixed $firstStepValue
-   *   Value from the first step of configuration.
-   * @param mixed $secondStepValue
-   *   Value from the second step of configuration.
-   *
-   * @return mixed
-   *   The final value.
-   */
-  public function valuesGetValue($firstStepValue, $secondStepValue);
-
 }

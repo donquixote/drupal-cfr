@@ -3,12 +3,12 @@
 namespace Drupal\cfrfamily\DefmapToContainer;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
-use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
+use Donquixote\Cf\DefinitionMap\DefinitionMapInterface;
 
 interface DefmapToContainerInterface {
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
+   * @param \Donquixote\Cf\DefinitionMap\DefinitionMapInterface $definitionMap
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    *
    * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface

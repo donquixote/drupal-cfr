@@ -1,9 +1,9 @@
 <?php
 
-namespace Donquixote\cf\Schema\Neutral;
+namespace Donquixote\Cf\Schema\Neutral;
 
-use Donquixote\cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Context\CfContextInterface;
+use Donquixote\Cf\Schema\CfSchemaInterface;
 
 class CfSchema_Neutral_IfaceTransformed extends CfSchema_NeutralBase {
 

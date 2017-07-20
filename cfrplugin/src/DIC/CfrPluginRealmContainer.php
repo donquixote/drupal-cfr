@@ -2,25 +2,39 @@
 
 namespace Drupal\cfrplugin\DIC;
 
-use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfigurator_FromPartial;
-use Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfigurator_Proxy;
-use Drupal\cfrapi\CfrSchemaToConfigurator\Partial\CfrSchemaToConfiguratorPartial_Hardcoded;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Mappers;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Proxy;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Replacer;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Proxy;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Replacer;
+use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
+use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
+use Donquixote\Cf\Discovery\NamespaceDirectory;
+use Donquixote\Cf\Evaluator\Helper\Php\ConfToPhpHelper_SchemaToAnything;
+use Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelper_SchemaToAnything;
+use Donquixote\Cf\Form\D7\Helper\D7FormatorHelper_SchemaToAnything;
+use Donquixote\Cf\ParamToLabel\ParamToLabel;
+use Donquixote\Cf\SchemaReplacer\SchemaReplacer_Hardcoded;
+use Donquixote\Cf\SchemaToAnything\SchemaToAnything_Chain;
+use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptyness_Hardcoded;
+use Donquixote\Cf\Summarizer\Helper\SummaryHelper_SchemaToAnything;
+use Donquixote\Cf\Translator\Translator;
+use Donquixote\Cf\Util\LocalPackageUtil;
+use Donquixote\Cf\Util\STAMappersUtil;
+use Drupal\cfrapi\ConfToValue\ConfToValueInterface;
+use Drupal\cfrapi\SchemaToConfigurator\Partial\SchemaToConfigurator_Proxy;
+use Drupal\cfrapi\SchemaToConfigurator\Partial\SchemaToConfiguratorPartial_Hardcoded;
+use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfigurator_FromPartial;
+use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfigurator_Helpers;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfigurator_Mappers;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrplugin\Util\ServiceFactoryUtil;
-use Drupal\cfrrealm\CfrSchemaReplacer\SchemaReplacer_Hardcoded;
 use Drupal\cfrrealm\Container\CfrRealmContainerBase;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Cache;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscovery;
 use Drupal\cfrrealm\DefinitionToConfigurator\DefinitionToConfigurator_Proxy;
 use Drupal\cfrrealm\TypeToDefinitionsbyid\TypeToDefinitionsbyid;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmap;
+use Drupal\cfrrealm\TypeToDefmap\TypeToDefmap_Cache;
 use Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfigurator_ValueCallback;
 use Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfigurator;
-use Drupal\cfrreflection\ParamToLabel\ParamToLabel;
 
 class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPluginRealmContainerInterface {
 
@@ -82,44 +96,44 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
-   * @return \Drupal\cfrrealm\TypeToDefmap\TypeToDefmap
+   * @return \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    *
    * @see $typeToDefmap
    */
   protected function get_typeToDefmap() {
     $typeToDefinitionsById = new TypeToDefinitionsbyid($this->definitionsByTypeAndId);
-    return new TypeToDefmap($typeToDefinitionsById, 'cfrplugin:definitions:' . $this->cacheSuffix);
+    return new TypeToDefmap_Cache($typeToDefinitionsById, 'cfrplugin:definitions:' . $this->cacheSuffix);
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
+   * @return \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface
    *
-   * @see $definitionToCfrSchema_proxy
+   * @see $definitionToSchema_proxy
    */
-  protected function get_definitionToCfrSchema_proxy() {
+  protected function get_definitionToSchema_proxy() {
     return new DefinitionToSchema_Proxy(
       function() {
         // $this can be used since PHP 5.4.
-        return $this->definitionToCfrSchema;
+        return $this->definitionToSchema;
       });
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
+   * @return \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface
    *
-   * @see $definitionToCfrSchema
+   * @see $definitionToSchema
    */
-  protected function get_definitionToCfrSchema() {
+  protected function get_definitionToSchema() {
 
-    $definitionToCfrSchema = DefinitionToSchema_Mappers::create();
+    $definitionToSchema = DefinitionToSchema_Mappers::create();
 
-    $definitionToCfrSchema = new DefinitionToSchema_Replacer(
-      $definitionToCfrSchema,
+    $definitionToSchema = new DefinitionToSchema_Replacer(
+      $definitionToSchema,
       new SchemaReplacer_Hardcoded(
-        $this->typeToCfrSchema_tagged,
+        $this->typeToSchema_tagged,
         $this->paramToLabel));
 
-    return $definitionToCfrSchema;
+    return $definitionToSchema;
   }
 
   /**
@@ -135,7 +149,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
         // $this can be used since PHP 5.4.
         $mappers = ServiceFactoryUtil::createDeftocfrMappers(
           $this->callbackToConfigurator,
-          $this->cfrSchemaToConfigurator);
+          $this->schemaToConfigurator);
         foreach ($mappers as $key => $mapper) {
           $definitionToConfigurator->keySetMapper($key, $mapper);
         }
@@ -144,25 +158,93 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
-   * @return \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   * @return \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
    *
-   * @see $cfrSchemaToConfigurator_proxy
+   * @see $schemaToConfigurator_proxy
    */
-  protected function get_cfrSchemaToConfigurator_proxy() {
-    return new CfrSchemaToConfigurator_Proxy(
+  protected function get_schemaToConfigurator_proxy() {
+
+    return new SchemaToConfigurator_Proxy(
       function() {
-        return $this->cfrSchemaToConfigurator;
+        return $this->schemaToConfigurator;
       });
   }
 
   /**
-   * @return \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   * @return \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
    *
-   * @see $cfrSchemaToConfigurator
+   * @see $schemaToConfigurator
    */
-  protected function get_cfrSchemaToConfigurator() {
-    return new CfrSchemaToConfigurator_FromPartial(
-      new CfrSchemaToConfiguratorPartial_Hardcoded(
+  protected function get_schemaToConfigurator() {
+
+    return new SchemaToConfigurator_Helpers(
+      new ConfToValueHelper_SchemaToAnything($this->schemaToAnything),
+      new ConfToPhpHelper_SchemaToAnything($this->schemaToAnything),
+      new D7FormatorHelper_SchemaToAnything(
+        $this->schemaToAnything,
+        $this->translator),
+      new SummaryHelper_SchemaToAnything(
+        $this->schemaToAnything,
+        $this->translator),
+      new SchemaToEmptyness_Hardcoded());
+  }
+
+  /**
+   * @return \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface
+   *
+   * @see $schemaFormHelper
+   */
+  protected function get_schemaFormHelper() {
+
+    return new D7FormatorHelper_SchemaToAnything(
+      $this->schemaToAnything,
+      $this->translator);
+  }
+
+  /**
+   * @return \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface
+   *
+   * @see $schemaToAnything
+   */
+  protected function get_schemaToAnything() {
+
+    // Search all of cfrapi module.
+    $nsdir = NamespaceDirectory::createFromClass(ConfToValueInterface::class)
+      ->parent();
+
+    $classFilesIA = ClassFilesIA_NamespaceDirectory::createFromNsdirObject($nsdir);
+
+    $factoriesIA = new AnnotatedFactoriesIA(
+      $classFilesIA,
+      'Cf');
+
+    $mappersCore = LocalPackageUtil::collectSTAMappers();
+    $mappersDrupal = STAMappersUtil::collectSTAMappers($factoriesIA);
+
+    $mappers = array_merge($mappersCore, $mappersDrupal);
+
+    # kdpm(get_defined_vars());
+
+    return new SchemaToAnything_Chain($mappers);
+  }
+
+  /**
+   * @return \Donquixote\Cf\Translator\TranslatorInterface
+   *
+   * @see $translator
+   */
+  protected function get_translator() {
+    return Translator::createPassthru();
+  }
+
+  /**
+   * @return \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
+   *
+   * @see $schemaToConfigurator
+   */
+  protected function _get_schemaToConfigurator() {
+    return new SchemaToConfigurator_FromPartial(
+      new SchemaToConfiguratorPartial_Hardcoded(
         $this->typeToConfigurator,
         $this->paramToConfigurator,
         $this->paramToLabel));
@@ -187,7 +269,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
-   * @return \Drupal\cfrreflection\ParamToLabel\ParamToLabel
+   * @return \Donquixote\Cf\ParamToLabel\ParamToLabel
    *
    * @see $paramToLabel
    */

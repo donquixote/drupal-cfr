@@ -36,6 +36,6 @@ class PartialSummarizer_Options implements PartialSummarizerInterface {
       return $helper->invalidConfiguration("Unknown id '$id' for options schema.");
     }
 
-    return $this->schema->idGetValue($id);
+    return $this->schema->idGetLabel($id);
   }
 }

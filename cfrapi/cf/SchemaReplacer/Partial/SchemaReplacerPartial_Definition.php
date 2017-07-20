@@ -5,13 +5,13 @@ namespace Donquixote\Cf\SchemaReplacer\Partial;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Definition\CfSchema_DefinitionInterface;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Mappers;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface;
 
 class SchemaReplacerPartial_Definition implements SchemaReplacerPartialInterface {
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
+   * @var \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface
    */
   private $definitionToSchema;
 
@@ -24,7 +24,7 @@ class SchemaReplacerPartial_Definition implements SchemaReplacerPartialInterface
   }
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToSchema
+   * @param \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema
    */
   public function __construct(DefinitionToSchemaInterface $definitionToSchema) {
     $this->definitionToSchema = $definitionToSchema;
@@ -55,11 +55,13 @@ class SchemaReplacerPartial_Definition implements SchemaReplacerPartialInterface
         $schema->getContext());
     }
     catch (\Exception $e) {
+      dpm($schema->getDefinition(), $e->getMessage());
       // @todo Allow throwing exceptions? Log the problem somewhere? BrokenSchema?
       return NULL;
     }
 
     if (NULL !== $replacement = $replacer->schemaGetReplacement($schema)) {
+      /** @noinspection CallableParameterUseCaseInTypeContextInspection */
       $schema = $replacement;
     }
 

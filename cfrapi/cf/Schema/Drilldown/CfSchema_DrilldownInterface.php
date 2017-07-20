@@ -3,9 +3,9 @@
 namespace Donquixote\Cf\Schema\Drilldown;
 
 use Donquixote\Cf\Schema\CfSchemaLocalInterface;
-use Donquixote\Cf\Schema\Options\AbstractOptionsSchemaInterface;
+use Donquixote\Cf\SchemaBase\Options\CfSchemaBase_AbstractOptionsInterface;
 
-interface CfSchema_DrilldownInterface extends CfSchemaLocalInterface, AbstractOptionsSchemaInterface {
+interface CfSchema_DrilldownInterface extends CfSchemaLocalInterface, CfSchemaBase_AbstractOptionsInterface {
 
   // @todo Add ->getIdKey() and ->getOptionsKey()?
 
@@ -15,23 +15,5 @@ interface CfSchema_DrilldownInterface extends CfSchemaLocalInterface, AbstractOp
    * @return \Donquixote\Cf\Schema\CfSchemaInterface|null
    */
   public function idGetSchema($id);
-
-  /**
-   * @param string|int $id
-   * @param mixed $value
-   *
-   * @return mixed
-   *
-   * @throws \Donquixote\Cf\Exception\EvaluatorException
-   */
-  public function idValueGetValue($id, $value);
-
-  /**
-   * @param string|int $id
-   * @param string $php
-   *
-   * @return mixed
-   */
-  public function idPhpGetPhp($id, $php);
 
 }

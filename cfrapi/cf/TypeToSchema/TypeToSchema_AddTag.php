@@ -3,7 +3,7 @@
 namespace Donquixote\Cf\TypeToSchema;
 
 use Donquixote\Cf\Context\CfContextInterface;
-use Donquixote\cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
+use Donquixote\Cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
 
 class TypeToSchema_AddTag implements TypeToSchemaInterface {
 

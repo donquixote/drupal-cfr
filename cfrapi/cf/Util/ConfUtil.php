@@ -103,6 +103,62 @@ class ConfUtil extends UtilBase {
   }
 
   /**
+   * @param array $conf
+   * @param string[] $parents
+   *   Trail of keys indicating an array position within $conf.
+   * @param array $value
+   *
+   * @return bool
+   *   TRUE on success, FALSE on failure.
+   */
+  public static function confMergeNestedValue(array &$conf, array $parents, array $value) {
+    if ([] === $parents) {
+      $conf += $value;
+      return TRUE;
+    }
+    $key = array_shift($parents);
+    if (!isset($conf[$key])) {
+      $conf[$key] = [];
+    }
+    elseif (!is_array($conf[$key])) {
+      return FALSE;
+    }
+    if ([] === $parents) {
+      $conf[$key] += $value;
+      return TRUE;
+    }
+    return self::confMergeNestedValue($conf[$key], $parents, $value);
+  }
+
+  /**
+   * @param mixed $conf
+   * @param string[] $parents
+   *   Trail of keys indicating an array position within $conf.
+   * @param mixed $value
+   *
+   * @return bool
+   *   TRUE on success, FALSE on failure.
+   */
+  public static function confSetNestedValue(&$conf, array $parents, $value) {
+    if ([] === $parents) {
+      $conf = $value;
+      return TRUE;
+    }
+    if (!is_array($conf)) {
+      return FALSE;
+    }
+    $key = array_shift($parents);
+    if ([] === $parents) {
+      $conf[$key] = $value;
+      return TRUE;
+    }
+    if (!isset($conf[$key])) {
+      $conf[$key] = [];
+    }
+    return self::confSetNestedValue($conf[$key], $parents, $value);
+  }
+
+  /**
    * @param mixed $conf
    * @param string[] $parents
    *

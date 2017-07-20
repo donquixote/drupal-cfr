@@ -2,24 +2,24 @@
 
 namespace Drupal\cfrfamily\IdToLabel;
 
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
-use Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
+use Donquixote\Cf\IdToDefinition\IdToDefinitionInterface;
 
 class IdToLabel_ViaDefinition implements IdToLabelInterface {
 
   /**
-   * @var \Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface
+   * @var \Donquixote\Cf\IdToDefinition\IdToDefinitionInterface
    */
   private $idToDefinition;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToLabel;
 
   /**
-   * @param \Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface $idToDefinition
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+   * @param \Donquixote\Cf\IdToDefinition\IdToDefinitionInterface $idToDefinition
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
    */
   public function __construct(IdToDefinitionInterface $idToDefinition, DefinitionToLabelInterface $definitionToLabel) {
     $this->idToDefinition = $idToDefinition;

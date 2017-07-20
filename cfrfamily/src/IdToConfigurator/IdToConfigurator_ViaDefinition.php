@@ -5,12 +5,12 @@ namespace Drupal\cfrfamily\IdToConfigurator;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
-use Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface;
+use Donquixote\Cf\IdToDefinition\IdToDefinitionInterface;
 
 class IdToConfigurator_ViaDefinition implements IdToConfiguratorInterface {
 
   /**
-   * @var \Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface
+   * @var \Donquixote\Cf\IdToDefinition\IdToDefinitionInterface
    */
   private $idToDefinition;
 
@@ -25,7 +25,7 @@ class IdToConfigurator_ViaDefinition implements IdToConfiguratorInterface {
   private $context;
 
   /**
-   * @param \Drupal\cfrfamily\IdToDefinition\IdToDefinitionInterface $definitionMap
+   * @param \Donquixote\Cf\IdToDefinition\IdToDefinitionInterface $definitionMap
    * @param \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    */

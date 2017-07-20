@@ -7,6 +7,9 @@ use Donquixote\Cf\Form\D7\Util\D7FormUtil;
 use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
 use Donquixote\Cf\Util\ConfUtil;
 
+/**
+ * @Cf
+ */
 class PartialD7Formator_Options implements PartialD7FormatorInterface {
 
   /**

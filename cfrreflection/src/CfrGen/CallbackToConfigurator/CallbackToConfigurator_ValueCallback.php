@@ -11,7 +11,7 @@ use Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface
 use Drupal\cfrreflection\Configurator\Configurator_CallbackConfigurable;
 use Drupal\cfrreflection\Configurator\Configurator_CallbackInlineable;
 use Drupal\cfrreflection\Configurator\Configurator_CallbackSimple;
-use Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface;
+use Donquixote\Cf\ParamToLabel\ParamToLabelInterface;
 
 /**
  * Creates a configurator for a callback, where the callback return value is the
@@ -27,13 +27,13 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
   private $paramToConfigurator;
 
   /**
-   * @var \Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface
+   * @var \Donquixote\Cf\ParamToLabel\ParamToLabelInterface
    */
   private $paramToLabel;
 
   /**
    * @param \Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfiguratorInterface $paramToConfigurator
-   * @param \Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface $paramToLabel
+   * @param \Donquixote\Cf\ParamToLabel\ParamToLabelInterface $paramToLabel
    */
   public function __construct(ParamToConfiguratorInterface $paramToConfigurator, ParamToLabelInterface $paramToLabel) {
     $this->paramToConfigurator = $paramToConfigurator;
@@ -62,9 +62,11 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
       if ($argConfigurator instanceof InlineableConfiguratorInterface) {
         return new Configurator_CallbackInlineable($valueCallback, $argConfigurator, $paramLabel);
       }
+      /** @noinspection MissingOrEmptyGroupStatementInspection */
       elseif ($argConfigurator instanceof ConfiguratorInterface) {
         # return new Configurator_CallbackMono($valueCallback, $argConfigurator);
       }
+      /** @noinspection MissingOrEmptyGroupStatementInspection */
       else {
         // Pass through.
       }

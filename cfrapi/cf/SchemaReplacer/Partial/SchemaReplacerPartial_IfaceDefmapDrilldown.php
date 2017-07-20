@@ -3,16 +3,17 @@
 namespace Donquixote\Cf\SchemaReplacer\Partial;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\Schema\Drilldown\CfSchema_Drilldown_FromDefinitionMap;
+use Donquixote\Cf\Schema\DrilldownVal\CfSchema_DrilldownVal_InlineExpanded;
+use Donquixote\Cf\Schema\Id\CfSchema_Id_DefmapKey;
 use Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContextInterface;
-use Donquixote\cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
+use Donquixote\Cf\Schema\Neutral\CfSchema_Neutral_IfaceTransformed;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Mappers;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
-use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_FromDefinitionMap;
-use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_InlineExpanded;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabel;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface;
 
 /**
  * A replacer that creates a drilldown schema for a given interface schema,
@@ -21,22 +22,22 @@ use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
 class SchemaReplacerPartial_IfaceDefmapDrilldown implements SchemaReplacerPartialInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    */
   private $typeToDefmap;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
+   * @var \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface
    */
   private $definitionToSchema;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToLabel;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToGrouplabel;
 
@@ -58,7 +59,7 @@ class SchemaReplacerPartial_IfaceDefmapDrilldown implements SchemaReplacerPartia
   /**
    * Creates an instance with the most common options.
    *
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param bool $withInlineChildren
    * @param bool $withTaggingDecorator
    *
@@ -79,10 +80,10 @@ class SchemaReplacerPartial_IfaceDefmapDrilldown implements SchemaReplacerPartia
   }
 
   /**
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
-   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToSchema
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
    * @param bool $withInlineChildren
    * @param bool $withTaggingDecorator
    */
@@ -150,12 +151,18 @@ class SchemaReplacerPartial_IfaceDefmapDrilldown implements SchemaReplacerPartia
       $context);
 
     if ($this->withInlineChildren) {
-      $schema = new CfSchema_Drilldown_InlineExpanded(
+
+      $inlineIdsLookup = new CfSchema_Id_DefmapKey(
+        $defmap,
+        'inline');
+
+      $schema = CfSchema_DrilldownVal_InlineExpanded::createOrSame(
         $schema,
-        $defmap);
+        $inlineIdsLookup);
     }
 
     if ($this->withTaggingDecorator) {
+
       $schema = new CfSchema_Neutral_IfaceTransformed(
         $schema,
         $type,

@@ -7,20 +7,20 @@ use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\CfrLegend\CfrLegend_FromDefmap;
 use Drupal\cfrfamily\Configurator\Composite\Configurator_CfrLegend;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfigurator_ViaDefinition;
-use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
+use Donquixote\Cf\DefinitionMap\DefinitionMapInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
 use Drupal\cfrfamily\IdConfToValue\IdConfToValue_IdToConfigurator;
 
 class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToLabel;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToGrouplabel;
 
@@ -30,7 +30,7 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
   private $definitionToConfigurator;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface
+   * @var \Donquixote\Cf\DefinitionMap\DefinitionMapInterface
    */
   private $definitionMap;
 
@@ -41,9 +41,9 @@ class CfrFamilyContainer_FromDefmap extends CfrFamilyContainerBase {
 
   /**
    * @param \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
-   * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
+   * @param \Donquixote\Cf\DefinitionMap\DefinitionMapInterface $definitionMap
    * @param \Drupal\cfrapi\Context\CfrContextInterface|null $context
    */
   public function __construct(

@@ -3,24 +3,24 @@
 namespace Donquixote\Cf\TypeToSchema;
 
 use Donquixote\Cf\Context\CfContextInterface;
-use Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
+use Donquixote\Cf\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface;
 
 class TypeToSchema_ViaDefmap implements TypeToSchemaInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    */
   private $typeToDefmap;
 
   /**
-   * @var \Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface
+   * @var \Donquixote\Cf\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface
    */
   private $defmapToDrilldownSchema;
 
   /**
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
-   * @param \Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface $defmapToDrilldownSchema
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface $defmapToDrilldownSchema
    */
   public function __construct(
     TypeToDefmapInterface $typeToDefmap,

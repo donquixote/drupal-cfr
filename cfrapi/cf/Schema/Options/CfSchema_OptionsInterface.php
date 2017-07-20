@@ -2,27 +2,12 @@
 
 namespace Donquixote\Cf\Schema\Options;
 
-use Donquixote\Cf\Schema\CfSchemaLocalInterface;
+use Donquixote\Cf\Schema\Id\CfSchema_IdInterface;
+use Donquixote\Cf\SchemaBase\Options\CfSchemaBase_AbstractOptionsInterface;
 
 /**
  * @todo Maybe "Options" should be renamed to "Choice"?
  */
-interface CfSchema_OptionsInterface extends CfSchemaLocalInterface, AbstractOptionsSchemaInterface {
-
-  /**
-   * @param string|int $id
-   *
-   * @return mixed
-   *
-   * @throws \Donquixote\Cf\Exception\EvaluatorException
-   */
-  public function idGetValue($id);
-
-  /**
-   * @param string|int $id
-   *
-   * @return string
-   */
-  public function idGetPhp($id);
+interface CfSchema_OptionsInterface extends CfSchema_IdInterface, CfSchemaBase_AbstractOptionsInterface {
 
 }

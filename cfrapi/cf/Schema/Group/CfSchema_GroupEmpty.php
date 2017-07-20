@@ -4,7 +4,7 @@ namespace Donquixote\Cf\Schema\Group;
 
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 
-class CfSchema_GroupEmpty extends CfSchema_Group_PassthruBase {
+class CfSchema_GroupEmpty implements CfSchema_GroupInterface {
 
   /**
    * @return \Donquixote\Cf\Schema\CfSchemaInterface[]

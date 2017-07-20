@@ -2,10 +2,10 @@
 
 namespace Donquixote\Cf\TypeToSchema;
 
-use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Context\CfContextInterface;
-use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_InlineExpanded;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
+use Donquixote\Cf\Schema\DrilldownVal\CfSchema_DrilldownVal_InlineExpanded;
+use Donquixote\Cf\Schema\Id\CfSchema_Id_DefmapKey;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface;
 
 class TypeToSchema_InlineExpanded implements TypeToSchemaInterface {
 
@@ -15,13 +15,13 @@ class TypeToSchema_InlineExpanded implements TypeToSchemaInterface {
   private $decorated;
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    */
   private $typeToDefmap;
 
   /**
    * @param \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $decorated
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    */
   public function __construct(
     TypeToSchemaInterface $decorated,
@@ -41,12 +41,12 @@ class TypeToSchema_InlineExpanded implements TypeToSchemaInterface {
 
     $schema = $this->decorated->typeGetSchema($type, $context);
 
-    if (!$schema instanceof CfSchema_DrilldownInterface) {
-      return $schema;
-    }
+    $inlineIdsLookup = new CfSchema_Id_DefmapKey(
+      $this->typeToDefmap->typeGetDefmap($type),
+      'inline');
 
-    return new CfSchema_Drilldown_InlineExpanded(
+    return CfSchema_DrilldownVal_InlineExpanded::createOrSame(
       $schema,
-      $this->typeToDefmap->typeGetDefmap($type));
+      $inlineIdsLookup);
   }
 }

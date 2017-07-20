@@ -5,12 +5,12 @@ namespace Drupal\cfrrealm\TypeToContainer;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\DefmapToContainer\DefmapToContainerInterface;
 
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface;
 
 class TypeToContainer_ViaDefmap implements TypeToContainerInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    */
   private $typeToDefmap;
 
@@ -20,7 +20,7 @@ class TypeToContainer_ViaDefmap implements TypeToContainerInterface {
   private $defmapToContainer;
 
   /**
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param \Drupal\cfrfamily\DefmapToContainer\DefmapToContainerInterface $defmapToContainer
    */
   public function __construct(TypeToDefmapInterface $typeToDefmap, DefmapToContainerInterface $defmapToContainer) {

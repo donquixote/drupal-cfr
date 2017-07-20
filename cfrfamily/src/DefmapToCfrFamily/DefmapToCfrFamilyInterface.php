@@ -2,12 +2,12 @@
 namespace Drupal\cfrfamily\DefmapToCfrFamily;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
-use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
+use Donquixote\Cf\DefinitionMap\DefinitionMapInterface;
 
 interface DefmapToCfrFamilyInterface {
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
+   * @param \Donquixote\Cf\DefinitionMap\DefinitionMapInterface $definitionMap
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
    * @return \Drupal\cfrfamily\CfrFamily\CfrFamilyInterface

@@ -2,7 +2,9 @@
 
 namespace Drupal\cfrapi\Context;
 
-interface CfrContextInterface {
+use Donquixote\Cf\Context\CfContextInterface;
+
+interface CfrContextInterface extends CfContextInterface {
 
   /**
    * @param \ReflectionParameter $param

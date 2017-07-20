@@ -5,6 +5,9 @@ namespace Donquixote\Cf\Form\D7\Partial;
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Schema\Group\CfSchema_GroupInterface;
 
+/**
+ * @Cf
+ */
 class PartialD7Formator_Group implements PartialD7FormatorInterface {
 
   /**

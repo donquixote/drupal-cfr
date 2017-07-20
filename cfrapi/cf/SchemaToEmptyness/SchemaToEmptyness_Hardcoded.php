@@ -10,7 +10,7 @@ use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\Neutral\CfSchema_NeutralInterface;
 use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
-use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
+use Donquixote\Cf\SchemaBase\CfSchema_ValueToValueBaseInterface;
 
 class SchemaToEmptyness_Hardcoded implements SchemaToEmptynessInterface {
 
@@ -33,7 +33,7 @@ class SchemaToEmptyness_Hardcoded implements SchemaToEmptynessInterface {
       return $this->schemaGetEmptyness($schema->getDecorated());
     }
 
-    if ($schema instanceof CfSchema_ValueToValueInterface) {
+    if ($schema instanceof CfSchema_ValueToValueBaseInterface) {
       return $this->schemaGetEmptyness($schema->getDecorated());
     }
 

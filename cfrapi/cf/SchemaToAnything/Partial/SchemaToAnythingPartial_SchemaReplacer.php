@@ -33,10 +33,10 @@ class SchemaToAnythingPartial_SchemaReplacer implements SchemaToAnythingPartialI
     $interface,
     SchemaToAnythingHelperInterface $helper
   ) {
-    if (NULL === $schema = $this->replacer->schemaGetReplacement($schema)) {
+    if (NULL === $replacement = $this->replacer->schemaGetReplacement($schema)) {
       return NULL;
     }
 
-    return $helper->schema($schema, $interface);
+    return $helper->schema($replacement, $interface);
   }
 }

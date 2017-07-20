@@ -10,9 +10,9 @@ class CfSchema_Optional extends CfSchema_OptionalBase {
   private $emptySummary;
 
   /**
-   * @var mixed
+   * @var mixed|null
    */
-  private $emptyValue = NULL;
+  private $emptyValue;
 
   /**
    * @var string

@@ -9,18 +9,23 @@ use Drupal\cfrapi\SummaryBuilder\Inline\SummaryBuilderInline_Static;
 class SummaryBuilder_Static implements SummaryBuilderInterface {
 
   /**
-   * @param $label
+   * @param string $label
    * @param \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface $optionsConfToSummary
-   * @param $optionsConf
+   * @param mixed $optionsConf
    *
    * @return mixed
    */
   public function idConf($label, ConfToSummaryInterface $optionsConfToSummary = NULL, $optionsConf) {
-    $optionsConfSummary = $optionsConfToSummary->confGetSummary($optionsConf, $this);
-    if (!is_string($optionsConfSummary) || '' === $optionsConfSummary) {
-      return check_plain($label);
+
+    if (NULL !== $optionsConfToSummary) {
+      $optionsConfSummary = $optionsConfToSummary->confGetSummary($optionsConf, $this);
+
+      if (is_string($optionsConfSummary) && '' !== $optionsConfSummary) {
+        return check_plain($label) . ': ' . $optionsConfSummary;
+      }
     }
-    return check_plain($label) . ': ' . $optionsConfSummary;
+
+    return check_plain($label);
   }
 
   /**

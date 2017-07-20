@@ -3,7 +3,7 @@
 namespace Drupal\cfrreflection\CfrGen\CallbackToConfigurator;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
+use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface;
 use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 
 /**
@@ -13,15 +13,15 @@ use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 class CallbackToConfigurator_SchemaFactory extends CallbackToConfiguratorBase {
 
   /**
-   * @var \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   * @var \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
    */
-  private $cfrSchemaToConfigurator;
+  private $schemaToConfigurator;
 
   /**
-   * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+   * @param \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator
    */
-  public function __construct(CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator) {
-    $this->cfrSchemaToConfigurator = $cfrSchemaToConfigurator;
+  public function __construct(SchemaToConfiguratorInterface $schemaToConfigurator) {
+    $this->schemaToConfigurator = $schemaToConfigurator;
   }
 
   /**
@@ -36,7 +36,7 @@ class CallbackToConfigurator_SchemaFactory extends CallbackToConfiguratorBase {
     if (!$schemaCandidate instanceof CfSchemaInterface) {
       if (is_object($schemaCandidate)) {
         $class = get_class($schemaCandidate);
-        throw new ConfiguratorCreationException("The schema factory is expected to return a CfrSchema object, but returned a $class object instead.");
+        throw new ConfiguratorCreationException("The schema factory is expected to return a CfSchema object, but returned a $class object instead.");
       }
       else {
         $export = var_export($schemaCandidate, TRUE);
@@ -44,6 +44,6 @@ class CallbackToConfigurator_SchemaFactory extends CallbackToConfiguratorBase {
       }
     }
 
-    return $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator($schemaCandidate);
+    return $this->schemaToConfigurator->schemaGetConfigurator($schemaCandidate);
   }
 }

@@ -2,36 +2,31 @@
 
 namespace Donquixote\Cf\SchemaReplacer\Partial;
 
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabel;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Defmap\CfSchema_DefmapInterface;
+use Donquixote\Cf\Schema\Drilldown\CfSchema_Drilldown_FromDefinitionMap;
+use Donquixote\Cf\Schema\DrilldownVal\CfSchema_DrilldownVal_InlineExpanded;
+use Donquixote\Cf\Schema\Id\CfSchema_Id_DefmapKey;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchema_Mappers;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
-use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_FromDefinitionMap;
-use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_InlineExpanded;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
 
 class SchemaReplacerPartial_DefmapDrilldown implements SchemaReplacerPartialInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface
    */
-  private $typeToDefmap;
+  private $definitionToSchema;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
-   */
-  private $definitionToCfrSchema;
-
-  /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToLabel;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToGrouplabel;
 
@@ -43,17 +38,12 @@ class SchemaReplacerPartial_DefmapDrilldown implements SchemaReplacerPartialInte
   /**
    * Creates an instance with the most common options.
    *
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
    * @param bool $withInlineChildren
    *
    * @return self
    */
-  public static function create(
-    TypeToDefmapInterface $typeToDefmap,
-    $withInlineChildren = TRUE
-  ) {
+  public static function create($withInlineChildren = TRUE) {
     return new self(
-      $typeToDefmap,
       DefinitionToSchema_Mappers::create(),
       DefinitionToLabel::create(),
       DefinitionToLabel::createGroupLabel(),
@@ -61,21 +51,18 @@ class SchemaReplacerPartial_DefmapDrilldown implements SchemaReplacerPartialInte
   }
 
   /**
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
-   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
+   * @param \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
    * @param bool $withInlineChildren
    */
   public function __construct(
-    TypeToDefmapInterface $typeToDefmap,
-    DefinitionToSchemaInterface $definitionToCfrSchema,
+    DefinitionToSchemaInterface $definitionToSchema,
     DefinitionToLabelInterface $definitionToLabel,
     DefinitionToLabelInterface $definitionToGrouplabel,
     $withInlineChildren = TRUE
   ) {
-    $this->typeToDefmap = $typeToDefmap;
-    $this->definitionToCfrSchema = $definitionToCfrSchema;
+    $this->definitionToSchema = $definitionToSchema;
     $this->definitionToLabel = $definitionToLabel;
     $this->definitionToGrouplabel = $definitionToGrouplabel;
     $this->withInlineChildren = $withInlineChildren;
@@ -89,31 +76,36 @@ class SchemaReplacerPartial_DefmapDrilldown implements SchemaReplacerPartialInte
   }
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $original
    * @param \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $replacer
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface|null
    */
-  public function schemaGetReplacement(CfSchemaInterface $schema, SchemaReplacerInterface $replacer) {
+  public function schemaGetReplacement(CfSchemaInterface $original, SchemaReplacerInterface $replacer) {
 
-    if (!$schema instanceof CfSchema_DefmapInterface) {
+    if (!$original instanceof CfSchema_DefmapInterface) {
       return NULL;
     }
 
-    $defmap = $schema->getDefinitionMap();
-    $context = $schema->getContext();
+    $defmap = $original->getDefinitionMap();
+    $context = $original->getContext();
 
     $schema = new CfSchema_Drilldown_FromDefinitionMap(
       $defmap,
       $this->definitionToLabel,
       $this->definitionToGrouplabel,
-      $this->definitionToCfrSchema,
+      $this->definitionToSchema,
       $context);
 
     if ($this->withInlineChildren) {
-      $schema = new CfSchema_Drilldown_InlineExpanded(
+
+      $inlineIdsLookup = new CfSchema_Id_DefmapKey(
+        $defmap,
+        'inline');
+
+      $schema = CfSchema_DrilldownVal_InlineExpanded::createOrSame(
         $schema,
-        $defmap);
+        $inlineIdsLookup);
     }
 
     return $schema;

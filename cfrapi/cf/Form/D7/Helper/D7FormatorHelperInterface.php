@@ -21,6 +21,6 @@ interface D7FormatorHelperInterface {
    *
    * @return string
    */
-  public function translate($string, $replacements = []);
+  public function translate($string, array $replacements = []);
 
 }

@@ -3,14 +3,17 @@
 namespace Donquixote\Cf\SchemaToAnything;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
+use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptyness_Hardcoded;
+use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
 
 class SchemaToAnything_CallbackInstanceof extends SchemaToAnything_Callback {
 
   /**
    * @var string
    */
-  private $interface;
+  private $schemaInterface;
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
@@ -21,34 +24,61 @@ class SchemaToAnything_CallbackInstanceof extends SchemaToAnything_Callback {
 
     $params = $callback->getReflectionParameters();
 
-    if ([0] !== array_keys($params)) {
-      return NULL;
+
+    if (1
+      && [0] === array_keys($params)
+      && NULL !== ($reflSchemaInterface = $params[0]->getClass())
+      && $reflSchemaInterface->implementsInterface(CfSchemaInterface::class)
+    ) {
+      $schemaInterface = $reflSchemaInterface->getName();
+
+      if ($schemaInterface === CfSchemaInterface::class) {
+        return new parent($callback);
+      }
+
+      return new self($callback, $schemaInterface);
     }
 
-    if (NULL === $reflInterface = $params[0]->getClass()) {
-      return NULL;
+    $args = [];
+    foreach ($params as $param) {
+
+      if (NULL === $paramReflClass = $param->getClass()) {
+        return NULL;
+      }
+
+      if (SchemaToEmptynessInterface::class === $paramReflClass->getName()) {
+        // @todo This is ham-fisted.
+        $args[] = new SchemaToEmptyness_Hardcoded();
+      }
+      else {
+        return NULL;
+      }
     }
 
-    $interface = $reflInterface->getName();
+    $candidate = $callback->invokeArgs($args);
 
-    if ($interface === CfSchemaInterface::class) {
-      return new parent($callback);
+    if (is_callable($candidate)) {
+      $callback = CallbackUtil::callableGetCallback($candidate);
+      return self::createFrom($callback);
     }
 
-    if (!is_a($interface, CfSchemaInterface::class, TRUE)) {
-      return NULL;
-    }
-
-    return new self($callback, $interface);
+    return NULL;
   }
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
-   * @param string $interface
+   * @param string $schemaInterface
    */
-  public function __construct(CallbackReflectionInterface $callback, $interface) {
+  public function __construct(CallbackReflectionInterface $callback, $schemaInterface) {
     parent::__construct($callback);
-    $this->interface = $interface;
+    $this->schemaInterface = $schemaInterface;
+  }
+
+  /**
+   * @return string
+   */
+  public function getSchemaInterface() {
+    return $this->schemaInterface;
   }
 
   /**
@@ -60,7 +90,7 @@ class SchemaToAnything_CallbackInstanceof extends SchemaToAnything_Callback {
    */
   public function schema(CfSchemaInterface $schema, $interface) {
 
-    if (!$schema instanceof $this->interface) {
+    if (!$schema instanceof $this->schemaInterface) {
       return NULL;
     }
 

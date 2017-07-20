@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrfamily\DefinitionToLabel;
 
-
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
 
 class DefinitionToLabel_FromModuleName implements DefinitionToLabelInterface {
 

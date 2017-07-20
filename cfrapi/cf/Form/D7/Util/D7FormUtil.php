@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Form\D7\Util;
 
-use Donquixote\Cf\Schema\Options\AbstractOptionsSchemaInterface;
+use Donquixote\Cf\SchemaBase\Options\CfSchemaBase_AbstractOptionsInterface;
 use Donquixote\Cf\Util\UtilBase;
 
 class D7FormUtil extends UtilBase {
@@ -77,7 +77,7 @@ class D7FormUtil extends UtilBase {
   }
 
   /**
-   * @param \Donquixote\Cf\Schema\Options\AbstractOptionsSchemaInterface $schema
+   * @param \Donquixote\Cf\SchemaBase\Options\CfSchemaBase_AbstractOptionsInterface $schema
    * @param string|int $id
    * @param string $label
    * @param bool $required
@@ -85,7 +85,7 @@ class D7FormUtil extends UtilBase {
    * @return string[]|string[][]
    */
   public static function optionsSchemaBuildSelectElement(
-    AbstractOptionsSchemaInterface $schema,
+    CfSchemaBase_AbstractOptionsInterface $schema,
     $id,
     $label,
     $required = TRUE
@@ -117,11 +117,11 @@ class D7FormUtil extends UtilBase {
   }
 
   /**
-   * @param \Donquixote\Cf\Schema\Options\AbstractOptionsSchemaInterface $schema
+   * @param \Donquixote\Cf\SchemaBase\Options\CfSchemaBase_AbstractOptionsInterface $schema
    *
    * @return string[]|string[][]
    */
-  public static function optionsSchemaGetSelectOptions(AbstractOptionsSchemaInterface $schema)
+  public static function optionsSchemaGetSelectOptions(CfSchemaBase_AbstractOptionsInterface $schema)
   {
     $options = $schema->getGroupedOptions();
     if (isset($options[''])) {

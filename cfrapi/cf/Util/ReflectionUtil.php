@@ -129,7 +129,7 @@ final class ReflectionUtil extends UtilBase {
       return $aliasMap[$alias];
     }
 
-    if (in_array(strtolower($alias), self::PRIMITIVE_TYPES)) {
+    if (in_array(strtolower($alias), self::PRIMITIVE_TYPES, TRUE)) {
       // Ignore primitive types.
       return NULL;
     }

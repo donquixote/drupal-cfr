@@ -4,12 +4,14 @@ namespace Drupal\cfrfamily\DefinitionsById;
 
 
 
+use Donquixote\Cf\DefinitionsById\DefinitionsByIdInterface;
+
 class DefinitionsById_Cache implements DefinitionsByIdInterface {
 
   const CACHE_BIN = 'cache';
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionsById\DefinitionsByIdInterface
+   * @var \Donquixote\Cf\DefinitionsById\DefinitionsByIdInterface
    */
   private $decorated;
 
@@ -19,7 +21,7 @@ class DefinitionsById_Cache implements DefinitionsByIdInterface {
   private $cid;
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionsById\DefinitionsByIdInterface $decorated
+   * @param \Donquixote\Cf\DefinitionsById\DefinitionsByIdInterface $decorated
    * @param string $cid
    *   Cache id.
    */

@@ -6,22 +6,23 @@ use Donquixote\Cf\Emptyness\EmptynessInterface;
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
-use Donquixote\Cf\Schema\Neutral\CfSchema_NeutralInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
-use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
+use Donquixote\Cf\SchemaBase\CfSchema_ValueToValueBaseInterface;
 use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
 use Donquixote\Cf\Util\ConfUtil;
 
 class PartialD7Formator_Optional implements PartialD7FormatorInterface {
 
   /**
-   * @var \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface
+   * @var \Donquixote\Cf\Schema\CfSchemaInterface
    */
-  private $schema;
+  private $decoratedSchema;
 
   /**
+   * @Cf
+   *
    * @param \Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface $schemaToEmptyness
    *
    * @return \Closure
@@ -35,14 +36,28 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
      */
     return function(CfSchema_OptionalInterface $schema) use ($schemaToEmptyness) {
 
-      $decoratedSchema = $schema->getDecorated();
-
-      if (NULL === $emptyness = $schemaToEmptyness->schemaGetEmptyness($decoratedSchema)) {
-        return new self($schema);
-      }
-
-      return self::createWithEmptyness($decoratedSchema, $emptyness);
+      return self::createFromRequiredSchema(
+        $schema->getDecorated(),
+        $schemaToEmptyness);
     };
+  }
+
+  /**
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $decoratedSchema
+   * @param \Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface $schemaToEmptyness
+   *
+   * @return \Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface|null
+   */
+  public static function createFromRequiredSchema(
+    CfSchemaInterface $decoratedSchema,
+    SchemaToEmptynessInterface $schemaToEmptyness
+  ) {
+
+    if (NULL === $emptyness = $schemaToEmptyness->schemaGetEmptyness($decoratedSchema)) {
+      return new self($decoratedSchema);
+    }
+
+    return self::createWithEmptyness($decoratedSchema, $emptyness);
   }
 
   /**
@@ -51,7 +66,7 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
    *
    * @return \Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface|null
    */
-  private static function createWithEmptyness(
+  public static function createWithEmptyness(
     CfSchemaInterface $decoratedSchema,
     EmptynessInterface $emptyness
   ) {
@@ -64,12 +79,10 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
       return new PartialD7Formator_OptionalOptions($decoratedSchema);
     }
 
-    if ($decoratedSchema instanceof CfSchema_NeutralInterface) {
-      return self::createWithEmptyness($decoratedSchema, $emptyness);
-    }
-
-    if ($decoratedSchema instanceof CfSchema_ValueToValueInterface) {
-      return self::createWithEmptyness($decoratedSchema, $emptyness);
+    if ($decoratedSchema instanceof CfSchema_ValueToValueBaseInterface) {
+      return self::createWithEmptyness(
+        $decoratedSchema->getDecorated(),
+        $emptyness);
     }
 
     if ($decoratedSchema instanceof CfSchema_OptionlessInterface) {
@@ -81,10 +94,19 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
   }
 
   /**
-   * @param \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface $schema
+   * @param \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface $optionalSchema
+   *
+   * @return \Donquixote\Cf\Form\D7\Partial\PartialD7Formator_Optional
    */
-  public function __construct(CfSchema_OptionalInterface $schema) {
-    $this->schema = $schema;
+  public static function createWithoutEmptyness(CfSchema_OptionalInterface $optionalSchema) {
+    return new self($optionalSchema->getDecorated());
+  }
+
+  /**
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $decoratedSchema
+   */
+  public function __construct(CfSchemaInterface $decoratedSchema) {
+    $this->decoratedSchema = $decoratedSchema;
   }
 
   /**
@@ -101,6 +123,7 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
     }
 
     $form = [
+      '#tree' => TRUE,
       'enabled' => [
         '#title' => $label,
         '#type' => 'checkbox',
@@ -111,7 +134,7 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
         # '#tree' => TRUE,
         '#attributes' => ['class' => ['cfrapi-child-options']],
         'content' => $helper->schemaConfGetD7Form(
-          $this->schema->getDecorated(),
+          $this->decoratedSchema,
           $conf,
           NULL
         ),
@@ -135,6 +158,8 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
           $element['options']['#states']['visible'] = [
             ':input[' . $element['enabled']['#name'] . ']' => ['checked' => TRUE],
           ];
+
+          return $element;
         },
 
         // Clear out $conf['options'], if $conf['enabled'] is empty.
@@ -149,6 +174,8 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
               $form_state['values'],
               $element['options']['#parents']);
           }
+
+          return $element;
         },
       ],
     ];

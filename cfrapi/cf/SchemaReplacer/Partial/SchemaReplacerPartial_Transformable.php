@@ -3,7 +3,7 @@
 namespace Donquixote\Cf\SchemaReplacer\Partial;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Donquixote\Cf\Schema\Transformable\CfSchema_TransformableInterface;
+use Donquixote\Cf\SchemaBase\CfSchema_TransformableInterface;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 
 class SchemaReplacerPartial_Transformable implements SchemaReplacerPartialInterface {

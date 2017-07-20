@@ -2,10 +2,10 @@
 
 namespace Donquixote\Cf\ConfToValue;
 
-use Donquixote\Cf\ConfToValue\Helper\ConfToValueHelper_SchemaToAnything;
-use Donquixote\Cf\ConfToValue\Helper\ConfToValueHelper_SchemaToSomething;
-use Donquixote\Cf\ConfToValue\Helper\ConfToValueHelperInterface;
-use Donquixote\Cf\Evaluator\EvaluatorInterface;
+use Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelper_SchemaToAnything;
+use Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelper_SchemaToSomething;
+use Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelperInterface;
+use Donquixote\Cf\Evaluator\Partial\EvaluatorPartialInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnything_Chain;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
@@ -14,7 +14,7 @@ use Donquixote\Cf\SchemaToSomething\SchemaToSomethingInterface;
 class SchemaConfToValue implements SchemaConfToValueInterface {
 
   /**
-   * @var \Donquixote\Cf\ConfToValue\Helper\ConfToValueHelperInterface
+   * @var \Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelperInterface
    */
   private $helper;
 
@@ -42,13 +42,13 @@ class SchemaConfToValue implements SchemaConfToValueInterface {
    * @return self
    */
   public static function createFromSTS(SchemaToSomethingInterface $schemaToEvaluator) {
-    $schemaToEvaluator->requireResultType(EvaluatorInterface::class);
+    $schemaToEvaluator->requireResultType(EvaluatorPartialInterface::class);
     $helper = new ConfToValueHelper_SchemaToSomething($schemaToEvaluator);
     return new self($helper);
   }
 
   /**
-   * @param \Donquixote\Cf\ConfToValue\Helper\ConfToValueHelperInterface $helper
+   * @param \Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelperInterface $helper
    */
   public function __construct(ConfToValueHelperInterface $helper) {
     $this->helper = $helper;

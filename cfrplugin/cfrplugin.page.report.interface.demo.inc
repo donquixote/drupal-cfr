@@ -1,6 +1,7 @@
 <?php
 
 use Donquixote\CallbackReflection\Util\CodegenUtil;
+use Donquixote\Cf\Exception\EvaluatorException;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
@@ -50,18 +51,32 @@ function _cfrplugin_report_interface_demo_page($interface) {
       $out['object'] = UiDumpUtil::dumpDataInFieldset($object, t('Behavior object'));
     }
     else {
-      drupal_set_message(t('The confGetValue() method had an unexpected return value.'), 'warning');
+      kdpm($object, 'Value from Configurator*::confGetValue()');
+      drupal_set_message(
+        t(
+          'The @configurator_class::confGetValue() method had an unexpected return value.',
+          [
+            '@configurator_class' => get_class($configurator),
+          ]),
+        'warning');
       $out['object'] = UiDumpUtil::dumpDataInFieldset($object, t('Unexpected value or object'));
 
       # \Drupal\krumong\dpm(get_defined_vars());
     }
   }
   catch (\Exception $e) {
-    if ($e instanceof InvalidConfigurationException) {
-      drupal_set_message(t('The configuration is incomplete or invalid.'), 'warning');
+    if ($e instanceof EvaluatorException) {
+      drupal_set_message(t('The configuration could not be evaluated.'), 'warning');
     }
     else {
-      drupal_set_message(t('The confGetValue() method threw an unexpected type of exception.'), 'warning');
+      drupal_set_message(
+        t(
+          'The @configurator_class::confGetValue() method threw a @exception_class exception.',
+          [
+            '@configurator_class' => get_class($configurator),
+            '@exception_class' => get_class($e),
+          ]),
+        'warning');
     }
     $out['exception'] = [
         '#type' => 'fieldset',
@@ -162,7 +177,10 @@ function cfrplugin_report_interface_demo_page_form(array $form,
  * @param array $form_state
  */
 function cfrplugin_report_interface_demo_page_form_submit(
-  /** @noinspection PhpUnusedParameterInspection */ array &$form, array &$form_state) {
+  /** @noinspection PhpUnusedParameterInspection */ array &$form,
+  array &$form_state
+) {
+  # dpm($form_state['values'], __FUNCTION__);
   $options['query']['plugin'] = $form_state['values']['plugin'];
   drupal_goto($_GET['q'], $options);
 }

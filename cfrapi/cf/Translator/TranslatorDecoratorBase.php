@@ -47,7 +47,7 @@ class TranslatorDecoratorBase implements TranslatorInterface {
    * @return string
    */
   public function translate($string, array $replacements = []) {
-    return $this->translator->translate($string);
+    return $this->translator->translate($string, $replacements);
   }
 
 }

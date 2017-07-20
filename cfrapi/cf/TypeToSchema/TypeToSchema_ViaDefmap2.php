@@ -3,48 +3,47 @@
 namespace Donquixote\Cf\TypeToSchema;
 
 use Donquixote\Cf\Context\CfContextInterface;
-use Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
-use Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface;
-use Drupal\cfrfamily\DrilldownSchema\CfSchema_Drilldown_FromDefinitionMap;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface;
+use Donquixote\Cf\Schema\Drilldown\CfSchema_Drilldown_FromDefinitionMap;
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface;
 
 class TypeToSchema_ViaDefmap2 implements TypeToSchemaInterface {
 
   /**
-   * @var \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @var \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    */
   private $typeToDefmap;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
+   * @var \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface
    */
-  private $definitionToCfrSchema;
+  private $definitionToSchema;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToLabel;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToGrouplabel;
 
   /**
-   * @param \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
-   * @param \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
+   * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+   * @param \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
    */
   public function __construct(
     TypeToDefmapInterface $typeToDefmap,
-    DefinitionToSchemaInterface $definitionToCfrSchema,
+    DefinitionToSchemaInterface $definitionToSchema,
     DefinitionToLabelInterface $definitionToLabel,
     DefinitionToLabelInterface $definitionToGrouplabel
   ) {
     $this->typeToDefmap = $typeToDefmap;
-    $this->definitionToCfrSchema = $definitionToCfrSchema;
+    $this->definitionToSchema = $definitionToSchema;
     $this->definitionToLabel = $definitionToLabel;
     $this->definitionToGrouplabel = $definitionToGrouplabel;
   }
@@ -63,7 +62,7 @@ class TypeToSchema_ViaDefmap2 implements TypeToSchemaInterface {
       $defmap,
       $this->definitionToLabel,
       $this->definitionToGrouplabel,
-      $this->definitionToCfrSchema,
+      $this->definitionToSchema,
       $context);
   }
 }

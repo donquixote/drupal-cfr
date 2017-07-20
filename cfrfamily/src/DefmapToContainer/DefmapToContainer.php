@@ -4,8 +4,8 @@ namespace Drupal\cfrfamily\DefmapToContainer;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface;
-use Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface;
+use Donquixote\Cf\DefinitionMap\DefinitionMapInterface;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface;
 
 use Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainer_FromDefmap;
 
@@ -17,19 +17,19 @@ class DefmapToContainer implements DefmapToContainerInterface {
   private $definitionToConfigurator;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToLabel;
 
   /**
-   * @var \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface
+   * @var \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    */
   private $definitionToGrouplabel;
 
   /**
    * @param \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
-   * @param \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+   * @param \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
    */
   public function __construct(
     DefinitionToConfiguratorInterface $definitionToConfigurator,
@@ -42,7 +42,7 @@ class DefmapToContainer implements DefmapToContainerInterface {
   }
 
   /**
-   * @param \Drupal\cfrfamily\DefinitionMap\DefinitionMapInterface $definitionMap
+   * @param \Donquixote\Cf\DefinitionMap\DefinitionMapInterface $definitionMap
    * @param \Drupal\cfrapi\Context\CfrContextInterface $context
    *
    * @return \Drupal\cfrfamily\CfrFamilyContainer\CfrFamilyContainerInterface

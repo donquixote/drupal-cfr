@@ -3,19 +3,19 @@
 namespace Drupal\cfrrealm\Container;
 
 use Donquixote\Containerkit\Container\ContainerBase;
-use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel;
+use Donquixote\Cf\DefinitionToLabel\DefinitionToLabel;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel_FromModuleName;
 use Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamily;
 use Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamily_InlineExpanded;
 use Drupal\cfrfamily\DefmapToContainer\DefmapToContainer;
-use Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchema;
+use Donquixote\Cf\DefmapToDrilldownSchema\DefmapToDrilldownSchema;
 use Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamily_ViaDefmap;
 use Donquixote\Cf\TypeToSchema\TypeToSchema_AddTag;
 use Donquixote\Cf\TypeToSchema\TypeToSchema_Buffer;
 use Donquixote\Cf\TypeToSchema\TypeToSchema_InlineExpanded;
 use Donquixote\Cf\TypeToSchema\TypeToSchema_ViaDefmap;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_Buffer;
-use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfrSchema;
+use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfSchema;
 use Drupal\cfrrealm\TypeToContainer\TypeToContainer_Buffer;
 use Drupal\cfrrealm\TypeToContainer\TypeToContainer_ViaDefmap;
 
@@ -42,60 +42,60 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
    * @return \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
    */
   protected function getTypeToConfiguratorUnbuffered() {
-    return new TypeToConfigurator_ViaCfrSchema(
-      $this->typeToCfrSchema,
-      $this->cfrSchemaToConfigurator_proxy);
+    return new TypeToConfigurator_ViaCfSchema(
+      $this->typeToSchema,
+      $this->schemaToConfigurator_proxy);
   }
 
   /**
    * @return \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface
    *
-   * @see $typeToCfrSchema_tagged
+   * @see $typeToSchema_tagged
    */
-  protected function get_typeToCfrSchema_tagged() {
+  protected function get_typeToSchema_tagged() {
 
-    $typeToCfrSchema = $this->typeToCfrSchema;
-    $typeToCfrSchema = new TypeToSchema_AddTag($typeToCfrSchema);
-    $typeToCfrSchema = new TypeToSchema_Buffer($typeToCfrSchema);
+    $typeToSchema = $this->typeToSchema;
+    $typeToSchema = new TypeToSchema_AddTag($typeToSchema);
+    $typeToSchema = new TypeToSchema_Buffer($typeToSchema);
 
-    return $typeToCfrSchema;
+    return $typeToSchema;
   }
 
   /**
    * @return \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface
    *
-   * @see $typeToCfrSchema
+   * @see $typeToSchema
    */
-  protected function get_typeToCfrSchema() {
+  protected function get_typeToSchema() {
 
-    $typeToCfrSchema = new TypeToSchema_ViaDefmap(
+    $typeToSchema = new TypeToSchema_ViaDefmap(
       $this->typeToDefmap,
       $this->defmapToDrilldownSchema);
 
-    $typeToCfrSchema = new TypeToSchema_InlineExpanded(
-      $typeToCfrSchema,
+    $typeToSchema = new TypeToSchema_InlineExpanded(
+      $typeToSchema,
       $this->typeToDefmap);
 
-    # $typeToCfrSchema = new TypeToCfrSchema_AddTag($typeToCfrSchema);
+    # $typeToSchema = new TypeToSchema_AddTag($typeToSchema);
 
-    $typeToCfrSchema = new TypeToSchema_Buffer($typeToCfrSchema);
+    $typeToSchema = new TypeToSchema_Buffer($typeToSchema);
 
-    return $typeToCfrSchema;
+    return $typeToSchema;
   }
 
   /**
-   * @return \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   * @return \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
    *
-   * @see $cfrSchemaToConfigurator_proxy
+   * @see $schemaToConfigurator_proxy
    */
-  abstract protected function get_cfrSchemaToConfigurator_proxy();
+  abstract protected function get_schemaToConfigurator_proxy();
 
   /**
-   * @return \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   * @return \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
    *
-   * @see $cfrSchemaToConfigurator
+   * @see $schemaToConfigurator
    */
-  abstract protected function get_cfrSchemaToConfigurator();
+  abstract protected function get_schemaToConfigurator();
 
   /**
    * @return \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface
@@ -107,13 +107,13 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface
+   * @return \Donquixote\Cf\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface
    *
    * @see $defmapToDrilldownSchema
    */
   protected function get_defmapToDrilldownSchema() {
     return new DefmapToDrilldownSchema(
-      $this->definitionToCfrSchema_proxy,
+      $this->definitionToSchema_proxy,
       $this->definitionToLabel,
       $this->definitionToGrouplabel);
   }
@@ -130,11 +130,11 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface
+   * @return \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface
    *
-   * @see $definitionToCfrSchema
+   * @see $definitionToSchema
    */
-  abstract protected function get_definitionToCfrSchema();
+  abstract protected function get_definitionToSchema();
 
   /**
    * @return \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface
@@ -144,7 +144,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   abstract protected function get_definitionToConfigurator();
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel
+   * @return \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    *
    * @see $definitionToLabel
    */
@@ -153,7 +153,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   }
 
   /**
-   * @return \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel_FromModuleName
+   * @return \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
    *
    * @see $definitionToGrouplabel
    */
@@ -162,7 +162,7 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   }
 
   /**
-   * @return \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface
+   * @return \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
    *
    * @see $typeToDefmap
    */

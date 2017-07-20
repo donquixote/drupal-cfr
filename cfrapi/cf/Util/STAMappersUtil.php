@@ -39,8 +39,6 @@ final class STAMappersUtil extends UtilBase {
     $mappers = [];
     foreach ($factoriesIA as $factory) {
 
-
-
       $candidate = SchemaToAnything_CallbackInstanceof::createFrom(
         $factory->getCallback()
       );

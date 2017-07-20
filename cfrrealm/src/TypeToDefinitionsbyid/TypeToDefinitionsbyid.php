@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrrealm\TypeToDefinitionsbyid;
 
+use Donquixote\Cf\TypeToDefinitionsbyid\TypeToDefinitionsbyidInterface;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
 
 class TypeToDefinitionsbyid implements TypeToDefinitionsbyidInterface {

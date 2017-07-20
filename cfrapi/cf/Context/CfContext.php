@@ -7,7 +7,7 @@ class CfContext implements CfContextInterface {
   /**
    * @var mixed[]
    */
-  private $values = [];
+  private $values;
 
   /**
    * @var string|null

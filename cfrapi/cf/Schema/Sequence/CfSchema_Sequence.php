@@ -6,7 +6,7 @@ use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 
-class CfSchema_Sequence extends CfSchema_Sequence_PassthruBase {
+class CfSchema_Sequence implements CfSchema_SequenceInterface {
 
   /**
    * @var \Donquixote\Cf\Schema\CfSchemaInterface

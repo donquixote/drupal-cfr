@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrplugin\Util;
 
-use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
+use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface;
 use Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfigurator_ConfiguratorObject;
 use Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfigurator_FixedValue;
 use Drupal\cfrapi\Util\UtilBase;
@@ -17,15 +17,19 @@ final class ServiceFactoryUtil extends UtilBase {
 
   /**
    * @param \Drupal\cfrreflection\CfrGen\CallbackToConfigurator\CallbackToConfiguratorInterface $valueCtc
-   * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+   * @param \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator
    *
    * @return \Drupal\cfrfamily\ArgDefToConfigurator\ArgDefToConfiguratorInterface[]
    */
-  public static function createDeftocfrMappers(CallbackToConfiguratorInterface $valueCtc, CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator) {
+  public static function createDeftocfrMappers(
+    CallbackToConfiguratorInterface $valueCtc,
+    SchemaToConfiguratorInterface $schemaToConfigurator
+  ) {
     $classToCallback = new ClassNameToCallback();
     $callbackToCallback = new CallableToCallback();
     $cfrFactoryCtc = new CallbackToConfigurator_ConfiguratorFactory();
-    $schemaFactoryCtc = new CallbackToConfigurator_SchemaFactory($cfrSchemaToConfigurator);
+    $schemaFactoryCtc = new CallbackToConfigurator_SchemaFactory($schemaToConfigurator);
+
     return [
       'configurator' => new ArgDefToConfigurator_ConfiguratorObject(),
       'configurator_class' => new ArgDefToConfigurator_Callback($classToCallback, 'configurator_arguments', $cfrFactoryCtc),

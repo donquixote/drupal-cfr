@@ -26,28 +26,6 @@ class Configurator_ValueToValueSchema extends Configurator_DecoratorBase {
 
   /**
    * @param mixed $conf
-   *   Configuration from a form, config file or storage.
-   * @param string|null $label
-   *   Label for the form element, specifying the purpose where it is used.
-   *
-   * @return array
-   */
-  public function confGetForm($conf, $label) {
-
-    $paramLabel = $this->valueToValueSchema->getLabel();
-
-    if (NULL === $label) {
-      $label = $paramLabel;
-    }
-    elseif (NULL !== $this->valueToValueSchema->getLabel()) {
-      $label .= ' | ' . $paramLabel;
-    }
-
-    return parent::confGetForm($conf, $label);
-  }
-
-  /**
-   * @param mixed $conf
    *
    * @return mixed
    *

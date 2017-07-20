@@ -20,9 +20,13 @@ trait BrokenConfiguratorTrait {
     /** @noinspection PhpUnusedParameterInspection */ $conf,
     /** @noinspection PhpUnusedParameterInspection */ $label
   ) {
+    \Drupal\krumong\dpm($this);
+
     // @todo Add an element that causes validation to fail.
     return [
-      '#markup' => '- ' . t('Broken configurator') . ' -<pre>' . print_r($this, TRUE) . '</pre>',
+      '#markup' => '- ' . t('Broken configurator') . ' -'
+        # . '<pre>' . print_r($this, TRUE) . '</pre>'
+        . '',
       '#element_validate' => [
         function (array $element) {
           form_error($element, "Broken configurator. The form will always fail to validate.");

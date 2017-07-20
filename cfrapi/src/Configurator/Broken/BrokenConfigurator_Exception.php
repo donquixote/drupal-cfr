@@ -18,4 +18,11 @@ class BrokenConfigurator_Exception extends BrokenConfiguratorBase {
     $this->exception = $exception;
   }
 
+  /**
+   * @return \Drupal\cfrapi\Exception\ConfiguratorCreationException
+   */
+  public function getException() {
+    return $this->exception;
+  }
+
 }

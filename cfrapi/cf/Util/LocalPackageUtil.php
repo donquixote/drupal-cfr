@@ -2,12 +2,33 @@
 
 namespace Donquixote\Cf\Util;
 
+use Donquixote\CallbackReflection\CodegenHelper\CodegenHelper;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
 use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
 use Donquixote\Cf\Discovery\NamespaceDirectory;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnything_CallbackInstanceof;
+use Drupal\cfrplugin\Util\UiCodeUtil;
 
 final class LocalPackageUtil extends UtilBase {
+
+  /**
+   * @return \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface[][]
+   */
+  public static function collectSTAMappersGrouped() {
+
+    $grouped = [];
+    foreach (self::collectSTAMappers() as $mapper) {
+      if ($mapper instanceof SchemaToAnything_CallbackInstanceof) {
+        $k = $mapper->getSchemaInterface();
+      }
+      else {
+        $k = '?';
+      }
+      $grouped[$k][] = $mapper;
+    }
+
+    return $grouped;
+  }
 
   /**
    * @return \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface[]
@@ -15,49 +36,50 @@ final class LocalPackageUtil extends UtilBase {
   public static function collectSTAMappers() {
 
     $factoriesIA = self::getAnnotatedFactoriesIA('Cf');
-
-    $mappers = [];
-    foreach ($factoriesIA as $factory) {
-
-      $candidate = SchemaToAnything_CallbackInstanceof::createFrom(
-        $factory->getCallback()
-      );
-
-      if (NULL !== $candidate) {
-        $mappers[] = $candidate;
-      }
-    }
-
-    return $mappers;
-  }
-
-  public static function collectSTSMappers() {
-
-    $factoriesIA = self::getAnnotatedFactoriesIA('Cf');
-
-    $mappers = [];
-    foreach ($factoriesIA as $factory) {
-
-
-
-      $candidate = SchemaToAnything_CallbackInstanceof::createFrom(
-        $factory->getCallback()
-      );
-
-      if (NULL !== $candidate) {
-        $mappers[] = $candidate;
-      }
-    }
-
-    return $mappers;
-  }
-
-  public static function getFactoriesByType() {
-
+    return STAMappersUtil::collectSTAMappers($factoriesIA);
   }
 
   /**
-   * @param $annotationTagName
+   * @return \Donquixote\Cf\SchemaToSomething\SchemaToSomethingInterface[]
+   */
+  public static function collectSTSMappers() {
+
+    $factoriesIA = self::getAnnotatedFactoriesIA('Cf');
+    return STAMappersUtil::collectSTSMappers($factoriesIA);
+  }
+
+  /**
+   * @param string $annotationTagName
+   *
+   * @return string
+   */
+  public static function showFactoriesPhpNice($annotationTagName) {
+    $php = self::showFactoriesPhp($annotationTagName);
+    return UiCodeUtil::highlightPhp($php);
+  }
+
+  /**
+   * @param string $annotationTagName
+   *
+   * @return string
+   */
+  public static function showFactoriesPhp($annotationTagName) {
+
+    $argsPhp = ['$schema'];
+    $helper = new CodegenHelper();
+
+    $itemsPhp = [];
+    foreach (self::getAnnotatedFactoriesIA($annotationTagName) as $factory) {
+      $itemsPhp[] = $factory->getCallback()->argsPhpGetPhp($argsPhp, $helper);
+    }
+
+    $php = PhpUtil::phpArray($itemsPhp);
+
+    return PhpUtil::formatAsFile('return ' . $php);
+  }
+
+  /**
+   * @param string $annotationTagName
    *
    * @return \Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIAInterface
    */
@@ -72,8 +94,7 @@ final class LocalPackageUtil extends UtilBase {
    */
   public static function getClassFilesIA() {
     return ClassFilesIA_NamespaceDirectory::createFromNsdirObject(
-      self::getNamespaceDir()
-    );
+      self::getNamespaceDir());
   }
 
   /**

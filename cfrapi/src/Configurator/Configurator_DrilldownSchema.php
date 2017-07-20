@@ -4,12 +4,10 @@ namespace Drupal\cfrapi\Configurator;
 
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
-use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface;
 use Drupal\cfrapi\Exception\ConfiguratorCreationException;
 use Drupal\cfrapi\PossiblyOptionless\PossiblyOptionlessInterface;
+use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface;
 use Drupal\cfrfamily\Configurator\Composite\Configurator_IdConfBase;
-use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
 
 class Configurator_DrilldownSchema extends Configurator_IdConfBase {
 
@@ -19,28 +17,24 @@ class Configurator_DrilldownSchema extends Configurator_IdConfBase {
   private $drilldownSchema;
 
   /**
-   * @var \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface
+   * @var \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
    */
-  private $cfrSchemaToConfigurator;
+  private $schemaToConfigurator;
 
   /**
    * @param \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface $drilldownSchema
-   * @param \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+   * @param \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator
    * @param bool $required
    */
   public function __construct(
     CfSchema_DrilldownInterface $drilldownSchema,
-    CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator,
+    SchemaToConfiguratorInterface $schemaToConfigurator,
     $required = TRUE
   ) {
     $this->drilldownSchema = $drilldownSchema;
-    $this->cfrSchemaToConfigurator = $cfrSchemaToConfigurator;
+    $this->schemaToConfigurator = $schemaToConfigurator;
 
-    parent::__construct(
-      $required,
-      ($drilldownSchema instanceof IdValueToValueInterface)
-        ? $drilldownSchema
-        : NULL);
+    parent::__construct($required);
   }
 
   /**
@@ -97,44 +91,18 @@ class Configurator_DrilldownSchema extends Configurator_IdConfBase {
   protected function idGetConfigurator($id) {
 
     // @todo Cache this!
-    if (NULL === $cfrSchema = $this->drilldownSchema->idGetSchema($id)) {
+    if (NULL === $schema = $this->drilldownSchema->idGetSchema($id)) {
       return NULL;
     }
 
     try {
-      return $this->cfrSchemaToConfigurator->cfrSchemaGetConfigurator(
-        $cfrSchema);
+      return $this->schemaToConfigurator->schemaGetConfigurator(
+        $schema);
     }
     catch (ConfiguratorCreationException $e) {
-      # dpm($e->getMessage(), get_class($cfrSchema));
+      dpm($schema, $e->getMessage());
+      # dpm($e->getMessage(), get_class($schema));
       return NULL;
     }
-  }
-
-  /**
-   * @param string $id
-   * @param mixed $optionsConf
-   *
-   * @return mixed
-   *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   */
-  public function idConfGetValue($id, $optionsConf) {
-    $value = parent::idConfGetValue($id, $optionsConf);
-    return $this->drilldownSchema->idValueGetValue($id, $value);
-  }
-
-  /**
-   * @param string $id
-   * @param mixed $conf
-   * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
-   *
-   * @return string
-   *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
-   */
-  public function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
-    $php = parent::idConfGetPhp($id, $conf, $helper);
-    return $this->drilldownSchema->idPhpGetPhp($id, $php);
   }
 }

@@ -75,10 +75,11 @@ final class UiDumpUtil extends UtilBase {
           // @todo This should probably be in a template. One day.
           . '<dl>'
           . '  <dt>' . t(
-            'Exception in line %line of %file', [
-            '%line' => $e->getLine(),
-            '%file' => basename($file)
-          ]
+            'Exception in line %line of %file',
+            [
+              '%line' => $e->getLine(),
+              '%file' => basename($file)
+            ]
           ) . '</dt>'
           . '  <dd><code>' . check_plain($file) . '</code></dd>'
           . '  <dt>'
@@ -86,7 +87,7 @@ final class UiDumpUtil extends UtilBase {
           . '</dt>'
           . '  <dd>' . check_plain($e_class) . '</dt>'
           . '  <dt>' . t('Exception message:') . '</dt>'
-          . '  <dd>' . check_plain($e->getMessage()) . '</dd>'
+          . '  <dd><pre>' . check_plain($e->getMessage()) . '</pre></dd>'
           . '</dl>',
       ],
       'trace_label' => [
@@ -144,7 +145,7 @@ final class UiDumpUtil extends UtilBase {
   public static function dumpValue($v) {
 
     if (!is_object($v) && !is_array($v)) {
-      return '<pre>' . var_export($v) . '</pre>';
+      return '<pre>' . var_export($v, TRUE) . '</pre>';
     }
 
     if (function_exists('Drupal\krumong\dpm')) {

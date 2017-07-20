@@ -1,6 +1,11 @@
 <?php
 
+use Donquixote\Cf\Schema\Options\CfSchema_Options_Fixed;
+use Donquixote\Cf\Schema\Sequence\CfSchema_Sequence;
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
+
+require_once __DIR__ . '/cfrapi.element.cf_schema.inc';
+require_once __DIR__ . '/cfrapi.element.sequence.inc';
 
 /**
  * Implements hook_element_info().
@@ -14,11 +19,33 @@ function cfrapi_element_info() {
       '#process' => ['_cfrapi_element_process'],
       '#cfrapi_confToForm' => NULL,
     ],
+    'cfrapi_cf_schema' => [
+      '#input' => TRUE,
+      '#tree' => TRUE,
+      /* @see _cfrapi_cf_schema_element_process() */
+      '#process' => ['_cfrapi_cf_schema_element_process'],
+      /* @see _cfrapi_cf_schema_element_value() */
+      '#value_callback' => '_cfrapi_cf_schema_element_value',
+      // This needs to be set.
+      '#cf_schema' => NULL,
+      '#title' => NULL,
+    ],
     'cfrapi_id_conf' => [
       /* @see _cfrapi_id_conf_element_process() */
       '#process' => ['_cfrapi_id_conf_element_process'],
       '#theme_wrappers' => ['themekit_container'],
       '#cfrapi_confToForm' => NULL,
+    ],
+    // @todo Should live in a different module..
+    'cfrapi_sequence' => [
+      '#input' => TRUE,
+      '#tree' => TRUE,
+      /* @see _cfrapi_sequence_element_process() */
+      '#process' => ['_cfrapi_sequence_element_process'],
+      /* @see _cfrapi_sequence_element_value() */
+      '#value_callback' => '_cfrapi_sequence_element_value',
+      // This needs to be set.
+      '#sequence_item_element_callback' => NULL,
     ],
   ];
 }
@@ -70,4 +97,97 @@ function _cfrapi_depended_element_ajax_callback(
   array &$form_state
 ) {
   return $form_state['triggering_element']['#depending_element_reference'];
+}
+
+function cfrapi_init() {
+  # dpm($_GET['q'], __FUNCTION__ . '() - $_GET[q]');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function cfrapi_menu() {
+  $items = [];
+
+  $items['admin/reports/cfrplugin/cfrapi-demo-form'] = [
+    'title' => 'Demo form',
+    'access arguments' => ['administer site configuration'],
+    /* @see drupal_get_form() */
+    'page callback' => 'drupal_get_form',
+    /* @see _cfrapi_demo_form() */
+    'page arguments' => ['_cfrapi_demo_form'],
+  ];
+
+  return $items;
+}
+
+/**
+ * @return array
+ */
+function _cfrapi_demo_form(/* array $form, array &$form_state */) {
+
+  $form['sequence'] = [
+    '#type' => 'cfrapi_sequence',
+    '#sequence_item_element_callback' => '_cfrapi_demo_form_sequence_item',
+    '#default_value' => ['a', 'b', 'c'],
+  ];
+
+  /*
+  $form['sequence2'] = [
+    '#type' => 'cfrapi_sequence',
+    '#sequence_item_element_callback' => '_cfrapi_demo_form_sequence_item',
+    '#default_value' => ['aa', 'bb', 'cc'],
+  ];
+  */
+
+  /*
+  $itemSchema = new CfSchema_Options_Fixed(
+    [
+      '' => [
+        'a' => 'A',
+        'b' => 'B',
+        'c' => 'C',
+      ],
+    ]);
+
+  $schema = new CfSchema_Sequence($itemSchema);
+
+  $form['test'] = [
+    '#type' => 'cfrapi_cf_schema',
+    '#title' => t('Test'),
+    '#cf_schema' => $schema,
+  ];
+  */
+
+  $form['submit'] = [
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  ];
+
+  return $form;
+}
+
+/**
+ * @param mixed $item_value
+ * @param string $label
+ *
+ * @return array
+ */
+function _cfrapi_demo_form_sequence_item($item_value, $label) {
+
+  return [
+    '#title' => $label,
+    '#type' => 'textfield',
+    '#default_value' => $item_value,
+    '#required' => true,
+  ];
+}
+
+/**
+ * @param array $form
+ * @param array $form_state
+ */
+function _cfrapi_demo_form_submit(array $form, array &$form_state) {
+  dpm(get_defined_vars(), __FUNCTION__ . ' get_defined_vars()');
+  dpm($form_state['values'], __FUNCTION__ . ' VALUES');
 }

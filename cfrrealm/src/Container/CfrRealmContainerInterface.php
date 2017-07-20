@@ -12,22 +12,25 @@ namespace Drupal\cfrrealm\Container;
  *
  * @property \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $typeToConfigurator
  * @property \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface $typeToCfrFamily
- * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToCfrSchema_tagged
- * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToCfrSchema
- * @property \Drupal\cfrfamily\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface $defmapToDrilldownSchema
+ * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToSchema_tagged
+ * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToSchema
+ * @property \Donquixote\Cf\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface $defmapToDrilldownSchema
  * @property \Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface $defmapToCfrFamily
  * @property \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
- * @property \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema_proxy
- * @property \Drupal\cfrfamily\DefinitionToCfrSchema\DefinitionToSchemaInterface $definitionToCfrSchema
- * @property \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator_proxy
- * @property \Drupal\cfrapi\CfrSchemaToConfigurator\CfrSchemaToConfiguratorInterface $cfrSchemaToConfigurator
+ * @property \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema_proxy
+ * @property \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema
+ * @property \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator_proxy
+ * @property \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator
+ * @property \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $schemaFormHelper
+ * @property \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+ * @property \Donquixote\Cf\Translator\TranslatorInterface $translator
  *
  * Non-circular:
- * @property \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
- * @property \Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
+ * @property \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
+ * @property \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
  *
  * To be provided by child container:
- * @property \Drupal\cfrrealm\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+ * @property \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
  *
  * Deprecation candidate:
  * @property \Drupal\cfrrealm\TypeToContainer\TypeToContainerInterface $typeToContainer

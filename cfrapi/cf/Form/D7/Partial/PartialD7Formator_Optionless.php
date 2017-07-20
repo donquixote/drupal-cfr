@@ -12,7 +12,7 @@ class PartialD7Formator_Optionless implements PartialD7FormatorInterface {
    *
    * @param \Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface $schema
    *
-   * @return \Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface
+   * @return self
    */
   public static function create(
     /** @noinspection PhpUnusedParameterInspection */ CfSchema_OptionlessInterface $schema

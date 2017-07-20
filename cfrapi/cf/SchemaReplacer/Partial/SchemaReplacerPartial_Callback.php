@@ -5,20 +5,21 @@ namespace Donquixote\Cf\SchemaReplacer\Partial;
 use Donquixote\Cf\Context\CfContextInterface;
 use Donquixote\Cf\Schema\Callback\CfSchema_CallbackInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Donquixote\Cf\Schema\Group\GroupSchema_Callback;
+use Donquixote\Cf\Schema\GroupVal\CfSchema_GroupVal_Callback;
 use Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContext;
+use Donquixote\Cf\Schema\Label\CfSchema_Label;
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional;
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional_Null;
 use Donquixote\Cf\Schema\ValueProvider\CfSchema_ValueProvider_Callback;
-use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValue_Callback;
+use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValue_CallbackMono;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
-use Drupal\cfrreflection\ParamToLabel\ParamToLabel;
-use Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface;
+use Donquixote\Cf\ParamToLabel\ParamToLabel;
+use Donquixote\Cf\ParamToLabel\ParamToLabelInterface;
 
 class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
 
   /**
-   * @var \Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface
+   * @var \Donquixote\Cf\ParamToLabel\ParamToLabelInterface
    */
   private $paramToLabel;
 
@@ -30,7 +31,7 @@ class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
   }
 
   /**
-   * @param \Drupal\cfrreflection\ParamToLabel\ParamToLabelInterface $paramToLabel
+   * @param \Donquixote\Cf\ParamToLabel\ParamToLabelInterface $paramToLabel
    */
   public function __construct(ParamToLabelInterface $paramToLabel) {
     $this->paramToLabel = $paramToLabel;
@@ -44,27 +45,27 @@ class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
   }
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $original
    * @param \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $replacer
    *
    * @return \Donquixote\Cf\Schema\CfSchemaInterface|null
    */
-  public function schemaGetReplacement(CfSchemaInterface $schema, SchemaReplacerInterface $replacer) {
+  public function schemaGetReplacement(CfSchemaInterface $original, SchemaReplacerInterface $replacer) {
 
-    if (!$schema instanceof CfSchema_CallbackInterface) {
+    if (!$original instanceof CfSchema_CallbackInterface) {
       return NULL;
     }
 
-    $callback = $schema->getCallback();
+    $callback = $original->getCallback();
     $params = $callback->getReflectionParameters();
 
     if (0 === $nParams = count($params)) {
       return new CfSchema_ValueProvider_Callback($callback);
     }
 
-    $explicitParamSchemas = $schema->getExplicitParamSchemas();
-    $explicitParamLabels = $schema->getExplicitParamLabels();
-    $context = $schema->getContext();
+    $explicitParamSchemas = $original->getExplicitParamSchemas();
+    $explicitParamLabels = $original->getExplicitParamLabels();
+    $context = $original->getContext();
 
     $paramSchemas = [];
     $paramLabels = [];
@@ -91,14 +92,14 @@ class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
     }
 
     if (1 === $nParams) {
-      $schema = new CfSchema_ValueToValue_Callback(
+      $replacement = new CfSchema_ValueToValue_CallbackMono(
         $paramSchemas[0],
         $callback);
-      $schema = $schema->withLabel($paramLabels[0]);
-      return $schema;
+      $replacement = new CfSchema_Label($replacement, $paramLabels[0]);
+      return $replacement;
     }
 
-    return new GroupSchema_Callback(
+    return CfSchema_GroupVal_Callback::create(
       $callback,
       $paramSchemas,
       $paramLabels);

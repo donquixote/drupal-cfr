@@ -5,6 +5,8 @@ namespace Donquixote\Cf\Form\D7\Partial;
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Form\D7\Util\D7FormUtil;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
+use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
+use Donquixote\Cf\Schema\Options\CfSchema_Options_Fixed;
 use Donquixote\Cf\Util\ConfUtil;
 
 /**
@@ -42,7 +44,7 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
       '#attributes' => ['class' => ['cfr-drilldown']],
       '#tree' => TRUE,
       'id' => D7FormUtil::optionsSchemaBuildSelectElement(
-        $this->schema,
+        $this->getOptionsSchema(),
         $id,
         $label),
       '#input' => TRUE,
@@ -78,6 +80,25 @@ class PartialD7Formator_Drilldown implements PartialD7FormatorInterface {
     ];
 
     return $form;
+  }
+
+  /**
+   * @return \Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface
+   */
+  private function getOptionsSchema() {
+
+    $groupedOptions = [];
+    foreach ($this->schema->getGroupedOptions() as $groupLabel => $groupOptions) {
+      foreach ($groupOptions as $id => $label) {
+        $idSchema = $this->schema->idGetSchema($id);
+        if (!$idSchema instanceof CfSchema_OptionlessInterface) {
+          $label .= '…';
+        }
+        $groupedOptions[$groupLabel][$id] = $label;
+      }
+    }
+
+    return new CfSchema_Options_Fixed($groupedOptions);
   }
 
   /**
