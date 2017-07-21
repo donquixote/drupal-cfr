@@ -12,14 +12,8 @@ interface CfSchema_TwoStepValInterface extends CfSchema_DecoratorBaseInterface {
   public function getDecorated();
 
   /**
-   * @param mixed $firstStepValue
-   *   Value from the first step of configuration.
-   * @param mixed $secondStepValue
-   *   Value from the second step of configuration.
-   *
-   * @return mixed
-   *   The final value.
+   * @return \Donquixote\Cf\V2V\TwoStep\V2V_TwoStepInterface
    */
-  public function valuesGetValue($firstStepValue, $secondStepValue);
+  public function getV2V();
 
 }

@@ -42,7 +42,7 @@ class EvaluatorPartial_Sequence implements EvaluatorPartialInterface {
    * @return self
    */
   public static function createFromSequenceValSchema(CfSchema_SequenceValInterface $schema) {
-    return new self($schema->getDecorated()->getItemSchema(), $schema);
+    return new self($schema->getDecorated()->getItemSchema(), $schema->getV2V());
   }
 
 
