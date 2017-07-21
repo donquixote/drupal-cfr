@@ -2,18 +2,9 @@
 
 namespace Donquixote\Cf\Form\D7\Helper;
 
-use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\Form\D7\D7FormatorInterface;
 
-interface D7FormatorHelperInterface {
-
-  /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
-   * @param mixed $conf
-   * @param string $label
-   *
-   * @return array
-   */
-  public function schemaConfGetD7Form(CfSchemaInterface $schema, $conf, $label);
+interface D7FormatorHelperInterface extends D7FormatorInterface {
 
   /**
    * @param string $string
