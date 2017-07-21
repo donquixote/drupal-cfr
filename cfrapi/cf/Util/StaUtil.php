@@ -6,6 +6,7 @@ use Donquixote\Cf\Emptyness\EmptynessInterface;
 use Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
+use Donquixote\Cf\Summarizer\P2\SummarizerP2Interface;
 
 final class StaUtil extends UtilBase {
 
@@ -27,6 +28,16 @@ final class StaUtil extends UtilBase {
    */
   public static function emptyness(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
     return self::getObject($schema, $schemaToAnything, EmptynessInterface::class);
+  }
+
+  /**
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+   *
+   * @return \Donquixote\Cf\Summarizer\P2\SummarizerP2Interface
+   */
+  public static function summarizerP2(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
+    return self::getObject($schema, $schemaToAnything, SummarizerP2Interface::class);
   }
 
   /**
