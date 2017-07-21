@@ -40,7 +40,7 @@ class EvaluatorPartial_Group implements EvaluatorPartialInterface {
    * @return self
    */
   public static function createFromGroupValSchema(CfSchema_GroupValInterface $schema) {
-    return new self($schema->getDecorated(), $schema);
+    return new self($schema->getDecorated(), $schema->getV2V());
   }
 
   /**

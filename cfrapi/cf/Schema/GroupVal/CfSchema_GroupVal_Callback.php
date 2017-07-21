@@ -5,24 +5,19 @@ namespace Donquixote\Cf\Schema\GroupVal;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Donquixote\CallbackReflection\CodegenHelper\CodegenHelper;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Donquixote\Cf\Schema\Group\CfSchema_Group;
-use Donquixote\Cf\Schema\Group\CfSchema_GroupInterface;
+use Donquixote\Cf\Util\UtilBase;
+use Donquixote\Cf\V2V\Group\V2V_Group_Callback;
 
-class CfSchema_GroupVal_Callback extends CfSchema_GroupValBase {
-
-  /**
-   * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface
-   */
-  private $callbackReflection;
+final class CfSchema_GroupVal_Callback extends UtilBase {
 
   /**
    * @param string $class
    * @param \Donquixote\Cf\Schema\CfSchemaInterface[] $schemas
    * @param string[] $labels
    *
-   * @return self
+   * @return \Donquixote\Cf\Schema\GroupVal\CfSchema_GroupValInterface
    */
   public static function createFromClass($class, array $schemas, array $labels) {
 
@@ -39,7 +34,7 @@ class CfSchema_GroupVal_Callback extends CfSchema_GroupValBase {
    * @param \Donquixote\Cf\Schema\CfSchemaInterface[] $schemas
    * @param string[] $labels
    *
-   * @return self
+   * @return \Donquixote\Cf\Schema\GroupVal\CfSchema_GroupValInterface
    */
   public static function createFromClassStaticMethod($class, $methodName, array $schemas, array $labels) {
 
@@ -56,7 +51,7 @@ class CfSchema_GroupVal_Callback extends CfSchema_GroupValBase {
    * @param \Donquixote\Cf\Schema\CfSchemaInterface[] $schemas
    * @param string[] $labels
    *
-   * @return self
+   * @return \Donquixote\Cf\Schema\GroupVal\CfSchema_GroupValInterface
    */
   public static function createFromCallable($callable, array $schemas, array $labels) {
 
@@ -71,7 +66,7 @@ class CfSchema_GroupVal_Callback extends CfSchema_GroupValBase {
    * @param \Donquixote\Cf\Schema\CfSchemaInterface[] $schemas
    * @param string[] $labels
    *
-   * @return self
+   * @return \Donquixote\Cf\Schema\GroupVal\CfSchema_GroupValInterface
    */
   public static function create(
     CallbackReflectionInterface $callbackReflection,
@@ -79,41 +74,8 @@ class CfSchema_GroupVal_Callback extends CfSchema_GroupValBase {
     array $labels
   ) {
 
-    return new self(
+    return new CfSchema_GroupVal(
       new CfSchema_Group($schemas, $labels),
-      $callbackReflection);
-  }
-
-  /**
-   * @param \Donquixote\Cf\Schema\Group\CfSchema_GroupInterface $groupSchema
-   * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callbackReflection
-   */
-  public function __construct(
-    CfSchema_GroupInterface $groupSchema,
-    CallbackReflectionInterface $callbackReflection
-  ) {
-    $this->callbackReflection = $callbackReflection;
-    parent::__construct($groupSchema);
-  }
-
-  /**
-   * @param mixed[] $values
-   *   Format: $[$groupValItemKey] = $groupValItemValue
-   *
-   * @return mixed
-   */
-  public function valuesGetValue(array $values) {
-    return $this->callbackReflection->invokeArgs($values);
-  }
-
-  /**
-   * @param string[] $itemsPhp
-   *
-   * @return string
-   */
-  public function itemsPhpGetPhp(array $itemsPhp) {
-    // @todo Does the helper need to be passed into this method?
-    $helper = new CodegenHelper();
-    return $this->callbackReflection->argsPhpGetPhp($itemsPhp, $helper);
+      new V2V_Group_Callback($callbackReflection));
   }
 }

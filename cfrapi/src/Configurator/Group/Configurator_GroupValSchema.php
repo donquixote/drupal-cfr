@@ -9,9 +9,9 @@ use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface;
 class Configurator_GroupValSchema extends Configurator_GroupSchema {
 
   /**
-   * @var \Donquixote\Cf\Schema\GroupVal\CfSchema_GroupValInterface
+   * @var \Donquixote\Cf\V2V\Group\V2V_GroupInterface
    */
-  private $groupValSchema;
+  private $v2v;
 
   /**
    * @param \Donquixote\Cf\Schema\GroupVal\CfSchema_GroupValInterface $groupValSchema
@@ -27,7 +27,7 @@ class Configurator_GroupValSchema extends Configurator_GroupSchema {
       $groupValSchema->getDecorated(),
       $schemaToConfigurator);
 
-    $this->groupValSchema = $groupValSchema;
+    $this->v2v = $groupValSchema->getV2V();
   }
 
   /**
@@ -41,7 +41,7 @@ class Configurator_GroupValSchema extends Configurator_GroupSchema {
    */
   public function confGetValue($conf) {
     $values = parent::confGetValue($conf);
-    return $this->groupValSchema->valuesGetValue($values);
+    return $this->v2v->valuesGetValue($values);
   }
 
   /**
@@ -54,6 +54,6 @@ class Configurator_GroupValSchema extends Configurator_GroupSchema {
    */
   public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
     $itemsPhp = parent::confGetPhpStatements($conf, $helper);
-    return $this->groupValSchema->itemsPhpGetPhp($itemsPhp);
+    return $this->v2v->itemsPhpGetPhp($itemsPhp);
   }
 }
