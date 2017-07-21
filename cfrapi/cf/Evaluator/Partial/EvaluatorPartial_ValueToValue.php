@@ -12,15 +12,15 @@ use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface;
 class EvaluatorPartial_ValueToValue extends EvaluatorPartial_DecoratorBase {
 
   /**
-   * @var \Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface
+   * @var \Donquixote\Cf\V2V\Value\V2V_ValueInterface
    */
-  private $valueToValueSchema;
+  private $v2v;
 
   /**
    * @param \Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface $valueToValueSchema
    */
   public function __construct(CfSchema_ValueToValueInterface $valueToValueSchema) {
-    $this->valueToValueSchema = $valueToValueSchema;
+    $this->v2v = $valueToValueSchema->getV2V();
     parent::__construct($valueToValueSchema->getDecorated());
   }
 
@@ -32,7 +32,7 @@ class EvaluatorPartial_ValueToValue extends EvaluatorPartial_DecoratorBase {
    */
   public function confGetValue($conf, ConfToValueHelperInterface $helper) {
     $value = parent::confGetValue($conf, $helper);
-    return $this->valueToValueSchema->valueGetValue($value);
+    return $this->v2v->valueGetValue($value);
   }
 
   /**
@@ -43,6 +43,6 @@ class EvaluatorPartial_ValueToValue extends EvaluatorPartial_DecoratorBase {
    */
   public function confGetPhp($conf, ConfToPhpHelperInterface $helper) {
     $php = parent::confGetPhp($conf, $helper);
-    return $this->valueToValueSchema->phpGetPhp($php);
+    return $this->v2v->phpGetPhp($php);
   }
 }

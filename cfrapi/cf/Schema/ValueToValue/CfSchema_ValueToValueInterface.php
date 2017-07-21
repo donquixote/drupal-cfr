@@ -13,17 +13,8 @@ interface CfSchema_ValueToValueInterface extends CfSchema_TransformableInterface
   public function getDecorated();
 
   /**
-   * @param mixed $value
-   *
-   * @return mixed
+   * @return \Donquixote\Cf\V2V\Value\V2V_ValueInterface
    */
-  public function valueGetValue($value);
-
-  /**
-   * @param string $php
-   *
-   * @return string
-   */
-  public function phpGetPhp($php);
+  public function getV2V();
 
 }

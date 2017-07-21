@@ -92,7 +92,7 @@ class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
     }
 
     if (1 === $nParams) {
-      $replacement = new CfSchema_ValueToValue_CallbackMono(
+      $replacement = CfSchema_ValueToValue_CallbackMono::create(
         $paramSchemas[0],
         $callback);
       $replacement = new CfSchema_Label($replacement, $paramLabels[0]);

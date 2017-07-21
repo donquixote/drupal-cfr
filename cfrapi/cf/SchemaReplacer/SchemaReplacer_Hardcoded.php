@@ -107,7 +107,7 @@ class SchemaReplacer_Hardcoded implements SchemaReplacerInterface {
 
     if (1 === $nParams) {
 
-      $schema = new CfSchema_ValueToValue_CallbackMono(
+      $schema = CfSchema_ValueToValue_CallbackMono::create(
         $paramSchemas[0],
         $callback);
 

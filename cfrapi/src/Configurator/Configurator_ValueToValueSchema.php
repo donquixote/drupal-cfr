@@ -10,7 +10,7 @@ class Configurator_ValueToValueSchema extends Configurator_DecoratorBase {
   /**
    * @var \Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValueInterface
    */
-  private $valueToValueSchema;
+  private $v2v;
 
   /**
    * @param \Drupal\cfrapi\Configurator\ConfiguratorInterface $decorated
@@ -21,7 +21,7 @@ class Configurator_ValueToValueSchema extends Configurator_DecoratorBase {
     CfSchema_ValueToValueInterface $valueToValueSchema
   ) {
     parent::__construct($decorated);
-    $this->valueToValueSchema = $valueToValueSchema;
+    $this->v2v = $valueToValueSchema->getV2V();
   }
 
   /**
@@ -33,7 +33,7 @@ class Configurator_ValueToValueSchema extends Configurator_DecoratorBase {
    */
   public function confGetValue($conf) {
     $value = parent::confGetValue($conf);
-    return $this->valueToValueSchema->valueGetValue($value);
+    return $this->v2v->valueGetValue($value);
   }
 
   /**
@@ -44,6 +44,6 @@ class Configurator_ValueToValueSchema extends Configurator_DecoratorBase {
    */
   public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
     $php = parent::confGetPhp($conf, $helper);
-    return $this->valueToValueSchema->phpGetPhp($php);
+    return $this->v2v->phpGetPhp($php);
   }
 }
