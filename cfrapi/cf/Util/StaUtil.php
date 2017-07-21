@@ -30,6 +30,27 @@ final class StaUtil extends UtilBase {
   }
 
   /**
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface[] $itemSchemas
+   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+   * @param string $interface
+   *
+   * @return mixed[]|null
+   */
+  public static function getMultiple(array $itemSchemas, SchemaToAnythingInterface $schemaToAnything, $interface) {
+
+    $itemObjects = [];
+    foreach ($itemSchemas as $k => $itemSchema) {
+      $itemCandidate = self::getObject($itemSchema, $schemaToAnything, $interface);
+      if (NULL === $itemCandidate) {
+        return NULL;
+      }
+      $itemObjects[$k] = $itemCandidate;
+    }
+
+    return $itemObjects;
+  }
+
+  /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    * @param string $interface
