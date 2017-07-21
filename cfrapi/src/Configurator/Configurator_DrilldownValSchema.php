@@ -9,9 +9,9 @@ use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface;
 class Configurator_DrilldownValSchema extends Configurator_DrilldownSchema {
 
   /**
-   * @var \Donquixote\Cf\Schema\DrilldownVal\CfSchema_DrilldownValInterface
+   * @var \Donquixote\Cf\V2V\Drilldown\V2V_DrilldownInterface
    */
-  private $drilldownValSchema;
+  private $v2v;
 
   /**
    * @param \Donquixote\Cf\Schema\DrilldownVal\CfSchema_DrilldownValInterface $drilldownValSchema
@@ -23,7 +23,7 @@ class Configurator_DrilldownValSchema extends Configurator_DrilldownSchema {
     SchemaToConfiguratorInterface $schemaToConfigurator,
     $required = TRUE
   ) {
-    $this->drilldownValSchema = $drilldownValSchema;
+    $this->v2v = $drilldownValSchema->getV2V();
 
     parent::__construct(
       $drilldownValSchema->getDecorated(),
@@ -41,7 +41,7 @@ class Configurator_DrilldownValSchema extends Configurator_DrilldownSchema {
    */
   public function idConfGetValue($id, $optionsConf) {
     $value = parent::idConfGetValue($id, $optionsConf);
-    return $this->drilldownValSchema->idValueGetValue($id, $value);
+    return $this->v2v->idValueGetValue($id, $value);
   }
 
   /**
@@ -55,6 +55,6 @@ class Configurator_DrilldownValSchema extends Configurator_DrilldownSchema {
    */
   public function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
     $php = parent::idConfGetPhp($id, $conf, $helper);
-    return $this->drilldownValSchema->idPhpGetPhp($id, $php);
+    return $this->v2v->idPhpGetPhp($id, $php);
   }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Donquixote\Cf\Schema\DrilldownVal;
+namespace Donquixote\Cf\V2V\Drilldown;
 
-class CfSchema_DrilldownVal_Id extends CfSchema_DrilldownValBase {
+class V2V_Drilldown_Id implements V2V_DrilldownInterface {
 
   /**
    * @param string|int $id

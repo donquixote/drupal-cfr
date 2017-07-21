@@ -1,10 +1,8 @@
 <?php
 
-namespace Donquixote\Cf\Schema\DrilldownVal;
+namespace Donquixote\Cf\V2V\Drilldown;
 
-use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
-
-class CfSchema_DrilldownVal_Arrify extends CfSchema_DrilldownValBase {
+class V2V_Drilldown_Arrify implements V2V_DrilldownInterface {
 
   /**
    * @var string
@@ -17,12 +15,10 @@ class CfSchema_DrilldownVal_Arrify extends CfSchema_DrilldownValBase {
   private $optionsKey;
 
   /**
-   * @param \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface $decorated
    * @param string $idKey
    * @param string $optionsKey
    */
-  public function __construct(CfSchema_DrilldownInterface $decorated, $idKey = 'id', $optionsKey = 'options') {
-    parent::__construct($decorated);
+  public function __construct($idKey = 'id', $optionsKey = 'options') {
     $this->idKey = $idKey;
     $this->optionsKey = $optionsKey;
   }

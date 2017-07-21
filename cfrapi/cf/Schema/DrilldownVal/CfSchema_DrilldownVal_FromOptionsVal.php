@@ -4,43 +4,21 @@ namespace Donquixote\Cf\Schema\DrilldownVal;
 
 use Donquixote\Cf\Schema\Drilldown\CfSchema_Drilldown_OptionsSchemaNull;
 use Donquixote\Cf\Schema\OptionsVal\CfSchema_OptionsValInterface;
+use Donquixote\Cf\V2V\Drilldown\V2V_Drilldown_FromIdV2V;
 
-class CfSchema_DrilldownVal_FromOptionsVal extends CfSchema_DrilldownValBase {
-
-  /**
-   * @var \Donquixote\Cf\Schema\OptionsVal\CfSchema_OptionsValInterface
-   */
-  private $optionsValSchema;
+abstract class CfSchema_DrilldownVal_FromOptionsVal extends CfSchema_DrilldownValBase {
 
   /**
    * @param \Donquixote\Cf\Schema\OptionsVal\CfSchema_OptionsValInterface $optionsValSchema
+   *
+   * @return \Donquixote\Cf\Schema\DrilldownVal\CfSchema_DrilldownVal
    */
-  public function __construct(CfSchema_OptionsValInterface $optionsValSchema) {
-    parent::__construct(
+  public static function create(CfSchema_OptionsValInterface $optionsValSchema) {
+
+    return new CfSchema_DrilldownVal(
       new CfSchema_Drilldown_OptionsSchemaNull(
-        $optionsValSchema->getDecorated()));
-    $this->optionsValSchema = $optionsValSchema;
-  }
-
-  /**
-   * @param string|int $id
-   * @param mixed $value
-   *
-   * @return mixed
-   *
-   * @throws \Donquixote\Cf\Exception\EvaluatorException
-   */
-  public function idValueGetValue($id, $value) {
-    return $this->optionsValSchema->idGetValue($id);
-  }
-
-  /**
-   * @param string|int $id
-   * @param string $php
-   *
-   * @return mixed
-   */
-  public function idPhpGetPhp($id, $php) {
-    return $this->optionsValSchema->idGetPhp($id);
+        $optionsValSchema->getDecorated()),
+      new V2V_Drilldown_FromIdV2V(
+        $optionsValSchema));
   }
 }

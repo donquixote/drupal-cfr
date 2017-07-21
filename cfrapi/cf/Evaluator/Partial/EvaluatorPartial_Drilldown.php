@@ -30,7 +30,7 @@ class EvaluatorPartial_Drilldown implements EvaluatorPartialInterface {
    * @return self
    */
   public static function createFromDrilldownValSchema(CfSchema_DrilldownValInterface $schema) {
-    return new self($schema->getDecorated(), $schema);
+    return new self($schema->getDecorated(), $schema->getV2V());
   }
 
   /**

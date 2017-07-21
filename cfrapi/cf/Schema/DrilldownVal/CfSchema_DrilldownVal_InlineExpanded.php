@@ -15,7 +15,10 @@ use Donquixote\Cf\Util\PhpUtil;
 use Donquixote\Cf\V2V\Drilldown\V2V_Drilldown_Trivial;
 use Donquixote\Cf\V2V\Drilldown\V2V_DrilldownInterface;
 
-class CfSchema_DrilldownVal_InlineExpanded extends CfSchema_DrilldownValBase {
+/**
+ * @todo Split a part of this into a V2V class.
+ */
+class CfSchema_DrilldownVal_InlineExpanded extends CfSchema_DrilldownValBase implements V2V_DrilldownInterface {
 
   /**
    * @var \Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface
@@ -97,7 +100,7 @@ class CfSchema_DrilldownVal_InlineExpanded extends CfSchema_DrilldownValBase {
     return new self(
       $schema->getDecorated(),
       $idIsInline,
-      $schema);
+      $schema->getV2V());
   }
 
   /**
@@ -165,7 +168,7 @@ class CfSchema_DrilldownVal_InlineExpanded extends CfSchema_DrilldownValBase {
     }
 
     if ($schema instanceof CfSchema_DrilldownValInterface) {
-      return $schema->idValueGetValue($id, $value);
+      return $schema->getV2V()->idValueGetValue($id, $value);
     }
 
     if ($schema instanceof CfSchema_OptionsValInterface) {
@@ -224,7 +227,7 @@ class CfSchema_DrilldownVal_InlineExpanded extends CfSchema_DrilldownValBase {
     }
 
     if ($schema instanceof CfSchema_DrilldownValInterface) {
-      return $schema->idPhpGetPhp($id, $php);
+      return $schema->getV2V()->idPhpGetPhp($id, $php);
     }
 
     if ($schema instanceof CfSchema_OptionsValInterface) {
@@ -238,4 +241,10 @@ class CfSchema_DrilldownVal_InlineExpanded extends CfSchema_DrilldownValBase {
     return PhpUtil::unsupportedSchema($schema, "Failed to evaluate inline drilldown.");
   }
 
+  /**
+   * @return \Donquixote\Cf\V2V\Drilldown\V2V_DrilldownInterface
+   */
+  public function getV2V() {
+    return $this;
+  }
 }
