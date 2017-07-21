@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\SchemaToConfigurator;
 
+use Donquixote\Cf\Emptyness\Emptyness_Key;
 use Donquixote\Cf\Evaluator\Helper\Php\ConfToPhpHelperInterface;
 use Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelperInterface;
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
@@ -12,7 +13,6 @@ use Donquixote\Cf\Summarizer\Helper\SummaryHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_FromCfEmptyness;
 use Drupal\cfrapi\Configurator\Configurator_CfSchema;
 use Drupal\cfrapi\Configurator\Configurator_CfSchemaOptional;
-use Drupal\cfrapi\Exception\UnsupportedSchemaException;
 
 class SchemaToConfigurator_Helpers implements SchemaToConfiguratorInterface {
 
@@ -88,18 +88,16 @@ class SchemaToConfigurator_Helpers implements SchemaToConfiguratorInterface {
    */
   public function schemaGetOptionalConfigurator(CfSchemaInterface $schema) {
 
+    // @todo This is stupid.
+    $optionalSchema = new CfSchema_Optional_Null($schema);
+
     $emptyness = $this->schemaToEmptyness->schemaGetEmptyness($schema);
 
     if (NULL === $emptyness) {
-      dpm(ddebug_backtrace(TRUE));
-      $class = get_class($schema);
-      throw new UnsupportedSchemaException("Schema $class has no emptyness.");
+      $emptyness = new Emptyness_Key('enabled');
     }
 
-    $emptyness = new ConfEmptyness_FromCfEmptyness($emptyness);
-
-    // @todo This is stupid.
-    $optionalSchema = new CfSchema_Optional_Null($schema);
+    $confEmptyness = new ConfEmptyness_FromCfEmptyness($emptyness);
 
     return new Configurator_CfSchemaOptional(
       $optionalSchema,
@@ -107,6 +105,6 @@ class SchemaToConfigurator_Helpers implements SchemaToConfiguratorInterface {
       $this->phpHelper,
       $this->formHelper,
       $this->summaryHelper,
-      $emptyness);
+      $confEmptyness);
   }
 }

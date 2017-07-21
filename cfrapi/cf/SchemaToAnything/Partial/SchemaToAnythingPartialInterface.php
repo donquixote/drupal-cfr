@@ -20,4 +20,18 @@ interface SchemaToAnythingPartialInterface {
     $interface,
     SchemaToAnythingHelperInterface $helper);
 
+  /**
+   * @param string $resultInterface
+   *
+   * @return bool
+   */
+  public function providesResultType($resultInterface);
+
+  /**
+   * @param string $schemaClass
+   *
+   * @return bool
+   */
+  public function acceptsSchemaClass($schemaClass);
+
 }

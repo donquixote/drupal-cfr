@@ -1,5 +1,6 @@
 <?php
 
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
 use Drupal\cfrplugin\Hub\CfrPluginHub;
 use Drupal\cfrplugin\Util\UiCodeUtil;
 use Drupal\cfrplugin\Util\UiDefinitionUtil;
@@ -19,7 +20,10 @@ function _cfrplugin_report_definition_page(array $df) {
   $services = CfrPluginHub::getContainer();
   $definitionToLabel = $services->definitionToLabel;
   $definitionToGroupLabel = $services->definitionToGrouplabel;
-  $definitionToConfigurator = $services->definitionToConfigurator;
+  $schemaToConfigurator = $services->schemaToConfigurator;
+
+  // @todo THis should be a service.
+  $definitionToSchema = DefinitionToSchema_Mappers::create();
 
   $rows = [];
 
@@ -55,7 +59,8 @@ function _cfrplugin_report_definition_page(array $df) {
   ];
 
   try {
-    $configurator = $definitionToConfigurator->definitionGetConfigurator($definition);
+    $schema = $definitionToSchema->definitionGetSchema($definition);
+    $configurator = $schemaToConfigurator->schemaGetConfigurator($schema);
 
     $reflObject = new ReflectionObject($configurator);
 

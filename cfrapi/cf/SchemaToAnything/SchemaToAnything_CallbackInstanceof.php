@@ -24,7 +24,6 @@ class SchemaToAnything_CallbackInstanceof extends SchemaToAnything_Callback {
 
     $params = $callback->getReflectionParameters();
 
-
     if (1
       && [0] === array_keys($params)
       && NULL !== ($reflSchemaInterface = $params[0]->getClass())

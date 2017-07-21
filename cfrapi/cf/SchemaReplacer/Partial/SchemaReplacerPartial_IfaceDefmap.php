@@ -28,12 +28,10 @@ class SchemaReplacerPartial_IfaceDefmap implements SchemaReplacerPartialInterfac
 
   /**
    * @param \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
-   * @param bool $withInlineChildren
    * @param bool $withTaggingDecorator
    */
   public function __construct(
     TypeToDefmapInterface $typeToDefmap,
-    $withInlineChildren = TRUE,
     $withTaggingDecorator = TRUE
   ) {
     $this->typeToDefmap = $typeToDefmap;

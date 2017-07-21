@@ -4,19 +4,28 @@ namespace Donquixote\Cf\SchemaToAnything\Partial;
 
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\Util\LocalPackageUtil;
 
 class SchemaToAnythingPartial_Chain implements SchemaToAnythingPartialInterface {
 
   /**
    * @var \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
    */
-  private $mappers;
+  private $partials;
 
   /**
-   * @param \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[] $mappers
+   * @return self
    */
-  public function __construct(array $mappers) {
-    $this->mappers = $mappers;
+  public static function create() {
+    $partials = LocalPackageUtil::collectSTAPartials();
+    return new self($partials);
+  }
+
+  /**
+   * @param \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[] $partials
+   */
+  public function __construct(array $partials) {
+    $this->partials = $partials;
   }
 
   /**
@@ -33,7 +42,7 @@ class SchemaToAnythingPartial_Chain implements SchemaToAnythingPartialInterface 
     SchemaToAnythingHelperInterface $helper
   ) {
 
-    foreach ($this->mappers as $mapper) {
+    foreach ($this->partials as $mapper) {
       if (NULL !== $candidate = $mapper->schema($schema, $interface, $helper)) {
         if ($candidate instanceof $interface) {
           return $candidate;
@@ -44,4 +53,21 @@ class SchemaToAnythingPartial_Chain implements SchemaToAnythingPartialInterface 
     return NULL;
   }
 
+  /**
+   * @param string $interface
+   *
+   * @return bool
+   */
+  public function providesResultType($interface) {
+    return TRUE;
+  }
+
+  /**
+   * @param string $interface
+   *
+   * @return bool
+   */
+  public function acceptsSchemaClass($interface) {
+    return TRUE;
+  }
 }

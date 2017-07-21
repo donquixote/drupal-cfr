@@ -6,6 +6,7 @@ use Donquixote\Cf\Exception\EvaluatorException_UnsupportedSchema;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Evaluator\Partial\EvaluatorPartialInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\Util\ReflectionUtil;
 
 class ConfToValueHelper_SchemaToAnything extends ConfToValueHelperBase {
 
@@ -37,8 +38,18 @@ class ConfToValueHelper_SchemaToAnything extends ConfToValueHelperBase {
     if (NULL === $evaluator) {
 
       $schemaClass = get_class($schema);
+      $partial = ReflectionUtil::objectGetPropertyValue($this->schemaToAnything, 'partial');
+      $partialsGrouped = ReflectionUtil::objectGetPropertyValue($partial, 'partialsGrouped');
+      $partialsBySchemaType = ReflectionUtil::objectGetPropertyValue($partial, 'partialsBySchemaType');
+      $partialsByTargetType = ReflectionUtil::objectGetPropertyValue($partial, 'partialsByTargetType');
 
-      kdpm(var_export($this->schemaToAnything, TRUE), 'STA');
+      dpm("unsupported schema class $schemaClass for evaluator", __METHOD__);
+      kdpm($partialsGrouped, '$partialsGrouped');
+      kdpm($partialsBySchemaType, '$partialsBySchemaType');
+      kdpm($partialsByTargetType, '$partialsByTargetType');
+
+      kdpm($this->schemaToAnything, 'STA');
+      kdpm(print_r($this->schemaToAnything, TRUE), 'STA');
 
       throw new EvaluatorException_UnsupportedSchema(''
         . "Unable to create an Evaluator object"

@@ -3,6 +3,8 @@
 namespace Donquixote\Cf\SchemaReplacer\Partial;
 
 use Donquixote\Cf\Context\CfContextInterface;
+use Donquixote\Cf\ParamToLabel\ParamToLabel;
+use Donquixote\Cf\ParamToLabel\ParamToLabelInterface;
 use Donquixote\Cf\Schema\Callback\CfSchema_CallbackInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\GroupVal\CfSchema_GroupVal_Callback;
@@ -13,8 +15,6 @@ use Donquixote\Cf\Schema\Optional\CfSchema_Optional_Null;
 use Donquixote\Cf\Schema\ValueProvider\CfSchema_ValueProvider_Callback;
 use Donquixote\Cf\Schema\ValueToValue\CfSchema_ValueToValue_CallbackMono;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
-use Donquixote\Cf\ParamToLabel\ParamToLabel;
-use Donquixote\Cf\ParamToLabel\ParamToLabelInterface;
 
 class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
 

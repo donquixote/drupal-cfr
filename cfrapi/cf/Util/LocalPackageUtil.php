@@ -31,6 +31,15 @@ final class LocalPackageUtil extends UtilBase {
   }
 
   /**
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
+   */
+  public static function collectSTAPartials() {
+
+    $factoriesIA = self::getAnnotatedFactoriesIA('Cf');
+    return STAMappersUtil::collectSTAPartials($factoriesIA);
+  }
+
+  /**
    * @return \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface[]
    */
   public static function collectSTAMappers() {

@@ -11,18 +11,12 @@ namespace Drupal\cfrrealm\Container;
  * Main cycle of circular dependencies:
  *
  * @property \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $typeToConfigurator
- * @property \Drupal\cfrrealm\TypeToCfrFamily\TypeToCfrFamilyInterface $typeToCfrFamily
- * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToSchema_tagged
  * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToSchema
- * @property \Donquixote\Cf\DefmapToDrilldownSchema\DefmapToDrilldownSchemaInterface $defmapToDrilldownSchema
- * @property \Drupal\cfrfamily\DefmapToCfrFamily\DefmapToCfrFamilyInterface $defmapToCfrFamily
- * @property \Drupal\cfrfamily\DefinitionToConfigurator\DefinitionToConfiguratorInterface $definitionToConfigurator
- * @property \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema_proxy
- * @property \Donquixote\Cf\DefinitionToSchema\DefinitionToSchemaInterface $definitionToSchema
  * @property \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator_proxy
  * @property \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator
  * @property \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $schemaFormHelper
  * @property \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+ * @property \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $schemaReplacer
  * @property \Donquixote\Cf\Translator\TranslatorInterface $translator
  *
  * Non-circular:
@@ -31,9 +25,5 @@ namespace Drupal\cfrrealm\Container;
  *
  * To be provided by child container:
  * @property \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
- *
- * Deprecation candidate:
- * @property \Drupal\cfrrealm\TypeToContainer\TypeToContainerInterface $typeToContainer
- * @property \Drupal\cfrfamily\DefmapToContainer\DefmapToContainerInterface $defmapToContainer
  */
 interface CfrRealmContainerInterface {}

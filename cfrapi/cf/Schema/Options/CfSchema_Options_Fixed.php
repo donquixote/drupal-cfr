@@ -15,6 +15,15 @@ class CfSchema_Options_Fixed implements CfSchema_OptionsInterface {
   private $options;
 
   /**
+   * @param string[] $options
+   *
+   * @return self
+   */
+  public static function createFlat(array $options) {
+    return new self(['' => $options]);
+  }
+
+  /**
    * @param string[][] $groupedOptions
    *   Format: $[$groupLabel][$optionKey] = $optionLabel,
    *   with $groupLabel === '' for toplevel options.

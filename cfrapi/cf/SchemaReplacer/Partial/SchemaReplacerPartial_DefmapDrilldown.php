@@ -36,6 +36,13 @@ class SchemaReplacerPartial_DefmapDrilldown implements SchemaReplacerPartialInte
   private $withInlineChildren;
 
   /**
+   * @return self
+   */
+  public static function createWithInlineChildren() {
+    return self::create();
+  }
+
+  /**
    * Creates an instance with the most common options.
    *
    * @param bool $withInlineChildren

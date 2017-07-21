@@ -15,6 +15,17 @@ use Donquixote\Cf\SchemaBase\CfSchema_ValueToValueBaseInterface;
 class SchemaToEmptyness_Hardcoded implements SchemaToEmptynessInterface {
 
   /**
+   * @Cf
+   *
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   *
+   * @return \Donquixote\Cf\Emptyness\EmptynessInterface|null
+   */
+  public static function sta(CfSchemaInterface $schema) {
+    return (new self)->schemaGetEmptyness($schema);
+  }
+
+  /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    *
    * @return \Donquixote\Cf\Emptyness\EmptynessInterface|null

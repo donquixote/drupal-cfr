@@ -2,10 +2,12 @@
 
 namespace Donquixote\Cf\Evaluator\Partial;
 
-use Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelperInterface;
+use Donquixote\Cf\Emptyness\EmptynessInterface;
 use Donquixote\Cf\Evaluator\Helper\Php\ConfToPhpHelperInterface;
-use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
+use Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelperInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
+use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
+use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
 
 class EvaluatorPartial_Optional implements EvaluatorPartialInterface {
 
@@ -36,6 +38,27 @@ class EvaluatorPartial_Optional implements EvaluatorPartialInterface {
 
       return new EvaluatorPartial_OptionalWithEmptyness($schema, $emptyness);
     };
+  }
+
+  /**
+   * @Cf
+   *
+   * @param \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface $schema
+   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+   *
+   * @return \Donquixote\Cf\Evaluator\Partial\EvaluatorPartialInterface
+   */
+  public static function create(CfSchema_OptionalInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
+
+    $emptyness = $schemaToAnything->schema(
+      $schema->getDecorated(),
+      EmptynessInterface::class);
+
+    if (NULL === $emptyness || !$emptyness instanceof EmptynessInterface) {
+      return new self($schema);
+    }
+
+    return new EvaluatorPartial_OptionalWithEmptyness($schema, $emptyness);
   }
 
   /**

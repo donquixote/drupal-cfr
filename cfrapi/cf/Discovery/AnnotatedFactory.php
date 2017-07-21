@@ -81,7 +81,7 @@ class AnnotatedFactory {
   }
 
   /**
-   * @return string
+   * @return string[]
    */
   public function getReturnTypeNames() {
     return $this->returnTypeNames;

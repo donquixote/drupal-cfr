@@ -4,8 +4,9 @@ namespace Donquixote\Cf\Form\D7\Partial;
 
 use Donquixote\Cf\Emptyness\EmptynessInterface;
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
+use Donquixote\Cf\Form\D7\Optional\PartialD7FormatorOptionalInterface;
 use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
-use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
+use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 
 class PartialD7Formator_SequenceWithEmptyness implements PartialD7FormatorInterface {
 
@@ -25,29 +26,41 @@ class PartialD7Formator_SequenceWithEmptyness implements PartialD7FormatorInterf
   private $itemEmptyness;
 
   /**
+   *
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
-   * @param \Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface $schemaToEmptyness
+   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *
    * @return self|null
    */
   public static function createOrNull(
     CfSchema_SequenceInterface $schema,
-    SchemaToEmptynessInterface $schemaToEmptyness
+    SchemaToAnythingInterface $schemaToAnything
   ) {
-      if (NULL === $emptyness = $schemaToEmptyness->schemaGetEmptyness($schema->getItemSchema())) {
-        return NULL;
-      }
 
-      # $optionalSchema = new CfSchema_Optional_Null($schema);
+    $emptyness = $schemaToAnything->schema(
+      $schema->getItemSchema(),
+      EmptynessInterface::class);
 
-      $optionalFormator = PartialD7Formator_Optional::createWithEmptyness(
-        $schema->getItemSchema(),
-        $emptyness);
+    if (NULL === $emptyness) {
+      kdpm($schema->getItemSchema(), 'no emptyness found.');
+      return NULL;
+    }
 
-      return new self(
-        $schema,
-        $optionalFormator,
-        $emptyness);
+    $formatorOptional = $schemaToAnything->schema(
+      $schema->getItemSchema(),
+      PartialD7FormatorOptionalInterface::class);
+
+    if (NULL === $formatorOptional || !$formatorOptional instanceof PartialD7FormatorOptionalInterface) {
+      kdpm('Sorry.');
+      return NULL;
+    }
+
+    $optionalFormator = $formatorOptional->getFormator();
+
+    return new self(
+      $schema,
+      $optionalFormator,
+      $emptyness);
   }
 
   /**

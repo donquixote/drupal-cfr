@@ -4,12 +4,14 @@ namespace Donquixote\Cf\Form\D7\Partial;
 
 use Donquixote\Cf\Emptyness\EmptynessInterface;
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
+use Donquixote\Cf\Form\D7\Optional\PartialD7FormatorOptionalInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
 use Donquixote\Cf\SchemaBase\CfSchema_ValueToValueBaseInterface;
+use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
 use Donquixote\Cf\Util\ConfUtil;
 
@@ -40,6 +42,43 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
         $schema->getDecorated(),
         $schemaToEmptyness);
     };
+  }
+
+  /**
+   * @Cf
+   *
+   * @param \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface $schema
+   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+   *
+   * @return \Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface|null
+   */
+  public static function create(
+    CfSchema_OptionalInterface $schema,
+    SchemaToAnythingInterface $schemaToAnything
+  ) {
+
+    kdpm(__METHOD__);
+
+    $emptyness = $schemaToAnything->schema(
+      $schema->getDecorated(),
+      EmptynessInterface::class);
+
+    if (NULL === $emptyness || !$emptyness instanceof EmptynessInterface) {
+      return new self($schema->getDecorated());
+    }
+
+    $formatorOptional = $schemaToAnything->schema(
+      $schema->getDecorated(),
+      PartialD7FormatorOptionalInterface::class);
+
+    if (NULL === $formatorOptional || !$formatorOptional instanceof PartialD7FormatorOptionalInterface) {
+      kdpm('Sorry.');
+      return NULL;
+    }
+
+    kdpm($formatorOptional, '$formatorOptional.');
+
+    return $formatorOptional->getFormator();
   }
 
   /**
@@ -90,6 +129,7 @@ class PartialD7Formator_Optional implements PartialD7FormatorInterface {
     }
 
     // @todo Do something! An emptyness-rewrite thingie.
+    kdpm(get_defined_vars(), __METHOD__);
     return NULL;
   }
 

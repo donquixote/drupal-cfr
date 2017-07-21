@@ -7,7 +7,7 @@ use Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContext;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\TypeToSchema\TypeToSchemaInterface;
 
-class SchemaToAnythingPartial_IfaceDefmap implements SchemaToAnythingPartialInterface {
+class SchemaToAnythingPartial_IfaceDefmap extends SchemaToAnythingPartialBase {
 
   /**
    * @var \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface
@@ -19,28 +19,28 @@ class SchemaToAnythingPartial_IfaceDefmap implements SchemaToAnythingPartialInte
    */
   public function __construct(TypeToSchemaInterface $typeToSchema) {
     $this->typeToSchema = $typeToSchema;
+    parent::__construct(CfSchema_IfaceWithContext::class, NULL);
   }
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $ifaceSchema
    * @param string $interface
    * @param \Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface $helper
    *
    * @return null|object
    *   An instance of $interface, or NULL.
    */
-  public function schema(
-    CfSchemaInterface $schema,
+  public function schemaDoGetObject(
+    CfSchemaInterface $ifaceSchema,
     $interface,
     SchemaToAnythingHelperInterface $helper
   ) {
-    if (!$schema instanceof CfSchema_IfaceWithContext) {
-      return NULL;
-    }
+
+    /** @var \Donquixote\Cf\Schema\Iface\CfSchema_IfaceWithContext $ifaceSchema */
 
     $schema = $this->typeToSchema->typeGetSchema(
-      $schema->getInterface(),
-      $schema->getContext());
+      $ifaceSchema->getInterface(),
+      $ifaceSchema->getContext());
 
     if (NULL === $schema) {
       return NULL;

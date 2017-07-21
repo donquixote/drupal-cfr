@@ -4,7 +4,7 @@ namespace Donquixote\Cf\Form\D7\Partial;
 
 use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
-use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface;
+use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Util\ConfUtil;
 
 class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
@@ -17,31 +17,26 @@ class PartialD7Formator_Sequence implements PartialD7FormatorInterface {
   /**
    * @Cf
    *
-   * @param \Donquixote\Cf\SchemaToEmptyness\SchemaToEmptynessInterface $schemaToEmptyness
+   * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
+   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *
-   * @return \Closure
+   * @return \Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface|null
    */
-  public static function getFactory(SchemaToEmptynessInterface $schemaToEmptyness) {
+  public static function create(
+    CfSchema_SequenceInterface $schema,
+    SchemaToAnythingInterface $schemaToAnything
+  ) {
 
-    /**
-     * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
-     *
-     * @return \Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface
-     */
-    return function(CfSchema_SequenceInterface $schema) use ($schemaToEmptyness) {
+    $formator = PartialD7Formator_SequenceWithEmptyness::createOrNull(
+      $schema,
+      $schemaToAnything);
 
-      if (NULL !== $formator = PartialD7Formator_SequenceWithEmptyness::createOrNull(
-        $schema,
-        $schemaToEmptyness)
-      ) {
-        return $formator;
-      }
+    if (NULL !== $formator) {
+      return $formator;
+    }
 
-      return new PartialD7Formator_Broken(
-        t("Sequences without emptyness are currently not supported."));
-
-      # return new self($schema);
-    };
+    return new PartialD7Formator_Broken(
+      t("Sequences without emptyness are currently not supported."));
   }
 
   /**

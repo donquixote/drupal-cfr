@@ -3,10 +3,10 @@
 namespace Donquixote\Cf\SchemaToAnything\Partial;
 
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 
-class SchemaToAnythingPartial_Callback implements SchemaToAnythingPartialInterface {
+class SchemaToAnythingPartial_Callback extends SchemaToAnythingPartialBase {
 
   /**
    * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface
@@ -15,18 +15,19 @@ class SchemaToAnythingPartial_Callback implements SchemaToAnythingPartialInterfa
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
+   * @param string|null $resultType
    *
    * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface|null
    */
-  public static function create(CallbackReflectionInterface $callback) {
+  public static function create(CallbackReflectionInterface $callback, $resultType = NULL) {
 
     $params = $callback->getReflectionParameters();
 
-    if ([0, 1] !== $keys = array_keys($params)) {
-      if ([0] === $keys) {
-        return SchemaToAnythingPartial_CallbackNoHelper::create($callback);
-      }
+    if ([0] === $keys = array_keys($params)) {
+      return SchemaToAnythingPartial_CallbackNoHelper::create($callback, $resultType);
+    }
 
+    if ([0, 1] !== $keys) {
       return NULL;
     }
 
@@ -38,23 +39,29 @@ class SchemaToAnythingPartial_Callback implements SchemaToAnythingPartialInterfa
       return NULL;
     }
 
-    if (SchemaToAnythingHelperInterface::class !== $t1->getName()) {
+    if (!is_a(SchemaToAnythingHelperInterface::class, $t1->getName(), TRUE)) {
       return NULL;
     }
 
-    if (CfSchemaInterface::class !== $t0->getName()) {
+    if (CfSchemaInterface::class === $schemaType = $t0->getName()) {
+      $schemaType = NULL;
+    }
+    elseif (!is_a($schemaType, CfSchemaInterface::class, TRUE)) {
       return NULL;
     }
 
-    return new self($callback);
+    return new self($callback, $schemaType, $resultType);
   }
 
   /**
    *
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
+   * @param string|null $schemaType
+   * @param string|null $resultType
    */
-  protected function __construct(CallbackReflectionInterface $callback) {
+  protected function __construct(CallbackReflectionInterface $callback, $schemaType = NULL, $resultType = NULL) {
     $this->callback = $callback;
+    parent::__construct($schemaType, $resultType);
   }
 
   /**
@@ -65,22 +72,12 @@ class SchemaToAnythingPartial_Callback implements SchemaToAnythingPartialInterfa
    * @return null|object
    *   An instance of $interface, or NULL.
    */
-  public function schema(
+  public function schemaDoGetObject(
     CfSchemaInterface $schema,
     $interface,
     SchemaToAnythingHelperInterface $helper
   ) {
 
-    $candidate = $this->callback->invokeArgs([$schema, $helper]);
-
-    if (NULL === $candidate) {
-      return NULL;
-    }
-
-    if (!$candidate instanceof $interface) {
-      return NULL;
-    }
-
-    return $candidate;
+    return $this->callback->invokeArgs([$schema, $helper]);
   }
 }

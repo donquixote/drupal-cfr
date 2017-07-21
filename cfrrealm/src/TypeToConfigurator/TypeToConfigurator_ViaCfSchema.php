@@ -46,6 +46,8 @@ class TypeToConfigurator_ViaCfSchema implements TypeToConfiguratorInterface {
       return $this->schemaToConfigurator->schemaGetConfigurator($schema);
     }
     catch (ConfiguratorCreationException $e) {
+      kdpm($schema);
+      kdpm($e);
       return new BrokenConfigurator_Exception($e);
     }
   }
@@ -69,6 +71,8 @@ class TypeToConfigurator_ViaCfSchema implements TypeToConfiguratorInterface {
       return $this->schemaToConfigurator->schemaGetOptionalConfigurator($schema);
     }
     catch (ConfiguratorCreationException $e) {
+      kdpm($schema);
+      kdpm($e);
       return new OptionalBrokenConfigurator_Exception($e);
     }
   }

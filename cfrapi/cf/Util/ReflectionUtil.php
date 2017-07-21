@@ -150,4 +150,52 @@ final class ReflectionUtil extends UtilBase {
     return $namespace . '\\' . $alias;
   }
 
+  /**
+   * @param object $object
+   * @param string $k
+   * @param string|null $context
+   *
+   * @return mixed
+   */
+  public static function &objectGetPropertyValueRef($object, $k, $context = null) {
+
+    if (null === $context) {
+      $context = $object;
+    }
+
+    // See https://stackoverflow.com/a/17560595/246724
+    $closure = function & ($k) use ($object) {
+      // Using $object instead of $this, to prevent IDE warnings.
+      return $object->$k;
+    };
+
+    $bound = $closure->bindTo(null, $context);
+
+    return $bound->__invoke($k);
+  }
+
+  /**
+   * @param object $object
+   * @param string $k
+   * @param string|null $context
+   *
+   * @return mixed
+   */
+  public static function objectGetPropertyValue($object, $k, $context = null) {
+
+    if (null === $context) {
+      $context = $object;
+    }
+
+    // See https://stackoverflow.com/a/17560595/246724
+    $closure = function ($k) use ($object) {
+      // Using $object instead of $this, to prevent IDE warnings.
+      return $object->$k;
+    };
+
+    $bound = $closure->bindTo(null, $context);
+
+    return $bound->__invoke($k);
+  }
+
 }

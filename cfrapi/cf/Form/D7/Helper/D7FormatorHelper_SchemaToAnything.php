@@ -7,6 +7,7 @@ use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Translator\TranslatorDecoratorBase;
 use Donquixote\Cf\Translator\TranslatorInterface;
+use Donquixote\Cf\Util\ReflectionUtil;
 
 class D7FormatorHelper_SchemaToAnything extends TranslatorDecoratorBase implements D7FormatorHelperInterface {
 
@@ -44,6 +45,20 @@ class D7FormatorHelper_SchemaToAnything extends TranslatorDecoratorBase implemen
 
     if (NULL === $partial) {
       # kdpm($schema, "PartialD7Formator for schema is NULL.");
+
+      $schemaClass = get_class($schema);
+      $partial = ReflectionUtil::objectGetPropertyValue($this->schemaToAnything, 'partial');
+      $partialsGrouped = ReflectionUtil::objectGetPropertyValue($partial, 'partialsGrouped');
+      $partialsBySchemaType = ReflectionUtil::objectGetPropertyValue($partial, 'partialsBySchemaType');
+      $partialsByTargetType = ReflectionUtil::objectGetPropertyValue($partial, 'partialsByTargetType');
+
+      dpm("unsupported schema class $schemaClass for D7 formator", __METHOD__);
+      kdpm($partialsGrouped, '$partialsGrouped');
+      kdpm($partialsBySchemaType, '$partialsBySchemaType');
+      kdpm($partialsByTargetType, '$partialsByTargetType');
+
+      kdpm($this->schemaToAnything, 'STA');
+      kdpm(print_r($this->schemaToAnything, TRUE), 'STA');
 
       return $this->messageBuildBrokenForm(
         $this->translate(
