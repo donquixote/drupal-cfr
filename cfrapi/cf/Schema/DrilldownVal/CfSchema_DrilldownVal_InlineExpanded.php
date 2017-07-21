@@ -172,7 +172,7 @@ class CfSchema_DrilldownVal_InlineExpanded extends CfSchema_DrilldownValBase imp
     }
 
     if ($schema instanceof CfSchema_OptionsValInterface) {
-      return $schema->idGetValue($id);
+      return $schema->getV2V()->idGetValue($id);
     }
 
     if ($schema instanceof CfSchema_NeutralInterface) {
@@ -231,7 +231,7 @@ class CfSchema_DrilldownVal_InlineExpanded extends CfSchema_DrilldownValBase imp
     }
 
     if ($schema instanceof CfSchema_OptionsValInterface) {
-      return $schema->idGetPhp($id);
+      return $schema->getV2V()->idGetPhp($id);
     }
 
     if ($schema instanceof CfSchema_NeutralInterface) {

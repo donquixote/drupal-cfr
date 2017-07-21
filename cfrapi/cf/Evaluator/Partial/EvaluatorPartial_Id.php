@@ -40,7 +40,7 @@ class EvaluatorPartial_Id implements EvaluatorPartialInterface {
    * @return self
    */
   public static function createFromIdValSchema(CfSchema_IdValInterface $schema) {
-    return new self($schema->getDecorated(), $schema);
+    return new self($schema->getDecorated(), $schema->getV2V());
   }
 
   /**

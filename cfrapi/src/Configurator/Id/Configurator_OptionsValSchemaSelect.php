@@ -7,9 +7,9 @@ use Donquixote\Cf\Schema\OptionsVal\CfSchema_OptionsValInterface;
 class Configurator_OptionsValSchemaSelect extends Configurator_OptionsSchemaSelectBase {
 
   /**
-   * @var \Donquixote\Cf\Schema\OptionsVal\CfSchema_OptionsValInterface
+   * @var \Donquixote\Cf\V2V\Id\V2V_IdInterface
    */
-  private $optionsValSchema;
+  private $v2v;
 
   /**
    * @param \Donquixote\Cf\Schema\OptionsVal\CfSchema_OptionsValInterface $optionsValSchema
@@ -38,7 +38,7 @@ class Configurator_OptionsValSchemaSelect extends Configurator_OptionsSchemaSele
    */
   public function __construct(CfSchema_OptionsValInterface $optionsValSchema, $required = TRUE, $defaultId = NULL) {
     parent::__construct($optionsValSchema->getDecorated(), $required, $defaultId);
-    $this->optionsValSchema = $optionsValSchema;
+    $this->v2v = $optionsValSchema->getV2V();
   }
 
   /**
@@ -52,7 +52,7 @@ class Configurator_OptionsValSchemaSelect extends Configurator_OptionsSchemaSele
    */
   public function confGetValue($conf) {
     $id = parent::confGetValue($conf);
-    return $this->optionsValSchema->idGetValue($id);
+    return $this->v2v->idGetValue($id);
   }
 
   /**
@@ -61,6 +61,6 @@ class Configurator_OptionsValSchemaSelect extends Configurator_OptionsSchemaSele
    * @return string
    */
   protected function idGetPhp($id) {
-    return $this->optionsValSchema->idGetPhp($id);
+    return $this->v2v->idGetPhp($id);
   }
 }

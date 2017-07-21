@@ -19,6 +19,6 @@ abstract class CfSchema_DrilldownVal_FromOptionsVal extends CfSchema_DrilldownVa
       new CfSchema_Drilldown_OptionsSchemaNull(
         $optionsValSchema->getDecorated()),
       new V2V_Drilldown_FromIdV2V(
-        $optionsValSchema));
+        $optionsValSchema->getV2V()));
   }
 }

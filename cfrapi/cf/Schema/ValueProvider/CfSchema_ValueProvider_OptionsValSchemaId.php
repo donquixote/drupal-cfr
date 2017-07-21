@@ -38,7 +38,7 @@ class CfSchema_ValueProvider_OptionsValSchemaId implements CfSchema_ValueProvide
       throw new EvaluatorException_IncompatibleConfiguration("Unknown id $this->id for options schema.");
     }
 
-    return $this->optionsValSchema->idGetValue($this->id);
+    return $this->optionsValSchema->getV2V()->idGetValue($this->id);
   }
 
   /**
@@ -53,6 +53,6 @@ class CfSchema_ValueProvider_OptionsValSchemaId implements CfSchema_ValueProvide
         "Unknown id $this->id for options schema.");
     }
 
-    return $this->optionsValSchema->idGetPhp($this->id);
+    return $this->optionsValSchema->getV2V()->idGetPhp($this->id);
   }
 }
