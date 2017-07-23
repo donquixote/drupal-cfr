@@ -9,7 +9,7 @@ use Drupal\cfrapi\ConfToValue\ConfToValueInterface;
 /**
  * @Cf
  */
-class Evaluator_Partial_ConfToValue implements EvaluatorP2Interface {
+class EvaluatorP2_ConfToValue implements EvaluatorP2Interface {
 
   /**
    * @var \Drupal\cfrapi\ConfToValue\ConfToValueInterface

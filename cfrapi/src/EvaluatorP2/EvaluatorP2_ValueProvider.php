@@ -9,7 +9,7 @@ use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
 /**
  * @Cf
  */
-class Evaluator_Partial_ValueProvider implements EvaluatorP2Interface {
+class EvaluatorP2_ValueProvider implements EvaluatorP2Interface {
 
   /**
    * @var \Drupal\cfrapi\ValueProvider\ValueProviderInterface
