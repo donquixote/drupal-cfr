@@ -2,9 +2,9 @@
 
 namespace Donquixote\Cf\Schema\Sequence;
 
-use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
+use Donquixote\Cf\Translator\TranslatorInterface;
 
 class CfSchema_Sequence implements CfSchema_SequenceInterface {
 
@@ -48,11 +48,11 @@ class CfSchema_Sequence implements CfSchema_SequenceInterface {
 
   /**
    * @param int $delta
-   * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $helper
    *
    * @return string
    */
-  public function deltaGetItemLabel($delta, D7FormatorHelperInterface $helper) {
+  public function deltaGetItemLabel($delta, TranslatorInterface $helper) {
 
     return (NULL === $delta)
       ? $helper->translate('New item')

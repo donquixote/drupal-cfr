@@ -6,6 +6,9 @@ use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\ConfUtil;
 
+/**
+ * @Cf
+ */
 class SummarizerP2_Options implements SummarizerP2Interface {
 
   /**

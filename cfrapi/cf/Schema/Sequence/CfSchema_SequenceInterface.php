@@ -2,8 +2,8 @@
 
 namespace Donquixote\Cf\Schema\Sequence;
 
-use Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface;
 use Donquixote\Cf\SchemaBase\CfSchema_TransformableInterface;
+use Donquixote\Cf\Translator\TranslatorInterface;
 
 interface CfSchema_SequenceInterface extends CfSchema_TransformableInterface {
 
@@ -14,10 +14,10 @@ interface CfSchema_SequenceInterface extends CfSchema_TransformableInterface {
 
   /**
    * @param int $delta
-   * @param \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $helper
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $helper
    *
    * @return string
    */
-  public function deltaGetItemLabel($delta, D7FormatorHelperInterface $helper);
+  public function deltaGetItemLabel($delta, TranslatorInterface $helper);
 
 }

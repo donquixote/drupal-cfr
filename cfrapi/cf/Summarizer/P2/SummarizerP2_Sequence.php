@@ -7,9 +7,6 @@ use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\StaUtil;
 
-/**
- * @Cf
- */
 class SummarizerP2_Sequence implements SummarizerP2Interface {
 
   /**
@@ -18,6 +15,8 @@ class SummarizerP2_Sequence implements SummarizerP2Interface {
   private $itemSummarizer;
 
   /**
+   * @Cf
+   *
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *

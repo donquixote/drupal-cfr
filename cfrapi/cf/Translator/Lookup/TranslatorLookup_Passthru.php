@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Translator\Lookup;
 
-class Lookup_Passthru implements TranslatorLookupInterface {
+class TranslatorLookup_Passthru implements TranslatorLookupInterface {
 
   /**
    * @param string $string

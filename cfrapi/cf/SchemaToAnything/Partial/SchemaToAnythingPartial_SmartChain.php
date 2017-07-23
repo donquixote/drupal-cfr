@@ -2,16 +2,12 @@
 
 namespace Donquixote\Cf\SchemaToAnything\Partial;
 
+use Donquixote\Cf\Emptyness\EmptynessInterface;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Util\LocalPackageUtil;
 
 class SchemaToAnythingPartial_SmartChain implements SchemaToAnythingPartialInterface {
-
-  /**
-   * @var \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
-   */
-  private $partials;
 
   /**
    * @var \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[][][]
@@ -30,6 +26,11 @@ class SchemaToAnythingPartial_SmartChain implements SchemaToAnythingPartialInter
    *   Format: $[$schemaType] = $partials
    */
   private $partialsBySchemaType = [];
+
+  /**
+   * @var \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
+   */
+  private $partials;
 
   /**
    * @return self
@@ -70,6 +71,11 @@ class SchemaToAnythingPartial_SmartChain implements SchemaToAnythingPartialInter
           return $candidate;
         }
       }
+    }
+
+    if ($interface !== EmptynessInterface::class) {
+      $schemaClass = get_class($schema);
+      kdpm($partials, "$schemaClass -> $interface");
     }
 
     return NULL;

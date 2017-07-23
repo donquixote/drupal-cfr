@@ -1,4 +1,6 @@
 <?php
+
+use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
 use Drupal\cfrplugin\Hub\CfrPluginHub;
 use Drupal\cfrreflection\Util\StringUtil;
 
@@ -12,6 +14,11 @@ function _cfrplugin_report_overview_page() {
   $services = CfrPluginHub::getContainer();
   $definitions = $services->definitionsByTypeAndId->getDefinitionsByTypeAndId();
 
+  $schemaToConfigurator = $services->schemaToConfigurator;
+
+  // @todo THis should be a service.
+  $definitionToSchema = DefinitionToSchema_Mappers::create();
+
   $rows = [];
   $rows_grouped = [];
   foreach ($definitions as $interface => $interface_definitions) {
@@ -19,6 +26,25 @@ function _cfrplugin_report_overview_page() {
     $label = StringUtil::interfaceGenerateLabel($interface);
     $count = t('@n plugin definitions', ['@n' => count($interface_definitions)]);
     $interface_shortname = StringUtil::classGetShortname($interface);
+
+    $brokenIds = [];
+    foreach ($interface_definitions as $id => $definition) {
+
+      try {
+        // Just check if anything blows up.
+        $schema = $definitionToSchema->definitionGetSchema($definition);
+        $schemaToConfigurator->schemaGetConfigurator($schema);
+      }
+      catch (\Exception $e) {
+        $brokenIds[] = $id;
+        break;
+      }
+    }
+
+    if ([] !== $brokenIds) {
+      $nBroken = count($brokenIds);
+      $label = "($nBroken broken) $label";
+    }
 
     $path = 'admin/reports/cfrplugin/' . _cfrplugin_interface_slug($interface);
 
@@ -39,6 +65,10 @@ function _cfrplugin_report_overview_page() {
     }
     else {
       $rows[] = $row;
+    }
+
+    if ([] !== $brokenIds) {
+      break;
     }
   }
 

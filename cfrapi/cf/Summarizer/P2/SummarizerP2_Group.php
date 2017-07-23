@@ -8,9 +8,6 @@ use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\HtmlUtil;
 use Donquixote\Cf\Util\StaUtil;
 
-/**
- * @Cf
- */
 class SummarizerP2_Group implements SummarizerP2Interface {
 
   /**
@@ -24,6 +21,8 @@ class SummarizerP2_Group implements SummarizerP2Interface {
   private $itemSummarizers;
 
   /**
+   * @Cf
+   *
    * @param \Donquixote\Cf\Schema\Group\CfSchema_GroupInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *

@@ -72,8 +72,7 @@ class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
     foreach ($params as $i => $param) {
 
       if (isset($explicitParamSchemas[$i])) {
-        $paramSchemas[] = $replacer->schemaGetReplacement(
-          $explicitParamSchemas[$i]);
+        $paramSchemas[] = $explicitParamSchemas[$i];
       }
       elseif ($paramSchema = $this->paramGetSchema($param, $context, $replacer)) {
         $paramSchemas[] = $paramSchema;

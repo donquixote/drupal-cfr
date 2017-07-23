@@ -2,8 +2,11 @@
 
 namespace Donquixote\Cf\Util;
 
+use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
+use Donquixote\Cf\Discovery\AnnotatedFactory;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIAInterface;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_Callback;
+use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnything_CallbackInstanceof;
 
 final class STAMappersUtil extends UtilBase {
@@ -28,6 +31,19 @@ final class STAMappersUtil extends UtilBase {
           $factory->getCallback());
       }
       else {
+
+        foreach ($returnTypeNames as $returnTypeName) {
+          if (is_a($returnTypeName, SchemaToAnythingPartialInterface::class, TRUE)) {
+            if ([] === $factory->getCallback()->getReflectionParameters()) {
+              $candidate = $factory->getCallback()->invokeArgs([]);
+              if ($candidate instanceof SchemaToAnythingPartialInterface) {
+                $candidates[] = $candidate;
+              }
+            }
+            continue 2;
+          }
+        }
+
         foreach ($returnTypeNames as $returnTypeName) {
           $candidates[] = SchemaToAnythingPartial_Callback::create(
             $factory->getCallback(),
@@ -35,8 +51,6 @@ final class STAMappersUtil extends UtilBase {
         }
       }
     }
-
-    kdpm($returnTypeNamesAll);
 
     return array_filter($candidates);
   }

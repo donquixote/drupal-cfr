@@ -2,6 +2,7 @@
 
 namespace Donquixote\Cf\Schema\Group;
 
+use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
 
 class CfSchema_Group implements CfSchema_GroupInterface {
@@ -21,6 +22,13 @@ class CfSchema_Group implements CfSchema_GroupInterface {
    * @param string[] $labels
    */
   public function __construct(array $schemas, array $labels) {
+
+    foreach ($schemas as $k => $itemSchema) {
+      if (!$itemSchema instanceof CfSchemaInterface) {
+        throw new \InvalidArgumentException("Item schema at key $k must be instance of CfSchemaInterface.");
+      }
+    }
+
     $this->schemas = $schemas;
     $this->labels = $labels;
   }

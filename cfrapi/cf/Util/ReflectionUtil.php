@@ -198,4 +198,34 @@ final class ReflectionUtil extends UtilBase {
     return $bound->__invoke($k);
   }
 
+  /**
+   * @param object $object
+   * @param string $methodName
+   * @param array $args
+   * @param string|null $context
+   *
+   * @return mixed
+   */
+  public static function objectCallMethodArgs($object, $methodName, array $args, $context = null) {
+
+    if (null === $context) {
+      $context = $object;
+    }
+
+    $reflMethod = new \ReflectionMethod($context, $methodName);
+
+    $accessible = !$reflMethod->isProtected() && !$reflMethod->isPrivate();
+
+    if (!$accessible) {
+      $reflMethod->setAccessible(TRUE);
+      $return = $reflMethod->invokeArgs($object, $args);
+      $reflMethod->setAccessible(FALSE);
+    }
+    else {
+      $return = $reflMethod->invokeArgs($object, $args);
+    }
+
+    return $return;
+  }
+
 }

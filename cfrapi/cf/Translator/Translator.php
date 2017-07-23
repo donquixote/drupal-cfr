@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Translator;
 
-use Donquixote\Cf\Translator\Lookup\Lookup_Passthru;
+use Donquixote\Cf\Translator\Lookup\TranslatorLookup_Passthru;
 use Donquixote\Cf\Translator\Lookup\TranslatorLookupInterface;
 use Donquixote\Cf\Util\HtmlUtil;
 
@@ -17,7 +17,7 @@ class Translator implements TranslatorInterface {
    * @return \Donquixote\Cf\Translator\Translator
    */
   public static function createPassthru() {
-    return new self(new Lookup_Passthru());
+    return new self(new TranslatorLookup_Passthru());
   }
 
   /**
@@ -28,7 +28,7 @@ class Translator implements TranslatorInterface {
   public static function create(TranslatorLookupInterface $lookup = NULL) {
 
     if (NULL === $lookup) {
-      $lookup = new Lookup_Passthru();
+      $lookup = new TranslatorLookup_Passthru();
     }
 
     return new self($lookup);

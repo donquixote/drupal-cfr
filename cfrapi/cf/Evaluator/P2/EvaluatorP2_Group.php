@@ -56,7 +56,7 @@ class EvaluatorP2_Group implements EvaluatorP2Interface {
 
     $itemEvaluators = [];
     foreach ($groupSchema->getItemSchemas() as $k => $itemSchema) {
-      $itemEvaluator = StaUtil::evaluatorP2($groupSchema, $schemaToAnything);
+      $itemEvaluator = StaUtil::evaluatorP2($itemSchema, $schemaToAnything);
       if (NULL === $itemEvaluator) {
         return NULL;
       }
