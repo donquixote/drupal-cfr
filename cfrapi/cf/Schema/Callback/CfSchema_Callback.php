@@ -37,7 +37,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
    *
    * @return \Donquixote\Cf\Schema\Callback\CfSchema_Callback
    */
-  public static function createFromClass($class, CfContextInterface $context = NULL) {
+  public static function fromClass($class, CfContextInterface $context = NULL) {
 
     return new self(
       CallbackReflection_ClassConstruction::create($class),
@@ -51,7 +51,7 @@ class CfSchema_Callback implements CfSchema_CallbackInterface {
    *
    * @return self
    */
-  public static function createFromClassStaticMethod($class, $methodName, CfContextInterface $context = NULL) {
+  public static function fromStaticMethod($class, $methodName, CfContextInterface $context = NULL) {
 
     return new self(
       CallbackReflection_StaticMethod::create(
