@@ -2,9 +2,7 @@
 
 namespace Drupal\cfrapi\SummarizerP2;
 
-use Donquixote\Cf\Summarizer\Helper\SummaryHelperInterface;
 use Donquixote\Cf\Summarizer\P2\SummarizerP2Interface;
-use Donquixote\Cf\Summarizer\Partial\PartialSummarizerInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;

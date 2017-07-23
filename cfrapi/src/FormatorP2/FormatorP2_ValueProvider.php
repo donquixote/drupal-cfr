@@ -15,7 +15,9 @@ final class FormatorP2_ValueProvider extends UtilBase {
    *
    * @return \Donquixote\Cf\Form\D7\P2\D7FormatorP2_Optionless
    */
-  public static function create(ValueProviderInterface $schema) {
+  public static function create(
+    /** @noinspection PhpUnusedParameterInspection */ ValueProviderInterface $schema) {
+
     return new D7FormatorP2_Optionless();
   }
 }

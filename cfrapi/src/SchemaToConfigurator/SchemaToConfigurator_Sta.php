@@ -4,7 +4,6 @@ namespace Drupal\cfrapi\SchemaToConfigurator;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Util\ReflectionUtil;
 use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Configurator\Optionable\OptionableConfiguratorInterface;
 use Drupal\cfrapi\Exception\UnsupportedSchemaException;

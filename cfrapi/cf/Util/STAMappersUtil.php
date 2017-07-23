@@ -2,8 +2,6 @@
 
 namespace Donquixote\Cf\Util;
 
-use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
-use Donquixote\Cf\Discovery\AnnotatedFactory;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIAInterface;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_Callback;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface;
