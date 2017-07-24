@@ -2,7 +2,6 @@
 
 namespace Drupal\cfrapi\ConfToValue;
 
-use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
 interface ConfToValueInterface {
