@@ -14,7 +14,6 @@ namespace Drupal\cfrrealm\Container;
  * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToSchema
  * @property \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator_proxy
  * @property \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator
- * @property \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface $schemaFormHelper
  * @property \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
  * @property \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $schemaReplacer
  * @property \Donquixote\Cf\Translator\TranslatorInterface $translator

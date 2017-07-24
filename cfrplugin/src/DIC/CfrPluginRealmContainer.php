@@ -5,9 +5,6 @@ namespace Drupal\cfrplugin\DIC;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
 use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
 use Donquixote\Cf\Discovery\NamespaceDirectory;
-use Donquixote\Cf\Evaluator\Helper\Php\ConfToPhpHelper_SchemaToAnything;
-use Donquixote\Cf\Evaluator\Helper\Val\ConfToValueHelper_SchemaToAnything;
-use Donquixote\Cf\Form\D7\Helper\D7FormatorHelper_SchemaToAnything;
 use Donquixote\Cf\ParamToLabel\ParamToLabel;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_Callback;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_DefmapDrilldown;
@@ -15,14 +12,11 @@ use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_IfaceDefmap;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacer_FromPartials;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelper;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_SchemaReplacer;
-use Donquixote\Cf\SchemaToEmptyness\SchemaToEmptyness_Hardcoded;
-use Donquixote\Cf\Summarizer\Helper\SummaryHelper_SchemaToAnything;
 use Donquixote\Cf\Translator\Translator;
 use Donquixote\Cf\Util\LocalPackageUtil;
 use Donquixote\Cf\Util\STAMappersUtil;
 use Drupal\cfrapi\ConfToValue\ConfToValueInterface;
 use Drupal\cfrapi\SchemaToConfigurator\Partial\SchemaToConfigurator_Proxy;
-use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfigurator_Helpers;
 use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfigurator_Sta;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrrealm\Container\CfrRealmContainerBase;
@@ -122,35 +116,6 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   protected function get_schemaToConfigurator() {
 
     return new SchemaToConfigurator_Sta($this->schemaToAnything);
-  }
-
-  /**
-   * @return \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
-   */
-  protected function _get_schemaToConfigurator_() {
-
-    return new SchemaToConfigurator_Helpers(
-      new ConfToValueHelper_SchemaToAnything($this->schemaToAnything),
-      new ConfToPhpHelper_SchemaToAnything($this->schemaToAnything),
-      new D7FormatorHelper_SchemaToAnything(
-        $this->schemaToAnything,
-        $this->translator),
-      new SummaryHelper_SchemaToAnything(
-        $this->schemaToAnything,
-        $this->translator),
-      new SchemaToEmptyness_Hardcoded());
-  }
-
-  /**
-   * @return \Donquixote\Cf\Form\D7\Helper\D7FormatorHelperInterface
-   *
-   * @see $schemaFormHelper
-   */
-  protected function get_schemaFormHelper() {
-
-    return new D7FormatorHelper_SchemaToAnything(
-      $this->schemaToAnything,
-      $this->translator);
   }
 
   /**
