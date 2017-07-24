@@ -1,6 +1,7 @@
 <?php
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\Util\StaUtil;
 use Drupal\cfrplugin\Hub\CfrPluginHub;
 
 /**
@@ -47,12 +48,19 @@ function _cfrapi_cf_schema_element_process(array $element,
   }
 
   $container = CfrPluginHub::getContainer();
-  $helper = $container->schemaFormHelper;
 
-  $element['schema'] = $helper->schemaConfGetD7Form(
+  $formator = StaUtil::formatorP2(
     $schema,
+    $container->schemaToAnything);
+
+  if (NULL === $formator) {
+    return $element;
+  }
+
+  $element['schema'] = $formator->confGetD7Form(
     $element['#value'],
-    $element['#title']);
+    $element['#title'],
+    $container->translator);
 
   $element['schema']['#parents'] = $element['#parents'];
 
