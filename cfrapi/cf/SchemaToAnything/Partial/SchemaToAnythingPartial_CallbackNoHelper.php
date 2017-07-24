@@ -2,6 +2,7 @@
 
 namespace Donquixote\Cf\SchemaToAnything\Partial;
 
+use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
@@ -12,6 +13,20 @@ class SchemaToAnythingPartial_CallbackNoHelper extends SchemaToAnythingPartialBa
    * @var \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface
    */
   private $callback;
+
+  /**
+   * @param string $class
+   * @param string|null $schemaType
+   *
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_CallbackNoHelper
+   */
+  public static function fromClassName($class, $schemaType = NULL) {
+    $callback = CallbackReflection_ClassConstruction::createFromClassName($class);
+    return new self(
+      $callback,
+      $schemaType,
+      $class);
+  }
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
@@ -47,7 +62,7 @@ class SchemaToAnythingPartial_CallbackNoHelper extends SchemaToAnythingPartialBa
    * @param string|null $schemaType
    * @param string|null $resultType
    */
-  protected function __construct(CallbackReflectionInterface $callback, $schemaType = NULL, $resultType = NULL) {
+  public function __construct(CallbackReflectionInterface $callback, $schemaType = NULL, $resultType = NULL) {
     $this->callback = $callback;
     parent::__construct($schemaType, $resultType);
   }

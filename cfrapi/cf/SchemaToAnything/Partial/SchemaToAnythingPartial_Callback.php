@@ -59,7 +59,7 @@ class SchemaToAnythingPartial_Callback extends SchemaToAnythingPartialBase {
    * @param string|null $schemaType
    * @param string|null $resultType
    */
-  protected function __construct(CallbackReflectionInterface $callback, $schemaType = NULL, $resultType = NULL) {
+  public function __construct(CallbackReflectionInterface $callback, $schemaType = NULL, $resultType = NULL) {
     $this->callback = $callback;
     parent::__construct($schemaType, $resultType);
   }

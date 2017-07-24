@@ -3,18 +3,28 @@
 namespace Drupal\cfrapi\FormatorP2;
 
 use Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface;
+use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_CallbackNoHelper;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
 
-/**
- * @Cf
- */
 class FormatorP2_ConfToForm implements D7FormatorP2Interface {
 
   /**
    * @var \Drupal\cfrapi\ConfToForm\ConfToFormInterface
    */
   private $confToForm;
+
+  /**
+   * @Cf
+   *
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface
+   */
+  public static function sta() {
+
+    return SchemaToAnythingPartial_CallbackNoHelper::fromClassName(
+      __CLASS__,
+      ConfToFormInterface::class);
+  }
 
   /**
    * @param \Drupal\cfrapi\ConfToForm\ConfToFormInterface $schema

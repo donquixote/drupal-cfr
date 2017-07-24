@@ -6,29 +6,9 @@ use Donquixote\CallbackReflection\CodegenHelper\CodegenHelper;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
 use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
 use Donquixote\Cf\Discovery\NamespaceDirectory;
-use Donquixote\Cf\SchemaToAnything\SchemaToAnything_CallbackInstanceof;
 use Drupal\cfrplugin\Util\UiCodeUtil;
 
 final class LocalPackageUtil extends UtilBase {
-
-  /**
-   * @return \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface[][]
-   */
-  public static function collectSTAMappersGrouped() {
-
-    $grouped = [];
-    foreach (self::collectSTAMappers() as $mapper) {
-      if ($mapper instanceof SchemaToAnything_CallbackInstanceof) {
-        $k = $mapper->getSchemaInterface();
-      }
-      else {
-        $k = '?';
-      }
-      $grouped[$k][] = $mapper;
-    }
-
-    return $grouped;
-  }
 
   /**
    * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
@@ -37,24 +17,6 @@ final class LocalPackageUtil extends UtilBase {
 
     $factoriesIA = self::getAnnotatedFactoriesIA('Cf');
     return STAMappersUtil::collectSTAPartials($factoriesIA);
-  }
-
-  /**
-   * @return \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface[]
-   */
-  public static function collectSTAMappers() {
-
-    $factoriesIA = self::getAnnotatedFactoriesIA('Cf');
-    return STAMappersUtil::collectSTAMappers($factoriesIA);
-  }
-
-  /**
-   * @return \Donquixote\Cf\SchemaToSomething\SchemaToSomethingInterface[]
-   */
-  public static function collectSTSMappers() {
-
-    $factoriesIA = self::getAnnotatedFactoriesIA('Cf');
-    return STAMappersUtil::collectSTSMappers($factoriesIA);
   }
 
   /**

@@ -5,7 +5,7 @@ namespace Drupal\cfrapi\ConfToValue;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 
-interface ConfToValueInterface extends CfSchemaInterface {
+interface ConfToValueInterface {
 
   /**
    * @param mixed $conf

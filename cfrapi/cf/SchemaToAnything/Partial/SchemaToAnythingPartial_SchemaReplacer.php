@@ -3,8 +3,8 @@
 namespace Donquixote\Cf\SchemaToAnything\Partial;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface;
+use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 
 class SchemaToAnythingPartial_SchemaReplacer implements SchemaToAnythingPartialInterface {
 

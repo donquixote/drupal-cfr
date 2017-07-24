@@ -2,10 +2,9 @@
 
 namespace Drupal\cfrapi\ConfToSummary;
 
-use Donquixote\Cf\Schema\CfSchemaInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
-interface ConfToSummaryInterface extends CfSchemaInterface {
+interface ConfToSummaryInterface {
 
   /**
    * @param mixed $conf

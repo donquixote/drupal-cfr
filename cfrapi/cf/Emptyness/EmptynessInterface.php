@@ -2,7 +2,9 @@
 
 namespace Donquixote\Cf\Emptyness;
 
-interface EmptynessInterface {
+use Donquixote\Cf\Form\Common\FormatorCommonInterface;
+
+interface EmptynessInterface extends FormatorCommonInterface {
 
   /**
    * @param mixed $conf

@@ -2,8 +2,16 @@
 
 namespace Drupal\cfrapi\ConfToForm;
 
-use Donquixote\Cf\Integration\D7\ConfToForm\ConfToD7FormInterface;
+interface ConfToFormInterface {
 
-interface ConfToFormInterface extends ConfToD7FormInterface {
+  /**
+   * @param mixed $conf
+   *   Configuration from a form, config file or storage.
+   * @param string|null $label
+   *   Label for the form element, specifying the purpose where it is used.
+   *
+   * @return array
+   */
+  public function confGetForm($conf, $label);
 
 }

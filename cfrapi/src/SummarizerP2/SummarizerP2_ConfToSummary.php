@@ -2,20 +2,30 @@
 
 namespace Drupal\cfrapi\SummarizerP2;
 
+use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_CallbackNoHelper;
 use Donquixote\Cf\Summarizer\P2\SummarizerP2Interface;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
 
-/**
- * @Cf
- */
 class SummarizerP2_ConfToSummary implements SummarizerP2Interface {
 
   /**
    * @var \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface
    */
   private $schema;
+
+  /**
+   * @Cf
+   *
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface
+   */
+  public static function sta() {
+
+    return SchemaToAnythingPartial_CallbackNoHelper::fromClassName(
+      __CLASS__,
+      ConfToSummaryInterface::class);
+  }
 
   /**
    * @param \Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface $schema
