@@ -1,19 +1,19 @@
 <?php
 
-namespace Donquixote\Cf\Emptyness;
+namespace Donquixote\Cf\Emptiness;
 
-class Emptyness_Key implements EmptynessInterface {
-
-  /**
-   * @var string
-   */
-  private $key;
+class Emptiness_AlwaysEmpty implements EmptinessInterface {
 
   /**
-   * @param string $key
+   * @var mixed|null
    */
-  public function __construct($key) {
-    $this->key = $key;
+  private $emptyConf;
+
+  /**
+   * @param mixed $emptyConf
+   */
+  public function __construct($emptyConf = NULL) {
+    $this->emptyConf = $emptyConf;
   }
 
   /**
@@ -23,7 +23,7 @@ class Emptyness_Key implements EmptynessInterface {
    *   TRUE, if $conf is both valid and empty.
    */
   public function confIsEmpty($conf) {
-    return !isset($conf[$this->key]) || '' === $conf[$this->key];
+    return TRUE;
   }
 
   /**
@@ -32,6 +32,6 @@ class Emptyness_Key implements EmptynessInterface {
    * @return mixed|null
    */
   public function getEmptyConf() {
-    return NULL;
+    return $this->emptyConf;
   }
 }

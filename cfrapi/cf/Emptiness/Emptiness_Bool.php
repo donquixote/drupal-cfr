@@ -1,8 +1,8 @@
 <?php
 
-namespace Donquixote\Cf\Emptyness;
+namespace Donquixote\Cf\Emptiness;
 
-class Emptyness_Bool implements EmptynessInterface {
+class Emptiness_Bool implements EmptinessInterface {
 
   /**
    * @param mixed $conf

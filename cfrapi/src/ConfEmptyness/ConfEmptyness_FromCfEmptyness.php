@@ -2,19 +2,19 @@
 
 namespace Drupal\cfrapi\ConfEmptyness;
 
-use Donquixote\Cf\Emptyness\EmptynessInterface;
+use Donquixote\Cf\Emptiness\EmptinessInterface;
 
 class ConfEmptyness_FromCfEmptyness implements ConfEmptynessInterface {
 
   /**
-   * @var \Donquixote\Cf\Emptyness\EmptynessInterface
+   * @var \Donquixote\Cf\Emptiness\EmptinessInterface
    */
   private $emptyness;
 
   /**
-   * @param \Donquixote\Cf\Emptyness\EmptynessInterface $emptyness
+   * @param \Donquixote\Cf\Emptiness\EmptinessInterface $emptyness
    */
-  public function __construct(EmptynessInterface $emptyness) {
+  public function __construct(EmptinessInterface $emptyness) {
     $this->emptyness = $emptyness;
   }
 

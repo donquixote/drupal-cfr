@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Util;
 
-use Donquixote\Cf\Emptyness\EmptynessInterface;
+use Donquixote\Cf\Emptiness\EmptinessInterface;
 use Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface;
 use Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface;
 use Donquixote\Cf\Form\D7\P2\Optionable\OptionableD7FormatorP2Interface;
@@ -26,10 +26,10 @@ final class StaUtil extends UtilBase {
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *
-   * @return \Donquixote\Cf\Emptyness\EmptynessInterface|null
+   * @return \Donquixote\Cf\Emptiness\EmptinessInterface|null
    */
-  public static function emptyness(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
-    return self::getObject($schema, $schemaToAnything, EmptynessInterface::class);
+  public static function emptiness(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
+    return self::getObject($schema, $schemaToAnything, EmptinessInterface::class);
   }
 
   /**

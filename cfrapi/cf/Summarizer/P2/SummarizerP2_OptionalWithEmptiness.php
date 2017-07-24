@@ -2,12 +2,12 @@
 
 namespace Donquixote\Cf\Summarizer\P2;
 
-use Donquixote\Cf\Emptyness\EmptynessInterface;
+use Donquixote\Cf\Emptiness\EmptinessInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\HtmlUtil;
 
-class SummarizerP2_OptionalWithEmptyness implements SummarizerP2Interface {
+class SummarizerP2_OptionalWithEmptiness implements SummarizerP2Interface {
 
   /**
    * @var \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface
@@ -20,23 +20,23 @@ class SummarizerP2_OptionalWithEmptyness implements SummarizerP2Interface {
   private $decorated;
 
   /**
-   * @var \Donquixote\Cf\Emptyness\EmptynessInterface
+   * @var \Donquixote\Cf\Emptiness\EmptinessInterface
    */
-  private $emptyness;
+  private $emptiness;
 
   /**
    * @param \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface $schema
    * @param \Donquixote\Cf\Summarizer\P2\SummarizerP2Interface $decorated
-   * @param \Donquixote\Cf\Emptyness\EmptynessInterface $emptyness
+   * @param \Donquixote\Cf\Emptiness\EmptinessInterface $emptiness
    */
   public function __construct(
     CfSchema_OptionalInterface $schema,
     SummarizerP2Interface $decorated,
-    EmptynessInterface $emptyness
+    EmptinessInterface $emptiness
   ) {
     $this->schema = $schema;
     $this->decorated = $decorated;
-    $this->emptyness = $emptyness;
+    $this->emptiness = $emptiness;
   }
 
   /**
@@ -47,7 +47,7 @@ class SummarizerP2_OptionalWithEmptyness implements SummarizerP2Interface {
    */
   public function confGetSummary($conf, TranslatorInterface $translator) {
 
-    if ($this->emptyness->confIsEmpty($conf)) {
+    if ($this->emptiness->confIsEmpty($conf)) {
 
       if (NULL === $summaryUnsafe = $this->schema->getEmptySummary()) {
         return NULL;

@@ -1,8 +1,10 @@
 <?php
 
-namespace Donquixote\Cf\Emptyness;
+namespace Donquixote\Cf\Emptiness;
 
-class Emptyness_Enum implements EmptynessInterface {
+use Donquixote\Cf\Form\Common\FormatorCommonInterface;
+
+interface EmptinessInterface extends FormatorCommonInterface {
 
   /**
    * @param mixed $conf
@@ -10,16 +12,13 @@ class Emptyness_Enum implements EmptynessInterface {
    * @return bool
    *   TRUE, if $conf is both valid and empty.
    */
-  public function confIsEmpty($conf) {
-    return NULL === $conf || '' === $conf;
-  }
+  public function confIsEmpty($conf);
 
   /**
    * Gets a valid configuration where $this->confIsEmpty($conf) returns TRUE.
    *
    * @return mixed|null
    */
-  public function getEmptyConf() {
-    return NULL;
-  }
+  public function getEmptyConf();
+
 }

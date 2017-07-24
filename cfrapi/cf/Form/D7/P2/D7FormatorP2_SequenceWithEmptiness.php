@@ -2,13 +2,13 @@
 
 namespace Donquixote\Cf\Form\D7\P2;
 
-use Donquixote\Cf\Emptyness\EmptynessInterface;
+use Donquixote\Cf\Emptiness\EmptinessInterface;
 use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\StaUtil;
 
-class D7FormatorP2_SequenceWithEmptyness implements D7FormatorP2Interface {
+class D7FormatorP2_SequenceWithEmptiness implements D7FormatorP2Interface {
 
   /**
    * @var \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface
@@ -21,9 +21,9 @@ class D7FormatorP2_SequenceWithEmptyness implements D7FormatorP2Interface {
   private $optionalItemFormator;
 
   /**
-   * @var \Donquixote\Cf\Emptyness\EmptynessInterface
+   * @var \Donquixote\Cf\Emptiness\EmptinessInterface
    */
-  private $itemEmptyness;
+  private $itemEmptiness;
 
   /**
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
@@ -36,11 +36,11 @@ class D7FormatorP2_SequenceWithEmptyness implements D7FormatorP2Interface {
     SchemaToAnythingInterface $schemaToAnything
   ) {
 
-    if (NULL === $emptyness = StaUtil::emptyness(
+    if (NULL === $emptiness = StaUtil::emptiness(
       $schema->getItemSchema(),
       $schemaToAnything)
     ) {
-      kdpm($schema->getItemSchema(), 'no emptyness found.');
+      kdpm($schema->getItemSchema(), 'no emptiness found.');
       return NULL;
     }
 
@@ -56,22 +56,22 @@ class D7FormatorP2_SequenceWithEmptyness implements D7FormatorP2Interface {
     return new self(
       $schema,
       $optionalFormator,
-      $emptyness);
+      $emptiness);
   }
 
   /**
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $sequenceSchema
    * @param \Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface $optionalItemFormator
-   * @param \Donquixote\Cf\Emptyness\EmptynessInterface $itemEmptyness
+   * @param \Donquixote\Cf\Emptiness\EmptinessInterface $itemEmptiness
    */
   public function __construct(
     CfSchema_SequenceInterface $sequenceSchema,
     D7FormatorP2Interface $optionalItemFormator,
-    EmptynessInterface $itemEmptyness
+    EmptinessInterface $itemEmptiness
   ) {
     $this->sequenceSchema = $sequenceSchema;
     $this->optionalItemFormator = $optionalItemFormator;
-    $this->itemEmptyness = $itemEmptyness;
+    $this->itemEmptiness = $itemEmptiness;
   }
 
   /**
@@ -145,7 +145,7 @@ class D7FormatorP2_SequenceWithEmptyness implements D7FormatorP2Interface {
         continue;
       }
 
-      if ($this->itemEmptyness->confIsEmpty($itemConf)) {
+      if ($this->itemEmptiness->confIsEmpty($itemConf)) {
         // Skip empty items.
         continue;
       }
@@ -211,7 +211,7 @@ class D7FormatorP2_SequenceWithEmptyness implements D7FormatorP2Interface {
     # $itemSchema = $this->schema->getItemSchema();
 
     foreach ($conf as $delta => $itemConf) {
-      if ($this->itemEmptyness->confIsEmpty($itemConf)) {
+      if ($this->itemEmptiness->confIsEmpty($itemConf)) {
         unset($conf[$delta]);
       }
     }

@@ -1,19 +1,19 @@
 <?php
 
-namespace Donquixote\Cf\Emptyness;
+namespace Donquixote\Cf\Emptiness;
 
-class Emptyness_Sequence implements EmptynessInterface {
-
-  /**
-   * @var \Donquixote\Cf\Emptyness\EmptynessInterface
-   */
-  private $emptyness;
+class Emptiness_Sequence implements EmptinessInterface {
 
   /**
-   * @param \Donquixote\Cf\Emptyness\EmptynessInterface $emptyness
+   * @var \Donquixote\Cf\Emptiness\EmptinessInterface
    */
-  public function __construct(EmptynessInterface $emptyness) {
-    $this->emptyness = $emptyness;
+  private $emptiness;
+
+  /**
+   * @param \Donquixote\Cf\Emptiness\EmptinessInterface $emptiness
+   */
+  public function __construct(EmptinessInterface $emptiness) {
+    $this->emptiness = $emptiness;
   }
 
   /**
@@ -35,7 +35,7 @@ class Emptyness_Sequence implements EmptynessInterface {
         // Invalid delta.
         return FALSE;
       }
-      if (!$this->emptyness->confIsEmpty($deltaConf)) {
+      if (!$this->emptiness->confIsEmpty($deltaConf)) {
         // Non-empty configuration for delta.
         return FALSE;
       }

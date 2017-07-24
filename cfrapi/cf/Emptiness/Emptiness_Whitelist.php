@@ -1,8 +1,8 @@
 <?php
 
-namespace Donquixote\Cf\Emptyness;
+namespace Donquixote\Cf\Emptiness;
 
-class Emptyness_Whitelist implements EmptynessInterface {
+class Emptiness_Whitelist implements EmptinessInterface {
 
   /**
    * @var mixed

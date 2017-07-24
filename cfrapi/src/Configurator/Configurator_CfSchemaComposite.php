@@ -42,7 +42,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
   private $translator;
 
   /**
-   * @var \Donquixote\Cf\Emptyness\EmptynessInterface|null
+   * @var \Donquixote\Cf\Emptiness\EmptinessInterface|null
    */
   private $emptyness;
 
@@ -85,7 +85,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
     $optionalSchema = new CfSchema_Optional_Null($schema);
 
     if (0
-      || NULL === ($emptiness = StaUtil::emptyness($schema, $schemaToAnything))
+      || NULL === ($emptiness = StaUtil::emptiness($schema, $schemaToAnything))
       || NULL === ($formator = StaUtil::formatorP2($optionalSchema, $schemaToAnything))
       || NULL === ($summarizer = StaUtil::summarizerP2($optionalSchema, $schemaToAnything))
       || NULL === ($evaluator = StaUtil::evaluatorP2($optionalSchema, $schemaToAnything))

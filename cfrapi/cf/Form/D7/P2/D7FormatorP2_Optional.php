@@ -28,7 +28,7 @@ class D7FormatorP2_Optional implements D7FormatorP2Interface {
     SchemaToAnythingInterface $schemaToAnything
   ) {
 
-    if (NULL !== $emptyness = StaUtil::emptyness(
+    if (NULL !== $emptiness = StaUtil::emptiness(
       $schema->getDecorated(),
       $schemaToAnything)
     ) {

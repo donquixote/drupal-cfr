@@ -40,16 +40,16 @@ class SummarizerP2_Optional implements SummarizerP2Interface {
       return NULL;
     }
 
-    $emptyness = StaUtil::emptyness($schema, $schemaToAnything);
+    $emptiness = StaUtil::emptiness($schema, $schemaToAnything);
 
-    if (NULL === $emptyness) {
+    if (NULL === $emptiness) {
       return new self($schema, $decorated);
     }
 
-    return new SummarizerP2_OptionalWithEmptyness(
+    return new SummarizerP2_OptionalWithEmptiness(
       $schema,
       $decorated,
-      $emptyness);
+      $emptiness);
   }
 
   /**

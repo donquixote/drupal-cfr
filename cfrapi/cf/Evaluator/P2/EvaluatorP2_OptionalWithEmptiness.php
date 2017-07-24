@@ -2,10 +2,10 @@
 
 namespace Donquixote\Cf\Evaluator\P2;
 
-use Donquixote\Cf\Emptyness\EmptynessInterface;
+use Donquixote\Cf\Emptiness\EmptinessInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 
-class EvaluatorP2_OptionalWithEmptyness implements EvaluatorP2Interface {
+class EvaluatorP2_OptionalWithEmptiness implements EvaluatorP2Interface {
 
   /**
    * @var \Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface
@@ -18,19 +18,19 @@ class EvaluatorP2_OptionalWithEmptyness implements EvaluatorP2Interface {
   private $schema;
 
   /**
-   * @var \Donquixote\Cf\Emptyness\EmptynessInterface
+   * @var \Donquixote\Cf\Emptiness\EmptinessInterface
    */
-  private $emptyness;
+  private $emptiness;
 
   /**
    * @param \Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface $decorated
    * @param \Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface $schema
-   * @param \Donquixote\Cf\Emptyness\EmptynessInterface $emptyness
+   * @param \Donquixote\Cf\Emptiness\EmptinessInterface $emptiness
    */
-  public function __construct(EvaluatorP2Interface $decorated, CfSchema_OptionalInterface $schema, EmptynessInterface $emptyness) {
+  public function __construct(EvaluatorP2Interface $decorated, CfSchema_OptionalInterface $schema, EmptinessInterface $emptiness) {
     $this->decorated = $decorated;
     $this->schema = $schema;
-    $this->emptyness = $emptyness;
+    $this->emptiness = $emptiness;
   }
 
   /**
@@ -40,7 +40,7 @@ class EvaluatorP2_OptionalWithEmptyness implements EvaluatorP2Interface {
    */
   public function confGetValue($conf) {
 
-    if ($this->emptyness->confIsEmpty($conf)) {
+    if ($this->emptiness->confIsEmpty($conf)) {
       return $this->schema->getEmptyValue();
     }
 
@@ -54,7 +54,7 @@ class EvaluatorP2_OptionalWithEmptyness implements EvaluatorP2Interface {
    */
   public function confGetPhp($conf) {
 
-    if ($this->emptyness->confIsEmpty($conf)) {
+    if ($this->emptiness->confIsEmpty($conf)) {
       return $this->schema->getEmptyPhp();
     }
 

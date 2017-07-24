@@ -34,18 +34,18 @@ class EvaluatorP2_Optional implements EvaluatorP2Interface {
       return NULL;
     }
 
-    $emptyness = StaUtil::emptyness($schema->getDecorated(), $schemaToAnything);
+    $emptiness = StaUtil::emptiness($schema->getDecorated(), $schemaToAnything);
 
-    if (NULL === $emptyness) {
+    if (NULL === $emptiness) {
       return new self(
         $decorated,
         $schema);
     }
 
-    return new EvaluatorP2_OptionalWithEmptyness(
+    return new EvaluatorP2_OptionalWithEmptiness(
       $decorated,
       $schema,
-      $emptyness);
+      $emptiness);
   }
 
   /**

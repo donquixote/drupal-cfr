@@ -32,7 +32,7 @@ class D7FormatorP2_Sequence implements D7FormatorP2Interface {
     SchemaToAnythingInterface $schemaToAnything
   ) {
 
-    $formator = D7FormatorP2_SequenceWithEmptyness::createOrNull(
+    $formator = D7FormatorP2_SequenceWithEmptiness::createOrNull(
       $schema,
       $schemaToAnything);
 
@@ -41,7 +41,7 @@ class D7FormatorP2_Sequence implements D7FormatorP2Interface {
     }
 
     return new D7FormatorP2_Broken(
-      t("Sequences without emptyness are currently not supported."));
+      t("Sequences without emptiness are currently not supported."));
   }
 
   /**

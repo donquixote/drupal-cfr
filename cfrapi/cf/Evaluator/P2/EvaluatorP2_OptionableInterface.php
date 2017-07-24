@@ -5,8 +5,8 @@ namespace Donquixote\Cf\Evaluator\P2;
 interface EvaluatorP2_OptionableInterface extends EvaluatorP2Interface {
 
   /**
-   * @return \Donquixote\Cf\Emptyness\EmptynessInterface|null
+   * @return \Donquixote\Cf\Emptiness\EmptinessInterface|null
    */
-  public function getEmptyness();
+  public function getEmptiness();
 
 }
