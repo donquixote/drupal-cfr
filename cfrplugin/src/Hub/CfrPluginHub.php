@@ -3,7 +3,6 @@
 namespace Drupal\cfrplugin\Hub;
 
 use Drupal\cfrapi\Context\CfrContextInterface;
-use Drupal\cfrfamily\CfrLegendProvider\CfrLegendProviderInterface;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainer;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
@@ -98,18 +97,5 @@ class CfrPluginHub implements CfrPluginHubInterface {
    */
   public function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL) {
     return $this->interfaceToConfigurator->typeGetOptionalConfigurator($interface, $context, $defaultValue);
-  }
-
-  /**
-   * @param string $interface
-   *
-   * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface|null
-   */
-  public function interfaceGetCfrLegendOrNull($interface) {
-    $configurator = $this->interfaceToConfigurator->typeGetConfigurator($interface);
-    if (!$configurator instanceof CfrLegendProviderInterface) {
-      return NULL;
-    }
-    return $configurator->getCfrLegend();
   }
 }

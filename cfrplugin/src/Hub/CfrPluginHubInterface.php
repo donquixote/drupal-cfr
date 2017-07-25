@@ -10,11 +10,4 @@ interface CfrPluginHubInterface extends InterfaceToConfiguratorInterface {
    *   Format: $[$interface] = $label
    */
   public function getInterfaceLabels();
-
-  /**
-   * @param string $interface
-   *
-   * @return \Drupal\cfrfamily\CfrLegend\CfrLegendInterface
-   */
-  public function interfaceGetCfrLegendOrNull($interface);
 }
