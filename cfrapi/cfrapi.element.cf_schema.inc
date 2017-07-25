@@ -58,9 +58,8 @@ function _cfrapi_cf_schema_element_process(array $element,
   }
 
   $element['schema'] = $formator->confGetD7Form(
-    $element['#value'],
-    $element['#title'],
-    $container->translator);
+    $element['#value'], $element['#title']
+  );
 
   $element['schema']['#parents'] = $element['#parents'];
 

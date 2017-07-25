@@ -3,10 +3,9 @@
 namespace Donquixote\Cf\Form\D7;
 
 use Donquixote\Cf\Form\D7\Optionable\OptionableFormatorD7Interface;
-use Donquixote\Cf\SchemaBase\Options\CfSchemaBase_AbstractOptionsInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Form\D7\Util\D7FormUtil;
 use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
+use Donquixote\Cf\SchemaBase\Options\CfSchemaBase_AbstractOptionsInterface;
 use Donquixote\Cf\Util\ConfUtil;
 
 class FormatorD7_Options implements FormatorD7Interface, OptionableFormatorD7Interface {
@@ -56,11 +55,10 @@ class FormatorD7_Options implements FormatorD7Interface, OptionableFormatorD7Int
   /**
    * @param mixed $conf
    * @param string $label
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return mixed
    */
-  public function confGetD7Form($conf, $label, TranslatorInterface $translator) {
+  public function confGetD7Form($conf, $label) {
 
     return D7FormUtil::optionsSchemaBuildSelectElement(
       $this->schema,

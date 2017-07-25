@@ -2,9 +2,12 @@
 
 namespace Donquixote\Cf\SchemaToAnything\Partial;
 
+use Donquixote\CallbackReflection\Callback\CallbackReflection_BoundParameters;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
+use Donquixote\Cf\ParamToValue\ParamToValueInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
+use Donquixote\Cf\Util\ReflectionUtil;
 
 class SchemaToAnythingPartial_Callback extends SchemaToAnythingPartialBase {
 
@@ -15,33 +18,24 @@ class SchemaToAnythingPartial_Callback extends SchemaToAnythingPartialBase {
 
   /**
    * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
-   * @param string|null $resultType
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
    *
-   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface|null
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialBase|null
    */
-  public static function create(CallbackReflectionInterface $callback, $resultType = NULL) {
+  public static function create(
+    CallbackReflectionInterface $callback,
+    ParamToValueInterface $paramToValue
+  ) {
 
     $params = $callback->getReflectionParameters();
 
-    if ([0] === $keys = array_keys($params)) {
-      return SchemaToAnythingPartial_CallbackNoHelper::create($callback, $resultType);
-    }
-
-    if ([0, 1] !== $keys) {
+    if (0
+      || !isset($params[0])
+      || NULL === ($t0 = $params[0]->getClass())
+    ) {
       return NULL;
     }
-
-    if (NULL === $t0 = $params[0]->getClass()) {
-      return NULL;
-    }
-
-    if (NULL === $t1 = $params[1]->getClass()) {
-      return NULL;
-    }
-
-    if (!is_a(SchemaToAnythingHelperInterface::class, $t1->getName(), TRUE)) {
-      return NULL;
-    }
+    unset($params[0]);
 
     if (CfSchemaInterface::class === $schemaType = $t0->getName()) {
       $schemaType = NULL;
@@ -50,7 +44,36 @@ class SchemaToAnythingPartial_Callback extends SchemaToAnythingPartialBase {
       return NULL;
     }
 
-    return new self($callback, $schemaType, $resultType);
+    if (1
+      && isset($params[1])
+      && NULL !== ($t1 = $params[1]->getClass())
+      && is_a(SchemaToAnythingHelperInterface::class, $t1->getName(), TRUE)
+    ) {
+      $hasStaParam = TRUE;
+      unset($params[1]);
+    }
+    else {
+      $hasStaParam = FALSE;
+    }
+
+    if ([] !== $params) {
+      if (NULL === $boundArgs = ReflectionUtil::paramsGetValues($params, $paramToValue)) {
+        return NULL;
+      }
+
+      $callback = new CallbackReflection_BoundParameters($callback, $boundArgs);
+    }
+
+    if ($hasStaParam) {
+      return new self(
+        $callback,
+        $schemaType);
+    }
+    else {
+      return new SchemaToAnythingPartial_CallbackNoHelper(
+        $callback,
+        $schemaType);
+    }
   }
 
   /**
@@ -77,7 +100,6 @@ class SchemaToAnythingPartial_Callback extends SchemaToAnythingPartialBase {
     $interface,
     SchemaToAnythingHelperInterface $helper
   ) {
-
     return $this->callback->invokeArgs([$schema, $helper]);
   }
 }

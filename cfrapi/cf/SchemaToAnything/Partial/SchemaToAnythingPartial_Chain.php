@@ -2,6 +2,7 @@
 
 namespace Donquixote\Cf\SchemaToAnything\Partial;
 
+use Donquixote\Cf\ParamToValue\ParamToValueInterface;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Util\LocalPackageUtil;
@@ -14,10 +15,12 @@ class SchemaToAnythingPartial_Chain implements SchemaToAnythingPartialInterface 
   private $partials;
 
   /**
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
+   *
    * @return self
    */
-  public static function create() {
-    $partials = LocalPackageUtil::collectSTAPartials();
+  public static function create(ParamToValueInterface $paramToValue) {
+    $partials = LocalPackageUtil::collectSTAPartials($paramToValue);
     return new self($partials);
   }
 

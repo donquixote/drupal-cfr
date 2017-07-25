@@ -3,7 +3,6 @@
 namespace Donquixote\Cf\Form\D7;
 
 use Donquixote\Cf\Form\D7\Optionable\OptionableFormatorD7Interface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 
 class FormatorD7_Optionless implements FormatorD7Interface, OptionableFormatorD7Interface {
@@ -31,11 +30,10 @@ class FormatorD7_Optionless implements FormatorD7Interface, OptionableFormatorD7
   /**
    * @param mixed $conf
    * @param string $label
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return array
    */
-  public function confGetD7Form($conf, $label, TranslatorInterface $translator) {
+  public function confGetD7Form($conf, $label) {
     return [];
   }
 }

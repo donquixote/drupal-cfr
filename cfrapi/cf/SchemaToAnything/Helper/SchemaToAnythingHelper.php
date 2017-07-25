@@ -2,6 +2,7 @@
 
 namespace Donquixote\Cf\SchemaToAnything\Helper;
 
+use Donquixote\Cf\ParamToValue\ParamToValueInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_SmartChain;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface;
@@ -14,10 +15,12 @@ class SchemaToAnythingHelper implements SchemaToAnythingHelperInterface {
   private $partial;
 
   /**
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
+   *
    * @return self
    */
-  public static function create() {
-    return new self(SchemaToAnythingPartial_SmartChain::create());
+  public static function create(ParamToValueInterface $paramToValue) {
+    return new self(SchemaToAnythingPartial_SmartChain::create($paramToValue));
   }
 
   /**

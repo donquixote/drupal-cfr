@@ -6,17 +6,22 @@ use Donquixote\CallbackReflection\CodegenHelper\CodegenHelper;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
 use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
 use Donquixote\Cf\Discovery\NamespaceDirectory;
+use Donquixote\Cf\ParamToValue\ParamToValueInterface;
 use Drupal\cfrplugin\Util\UiCodeUtil;
 
 final class LocalPackageUtil extends UtilBase {
 
   /**
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
+   *
    * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
    */
-  public static function collectSTAPartials() {
+  public static function collectSTAPartials(ParamToValueInterface $paramToValue) {
 
     $factoriesIA = self::getAnnotatedFactoriesIA('Cf');
-    return STAMappersUtil::collectSTAPartials($factoriesIA);
+    return STAMappersUtil::collectSTAPartials(
+      $factoriesIA,
+      $paramToValue);
   }
 
   /**

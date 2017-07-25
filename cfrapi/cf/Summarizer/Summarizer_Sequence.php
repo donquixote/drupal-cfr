@@ -15,14 +15,24 @@ class Summarizer_Sequence implements SummarizerInterface {
   private $itemSummarizer;
 
   /**
+   * @var \Donquixote\Cf\Translator\TranslatorInterface
+   */
+  private $translator;
+
+  /**
    * @Cf
    *
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return \Donquixote\Cf\Summarizer\Summarizer_Sequence|null
    */
-  public static function create(CfSchema_SequenceInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
+  public static function create(
+    CfSchema_SequenceInterface $schema,
+    SchemaToAnythingInterface $schemaToAnything,
+    TranslatorInterface $translator
+  ) {
 
     $itemSummarizer = StaUtil::summarizer($schema->getItemSchema(), $schemaToAnything);
 
@@ -30,23 +40,24 @@ class Summarizer_Sequence implements SummarizerInterface {
       return NULL;
     }
 
-    return new self($itemSummarizer);
+    return new self($itemSummarizer, $translator);
   }
 
   /**
    * @param \Donquixote\Cf\Summarizer\SummarizerInterface $itemSummarizer
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    */
-  public function __construct(SummarizerInterface $itemSummarizer) {
+  public function __construct(SummarizerInterface $itemSummarizer, TranslatorInterface $translator) {
     $this->itemSummarizer = $itemSummarizer;
+    $this->translator = $translator;
   }
 
   /**
    * @param mixed $conf
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return null|string
    */
-  public function confGetSummary($conf, TranslatorInterface $translator) {
+  public function confGetSummary($conf) {
 
     if (!is_array($conf)) {
       $conf = [];
@@ -57,10 +68,10 @@ class Summarizer_Sequence implements SummarizerInterface {
 
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Fail on non-numeric and negative keys.
-        return '- ' . $translator->translate('Noisy configuration') . ' -';
+        return '- ' . $this->translator->translate('Noisy configuration') . ' -';
       }
 
-      $itemSummary = $this->itemSummarizer->confGetSummary($itemConf, $translator);
+      $itemSummary = $this->itemSummarizer->confGetSummary($itemConf);
 
       if (is_string($itemSummary) && '' !== $itemSummary) {
         $summary .= "<li>$itemSummary</li>";

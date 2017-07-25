@@ -8,9 +8,6 @@ use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional_Null;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Summarizer\SummarizerInterface;
-use Donquixote\Cf\Translator\Lookup\TranslatorLookup_D7;
-use Donquixote\Cf\Translator\Translator;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\StaUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_FromCfEmptyness;
@@ -37,11 +34,6 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
   private $evaluator;
 
   /**
-   * @var \Donquixote\Cf\Translator\TranslatorInterface
-   */
-  private $translator;
-
-  /**
    * @var \Donquixote\Cf\Emptiness\EmptinessInterface|null
    */
   private $emptyness;
@@ -66,10 +58,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
       return NULL;
     }
 
-    $lookup = TranslatorLookup_D7::createOrPassthru();
-    $translator = new Translator($lookup);
-
-    return new self($formator, $summarizer, $evaluator, $translator);
+    return new self($formator, $summarizer, $evaluator);
   }
 
   /**
@@ -95,17 +84,12 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
       return NULL;
     }
 
-
-    $lookup = TranslatorLookup_D7::createOrPassthru();
-    $translator = new Translator($lookup);
-
     $confEmptiness = new ConfEmptyness_FromCfEmptyness($emptiness);
 
     $configurator = new self(
       $formator,
       $summarizer,
       $evaluator,
-      $translator,
       $confEmptiness);
 
     return new OptionableConfigurator_Fixed($configurator);
@@ -115,20 +99,17 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
    * @param \Donquixote\Cf\Form\D7\FormatorD7Interface $formator
    * @param \Donquixote\Cf\Summarizer\SummarizerInterface $summarizer
    * @param \Donquixote\Cf\Evaluator\EvaluatorInterface $evaluator
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    * @param \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface|null $emptyness
    */
   public function __construct(
     FormatorD7Interface $formator,
     SummarizerInterface $summarizer,
     EvaluatorInterface $evaluator,
-    TranslatorInterface $translator,
     ConfEmptynessInterface $emptyness = NULL
   ) {
     $this->formator = $formator;
     $this->summarizer = $summarizer;
     $this->evaluator = $evaluator;
-    $this->translator = $translator;
     $this->emptyness = $emptyness;
   }
 
@@ -151,7 +132,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
    * @return array
    */
   public function confGetForm($conf, $label) {
-    return $this->formator->confGetD7Form($conf, $label, $this->translator);
+    return $this->formator->confGetD7Form($conf, $label);
   }
 
   /**
@@ -165,7 +146,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
    *   $summaryBuilder generates them.
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    return $this->summarizer->confGetSummary($conf, $this->translator);
+    return $this->summarizer->confGetSummary($conf);
   }
 
   /**

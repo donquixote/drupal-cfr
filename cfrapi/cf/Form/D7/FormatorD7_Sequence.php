@@ -2,9 +2,9 @@
 
 namespace Donquixote\Cf\Form\D7;
 
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
+use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\ConfUtil;
 
 class FormatorD7_Sequence implements FormatorD7Interface {
@@ -20,21 +20,50 @@ class FormatorD7_Sequence implements FormatorD7Interface {
   private $itemFormator;
 
   /**
+   * @var \Donquixote\Cf\Translator\TranslatorInterface
+   */
+  private $translator;
+
+  /**
    * @Cf
    *
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
+   *
+   * @return callable
+   */
+  public static function sta(TranslatorInterface $translator) {
+
+    /**
+     * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
+     * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+     *
+     * @return \Donquixote\Cf\Form\D7\FormatorD7Interface|null
+     */
+    return function(
+      CfSchema_SequenceInterface $schema,
+      SchemaToAnythingInterface $schemaToAnything
+    ) use ($translator) {
+      return self::create($schema, $schemaToAnything, $translator);
+    };
+  }
+
+  /**
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return \Donquixote\Cf\Form\D7\FormatorD7Interface|null
    */
   public static function create(
     CfSchema_SequenceInterface $schema,
-    SchemaToAnythingInterface $schemaToAnything
+    SchemaToAnythingInterface $schemaToAnything,
+    TranslatorInterface $translator
   ) {
 
     $formator = FormatorD7_SequenceWithEmptiness::createOrNull(
       $schema,
-      $schemaToAnything);
+      $schemaToAnything,
+      $translator);
 
     if (NULL !== $formator) {
       return $formator;
@@ -46,19 +75,20 @@ class FormatorD7_Sequence implements FormatorD7Interface {
 
   /**
    * @param \Donquixote\Cf\Form\D7\FormatorD7Interface $itemFormator
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    */
-  public function __construct(FormatorD7Interface $itemFormator) {
+  public function __construct(FormatorD7Interface $itemFormator, TranslatorInterface $translator) {
     $this->itemFormator = $itemFormator;
+    $this->translator = $translator;
   }
 
   /**
    * @param mixed $conf
    * @param string $label
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return array|null
    */
-  public function confGetD7Form($conf, $label, TranslatorInterface $translator) {
+  public function confGetD7Form($conf, $label) {
 
     if (!is_array($conf)) {
       $conf = [];
@@ -92,20 +122,18 @@ class FormatorD7_Sequence implements FormatorD7Interface {
         return $_this->elementValue($element, $input, $form_state);
       },
       '#process' => [
-        function (array $element, array &$form_state, array $form) use ($_this, $translator) {
+        function (array $element, array &$form_state, array $form) use ($_this) {
           return $_this->elementProcess(
             $element,
             $form_state,
-            $form,
-            $translator);
+            $form);
         },
       ],
       '#after_build' => [
-        function (array $element, array &$form_state) use ($_this, $translator) {
+        function (array $element, array &$form_state) use ($_this) {
           return $_this->elementAfterBuild(
             $element,
-            $form_state,
-            $translator);
+            $form_state);
         },
       ],
     ];
@@ -139,11 +167,10 @@ class FormatorD7_Sequence implements FormatorD7Interface {
    * @param array $element
    * @param array $form_state
    * @param array $form
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $helper
    *
    * @return array
    */
-  private function elementProcess(array $element, array &$form_state, array $form, TranslatorInterface $helper) {
+  private function elementProcess(array $element, array &$form_state, array $form) {
 
     $form_build_id = $form['form_build_id']['#value'];
     $elementId = sha1($form_build_id . serialize($element['#parents']));
@@ -183,8 +210,7 @@ class FormatorD7_Sequence implements FormatorD7Interface {
 
       $itemElement = $this->itemFormator->confGetD7Form(
         $itemConf,
-        $this->deltaGetItemLabel($delta, $helper),
-        $helper);
+        $this->deltaGetItemLabel($delta, $this->translator));
 
       $itemElement['#parents'] = array_merge($element['#parents'], [$delta]);
 
@@ -359,14 +385,12 @@ class FormatorD7_Sequence implements FormatorD7Interface {
    *
    * @param array $element
    * @param array $form_state
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $helper
    *
    * @return array
    */
   private function elementAfterBuild(
     array $element,
-    array &$form_state,
-    /** @noinspection PhpUnusedParameterInspection */ TranslatorInterface $helper)
+    array &$form_state)
   {
     $conf = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
 

@@ -4,7 +4,6 @@ namespace Donquixote\Cf\Summarizer;
 
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\HtmlUtil;
 use Donquixote\Cf\Util\StaUtil;
 
@@ -66,11 +65,10 @@ class Summarizer_Optional implements SummarizerInterface {
 
   /**
    * @param mixed $conf
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return string
    */
-  public function confGetSummary($conf, TranslatorInterface $translator) {
+  public function confGetSummary($conf) {
 
     if (!is_array($conf) || empty($conf['enabled'])) {
 
@@ -86,6 +84,6 @@ class Summarizer_Optional implements SummarizerInterface {
       ? $conf['options']
       : NULL;
 
-    return $this->decorated->confGetSummary($subConf, $translator);
+    return $this->decorated->confGetSummary($subConf);
   }
 }

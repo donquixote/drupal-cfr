@@ -3,12 +3,11 @@
 namespace Donquixote\Cf\Form\D7;
 
 use Donquixote\Cf\Form\D7\Optionable\OptionableFormatorD7Interface;
-use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Form\D7\Util\D7FormUtil;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 use Donquixote\Cf\Schema\Options\CfSchema_Options_Fixed;
+use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Util\ConfUtil;
 use Donquixote\Cf\Util\StaUtil;
 
@@ -63,11 +62,10 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
   /**
    * @param mixed $conf
    * @param string $label
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return array
    */
-  public function confGetD7Form($conf, $label, TranslatorInterface $translator) {
+  public function confGetD7Form($conf, $label) {
 
     list($id, $optionsConf) = ConfUtil::confGetIdOptions($conf);
 
@@ -89,14 +87,13 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
         'options' => $optionsConf,
       ],
       '#process' => [
-        function (array $element, array &$form_state, array &$form) use ($_this, $id, $optionsConf, $translator) {
+        function (array $element, array &$form_state, array &$form) use ($_this, $id, $optionsConf) {
 
           $element = $_this->processElement(
             $element,
             $form_state,
             $id,
-            $optionsConf,
-            $translator);
+            $optionsConf);
 
           $element = D7FormUtil::elementsBuildDependency(
             $element,
@@ -141,7 +138,6 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
    * @param array $form_state
    * @param string $defaultId
    * @param mixed $defaultOptionsConf
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $helper
    *
    * @return array
    */
@@ -149,8 +145,7 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
     array $element,
     array &$form_state,
     $defaultId,
-    $defaultOptionsConf,
-    TranslatorInterface $helper)
+    $defaultOptionsConf)
   {
     $value = $element['#value'];
 
@@ -175,8 +170,7 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
 
     $element['options'] = $this->idConfBuildOptionsFormWrapper(
       $id,
-      $defaultOptionsConf,
-      $helper);
+      $defaultOptionsConf);
 
     $element['options']['_previous_id'] = [
       '#type' => 'hidden',
@@ -210,14 +204,12 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
   /**
    * @param string|null $id
    * @param mixed $subConf
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $helper
    *
    * @return array
    */
   private function idConfBuildOptionsFormWrapper(
     $id,
-    $subConf,
-    TranslatorInterface $helper)
+    $subConf)
   {
     if (NULL === $id) {
       return [];
@@ -227,7 +219,7 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
       return [];
     }
 
-    $optionsForm = $subFormator->confGetD7Form($subConf, NULL, $helper);
+    $optionsForm = $subFormator->confGetD7Form($subConf, NULL);
 
     if (empty($optionsForm)) {
       return [];

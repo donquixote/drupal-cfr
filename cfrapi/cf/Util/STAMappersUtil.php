@@ -105,4 +105,40 @@ final class STAMappersUtil extends UtilBase {
     }
   }
 
+  /**
+   * @param \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[] $partials
+   * @param string $schemaType
+   *
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
+   */
+  public static function filterPartialsBySchemaType(array $partials, $schemaType) {
+
+    $filtered = [];
+    foreach ($partials as $i => $partial) {
+      if ($partial->acceptsSchemaClass($schemaType)) {
+        $filtered[$i] = $partial;
+      }
+    }
+
+    return $filtered;
+  }
+
+  /**
+   * @param \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[] $partials
+   * @param string $targetType
+   *
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
+   */
+  public static function filterPartialsByTargetType(array $partials, $targetType) {
+
+    $filtered = [];
+    foreach ($partials as $i => $partial) {
+      if ($partial->providesResultType($targetType)) {
+        $filtered[$i] = $partial;
+      }
+    }
+
+    return $filtered;
+  }
+
 }

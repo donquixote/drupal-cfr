@@ -2,9 +2,8 @@
 
 namespace Donquixote\Cf\Form\D7;
 
-use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Schema\Label\CfSchema_LabelInterface;
+use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Util\StaUtil;
 
 class FormatorD7_Label implements FormatorD7Interface {
@@ -51,12 +50,11 @@ class FormatorD7_Label implements FormatorD7Interface {
   /**
    * @param mixed $conf
    * @param string $label
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return array
    */
-  public function confGetD7Form($conf, $label, TranslatorInterface $translator) {
+  public function confGetD7Form($conf, $label) {
 
-    return $this->decorated->confGetD7Form($conf, $this->label, $translator);
+    return $this->decorated->confGetD7Form($conf, $this->label);
   }
 }

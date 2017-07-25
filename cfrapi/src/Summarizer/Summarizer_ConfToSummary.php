@@ -4,7 +4,6 @@ namespace Drupal\cfrapi\Summarizer;
 
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_CallbackNoHelper;
 use Donquixote\Cf\Summarizer\SummarizerInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
 
@@ -36,11 +35,10 @@ class Summarizer_ConfToSummary implements SummarizerInterface {
 
   /**
    * @param mixed $conf
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return null|string
    */
-  public function confGetSummary($conf, TranslatorInterface $translator) {
+  public function confGetSummary($conf) {
 
     return $this->schema->confGetSummary(
       $conf,

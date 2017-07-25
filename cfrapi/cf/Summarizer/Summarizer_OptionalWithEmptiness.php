@@ -4,7 +4,6 @@ namespace Donquixote\Cf\Summarizer;
 
 use Donquixote\Cf\Emptiness\EmptinessInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\HtmlUtil;
 
 class Summarizer_OptionalWithEmptiness implements SummarizerInterface {
@@ -41,11 +40,10 @@ class Summarizer_OptionalWithEmptiness implements SummarizerInterface {
 
   /**
    * @param mixed $conf
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return null|string
    */
-  public function confGetSummary($conf, TranslatorInterface $translator) {
+  public function confGetSummary($conf) {
 
     if ($this->emptiness->confIsEmpty($conf)) {
 
@@ -57,6 +55,6 @@ class Summarizer_OptionalWithEmptiness implements SummarizerInterface {
       return HtmlUtil::sanitize($summaryUnsafe);
     }
 
-    return $this->decorated->confGetSummary($conf, $translator);
+    return $this->decorated->confGetSummary($conf);
   }
 }

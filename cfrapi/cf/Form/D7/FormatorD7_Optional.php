@@ -4,7 +4,6 @@ namespace Donquixote\Cf\Form\D7;
 
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\ConfUtil;
 use Donquixote\Cf\Util\StaUtil;
 
@@ -55,11 +54,10 @@ class FormatorD7_Optional implements FormatorD7Interface {
   /**
    * @param mixed $conf
    * @param string $label
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return array
    */
-  public function confGetD7Form($conf, $label, TranslatorInterface $translator) {
+  public function confGetD7Form($conf, $label) {
 
     if (!is_array($conf)) {
       $conf = [];
@@ -76,7 +74,7 @@ class FormatorD7_Optional implements FormatorD7Interface {
         '#type' => 'container',
         # '#tree' => TRUE,
         '#attributes' => ['class' => ['cfrapi-child-options']],
-        'content' => $this->decorated->confGetD7Form($conf, NULL, $translator),
+        'content' => $this->decorated->confGetD7Form($conf, NULL),
         '#process' => [
 
           function(array $element) {

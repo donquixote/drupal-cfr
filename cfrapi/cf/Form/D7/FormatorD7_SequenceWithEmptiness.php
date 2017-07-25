@@ -26,14 +26,21 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
   private $itemEmptiness;
 
   /**
+   * @var \Donquixote\Cf\Translator\TranslatorInterface
+   */
+  private $translator;
+
+  /**
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return self|null
    */
   public static function createOrNull(
     CfSchema_SequenceInterface $schema,
-    SchemaToAnythingInterface $schemaToAnything
+    SchemaToAnythingInterface $schemaToAnything,
+    TranslatorInterface $translator
   ) {
 
     if (NULL === $emptiness = StaUtil::emptiness(
@@ -56,32 +63,35 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
     return new self(
       $schema,
       $optionalFormator,
-      $emptiness);
+      $emptiness,
+      $translator);
   }
 
   /**
    * @param \Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface $sequenceSchema
    * @param \Donquixote\Cf\Form\D7\FormatorD7Interface $optionalItemFormator
    * @param \Donquixote\Cf\Emptiness\EmptinessInterface $itemEmptiness
+   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    */
   public function __construct(
     CfSchema_SequenceInterface $sequenceSchema,
     FormatorD7Interface $optionalItemFormator,
-    EmptinessInterface $itemEmptiness
+    EmptinessInterface $itemEmptiness,
+    TranslatorInterface $translator
   ) {
     $this->sequenceSchema = $sequenceSchema;
     $this->optionalItemFormator = $optionalItemFormator;
     $this->itemEmptiness = $itemEmptiness;
+    $this->translator = $translator;
   }
 
   /**
    * @param mixed $conf
    * @param string $label
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return array|null
    */
-  public function confGetD7Form($conf, $label, TranslatorInterface $translator) {
+  public function confGetD7Form($conf, $label) {
 
     if (!is_array($conf)) {
       $conf = [];
@@ -107,16 +117,15 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
       '#input' => TRUE,
       '#default_value' => $conf,
       '#process' => [
-        function (array $element /*, array &$form_state */) use ($_this, $translator) {
-          return $_this->elementProcess($element, $translator);
+        function (array $element /*, array &$form_state */) use ($_this) {
+          return $_this->elementProcess($element);
         },
       ],
       '#after_build' => [
-        function (array $element, array &$form_state) use ($_this, $translator) {
+        function (array $element, array &$form_state) use ($_this) {
           return $_this->elementAfterBuild(
             $element,
-            $form_state,
-            $translator);
+            $form_state);
         },
       ],
     ];
@@ -126,11 +135,10 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
 
   /**
    * @param array $element
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $helper
    *
    * @return array
    */
-  private function elementProcess(array $element, TranslatorInterface $helper) {
+  private function elementProcess(array $element) {
 
     $conf = $element['#value'];
 
@@ -150,21 +158,17 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
         continue;
       }
 
-      $itemLabel = $this->deltaGetItemLabel($delta, $helper);
+      $itemLabel = $this->deltaGetItemLabel($delta, $this->translator);
 
       $element[$delta] = $this->optionalItemFormator->confGetD7Form(
-        $itemConf,
-        $itemLabel,
-        $helper);
+        $itemConf, $itemLabel);
     }
 
-    $newItemLabel = $this->deltaGetItemLabel(NULL, $helper);
+    $newItemLabel = $this->deltaGetItemLabel(NULL, $this->translator);
 
     // Element for new item.
     $element[] = $this->optionalItemFormator->confGetD7Form(
-      NULL,
-      $newItemLabel,
-      $helper);
+      NULL, $newItemLabel);
 
     return $element;
   }
@@ -190,14 +194,12 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
    *
    * @param array $element
    * @param array $form_state
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $helper
    *
    * @return array
    */
   private function elementAfterBuild(
     array $element,
-    array &$form_state,
-    /** @noinspection PhpUnusedParameterInspection */ TranslatorInterface $helper)
+    array &$form_state)
   {
 
     $conf = drupal_array_get_nested_value(

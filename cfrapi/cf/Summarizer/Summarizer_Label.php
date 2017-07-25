@@ -4,7 +4,6 @@ namespace Donquixote\Cf\Summarizer;
 
 use Donquixote\Cf\Schema\Label\CfSchema_LabelInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\HtmlUtil;
 use Donquixote\Cf\Util\StaUtil;
 
@@ -51,13 +50,12 @@ class Summarizer_Label implements SummarizerInterface {
 
   /**
    * @param mixed $conf
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return null|string
    */
-  public function confGetSummary($conf, TranslatorInterface $translator) {
+  public function confGetSummary($conf) {
 
-    $decorated = $this->decorated->confGetSummary($conf, $translator);
+    $decorated = $this->decorated->confGetSummary($conf);
 
     if ('' === $decorated || NULL === $decorated) {
       return $decorated;

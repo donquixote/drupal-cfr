@@ -4,7 +4,6 @@ namespace Donquixote\Cf\Summarizer;
 
 use Donquixote\Cf\Schema\Group\CfSchema_GroupInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\HtmlUtil;
 use Donquixote\Cf\Util\StaUtil;
 
@@ -54,11 +53,10 @@ class Summarizer_Group implements SummarizerInterface {
 
   /**
    * @param mixed $conf
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return null|string
    */
-  public function confGetSummary($conf, TranslatorInterface $translator) {
+  public function confGetSummary($conf) {
 
     if (!is_array($conf)) {
       $conf = [];
@@ -73,7 +71,7 @@ class Summarizer_Group implements SummarizerInterface {
         ? $conf[$key]
         : NULL;
 
-      $itemSummary = $itemSummarizer->confGetSummary($itemConf, $translator);
+      $itemSummary = $itemSummarizer->confGetSummary($itemConf);
 
       $itemLabelUnsafe = isset($labels[$key])
         ? $labels[$key]

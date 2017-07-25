@@ -4,29 +4,61 @@ namespace Donquixote\Cf\Util;
 
 use Donquixote\Cf\Discovery\AnnotatedFactory;
 use Donquixote\Cf\Discovery\ClassFilesIAInterface;
+use Donquixote\Cf\Emptiness\EmptinessInterface;
+use Donquixote\Cf\Evaluator\EvaluatorInterface;
+use Donquixote\Cf\ParamToValue\ParamToValue_ObjectsMatchType;
+use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
+use Donquixote\Cf\Schema\Options\CfSchema_Options_Fixed;
+use Donquixote\Cf\Translator\Translator;
+use Drupal\cfrplugin\Hub\CfrPluginHub;
+use Drupal\cfrplugin\Util\UiDumpUtil;
 
 final class DiscoveryUtil extends UtilBase {
 
+  public static function test_2() {
+    $container = CfrPluginHub::getContainer();
+    $sta = $container->schemaToAnything;
+    $schema = CfSchema_Options_Fixed::createFlat(
+      [
+        'a' => 'A',
+        'b' => 'B',
+      ]);
+    $emptyness = $sta->schema($schema, EmptinessInterface::class);
+    dpm($emptyness);
+  }
+
+  public static function test_0() {
+    $services = [];
+    $services[] = Translator::createPassthru();
+    $paramToValue = new ParamToValue_ObjectsMatchType($services);
+    $partials = LocalPackageUtil::collectSTAPartials($paramToValue);
+    $filtered = STAMappersUtil::filterPartialsBySchemaType($partials, CfSchema_OptionalInterface::class);
+    $ff = STAMappersUtil::filterPartialsByTargetType($filtered, EvaluatorInterface::class);
+    kdpm($filtered);
+    kdpm($ff);
+  }
+
+  public static function test_1() {
+    $e = new \Exception();
+    UiDumpUtil::displayException($e);
+  }
+
   public static function test() {
 
-    $reflFunction = new \ReflectionMethod(self::class, 'test');
+    $paramToValue = self::getParamToValue();
 
-    $results = [];
-    $results[] = ReflectionUtil::functionGetReturnTypeNames($reflFunction);
+    $results = LocalPackageUtil::collectSTAPartials($paramToValue);
 
-    /*
-    $results[] = scandir(__DIR__);
-    $results[] = class_exists(PhpHelperBase::class);
-    $results[] = __NAMESPACE__;
-    $results[] = __DIR__;
-    $results[] = LocalPackageUtil::collectSTAMappers();
-    $results[] = $sta = SchemaToAnything_Chain::create();
-    $results[] = $sta->schema(
-      new ValueProvider_FixedValue('x'),
-      EvaluatorInterface::class);
-    */
+    kdpm($results);
+  }
 
-    \Drupal\krumong\dpm($results);
+  /**
+   * @return \Donquixote\Cf\ParamToValue\ParamToValueInterface
+   */
+  public static function getParamToValue() {
+    $services = [];
+    $services[] = Translator::createPassthru();
+    return new ParamToValue_ObjectsMatchType($services);
   }
 
   /**

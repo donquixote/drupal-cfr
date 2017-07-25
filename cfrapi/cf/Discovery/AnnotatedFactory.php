@@ -5,6 +5,7 @@ namespace Donquixote\Cf\Discovery;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_ClassConstruction;
 use Donquixote\CallbackReflection\Callback\CallbackReflection_StaticMethod;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
+use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Donquixote\Cf\Util\ReflectionUtil;
 
 class AnnotatedFactory {
@@ -49,6 +50,33 @@ class AnnotatedFactory {
       new CallbackReflection_StaticMethod($method),
       $method->getDocComment(),
       $returnTypeNames);
+  }
+
+  /**
+   * @param callable $callable
+   *
+   * @return \Donquixote\Cf\Discovery\AnnotatedFactory|null
+   */
+  public static function fromCallable($callable) {
+
+    $callback = CallbackUtil::callableGetCallback($callable);
+
+    if (NULL === $callback) {
+      return NULL;
+    }
+
+    if (NULL !== $reflFunction = ReflectionUtil::callableGetReflectionFunction($callable)) {
+      return new self(
+        $callback,
+        $reflFunction->getDocComment(),
+        ReflectionUtil::functionGetReturnTypeNames($reflFunction));
+    }
+    else {
+      return new self(
+        $callback,
+        '',
+        []);
+    }
   }
 
   /**

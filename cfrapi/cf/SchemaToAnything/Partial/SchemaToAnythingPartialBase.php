@@ -27,6 +27,28 @@ abstract class SchemaToAnythingPartialBase implements SchemaToAnythingPartialInt
   }
 
   /**
+   * @param string $schemaType
+   *
+   * @return static
+   */
+  public function withSchemaType($schemaType) {
+    $clone = clone $this;
+    $clone->schemaType = $schemaType;
+    return $clone;
+  }
+
+  /**
+   * @param string $resultType
+   *
+   * @return static
+   */
+  public function withResultType($resultType) {
+    $clone = clone $this;
+    $clone->resultType = $resultType;
+    return $clone;
+  }
+
+  /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param string $interface
    * @param \Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface $helper
@@ -52,6 +74,7 @@ abstract class SchemaToAnythingPartialBase implements SchemaToAnythingPartialInt
 
     if (!$candidate instanceof $interface) {
       kdpm($candidate, "Expected $interface, found sth else.");
+      kdpm($this, '$this');
       return NULL;
     }
 

@@ -4,7 +4,6 @@ namespace Donquixote\Cf\Form\D7;
 
 use Donquixote\Cf\Schema\Group\CfSchema_GroupInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\StaUtil;
 
 class FormatorD7_Group implements FormatorD7Interface {
@@ -52,11 +51,10 @@ class FormatorD7_Group implements FormatorD7Interface {
   /**
    * @param mixed $conf
    * @param string $label
-   * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    *
    * @return array
    */
-  public function confGetD7Form($conf, $label, TranslatorInterface $translator) {
+  public function confGetD7Form($conf, $label) {
 
     if (!is_array($conf)) {
       $conf = [];
@@ -78,7 +76,7 @@ class FormatorD7_Group implements FormatorD7Interface {
         ? $this->labels[$key]
         : $key;
 
-      $form[$key] = $itemFormator->confGetD7Form($itemConf, $itemLabel, $translator);
+      $form[$key] = $itemFormator->confGetD7Form($itemConf, $itemLabel);
     }
 
     return $form;
