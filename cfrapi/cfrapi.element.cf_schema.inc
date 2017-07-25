@@ -49,7 +49,7 @@ function _cfrapi_cf_schema_element_process(array $element,
 
   $container = CfrPluginHub::getContainer();
 
-  $formator = StaUtil::formatorP2(
+  $formator = StaUtil::formator(
     $schema,
     $container->schemaToAnything);
 

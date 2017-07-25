@@ -3,12 +3,12 @@
 namespace Donquixote\Cf\Util;
 
 use Donquixote\Cf\Emptiness\EmptinessInterface;
-use Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface;
-use Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface;
-use Donquixote\Cf\Form\D7\P2\Optionable\OptionableD7FormatorP2Interface;
+use Donquixote\Cf\Evaluator\EvaluatorInterface;
+use Donquixote\Cf\Form\D7\FormatorD7Interface;
+use Donquixote\Cf\Form\D7\Optionable\OptionableFormatorD7Interface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Summarizer\P2\SummarizerP2Interface;
+use Donquixote\Cf\Summarizer\SummarizerInterface;
 
 final class StaUtil extends UtilBase {
 
@@ -16,10 +16,10 @@ final class StaUtil extends UtilBase {
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *
-   * @return \Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface|null
+   * @return \Donquixote\Cf\Evaluator\EvaluatorInterface|null
    */
-  public static function evaluatorP2(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
-    return self::getObject($schema, $schemaToAnything, EvaluatorP2Interface::class);
+  public static function evaluator(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
+    return self::getObject($schema, $schemaToAnything, EvaluatorInterface::class);
   }
 
   /**
@@ -36,34 +36,34 @@ final class StaUtil extends UtilBase {
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *
-   * @return \Donquixote\Cf\Summarizer\P2\SummarizerP2Interface|null
+   * @return \Donquixote\Cf\Summarizer\SummarizerInterface|null
    */
-  public static function summarizerP2(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
-    return self::getObject($schema, $schemaToAnything, SummarizerP2Interface::class);
+  public static function summarizer(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
+    return self::getObject($schema, $schemaToAnything, SummarizerInterface::class);
   }
 
   /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *
-   * @return \Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface|null
+   * @return \Donquixote\Cf\Form\D7\FormatorD7Interface|null
    */
-  public static function formatorP2(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
-    return self::getObject($schema, $schemaToAnything, D7FormatorP2Interface::class);
+  public static function formator(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
+    return self::getObject($schema, $schemaToAnything, FormatorD7Interface::class);
   }
 
   /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *
-   * @return \Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface|null
+   * @return \Donquixote\Cf\Form\D7\FormatorD7Interface|null
    */
-  public static function formatorP2Optional(
+  public static function formatorOptional(
     CfSchemaInterface $schema,
     SchemaToAnythingInterface $schemaToAnything
   ) {
 
-    $optionable = self::formatorP2Optionable(
+    $optionable = self::formatorOptionable(
       $schema,
       $schemaToAnything);
 
@@ -79,13 +79,13 @@ final class StaUtil extends UtilBase {
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    *
-   * @return \Donquixote\Cf\Form\D7\P2\Optionable\OptionableD7FormatorP2Interface|null
+   * @return \Donquixote\Cf\Form\D7\Optionable\OptionableFormatorD7Interface|null
    */
-  public static function formatorP2Optionable(
+  public static function formatorOptionable(
     CfSchemaInterface $schema,
     SchemaToAnythingInterface $schemaToAnything
   ) {
-    return self::getObject($schema, $schemaToAnything, OptionableD7FormatorP2Interface::class);
+    return self::getObject($schema, $schemaToAnything, OptionableFormatorD7Interface::class);
   }
 
   /**

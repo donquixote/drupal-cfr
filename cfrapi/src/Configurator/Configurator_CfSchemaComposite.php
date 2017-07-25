@@ -2,12 +2,12 @@
 
 namespace Drupal\cfrapi\Configurator;
 
-use Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface;
-use Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface;
+use Donquixote\Cf\Evaluator\EvaluatorInterface;
+use Donquixote\Cf\Form\D7\FormatorD7Interface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional_Null;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Summarizer\P2\SummarizerP2Interface;
+use Donquixote\Cf\Summarizer\SummarizerInterface;
 use Donquixote\Cf\Translator\Lookup\TranslatorLookup_D7;
 use Donquixote\Cf\Translator\Translator;
 use Donquixote\Cf\Translator\TranslatorInterface;
@@ -22,17 +22,17 @@ use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
 
   /**
-   * @var \Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface
+   * @var \Donquixote\Cf\Form\D7\FormatorD7Interface
    */
   private $formator;
 
   /**
-   * @var \Donquixote\Cf\Summarizer\P2\SummarizerP2Interface
+   * @var \Donquixote\Cf\Summarizer\SummarizerInterface
    */
   private $summarizer;
 
   /**
-   * @var \Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface
+   * @var \Donquixote\Cf\Evaluator\EvaluatorInterface
    */
   private $evaluator;
 
@@ -57,9 +57,9 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
   public static function create(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
 
     if (0
-      || NULL === ($formator = StaUtil::formatorP2($schema, $schemaToAnything))
-      || NULL === ($summarizer = StaUtil::summarizerP2($schema, $schemaToAnything))
-      || NULL === ($evaluator = StaUtil::evaluatorP2($schema, $schemaToAnything))
+      || NULL === ($formator = StaUtil::formator($schema, $schemaToAnything))
+      || NULL === ($summarizer = StaUtil::summarizer($schema, $schemaToAnything))
+      || NULL === ($evaluator = StaUtil::evaluator($schema, $schemaToAnything))
     ) {
       kdpm(get_defined_vars(), __METHOD__);
 
@@ -86,9 +86,9 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
 
     if (0
       || NULL === ($emptiness = StaUtil::emptiness($schema, $schemaToAnything))
-      || NULL === ($formator = StaUtil::formatorP2($optionalSchema, $schemaToAnything))
-      || NULL === ($summarizer = StaUtil::summarizerP2($optionalSchema, $schemaToAnything))
-      || NULL === ($evaluator = StaUtil::evaluatorP2($optionalSchema, $schemaToAnything))
+      || NULL === ($formator = StaUtil::formator($optionalSchema, $schemaToAnything))
+      || NULL === ($summarizer = StaUtil::summarizer($optionalSchema, $schemaToAnything))
+      || NULL === ($evaluator = StaUtil::evaluator($optionalSchema, $schemaToAnything))
     ) {
       kdpm(get_defined_vars(), __METHOD__);
 
@@ -112,16 +112,16 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
   }
 
   /**
-   * @param \Donquixote\Cf\Form\D7\P2\D7FormatorP2Interface $formator
-   * @param \Donquixote\Cf\Summarizer\P2\SummarizerP2Interface $summarizer
-   * @param \Donquixote\Cf\Evaluator\P2\EvaluatorP2Interface $evaluator
+   * @param \Donquixote\Cf\Form\D7\FormatorD7Interface $formator
+   * @param \Donquixote\Cf\Summarizer\SummarizerInterface $summarizer
+   * @param \Donquixote\Cf\Evaluator\EvaluatorInterface $evaluator
    * @param \Donquixote\Cf\Translator\TranslatorInterface $translator
    * @param \Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface|null $emptyness
    */
   public function __construct(
-    D7FormatorP2Interface $formator,
-    SummarizerP2Interface $summarizer,
-    EvaluatorP2Interface $evaluator,
+    FormatorD7Interface $formator,
+    SummarizerInterface $summarizer,
+    EvaluatorInterface $evaluator,
     TranslatorInterface $translator,
     ConfEmptynessInterface $emptyness = NULL
   ) {

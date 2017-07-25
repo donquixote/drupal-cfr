@@ -4,7 +4,7 @@ namespace Drupal\cfrapi\Configurator;
 
 use Donquixote\Cf\Emptyness\EmptynessInterface;
 use Donquixote\Cf\Evaluator\Partial\EvaluatorPartialInterface;
-use Donquixote\Cf\Form\D7\Partial\PartialD7FormatorInterface;
+use Donquixote\Cf\Form\D7\Partial\PartialFormatorD7Interface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional_Null;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
@@ -41,7 +41,7 @@ class Configurator_CfSchemaOptional2 implements OptionalConfiguratorInterface {
       return NULL;
     }
 
-    $formator = $sta->schema($optionalSchema,  PartialD7FormatorInterface::class);
+    $formator = $sta->schema($optionalSchema,  PartialFormatorD7Interface::class);
     $summarizer = $sta->schema($optionalSchema,  PartialSummarizerInterface::class);
     $evaluator = $sta->schema($optionalSchema,  EvaluatorPartialInterface::class);
 
