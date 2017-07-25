@@ -6,6 +6,7 @@ use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
 use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
 use Donquixote\Cf\Discovery\NamespaceDirectory;
 use Donquixote\Cf\ParamToLabel\ParamToLabel;
+use Donquixote\Cf\ParamToValue\ParamToValue_ObjectsMatchType;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_Callback;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_DefmapDrilldown;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_IfaceDefmap;
@@ -138,8 +139,12 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
     # $mappersCore = LocalPackageUtil::collectSTAMappers();
     # $mappersDrupal = STAMappersUtil::collectSTAMappers($drupalFactoriesIA);
 
-    $partialsCore = LocalPackageUtil::collectSTAPartials();
-    $partialsDrupal = STAMappersUtil::collectSTAPartials($drupalFactoriesIA);
+    $services = [];
+    $services[] = $this->translator;
+    $paramToValue = new ParamToValue_ObjectsMatchType($services);
+
+    $partialsCore = LocalPackageUtil::collectSTAPartials($paramToValue);
+    $partialsDrupal = STAMappersUtil::collectSTAPartials($drupalFactoriesIA, $paramToValue);
 
     # $mappers = array_merge($mappersCore, $mappersDrupal);
 

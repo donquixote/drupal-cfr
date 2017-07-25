@@ -2,11 +2,81 @@
 
 namespace Donquixote\Cf\Util;
 
+use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
+use Donquixote\Cf\ParamToValue\ParamToValueInterface;
+
 final class ReflectionUtil extends UtilBase {
 
   const FQCN_PATTERN = '@^(\\\\[a-zA-Z_][a-zA-Z_0-9]*)+$@';
 
   const PRIMITIVE_TYPES = ['boolean', 'bool', 'integer', 'double', 'float', 'string', 'array', 'object', 'resource', 'null', 'false', 'true', 'callable'];
+
+  /**
+   * @param callable $callable
+   *
+   * @return string[]
+   */
+  public static function callableGetReturnTypeNames($callable) {
+
+    if (NULL !== $reflFunction = self::callableGetReflectionFunction($callable)) {
+      return self::functionGetReturnTypeNames($reflFunction);
+    }
+
+    return [];
+  }
+
+  /**
+   * @param callable $callable
+   *
+   * @return \ReflectionFunctionAbstract
+   */
+  public static function callableGetReflectionFunction($callable) {
+
+    if ($callable instanceof \Closure) {
+      return new \ReflectionFunction($callable);
+    }
+
+    if (!is_callable($callable)) {
+      return NULL;
+    }
+
+    if (is_string($callable)) {
+      if (FALSE === strpos($callable, '::')) {
+        if (!function_exists($callable)) {
+          return NULL;
+        }
+
+        return new \ReflectionFunction($callable);
+      }
+      else {
+        list($class, $methodName) = explode('::', $callable);
+        if (!method_exists($class, $methodName)) {
+          return NULL;
+        }
+
+        return new \ReflectionMethod($class, $callable);
+      }
+    }
+
+    if (is_array($callable)) {
+      return new \ReflectionMethod($callable[0], $callable[1]);
+    }
+
+    if (is_object($callable)) {
+      if (method_exists($callable, '__invoke')) {
+        return new \ReflectionMethod($callable, '__invoke');
+      }
+
+      return NULL;
+    }
+
+    return NULL;
+  }
+
+  public static function closureGetReturnTypeNames(\Closure $closure) {
+    $reflFunction = new \ReflectionFunction($closure);
+    return self::functionGetReturnTypeNames($reflFunction);
+  }
 
   /**
    * @param \ReflectionFunctionAbstract $function
@@ -226,6 +296,51 @@ final class ReflectionUtil extends UtilBase {
     }
 
     return $return;
+  }
+
+  /**
+   * @param \ReflectionParameter[] $params
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
+   *
+   * @return mixed[]|null
+   */
+  public static function paramsGetValues(array $params, ParamToValueInterface $paramToValue) {
+
+    $else = new \stdClass();
+
+    $argValues = [];
+    foreach ($params as $i => $param) {
+      if ($else === $argValue = $paramToValue->paramGetValue($param, $else)) {
+        return NULL;
+      }
+      $argValues[$i] = $argValue;
+    }
+
+    return $argValues;
+  }
+
+  /**
+   * @param \Donquixote\CallbackReflection\Callback\CallbackReflectionInterface $callback
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
+   * @param mixed $else
+   *
+   * @return mixed
+   */
+  public static function callbackInvokePTV(
+    CallbackReflectionInterface $callback,
+    ParamToValueInterface $paramToValue,
+    $else = NULL
+  ) {
+
+    $args = self::paramsGetValues(
+      $callback->getReflectionParameters(),
+      $paramToValue);
+
+    if (NULL === $args) {
+      return $else;
+    }
+
+    return $callback->invokeArgs($args);
   }
 
 }

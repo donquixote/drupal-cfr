@@ -2,7 +2,9 @@
 
 namespace Donquixote\Cf\Util;
 
+use Donquixote\Cf\Discovery\AnnotatedFactory;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIAInterface;
+use Donquixote\Cf\ParamToValue\ParamToValueInterface;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_Callback;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface;
 
@@ -10,46 +12,87 @@ final class STAMappersUtil extends UtilBase {
 
   /**
    * @param \Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIAInterface $factoriesIA
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
    *
    * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
    */
-  public static function collectSTAPartials(AnnotatedFactoriesIAInterface $factoriesIA) {
+  public static function collectSTAPartials(
+    AnnotatedFactoriesIAInterface $factoriesIA,
+    ParamToValueInterface $paramToValue
+  ) {
 
-    $returnTypeNamesAll = [];
-    $candidates = [];
+    $stas = [];
     foreach ($factoriesIA as $factory) {
 
-      $returnTypeNames = $factory->getReturnTypeNames();
-      $returnTypeNamesAll += array_fill_keys($returnTypeNames, TRUE);
-      # $returnTypeNames = array_filter($returnTypeNames, 'interface_exists');
-
-      if ([] === $returnTypeNames) {
-        $candidates[] = SchemaToAnythingPartial_Callback::create(
-          $factory->getCallback());
-      }
-      else {
-
-        foreach ($returnTypeNames as $returnTypeName) {
-          if (is_a($returnTypeName, SchemaToAnythingPartialInterface::class, TRUE)) {
-            if ([] === $factory->getCallback()->getReflectionParameters()) {
-              $candidate = $factory->getCallback()->invokeArgs([]);
-              if ($candidate instanceof SchemaToAnythingPartialInterface) {
-                $candidates[] = $candidate;
-              }
-            }
-            continue 2;
-          }
-        }
-
-        foreach ($returnTypeNames as $returnTypeName) {
-          $candidates[] = SchemaToAnythingPartial_Callback::create(
-            $factory->getCallback(),
-            $returnTypeName);
-        }
+      foreach (self::factoryCreateSTAs($factory, $paramToValue) as $sta) {
+        $stas[] = $sta;
       }
     }
 
-    return array_filter($candidates);
+    return $stas;
+  }
+
+  /**
+   * @param \Donquixote\Cf\Discovery\AnnotatedFactory $factory
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
+   * @param bool $goDeeper
+   *
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
+   */
+  public static function factoryCreateSTAs(
+    AnnotatedFactory $factory,
+    ParamToValueInterface $paramToValue,
+    $goDeeper = TRUE
+  ) {
+
+    $callback = $factory->getCallback();
+
+    $candidate = SchemaToAnythingPartial_Callback::create(
+      $callback,
+      $paramToValue);
+
+    if (NULL !== $candidate) {
+      $returnTypeNames = $factory->getReturnTypeNames();
+
+      if ([] === $returnTypeNames) {
+
+        return [$candidate];
+      }
+      else {
+        $candidates = [];
+        foreach ($returnTypeNames as $returnTypeName) {
+          $candidates[] = $candidate->withResultType($returnTypeName);
+        }
+
+        return $candidates;
+      }
+    }
+
+    if (!$goDeeper) {
+      return [];
+    }
+
+    $candidate = ReflectionUtil::callbackInvokePTV(
+      $callback,
+      $paramToValue);
+
+    if ($candidate instanceof SchemaToAnythingPartialInterface) {
+      return [$candidate];
+    }
+
+    if (is_callable($candidate)) {
+      /** @var callable $candidate */
+
+      $factory = AnnotatedFactory::fromCallable($candidate);
+
+      if (NULL === $factory) {
+        return NULL;
+      }
+
+      return self::factoryCreateSTAs($factory, $paramToValue, FALSE);
+    }
+
+    return [];
   }
 
   /**
