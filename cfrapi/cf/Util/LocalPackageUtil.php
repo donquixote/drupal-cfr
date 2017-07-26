@@ -7,7 +7,6 @@ use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
 use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
 use Donquixote\Cf\Discovery\NamespaceDirectory;
 use Donquixote\Cf\ParamToValue\ParamToValueInterface;
-use Drupal\cfrplugin\Util\UiCodeUtil;
 
 final class LocalPackageUtil extends UtilBase {
 
@@ -22,16 +21,6 @@ final class LocalPackageUtil extends UtilBase {
     return STAMappersUtil::collectSTAPartials(
       $factoriesIA,
       $paramToValue);
-  }
-
-  /**
-   * @param string $annotationTagName
-   *
-   * @return string
-   */
-  public static function showFactoriesPhpNice($annotationTagName) {
-    $php = self::showFactoriesPhp($annotationTagName);
-    return UiCodeUtil::highlightPhp($php);
   }
 
   /**
