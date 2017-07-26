@@ -2,9 +2,9 @@
 
 namespace Donquixote\Cf\Schema\Iface;
 
+use Donquixote\Cf\Context\CfContextInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional;
 use Donquixote\Cf\Schema\Sequence\CfSchema_Sequence;
-use Donquixote\Cf\Context\CfContextInterface;
 
 class CfSchema_IfaceWithContext implements CfSchema_IfaceWithContextInterface {
 
@@ -42,6 +42,21 @@ class CfSchema_IfaceWithContext implements CfSchema_IfaceWithContextInterface {
    */
   public static function createOptional($interface, CfContextInterface $context = NULL) {
     return new CfSchema_Optional(new self($interface, $context));
+  }
+
+  /**
+   * @param $interface
+   * @param \Donquixote\Cf\Context\CfContextInterface|NULL $context
+   * @param bool $required
+   *
+   * @return \Donquixote\Cf\Schema\CfSchemaInterface
+   */
+  public static function create($interface, CfContextInterface $context = NULL, $required = TRUE) {
+    $schema = new self($interface, $context);
+    if (!$required) {
+      $schema = new CfSchema_Optional($schema);
+    }
+    return $schema;
   }
 
   /**
