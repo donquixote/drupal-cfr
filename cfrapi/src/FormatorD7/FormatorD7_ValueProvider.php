@@ -1,12 +1,12 @@
 <?php
 
-namespace Drupal\cfrapi\Formator;
+namespace Drupal\cfrapi\FormatorD7;
 
 use Donquixote\Cf\Form\D7\FormatorD7_Optionless;
 use Drupal\cfrapi\Util\UtilBase;
 use Drupal\cfrapi\ValueProvider\ValueProviderInterface;
 
-final class Formator_ValueProvider extends UtilBase {
+final class FormatorD7_ValueProvider extends UtilBase {
 
   /**
    * @Cf
