@@ -5,7 +5,6 @@ namespace Drupal\cfrplugin\DIC;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
 use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
 use Donquixote\Cf\Discovery\NamespaceDirectory;
-use Donquixote\Cf\ParamToLabel\ParamToLabel;
 use Donquixote\Cf\ParamToValue\ParamToValue_ObjectsMatchType;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_Callback;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_DefmapDrilldown;
@@ -25,7 +24,6 @@ use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Cache;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscovery;
 use Drupal\cfrrealm\TypeToDefinitionsbyid\TypeToDefinitionsbyid;
 use Drupal\cfrrealm\TypeToDefmap\TypeToDefmap_Cache;
-use Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfigurator;
 
 class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPluginRealmContainerInterface {
 
@@ -187,24 +185,6 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    */
   protected function get_translator() {
     return Translator::createPassthru();
-  }
-
-  /**
-   * @return \Drupal\cfrreflection\CfrGen\ParamToConfigurator\ParamToConfigurator
-   *
-   * @see $paramToConfigurator
-   */
-  protected function get_paramToConfigurator() {
-    return new ParamToConfigurator($this->typeToConfigurator);
-  }
-
-  /**
-   * @return \Donquixote\Cf\ParamToLabel\ParamToLabel
-   *
-   * @see $paramToLabel
-   */
-  protected function get_paramToLabel() {
-    return new ParamToLabel();
   }
 
 }
