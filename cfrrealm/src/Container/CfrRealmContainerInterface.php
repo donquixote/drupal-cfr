@@ -2,6 +2,8 @@
 
 namespace Drupal\cfrrealm\Container;
 
+use Donquixote\Cf\Container\CfContainerInterface;
+
 /**
  * Contains services that are used throughout one configurator realm.
  *
@@ -11,18 +13,7 @@ namespace Drupal\cfrrealm\Container;
  * Main cycle of circular dependencies:
  *
  * @property \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $typeToConfigurator
- * @property \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface $typeToSchema
  * @property \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator_proxy
  * @property \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface $schemaToConfigurator
- * @property \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
- * @property \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface $schemaReplacer
- * @property \Donquixote\Cf\Translator\TranslatorInterface $translator
- *
- * Non-circular:
- * @property \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
- * @property \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
- *
- * To be provided by child container:
- * @property \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
  */
-interface CfrRealmContainerInterface {}
+interface CfrRealmContainerInterface extends CfContainerInterface {}

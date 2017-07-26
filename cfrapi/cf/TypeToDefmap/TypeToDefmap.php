@@ -26,7 +26,11 @@ class TypeToDefmap implements TypeToDefmapInterface {
    * @return \Donquixote\Cf\DefinitionMap\DefinitionMapInterface
    */
   public function typeGetDefmap($type) {
-    $definitionsById = new DefinitionsById_FromType($this->typeToDefinitionsbyid, $type);
+
+    $definitionsById = new DefinitionsById_FromType(
+      $this->typeToDefinitionsbyid,
+      $type);
+
     return new DefinitionMap_Buffer($definitionsById);
   }
 }

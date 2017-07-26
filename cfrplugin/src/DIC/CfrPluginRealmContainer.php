@@ -2,20 +2,11 @@
 
 namespace Drupal\cfrplugin\DIC;
 
-use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIA;
-use Donquixote\Cf\Discovery\ClassFilesIA_NamespaceDirectory;
-use Donquixote\Cf\Discovery\NamespaceDirectory;
-use Donquixote\Cf\ParamToValue\ParamToValue_ObjectsMatchType;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_Callback;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_DefmapDrilldown;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_IfaceDefmap;
 use Donquixote\Cf\SchemaReplacer\SchemaReplacer_FromPartials;
-use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelper;
-use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_SchemaReplacer;
-use Donquixote\Cf\Translator\Translator;
-use Donquixote\Cf\Util\LocalPackageUtil;
-use Donquixote\Cf\Util\STAMappersUtil;
-use Drupal\cfrapi\ConfToValue\ConfToValueInterface;
+use Donquixote\Cf\Translator\Translator_D7;
 use Drupal\cfrapi\SchemaToConfigurator\Partial\SchemaToConfigurator_Proxy;
 use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfigurator_Sta;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
@@ -118,45 +109,6 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
-   * @return \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface
-   *
-   * @see $schemaToAnything
-   */
-  protected function get_schemaToAnything() {
-
-    // Search all of cfrapi module.
-    $drupalNsDir = NamespaceDirectory::createFromClass(ConfToValueInterface::class)
-      ->parent();
-
-    $drupalClassFilesIA = ClassFilesIA_NamespaceDirectory::createFromNsdirObject($drupalNsDir);
-
-    $drupalFactoriesIA = new AnnotatedFactoriesIA(
-      $drupalClassFilesIA,
-      'Cf');
-
-    # $mappersCore = LocalPackageUtil::collectSTAMappers();
-    # $mappersDrupal = STAMappersUtil::collectSTAMappers($drupalFactoriesIA);
-
-    $services = [];
-    $services[] = $this->translator;
-    $paramToValue = new ParamToValue_ObjectsMatchType($services);
-
-    $partialsCore = LocalPackageUtil::collectSTAPartials($paramToValue);
-    $partialsDrupal = STAMappersUtil::collectSTAPartials($drupalFactoriesIA, $paramToValue);
-
-    # $mappers = array_merge($mappersCore, $mappersDrupal);
-
-    $partials = array_merge($partialsCore, $partialsDrupal);
-
-    $partials[] = new SchemaToAnythingPartial_SchemaReplacer(
-      $this->schemaReplacer);
-
-    # return new SchemaToAnything_Chain($mappers);
-
-    return SchemaToAnythingHelper::createFromPartials($partials);
-  }
-
-  /**
    * @return \Donquixote\Cf\SchemaReplacer\SchemaReplacerInterface
    *
    * @see $schemaReplacer
@@ -184,7 +136,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    * @see $translator
    */
   protected function get_translator() {
-    return Translator::createPassthru();
+    return Translator_D7::createOrPassthru();
   }
 
 }

@@ -2,10 +2,8 @@
 
 namespace Drupal\cfrrealm\Container;
 
-use Donquixote\Cf\DefinitionToLabel\DefinitionToLabel;
-use Donquixote\Cf\TypeToSchema\TypeToSchema_Buffer;
-use Donquixote\Cf\TypeToSchema\TypeToSchema_Iface;
-use Donquixote\Containerkit\Container\ContainerBase;
+use Donquixote\Cf\Container\CfContainerBase;
+use Drupal\cfrapi\Util\DrupalSTAUtil;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel_FromModuleName;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_Buffer;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfSchema;
@@ -13,7 +11,7 @@ use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfSchema;
 /**
  * Contains services that are used throughout one configurator realm.
  */
-abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmContainerInterface {
+abstract class CfrRealmContainerBase extends CfContainerBase implements CfrRealmContainerInterface {
 
   /**
    * @return \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface
@@ -39,19 +37,6 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   }
 
   /**
-   * @return \Donquixote\Cf\TypeToSchema\TypeToSchemaInterface
-   *
-   * @see $typeToSchema
-   */
-  protected function get_typeToSchema() {
-
-    $typeToSchema = new TypeToSchema_Iface();
-    $typeToSchema = new TypeToSchema_Buffer($typeToSchema);
-
-    return $typeToSchema;
-  }
-
-  /**
    * @return \Drupal\cfrapi\SchemaToConfigurator\SchemaToConfiguratorInterface
    *
    * @see $schemaToConfigurator_proxy
@@ -66,12 +51,14 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   abstract protected function get_schemaToConfigurator();
 
   /**
-   * @return \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface
-   *
-   * @see $definitionToLabel
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
    */
-  protected function get_definitionToLabel() {
-    return DefinitionToLabel::create();
+  protected function getSTAPartials() {
+
+    $partialsCore =  parent::getSTAPartials();
+    $partialsDrupal = DrupalSTAUtil::collectSTAPartials($this->paramToValue);
+
+    return array_merge($partialsCore, $partialsDrupal);
   }
 
   /**
@@ -82,12 +69,5 @@ abstract class CfrRealmContainerBase extends ContainerBase implements CfrRealmCo
   protected function get_definitionToGrouplabel() {
     return new DefinitionToLabel_FromModuleName();
   }
-
-  /**
-   * @return \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
-   *
-   * @see $typeToDefmap
-   */
-  abstract protected function get_typeToDefmap();
 
 }
