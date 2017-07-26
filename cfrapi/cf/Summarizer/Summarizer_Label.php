@@ -10,7 +10,7 @@ use Donquixote\Cf\Util\StaUtil;
 class Summarizer_Label implements SummarizerInterface {
 
   /**
-   * @var \Donquixote\Cf\Form\D7\FormatorD7Interface
+   * @var \Drupal\cfrapi\FormatorD7\FormatorD7Interface
    */
   private $decorated;
 

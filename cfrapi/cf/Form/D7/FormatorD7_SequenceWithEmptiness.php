@@ -3,6 +3,7 @@
 namespace Donquixote\Cf\Form\D7;
 
 use Donquixote\Cf\Emptiness\EmptinessInterface;
+use Donquixote\Cf\Form\D7\Util\D7FormSTAUtil;
 use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
@@ -51,9 +52,10 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
       return NULL;
     }
 
-    $optionalFormator = StaUtil::formatorOptional(
+    $optionalFormator = D7FormSTAUtil::formatorOptional(
       $schema->getItemSchema(),
-      $schemaToAnything);
+      $schemaToAnything
+    );
 
     if (NULL === $optionalFormator) {
       kdpm('Sorry.');

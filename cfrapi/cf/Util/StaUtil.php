@@ -4,8 +4,6 @@ namespace Donquixote\Cf\Util;
 
 use Donquixote\Cf\Emptiness\EmptinessInterface;
 use Donquixote\Cf\Evaluator\EvaluatorInterface;
-use Donquixote\Cf\Form\D7\FormatorD7Interface;
-use Donquixote\Cf\Form\D7\Optionable\OptionableFormatorD7Interface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Summarizer\SummarizerInterface;
@@ -43,52 +41,6 @@ final class StaUtil extends UtilBase {
   }
 
   /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
-   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
-   *
-   * @return \Donquixote\Cf\Form\D7\FormatorD7Interface|null
-   */
-  public static function formator(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
-    return self::getObject($schema, $schemaToAnything, FormatorD7Interface::class);
-  }
-
-  /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
-   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
-   *
-   * @return \Donquixote\Cf\Form\D7\FormatorD7Interface|null
-   */
-  public static function formatorOptional(
-    CfSchemaInterface $schema,
-    SchemaToAnythingInterface $schemaToAnything
-  ) {
-
-    $optionable = self::formatorOptionable(
-      $schema,
-      $schemaToAnything);
-
-    if (NULL === $optionable) {
-      kdpm('Sorry.', __METHOD__);
-      return NULL;
-    }
-
-    return $optionable->getOptionalFormator();
-  }
-
-  /**
-   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
-   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
-   *
-   * @return \Donquixote\Cf\Form\D7\Optionable\OptionableFormatorD7Interface|null
-   */
-  public static function formatorOptionable(
-    CfSchemaInterface $schema,
-    SchemaToAnythingInterface $schemaToAnything
-  ) {
-    return self::getObject($schema, $schemaToAnything, OptionableFormatorD7Interface::class);
-  }
-
-  /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface[] $itemSchemas
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    * @param string $interface
@@ -119,7 +71,7 @@ final class StaUtil extends UtilBase {
    *
    * @return mixed|null
    */
-  private static function getObject(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything, $interface) {
+  public static function getObject(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything, $interface) {
 
     $object = $schemaToAnything->schema($schema, $interface);
 

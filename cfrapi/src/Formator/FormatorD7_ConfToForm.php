@@ -2,9 +2,9 @@
 
 namespace Drupal\cfrapi\Formator;
 
-use Donquixote\Cf\Form\D7\FormatorD7Interface;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_CallbackNoHelper;
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
+use Donquixote\Cf\Form\D7\FormatorD7Interface;
 
 class FormatorD7_ConfToForm implements FormatorD7Interface {
 

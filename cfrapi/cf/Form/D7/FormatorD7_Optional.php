@@ -2,6 +2,7 @@
 
 namespace Donquixote\Cf\Form\D7;
 
+use Donquixote\Cf\Form\D7\Util\D7FormSTAUtil;
 use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Util\ConfUtil;
@@ -31,15 +32,16 @@ class FormatorD7_Optional implements FormatorD7Interface {
       $schema->getDecorated(),
       $schemaToAnything)
     ) {
-      return StaUtil::formatorOptional(
+      return D7FormSTAUtil::formatorOptional(
         $schema->getDecorated(),
         $schemaToAnything
       );
     }
 
-    $decorated = StaUtil::formator(
+    $decorated = D7FormSTAUtil::formator(
       $schema->getDecorated(),
-      $schemaToAnything);
+      $schemaToAnything
+    );
 
     return new self($decorated);
   }

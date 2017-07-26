@@ -2,9 +2,9 @@
 
 namespace Donquixote\Cf\Form\D7;
 
+use Donquixote\Cf\Form\D7\Util\D7FormSTAUtil;
 use Donquixote\Cf\SchemaBase\CfSchema_ValueToValueBaseInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Util\StaUtil;
 use Donquixote\Cf\Util\UtilBase;
 
 final class FormatorD7_V2V extends UtilBase {
@@ -21,9 +21,10 @@ final class FormatorD7_V2V extends UtilBase {
     CfSchema_ValueToValueBaseInterface $schema,
     SchemaToAnythingInterface $schemaToAnything
   ) {
-    return StaUtil::formator(
+    return D7FormSTAUtil::formator(
       $schema->getDecorated(),
-      $schemaToAnything);
+      $schemaToAnything
+    );
   }
 
   /**
@@ -38,9 +39,10 @@ final class FormatorD7_V2V extends UtilBase {
     CfSchema_ValueToValueBaseInterface $schema,
     SchemaToAnythingInterface $schemaToAnything
   ) {
-    return StaUtil::formatorOptionable(
+    return D7FormSTAUtil::formatorOptionable(
       $schema->getDecorated(),
-      $schemaToAnything);
+      $schemaToAnything
+    );
   }
 
 }

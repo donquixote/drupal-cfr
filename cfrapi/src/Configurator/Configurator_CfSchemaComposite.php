@@ -4,6 +4,7 @@ namespace Drupal\cfrapi\Configurator;
 
 use Donquixote\Cf\Evaluator\EvaluatorInterface;
 use Donquixote\Cf\Form\D7\FormatorD7Interface;
+use Donquixote\Cf\Form\D7\Util\D7FormSTAUtil;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 use Donquixote\Cf\Schema\Optional\CfSchema_Optional_Null;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
@@ -49,7 +50,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
   public static function create(CfSchemaInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
 
     if (0
-      || NULL === ($formator = StaUtil::formator($schema, $schemaToAnything))
+      || NULL === ($formator = D7FormSTAUtil::formator($schema, $schemaToAnything))
       || NULL === ($summarizer = StaUtil::summarizer($schema, $schemaToAnything))
       || NULL === ($evaluator = StaUtil::evaluator($schema, $schemaToAnything))
     ) {
@@ -75,7 +76,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
 
     if (0
       || NULL === ($emptiness = StaUtil::emptiness($schema, $schemaToAnything))
-      || NULL === ($formator = StaUtil::formator($optionalSchema, $schemaToAnything))
+      || NULL === ($formator = D7FormSTAUtil::formator($optionalSchema, $schemaToAnything))
       || NULL === ($summarizer = StaUtil::summarizer($optionalSchema, $schemaToAnything))
       || NULL === ($evaluator = StaUtil::evaluator($optionalSchema, $schemaToAnything))
     ) {

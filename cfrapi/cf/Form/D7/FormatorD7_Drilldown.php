@@ -3,13 +3,13 @@
 namespace Donquixote\Cf\Form\D7;
 
 use Donquixote\Cf\Form\D7\Optionable\OptionableFormatorD7Interface;
+use Donquixote\Cf\Form\D7\Util\D7FormSTAUtil;
 use Donquixote\Cf\Form\D7\Util\D7FormUtil;
 use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\Optionless\CfSchema_OptionlessInterface;
 use Donquixote\Cf\Schema\Options\CfSchema_Options_Fixed;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Util\ConfUtil;
-use Donquixote\Cf\Util\StaUtil;
 
 /**
  * @Cf
@@ -268,9 +268,10 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
       return FALSE;
     }
 
-    if (FALSE === $formator = StaUtil::formator(
-      $schema,
-      $this->schemaToAnything)
+    if (FALSE === $formator = D7FormSTAUtil::formator(
+        $schema,
+        $this->schemaToAnything
+      )
     ) {
       return FALSE;
     }

@@ -2,9 +2,9 @@
 
 namespace Donquixote\Cf\Form\D7;
 
+use Donquixote\Cf\Form\D7\Util\D7FormSTAUtil;
 use Donquixote\Cf\Schema\Label\CfSchema_LabelInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
-use Donquixote\Cf\Util\StaUtil;
 
 class FormatorD7_Label implements FormatorD7Interface {
 
@@ -28,9 +28,10 @@ class FormatorD7_Label implements FormatorD7Interface {
    */
   public static function create(CfSchema_LabelInterface $schema, SchemaToAnythingInterface $schemaToAnything) {
 
-    if (NULL === $decorated = StaUtil::formator(
-      $schema->getDecorated(),
-      $schemaToAnything)
+    if (NULL === $decorated = D7FormSTAUtil::formator(
+        $schema->getDecorated(),
+        $schemaToAnything
+      )
     ) {
       return NULL;
     }
