@@ -2,8 +2,8 @@
 
 namespace Drupal\cfrrealm\TypeToConfigurator;
 
-use Donquixote\Cf\Context\CfContext_FromCfrContext;
 use Donquixote\Cf\TypeToSchema\TypeToSchemaInterface;
+use Drupal\cfrapi\CfContext\CfContext_FromCfrContext;
 use Drupal\cfrapi\Configurator\Broken\BrokenConfigurator_Exception;
 use Drupal\cfrapi\Configurator\Broken\OptionalBrokenConfigurator_Exception;
 use Drupal\cfrapi\Context\CfrContextInterface;

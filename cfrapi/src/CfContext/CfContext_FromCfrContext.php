@@ -1,7 +1,8 @@
 <?php
 
-namespace Donquixote\Cf\Context;
+namespace Drupal\cfrapi\CfContext;
 
+use Donquixote\Cf\Context\CfContextInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 
 class CfContext_FromCfrContext implements CfContextInterface {
