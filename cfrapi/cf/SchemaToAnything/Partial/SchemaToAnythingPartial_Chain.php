@@ -73,4 +73,11 @@ class SchemaToAnythingPartial_Chain implements SchemaToAnythingPartialInterface 
   public function acceptsSchemaClass($interface) {
     return TRUE;
   }
+
+  /**
+   * @return int
+   */
+  public function getSpecifity() {
+    return 0;
+  }
 }

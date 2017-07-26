@@ -6,6 +6,7 @@ use Donquixote\CallbackReflection\Callback\CallbackReflection_BoundParameters;
 use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\Cf\ParamToValue\ParamToValueInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\SchemaBase\CfSchemaBaseInterface;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\Util\ReflectionUtil;
 
@@ -39,9 +40,13 @@ class SchemaToAnythingPartial_Callback extends SchemaToAnythingPartialBase {
 
     if (CfSchemaInterface::class === $schemaType = $t0->getName()) {
       $schemaType = NULL;
+      $specifity = -1;
     }
-    elseif (!is_a($schemaType, CfSchemaInterface::class, TRUE)) {
+    elseif (!is_a($schemaType, CfSchemaBaseInterface::class, TRUE)) {
       return NULL;
+    }
+    else {
+      $specifity = count($t0->getInterfaceNames());
     }
 
     if (1
@@ -65,15 +70,19 @@ class SchemaToAnythingPartial_Callback extends SchemaToAnythingPartialBase {
     }
 
     if ($hasStaParam) {
-      return new self(
+      $sta = new self(
         $callback,
         $schemaType);
     }
     else {
-      return new SchemaToAnythingPartial_CallbackNoHelper(
+      $sta = new SchemaToAnythingPartial_CallbackNoHelper(
         $callback,
         $schemaType);
     }
+
+    $sta = $sta->withSpecifity($specifity);
+
+    return $sta;
   }
 
   /**

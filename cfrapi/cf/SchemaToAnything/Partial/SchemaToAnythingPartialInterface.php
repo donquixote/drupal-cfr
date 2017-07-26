@@ -34,4 +34,9 @@ interface SchemaToAnythingPartialInterface {
    */
   public function acceptsSchemaClass($schemaClass);
 
+  /**
+   * @return int
+   */
+  public function getSpecifity();
+
 }

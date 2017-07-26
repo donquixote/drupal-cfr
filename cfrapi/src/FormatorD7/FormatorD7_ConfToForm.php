@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\cfrapi\Formator;
+namespace Drupal\cfrapi\FormatorD7;
 
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_CallbackNoHelper;
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;

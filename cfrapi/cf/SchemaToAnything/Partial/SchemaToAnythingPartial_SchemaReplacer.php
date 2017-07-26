@@ -21,6 +21,13 @@ class SchemaToAnythingPartial_SchemaReplacer implements SchemaToAnythingPartialI
   }
 
   /**
+   * @return int
+   */
+  public function getSpecifity() {
+    return 0;
+  }
+
+  /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
    * @param string $interface
    * @param \Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface $helper

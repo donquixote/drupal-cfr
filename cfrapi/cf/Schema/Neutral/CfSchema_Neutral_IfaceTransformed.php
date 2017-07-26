@@ -4,8 +4,9 @@ namespace Donquixote\Cf\Schema\Neutral;
 
 use Donquixote\Cf\Context\CfContextInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\SchemaBase\Decorator\CfSchema_DecoratorBase;
 
-class CfSchema_Neutral_IfaceTransformed extends CfSchema_NeutralBase {
+class CfSchema_Neutral_IfaceTransformed extends CfSchema_DecoratorBase implements CfSchema_NeutralInterface {
 
   /**
    * @var string

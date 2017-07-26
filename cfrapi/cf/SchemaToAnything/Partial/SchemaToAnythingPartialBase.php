@@ -18,6 +18,11 @@ abstract class SchemaToAnythingPartialBase implements SchemaToAnythingPartialInt
   private $resultType;
 
   /**
+   * @var int
+   */
+  private $specifity = 0;
+
+  /**
    * @param string|null $schemaType
    * @param string|null $resultType
    */
@@ -27,11 +32,32 @@ abstract class SchemaToAnythingPartialBase implements SchemaToAnythingPartialInt
   }
 
   /**
+   * @param int $specifity
+   *
+   * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialBase
+   */
+  public function withSpecifity($specifity) {
+
+    if ($specifity === $this->specifity) {
+      return $this;
+    }
+
+    $clone = clone $this;
+    $clone->specifity = $specifity;
+    return $clone;
+  }
+
+  /**
    * @param string $schemaType
    *
    * @return static
    */
   public function withSchemaType($schemaType) {
+
+    if ($schemaType === $this->schemaType) {
+      return $this;
+    }
+
     $clone = clone $this;
     $clone->schemaType = $schemaType;
     return $clone;
@@ -43,6 +69,11 @@ abstract class SchemaToAnythingPartialBase implements SchemaToAnythingPartialInt
    * @return static
    */
   public function withResultType($resultType) {
+
+    if ($resultType === $this->resultType) {
+      return $this;
+    }
+
     $clone = clone $this;
     $clone->resultType = $resultType;
     return $clone;
@@ -113,5 +144,12 @@ abstract class SchemaToAnythingPartialBase implements SchemaToAnythingPartialInt
   public function providesResultType($resultInterface) {
     return NULL === $this->resultType
       || is_a($this->resultType, $resultInterface, TRUE);
+  }
+
+  /**
+   * @return int
+   */
+  public function getSpecifity() {
+    return $this->specifity;
   }
 }

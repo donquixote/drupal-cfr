@@ -47,7 +47,26 @@ class SchemaToAnythingPartial_SmartChain implements SchemaToAnythingPartialInter
    * @param \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[] $partials
    */
   public function __construct(array $partials) {
+
+    $indices = [];
+    $specifities = [];
+    $i = 0;
+    foreach ($partials as $partial) {
+      ++$i;
+      $indices[] = $i;
+      $specifities[] = $partial->getSpecifity();
+    }
+
+    array_multisort($specifities, SORT_DESC, $indices, $partials);
+
     $this->partials = $partials;
+  }
+
+  /**
+   * @return int
+   */
+  public function getSpecifity() {
+    return 0;
   }
 
   /**

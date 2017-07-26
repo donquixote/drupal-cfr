@@ -2,7 +2,9 @@
 
 namespace Drupal\cfrapi\PossiblyOptionless;
 
-interface PossiblyOptionlessInterface {
+use Donquixote\Cf\Optionlessness\OptionlessnessInterface;
+
+interface PossiblyOptionlessInterface extends OptionlessnessInterface {
 
   /**
    * @return bool

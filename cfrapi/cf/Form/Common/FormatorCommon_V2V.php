@@ -56,4 +56,11 @@ class FormatorCommon_V2V implements SchemaToAnythingPartialInterface {
       CfSchema_ValueToValueBaseInterface::class,
       TRUE);
   }
+
+  /**
+   * @return int
+   */
+  public function getSpecifity() {
+    return 0;
+  }
 }
