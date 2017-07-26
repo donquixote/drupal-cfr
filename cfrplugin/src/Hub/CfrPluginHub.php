@@ -2,6 +2,9 @@
 
 namespace Drupal\cfrplugin\Hub;
 
+use Donquixote\Cf\Form\D7\Util\D7FormSTAUtil;
+use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainer;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface;
@@ -27,6 +30,11 @@ class CfrPluginHub implements CfrPluginHubInterface {
   private $definitionsByTypeAndId;
 
   /**
+   * @var \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface
+   */
+  private $schemaToAnything;
+
+  /**
    * @return \Drupal\cfrplugin\DIC\CfrPluginRealmContainer
    */
   public static function getContainer() {
@@ -50,19 +58,23 @@ class CfrPluginHub implements CfrPluginHubInterface {
   public static function createFromContainer(CfrPluginRealmContainerInterface $container) {
     return new self(
       $container->typeToConfigurator,
-      $container->definitionsByTypeAndId);
+      $container->definitionsByTypeAndId,
+      $container->schemaToAnything);
   }
 
   /**
    * @param \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $interfaceToConfigurator
    * @param \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
+   * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    */
   public function __construct(
     TypeToConfiguratorInterface $interfaceToConfigurator,
-    DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
+    DefinitionsByTypeAndIdInterface $definitionsByTypeAndId,
+    SchemaToAnythingInterface $schemaToAnything
   ) {
     $this->interfaceToConfigurator = $interfaceToConfigurator;
     $this->definitionsByTypeAndId = $definitionsByTypeAndId;
+    $this->schemaToAnything = $schemaToAnything;
   }
 
   /**
@@ -97,5 +109,39 @@ class CfrPluginHub implements CfrPluginHubInterface {
    */
   public function interfaceGetOptionalConfigurator($interface, CfrContextInterface $context = NULL, $defaultValue = NULL) {
     return $this->interfaceToConfigurator->typeGetOptionalConfigurator($interface, $context, $defaultValue);
+  }
+
+  /**
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @param mixed $conf
+   * @param string|null $label
+   *
+   * @return array
+   */
+  public function schemaConfGetForm(CfSchemaInterface $schema, $conf, $label) {
+
+    $formator = D7FormSTAUtil::formator(
+      $schema,
+      $this->schemaToAnything
+    );
+
+    if (NULL === $formator) {
+      return [];
+    }
+
+    return $formator->confGetD7Form($conf, $label);
+  }
+
+  /**
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   *
+   * @return \Donquixote\Cf\Form\D7\FormatorD7Interface|null
+   */
+  public function schemaGetFormator(CfSchemaInterface $schema) {
+
+    return D7FormSTAUtil::formator(
+      $schema,
+      $this->schemaToAnything
+    );
   }
 }
