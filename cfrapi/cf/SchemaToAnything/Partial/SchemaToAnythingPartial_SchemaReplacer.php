@@ -52,6 +52,7 @@ class SchemaToAnythingPartial_SchemaReplacer implements SchemaToAnythingPartialI
 
     if ($replacement === $schema) {
       kdpm($replacement, 'REPLACEMENT');
+      --$recursionLevel;
       throw new \Exception("Replacer did not replace.");
     }
 
@@ -63,6 +64,7 @@ class SchemaToAnythingPartial_SchemaReplacer implements SchemaToAnythingPartialI
       kdpm($schema, spl_object_hash($schema));
       kdpm($replacement, spl_object_hash($replacement));
       kdpm($this->replacer, 'REPLACER');
+      --$recursionLevel;
       throw new \Exception("Recursion.");
     }
 
@@ -70,6 +72,7 @@ class SchemaToAnythingPartial_SchemaReplacer implements SchemaToAnythingPartialI
       kdpm($schema, spl_object_hash($schema));
       kdpm($replacement, spl_object_hash($replacement));
       kdpm($this->replacer, 'REPLACER');
+      --$recursionLevel;
       throw new \Exception("Replacer did not replace.");
     }
 
