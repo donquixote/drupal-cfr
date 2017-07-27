@@ -59,7 +59,7 @@ class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
     $callback = $original->getCallback();
     $params = $callback->getReflectionParameters();
 
-    if (0 === $nParams = count($params)) {
+    if ([] === $params) {
       return new CfSchema_ValueProvider_Callback($callback);
     }
 
@@ -77,6 +77,9 @@ class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
       elseif ($paramSchema = $this->paramGetSchema($param, $context, $replacer)) {
         $paramSchemas[] = $paramSchema;
       }
+      elseif ($param->isOptional()) {
+        break;
+      }
       else {
         // The callback has parameters that cannot be made configurable.
         return NULL;
@@ -90,7 +93,7 @@ class SchemaReplacerPartial_Callback implements SchemaReplacerPartialInterface {
       }
     }
 
-    if (1 === $nParams) {
+    if (1 === count($paramSchemas)) {
       $replacement = CfSchema_ValueToValue_CallbackMono::create(
         $paramSchemas[0],
         $callback);
