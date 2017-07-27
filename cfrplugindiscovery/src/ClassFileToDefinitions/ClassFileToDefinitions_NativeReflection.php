@@ -128,8 +128,14 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
 
     $className = $reflectionClass->getShortName();
 
-    $definitionsById = DefinitionUtil::buildDefinitionsById($stubDefinition, $annotations, $className);
-    return DefinitionUtil::buildDefinitionsByTypeAndId($pluginTypeNames, $definitionsById);
+    $definitionsById = DefinitionUtil::buildDefinitionsById(
+      $stubDefinition,
+      $annotations,
+      $className);
+
+    return DefinitionUtil::buildDefinitionsByTypeAndId(
+      $pluginTypeNames,
+      $definitionsById);
   }
 
   /**
@@ -167,8 +173,14 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
       'handler_factory' => $name,
     ];
 
-    $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $name);
-    return DefinitionUtil::buildDefinitionsByTypeAndId($returnTypeNames, $definitionsById);
+    $definitionsById = DefinitionUtil::buildDefinitionsById(
+      $definition,
+      $annotations,
+      $name);
+
+    return DefinitionUtil::buildDefinitionsByTypeAndId(
+      $returnTypeNames,
+      $definitionsById);
   }
 
   /**
@@ -179,7 +191,10 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
    * @return array[][]
    *   Format: $[$pluginType][$pluginId] = $pluginDefinition
    */
-  private static function schemaFactoryGetDefinitions(\ReflectionMethod $method, array $annotations) {
+  private static function schemaFactoryGetDefinitions(
+    \ReflectionMethod $method,
+    array $annotations
+  ) {
 
     $name = $method->getDeclaringClass()->getName() . '::' . $method->getName();
 
@@ -187,9 +202,17 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
       'schema_factory' => $name,
     ];
 
-    $pluginTypeNames = self::classGetPluginTypeNames($method->getDeclaringClass());
-    $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $name);
-    return DefinitionUtil::buildDefinitionsByTypeAndId($pluginTypeNames, $definitionsById);
+    $pluginTypeNames = self::classGetPluginTypeNames(
+      $method->getDeclaringClass());
+
+    $definitionsById = DefinitionUtil::buildDefinitionsById(
+      $definition,
+      $annotations,
+      $name);
+
+    return DefinitionUtil::buildDefinitionsByTypeAndId(
+      $pluginTypeNames,
+      $definitionsById);
   }
 
   /**
