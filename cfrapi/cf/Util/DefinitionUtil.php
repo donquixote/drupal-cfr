@@ -1,6 +1,8 @@
 <?php
 
-namespace Drupal\cfrplugindiscovery\Util;
+namespace Donquixote\Cf\Util;
+
+use Drupal\cfrplugindiscovery\Util\UtilBase;
 
 final class DefinitionUtil extends UtilBase {
 

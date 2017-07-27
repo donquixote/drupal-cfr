@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\cfrplugindiscovery\ClassFileToDefinitions;
+namespace Donquixote\Cf\Discovery\ClassFileToDefinitions;
 
 interface ClassFileToDefinitionsInterface {
 

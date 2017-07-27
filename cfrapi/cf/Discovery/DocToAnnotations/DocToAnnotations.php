@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\cfrplugindiscovery\DocToAnnotations;
+namespace Donquixote\Cf\Discovery\DocToAnnotations;
 
 use Donquixote\Annotation\DocCommentUtil;
 use Donquixote\Annotation\Resolver\AnnotationResolver_PrimitiveResolver;

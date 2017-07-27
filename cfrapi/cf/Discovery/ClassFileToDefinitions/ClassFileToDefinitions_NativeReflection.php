@@ -1,17 +1,17 @@
 <?php
 
-namespace Drupal\cfrplugindiscovery\ClassFileToDefinitions;
+namespace Donquixote\Cf\Discovery\ClassFileToDefinitions;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotations;
-use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface;
-use Drupal\cfrplugindiscovery\Util\DefinitionUtil;
-use Drupal\cfrplugindiscovery\Util\DocUtil;
+use Donquixote\Cf\Discovery\DocToAnnotations\DocToAnnotations;
+use Donquixote\Cf\Discovery\DocToAnnotations\DocToAnnotationsInterface;
+use Donquixote\Cf\Util\DefinitionUtil;
+use Donquixote\Cf\Util\DocUtil;
 
 class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsInterface {
 
   /**
-   * @var \Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface
+   * @var \Donquixote\Cf\Discovery\DocToAnnotations\DocToAnnotationsInterface
    */
   private $docToAnnotations;
 
@@ -32,7 +32,7 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
   }
 
   /**
-   * @param \Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface $docToAnnotations
+   * @param \Donquixote\Cf\Discovery\DocToAnnotations\DocToAnnotationsInterface $docToAnnotations
    * @param string $tagName
    */
   public function __construct(DocToAnnotationsInterface $docToAnnotations, $tagName) {

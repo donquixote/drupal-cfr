@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\cfrplugindiscovery\DocToAnnotations;
+namespace Donquixote\Cf\Discovery\DocToAnnotations;
 
 interface DocToAnnotationsInterface {
 

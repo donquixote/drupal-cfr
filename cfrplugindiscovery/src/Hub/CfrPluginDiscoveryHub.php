@@ -4,8 +4,8 @@ namespace Drupal\cfrplugindiscovery\Hub;
 
 use Drupal\cfrplugindiscovery\ClassFileDiscovery\ClassFileDiscovery;
 use Drupal\cfrplugindiscovery\ClassFileDiscovery\ClassFileDiscoveryInterface;
-use Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitions_NativeReflection;
-use Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface;
+use Donquixote\Cf\Discovery\ClassFileToDefinitions\ClassFileToDefinitions_NativeReflection;
+use Donquixote\Cf\Discovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface;
 
 class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
 
@@ -15,7 +15,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
   private $classFileDiscovery;
 
   /**
-   * @var \Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface
+   * @var \Donquixote\Cf\Discovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface
    */
   private $classFileToDefinitions;
 
@@ -37,7 +37,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
 
   /**
    * @param \Drupal\cfrplugindiscovery\ClassFileDiscovery\ClassFileDiscoveryInterface $classFileDiscovery
-   * @param \Drupal\cfrplugindiscovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface $classFileToDefinitions
+   * @param \Donquixote\Cf\Discovery\ClassFileToDefinitions\ClassFileToDefinitionsInterface $classFileToDefinitions
    */
   public function __construct(
     ClassFileDiscoveryInterface $classFileDiscovery,
