@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Util;
 
-use Donquixote\Cf\Discovery\AnnotatedFactory;
+use Donquixote\Cf\Discovery\AnnotatedFactory\AnnotatedFactory;
 use Donquixote\Cf\Discovery\ClassFilesIAInterface;
 use Donquixote\Cf\ParamToValue\ParamToValue_ObjectsMatchType;
 use Donquixote\Cf\Translator\Translator;
@@ -49,7 +49,7 @@ final class DiscoveryUtil extends UtilBase {
    * @param \ReflectionClass $reflClass
    * @param string $annotationTagName
    *
-   * @return \Iterator|\Donquixote\Cf\Discovery\AnnotatedFactory[]
+   * @return \Iterator|\Donquixote\Cf\Discovery\AnnotatedFactory\AnnotatedFactory[]
    */
   public static function classFindAnnotatedFactories(
     \ReflectionClass $reflClass,

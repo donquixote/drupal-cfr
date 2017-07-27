@@ -2,7 +2,8 @@
 
 namespace Donquixote\Cf\Util;
 
-use Donquixote\Cf\Discovery\AnnotatedFactory;
+use Donquixote\Cf\Discovery\AnnotatedFactory\AnnotatedFactory;
+use Donquixote\Cf\Discovery\AnnotatedFactory\AnnotatedFactoryInterface;
 use Donquixote\Cf\Discovery\AnnotatedFactoryIA\AnnotatedFactoriesIAInterface;
 use Donquixote\Cf\ParamToValue\ParamToValueInterface;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_Callback;
@@ -33,14 +34,14 @@ final class STAMappersUtil extends UtilBase {
   }
 
   /**
-   * @param \Donquixote\Cf\Discovery\AnnotatedFactory $factory
+   * @param \Donquixote\Cf\Discovery\AnnotatedFactory\AnnotatedFactoryInterface $factory
    * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
    * @param bool $goDeeper
    *
    * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
    */
   public static function factoryCreateSTAs(
-    AnnotatedFactory $factory,
+    AnnotatedFactoryInterface $factory,
     ParamToValueInterface $paramToValue,
     $goDeeper = TRUE
   ) {

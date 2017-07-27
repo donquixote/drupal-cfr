@@ -2,7 +2,7 @@
 
 namespace Donquixote\Cf\Discovery\AnnotatedFactoryIA;
 
-use Donquixote\Cf\Discovery\AnnotatedFactory;
+use Donquixote\Cf\Discovery\AnnotatedFactory\AnnotatedFactory;
 use Donquixote\Cf\Discovery\ClassFilesIAInterface;
 use Donquixote\Cf\Util\DiscoveryUtil;
 
@@ -28,7 +28,7 @@ class AnnotatedFactoriesIA implements AnnotatedFactoriesIAInterface {
   }
 
   /**
-   * @return \Iterator|\Donquixote\Cf\Discovery\AnnotatedFactory[]
+   * @return \Iterator|\Donquixote\Cf\Discovery\AnnotatedFactory\AnnotatedFactory[]
    */
   public function getIterator() {
 
@@ -43,7 +43,7 @@ class AnnotatedFactoriesIA implements AnnotatedFactoriesIAInterface {
   /**
    * @param \ReflectionClass $reflClass
    *
-   * @return \Iterator|\Donquixote\Cf\Discovery\AnnotatedFactory[]
+   * @return \Iterator|\Donquixote\Cf\Discovery\AnnotatedFactory\AnnotatedFactory[]
    */
   private function reflectionClassGetFactories(\ReflectionClass $reflClass) {
 
