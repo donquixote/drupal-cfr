@@ -3,7 +3,6 @@
 namespace Drupal\cfrplugindiscovery\ClassFileToDefinitions;
 
 use Donquixote\Cf\Schema\CfSchemaInterface;
-use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotations;
 use Drupal\cfrplugindiscovery\DocToAnnotations\DocToAnnotationsInterface;
 use Drupal\cfrplugindiscovery\Util\DefinitionUtil;
@@ -119,29 +118,9 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
       return [];
     }
 
-    if ($reflectionClass->implementsInterface(ConfiguratorInterface::class)) {
-      $stubDefinition = ['configurator_class' => $reflectionClass->getName()];
+    $stubDefinition = ['handler_class' => $reflectionClass->getName()];
 
-      if (NULL === $confGetValueMethod = $reflectionClass->getMethod('confGetValue')) {
-        return [];
-      }
-
-      $pluginTypeNames = $this->reflectionMethodGetReturnTypeNames($confGetValueMethod);
-    }
-    elseif ($reflectionClass->implementsInterface(CfSchemaInterface::class)) {
-      $stubDefinition = ['schema_class' => $reflectionClass->getName()];
-
-      if (NULL === $confGetValueMethod = $reflectionClass->getMethod('confGetValue')) {
-        return [];
-      }
-
-      $pluginTypeNames = $this->reflectionMethodGetReturnTypeNames($confGetValueMethod);
-    }
-    else {
-      $stubDefinition = ['handler_class' => $reflectionClass->getName()];
-
-      $pluginTypeNames = self::classGetPluginTypeNames($reflectionClass);
-    }
+    $pluginTypeNames = self::classGetPluginTypeNames($reflectionClass);
 
     if ([] === $pluginTypeNames) {
       return [];
@@ -174,16 +153,10 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
     }
 
     foreach ($returnTypeNames as $returnTypeName) {
-      if (is_a($returnTypeName, ConfiguratorInterface::class, TRUE)) {
-        // The method returns a configurator object.
-        // The actual plugin type has to be determined elsewhere:
-        // We simply assume that
-        return self::configuratorFactoryGetDefinitions($method, $annotations);
-      }
-      elseif (is_a($returnTypeName, CfSchemaInterface::class, TRUE)) {
-        // The method returns a configurator object.
-        // The actual plugin type has to be determined elsewhere:
-        // We simply assume that
+
+      if (is_a($returnTypeName, CfSchemaInterface::class, TRUE)) {
+        // The method returns a schema object.
+        // The actual plugin type has to be determined elsewhere.
         return self::schemaFactoryGetDefinitions($method, $annotations);
       }
     }
@@ -196,27 +169,6 @@ class ClassFileToDefinitions_NativeReflection implements ClassFileToDefinitionsI
 
     $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $name);
     return DefinitionUtil::buildDefinitionsByTypeAndId($returnTypeNames, $definitionsById);
-  }
-
-  /**
-   * @param \ReflectionMethod $method
-   * @param array[] $annotations
-   *   E.g. [['id' => 'entityTitle', 'label' => 'Entity title'], ..]
-   *
-   * @return array[][]
-   *   Format: $[$pluginType][$pluginId] = $pluginDefinition
-   */
-  private static function configuratorFactoryGetDefinitions(\ReflectionMethod $method, array $annotations) {
-
-    $name = $method->getDeclaringClass()->getName() . '::' . $method->getName();
-
-    $definition = [
-      'configurator_factory' => $name,
-    ];
-
-    $pluginTypeNames = self::classGetPluginTypeNames($method->getDeclaringClass());
-    $definitionsById = DefinitionUtil::buildDefinitionsById($definition, $annotations, $name);
-    return DefinitionUtil::buildDefinitionsByTypeAndId($pluginTypeNames, $definitionsById);
   }
 
   /**
