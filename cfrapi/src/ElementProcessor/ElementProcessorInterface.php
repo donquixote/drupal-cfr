@@ -11,7 +11,7 @@ interface ElementProcessorInterface {
 
   /**
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *
    * @return array
    */
