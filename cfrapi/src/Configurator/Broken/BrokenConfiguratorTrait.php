@@ -5,6 +5,7 @@ namespace Drupal\cfrapi\Configurator\Broken;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 trait BrokenConfiguratorTrait {
 
@@ -28,8 +29,10 @@ trait BrokenConfiguratorTrait {
         # . '<pre>' . print_r($this, TRUE) . '</pre>'
         . '',
       '#element_validate' => [
-        function (array $element) {
-          form_error($element, "Broken configurator. The form will always fail to validate.");
+        function (array $element, FormStateInterface $form_state) {
+          $form_state->setError(
+            $element,
+            "Broken configurator. The form will always fail to validate.");
         }
       ],
     ];

@@ -11,6 +11,7 @@ use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 use Drupal\cfrapi\Util\FormUtil;
 use Drupal\cfrfamily\IdValueToValue\IdValueToValueInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInterface, IdValueToValueInterface {
 
@@ -245,9 +246,12 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
     if (NULL !== $id && !self::idExistsInSelectOptions($id, $element['#options'])) {
       $element['#options'][$id] = t("Unknown id '@id'", ['@id' => $id]);
-      $element['#element_validate'][] = function(array $element) use ($id) {
+      $element['#element_validate'][] = function(array $element, FormStateInterface $form_state) use ($id) {
         if ((string)$id === (string)$element['#value']) {
-          form_error($element, t("Unknown id %id. Maybe the id did exist in the past, but it currently does not.", ['%id' => $id]));
+          $form_state->setError(
+            $element,
+            t("Unknown id %id. Maybe the id did exist in the past, but it currently does not.",
+              ['%id' => $id]));
         }
       };
     }

@@ -5,6 +5,7 @@ namespace Drupal\cfrapi\Configurator;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 class Configurator_IntegerInRange implements ConfiguratorInterface {
 
@@ -113,35 +114,49 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
 
   /**
    * @param array $element
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    */
-  public static function elementValidateMin(array $element /* , array &$form_state */) {
+  public static function elementValidateMin(array $element, FormStateInterface $form_state) {
 
     $v = $element['#value'];
 
     $min = $element['#min'];
     if ($v < $min) {
       if (0 === $min) {
-        form_error($element, t('%name must be non-negative.', array('%name' => $element['#title'])));
+        $form_state->setError(
+          $element,
+          t('%name must be non-negative.',
+            ['%name' => $element['#title']]));
       }
       elseif (1 === $min) {
-        form_error($element, t('%name must be positive.', array('%name' => $element['#title'])));
+        $form_state->setError(
+          $element,
+          t('%name must be positive.',
+            ['%name' => $element['#title']]));
       }
       else {
-        form_error($element, t('%name must be greater than or equal to @min.', array('%name' => $element['#title'], '@min' => $min)));
+        $form_state->setError(
+          $element,
+          t('%name must be greater than or equal to @min.',
+            ['%name' => $element['#title'], '@min' => $min]));
       }
     }
   }
 
   /**
    * @param array $element
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    */
-  public static function elementValidateMax(array $element /* , array &$form_state */) {
+  public static function elementValidateMax(array $element, FormStateInterface $form_state) {
 
     $v = $element['#value'];
 
     $max = $element['#max'];
     if ($v > $max) {
-      form_error($element, t('%name must be no greater than @max.', array('%name' => $element['#title'], '@max' => $max)));
+      $form_state->setError(
+        $element,
+        t('%name must be no greater than @max.',
+          array('%name' => $element['#title'], '@max' => $max)));
     }
   }
 
