@@ -4,10 +4,12 @@ namespace Drupal\cfrrealm\Container;
 
 use Donquixote\Cf\Container\CfContainerBase;
 use Drupal\cfrapi\Cache\Cache_D7;
+use Drupal\cfrapi\Cache\Cache_D8;
 use Drupal\cfrapi\Util\DrupalSTAUtil;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel_FromModuleName;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_Buffer;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_ViaCfSchema;
+use Drupal\Core\Cache\CacheBackendInterface;
 
 /**
  * Contains services that are used throughout one configurator realm.
@@ -77,7 +79,20 @@ abstract class CfrRealmContainerBase extends CfContainerBase implements CfrRealm
    * @see $cacheOrNull
    */
   protected function get_cacheOrNull() {
-    return new Cache_D7();
+
+    if (function_exists('cache_get')) {
+      return new Cache_D7();
+    }
+
+    if (1
+      && class_exists(\Drupal::class)
+      && method_exists(\Drupal::class, 'cache')
+      && ($cache = \Drupal::cache()) instanceof CacheBackendInterface
+    ) {
+      return new Cache_D8($cache);
+    }
+
+    return NULL;
   }
 
 }
