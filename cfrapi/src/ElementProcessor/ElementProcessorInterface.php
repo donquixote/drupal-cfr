@@ -2,6 +2,8 @@
 
 namespace Drupal\cfrapi\ElementProcessor;
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * To be used as a $form[*]['#process'][] callback.
  */
@@ -13,6 +15,6 @@ interface ElementProcessorInterface {
    *
    * @return array
    */
-  public function __invoke(array $element, array &$form_state);
+  public function __invoke(array $element, FormStateInterface $form_state);
 
 }
