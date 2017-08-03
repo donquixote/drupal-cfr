@@ -1,0 +1,7 @@
+form:
+  version: 1.x
+  css:
+    layout:
+      css/cfrapi.css: {}
+  dependencies:
+    - core/jquery
