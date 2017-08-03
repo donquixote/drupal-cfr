@@ -44,6 +44,22 @@ class CfSchema_Group implements CfSchema_GroupInterface {
   }
 
   /**
+   * @param string $key
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface $schema
+   * @param null $label
+   *
+   * @return \Donquixote\Cf\Schema\Group\CfSchema_Group
+   */
+  public function withItem($key, CfSchemaInterface $schema, $label = NULL) {
+    $clone = clone $this;
+    $clone->schemas[$key] = $schema;
+    $clone->labels[$key] = NULL !== $label
+      ? $label
+      : $key;
+    return $clone;
+  }
+
+  /**
    * Returns a version of this schema where internal schemas are replaced,
    * recursively.
    *
