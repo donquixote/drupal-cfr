@@ -162,12 +162,12 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
         $this->idKey => $id,
         $this->optionsKey => $optionsConf,
       ],
-      '#process' => [function (array $element, array &$form_state, array $form) use ($_this, $id, $optionsConf) {
+      '#process' => [function (array $element, FormStateInterface $form_state, array $form) use ($_this, $id, $optionsConf) {
         $element = $_this->processElement($element, $form_state, $id, $optionsConf);
         $element = FormUtil::elementsBuildDependency($element, $form_state, $form);
         return $element;
       }],
-      '#after_build' => [function (array $element, array &$form_state) use ($_this) {
+      '#after_build' => [function (array $element, FormStateInterface $form_state) use ($_this) {
         return $_this->elementAfterBuild($element, $form_state);
       }],
     ];
@@ -181,22 +181,28 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
   /**
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    * @param string $defaultId
    * @param mixed $defaultOptionsConf
    *
    * @return array
    */
-  private function processElement(array $element, array &$form_state, $defaultId, $defaultOptionsConf) {
+  private function processElement(array $element, FormStateInterface $form_state, $defaultId, $defaultOptionsConf) {
     $value = $element['#value'];
     $id = isset($value[$this->idKey]) ? $value[$this->idKey] : NULL;
     if ($id !== $defaultId) {
       $defaultOptionsConf = NULL;
     }
     $prevId = isset($value['_previous_id']) ? $value['_previous_id'] : NULL;
-    if (NULL !== $prevId && $id !== $prevId && isset($form_state['input'])) {
+    if (1
+      && NULL !== $prevId
+      && $id !== $prevId
+      && NULL !== $form_state->getUserInput()
+    ) {
       // Don't let values leak from one plugin to the other.
-      ConfUtil::confUnsetNestedValue($form_state['input'], array_merge($element['#parents'], [$this->optionsKey]));
+      ConfUtil::confUnsetNestedValue(
+        $form_state->getUserInput(),
+        array_merge($element['#parents'], [$this->optionsKey]));
       # $defaultOptionsConf = NULL;
     }
     $element[$this->optionsKey] = $this->idConfBuildOptionsFormWrapper($id, $defaultOptionsConf);
@@ -211,18 +217,18 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
   /**
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *
    * @return array
    */
-  private function elementAfterBuild(array $element, array &$form_state) {
+  private function elementAfterBuild(array $element, FormStateInterface $form_state) {
 
     ConfUtil::confUnsetNestedValue(
-      $form_state['input'],
+      $form_state->getUserInput(),
       array_merge($element['#parents'], ['_previous_id']));
 
     ConfUtil::confUnsetNestedValue(
-      $form_state['values'],
+      $form_state->getValues(),
       array_merge($element['#parents'], ['_previous_id']));
 
     return $element;
