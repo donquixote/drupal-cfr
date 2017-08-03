@@ -29,7 +29,8 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    * @return \Drupal\cfrplugin\DIC\CfrPluginRealmContainer
    */
   public static function createWithCache() {
-    return new self($GLOBALS['language']->language);
+    return new self(
+      \Drupal::languageManager()->getCurrentLanguage()->getId());
   }
 
   /**
