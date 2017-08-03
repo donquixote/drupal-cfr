@@ -70,7 +70,7 @@ trait BrokenConfiguratorTrait {
    * @return string
    *   PHP statement to generate the value.
    */
-  function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
+  public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
     return $helper->incompatibleConfiguration($conf, 'Broken configurator');
   }
 
