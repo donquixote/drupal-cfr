@@ -123,6 +123,7 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
   private function getOptionsSchema() {
 
     $groupedOptions = [];
+    /** @var string[] $groupOptions */
     foreach ($this->schema->getGroupedOptions() as $groupLabel => $groupOptions) {
       foreach ($groupOptions as $id => $label) {
         $idSchema = $this->schema->idGetSchema($id);
