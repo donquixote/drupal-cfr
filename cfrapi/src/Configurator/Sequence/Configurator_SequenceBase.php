@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator\Sequence;
 
+use Donquixote\Cf\Util\ConfUtil;
 use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
@@ -227,7 +228,10 @@ abstract class Configurator_SequenceBase implements OptionalConfiguratorInterfac
    */
   private function elementAfterBuild(array $element, array &$form_state) {
 
-    $value = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
+    $value = ConfUtil::confExtractNestedValue(
+      $form_state['values'],
+      $element['#parents']);
+
     if (!is_array($value)) {
       $value = [];
     }
@@ -240,7 +244,10 @@ abstract class Configurator_SequenceBase implements OptionalConfiguratorInterfac
 
     $value = array_values($value);
 
-    drupal_array_set_nested_value($form_state['values'], $element['#parents'], $value);
+    ConfUtil::confSetNestedValue(
+      $form_state['values'],
+      $element['#parents'],
+      $value);
 
     if (isset($element['#title']) && '' !== $element['#title']) {
       $element['#theme_wrappers'][] = 'form_element';
