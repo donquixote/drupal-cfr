@@ -276,7 +276,7 @@ class FormatorD7_Sequence implements FormatorD7Interface {
               $button = $form_state['triggering_element'];
 
               // Go one level up in the form, to the sequence element.
-              $element = drupal_array_get_nested_value(
+              $element = ConfUtil::confExtractNestedValue(
                 $form,
                 array_slice($button['#array_parents'], 0, -1));
 
@@ -339,7 +339,7 @@ class FormatorD7_Sequence implements FormatorD7Interface {
           $button = $form_state['triggering_element'];
 
           // Go one level up in the form, to the sequence element.
-          $element = drupal_array_get_nested_value(
+          $element = ConfUtil::confExtractNestedValue(
             $form,
             array_slice($button['#array_parents'], 0, -1));
 
@@ -399,7 +399,10 @@ class FormatorD7_Sequence implements FormatorD7Interface {
     array $element,
     array &$form_state)
   {
-    $conf = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
+
+    $conf = ConfUtil::confExtractNestedValue(
+      $form_state['values'],
+      $element['#parents']);
 
     if (!is_array($conf)) {
       $conf = [];
@@ -417,7 +420,10 @@ class FormatorD7_Sequence implements FormatorD7Interface {
 
     $conf = array_values($conf);
 
-    drupal_array_set_nested_value($form_state['values'], $element['#parents'], $conf);
+    ConfUtil::confSetNestedValue(
+      $form_state['values'],
+      $element['#parents'],
+      $conf);
 
     if (isset($element['#title']) && '' !== $element['#title']) {
       $element['#theme_wrappers'][] = 'form_element';
