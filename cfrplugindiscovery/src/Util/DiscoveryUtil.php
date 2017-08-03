@@ -2,6 +2,8 @@
 
 namespace Drupal\cfrplugindiscovery\Util;
 
+use Donquixote\Cf\Util\HtmlUtil;
+
 final class DiscoveryUtil extends UtilBase {
 
   /**
@@ -13,7 +15,7 @@ final class DiscoveryUtil extends UtilBase {
       throw new \InvalidArgumentException('Path must be provided without trailing slash or backslash.');
     }
     if (!is_dir($directory)) {
-      throw new \InvalidArgumentException('Not a directory: ' . check_plain($directory));
+      throw new \InvalidArgumentException('Not a directory: ' . HtmlUtil::sanitize($directory));
     }
   }
 

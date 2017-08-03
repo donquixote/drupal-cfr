@@ -31,13 +31,13 @@ final class UiDumpUtil extends UtilBase {
         '!class thrown in line %line of !file',
         [
           '!class' => ''
-            . '<code>' . check_plain($e_class_reflection->getShortName()) . '</code>'
+            . '<code>' . HtmlUtil::sanitize($e_class_reflection->getShortName()) . '</code>'
             . '<br/>',
           '%line' => $e->getLine(),
           '!file' => ''
-            . '<code>' . check_plain(basename($file)) . '</code>'
+            . '<code>' . HtmlUtil::sanitize(basename($file)) . '</code>'
             . '<br/>'
-            . '<code>' . check_plain($file) . '</code>',
+            . '<code>' . HtmlUtil::sanitize($file) . '</code>',
         ]),
     ];
 
@@ -85,13 +85,13 @@ final class UiDumpUtil extends UtilBase {
               '%file' => basename($file)
             ]
           ) . '</dt>'
-          . '  <dd><code>' . check_plain($file) . '</code></dd>'
+          . '  <dd><code>' . HtmlUtil::sanitize($file) . '</code></dd>'
           . '  <dt>'
           . t('Exception class: %class', ['%class' => $e_class_reflection->getShortName()])
           . '</dt>'
-          . '  <dd>' . check_plain($e_class) . '</dt>'
+          . '  <dd>' . HtmlUtil::sanitize($e_class) . '</dt>'
           . '  <dt>' . t('Exception message:') . '</dt>'
-          . '  <dd><pre>' . check_plain($e->getMessage()) . '</pre></dd>'
+          . '  <dd><pre>' . HtmlUtil::sanitize($e->getMessage()) . '</pre></dd>'
           . '</dl>',
       ],
       'trace_label' => [
