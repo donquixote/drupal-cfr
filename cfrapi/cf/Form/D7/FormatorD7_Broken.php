@@ -3,6 +3,7 @@
 namespace Donquixote\Cf\Form\D7;
 
 use Donquixote\Cf\Util\HtmlUtil;
+use Drupal\Core\Form\FormStateInterface;
 
 class FormatorD7_Broken implements FormatorD7Interface {
 
@@ -41,8 +42,10 @@ class FormatorD7_Broken implements FormatorD7Interface {
       '#markup' => HtmlUtil::sanitize($this->message),
     ];
 
-    $form['#element_validate'][] = function(array $element) {
-      form_error($element, "Broken configurator. The form will always fail to validate.");
+    $form['#element_validate'][] = function(array $element, FormStateInterface $form_state) {
+      $form_state->setError(
+        $element,
+        "Broken configurator. The form will always fail to validate.");
     };
 
     return $form;
