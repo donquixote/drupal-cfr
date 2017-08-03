@@ -1,0 +1,9 @@
+name: Value configurator reflection
+type: module
+core: 8.x
+package: CFR
+project: cfr
+
+dependencies:
+  - cfrapi
+  - cfrfamily

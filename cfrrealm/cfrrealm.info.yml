@@ -1,0 +1,10 @@
+name: Configurator realm
+type: module
+description: Library to manage a collection of configurator families, identified by their type.
+core: 8.x
+package: CFR
+project: cfr
+
+dependencies:
+  - cfrapi
+  - cfrfamily

@@ -1,0 +1,12 @@
+name: Cfr plugin disvovery
+type: module
+description: Annotation-based discovery tool for cfrplugin
+core: 8.x
+package: CFR
+project: cfr
+
+dependencies:
+  # Not really using code from cfrapi and cfrplugin, but makes no sense without them.
+  # Uses one interface from cfrapi, but only with instanceof, which does not require the interface to actually exist.
+  - cfrapi
+  - cfrplugin

@@ -1,0 +1,10 @@
+name: Value Configurator API
+type: module
+core: 8.x
+package: CFR
+project: cfr
+
+dependencies:
+  - themekit
+
+# stylesheets[all][] = css/cfrapi.css

@@ -1,0 +1,11 @@
+name: Value configurator plugin
+type: module
+core: 8.x
+package: CFR
+project: cfr
+
+dependencies:
+  - cfrapi
+  - cfrfamily
+  - cfrrealm
+  - cfrreflection
