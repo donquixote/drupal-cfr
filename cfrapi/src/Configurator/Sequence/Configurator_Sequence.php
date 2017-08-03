@@ -11,6 +11,7 @@ use Drupal\cfrapi\Configurator\ConfiguratorInterface;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * @see \Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence
@@ -165,7 +166,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       '#process' => [function (array $element /*, array &$form_state */) use ($obj, $conf) {
         return $obj->elementProcess($element, $conf);
       }],
-      '#after_build' => [function (array $element, array &$form_state) use ($obj) {
+      '#after_build' => [function (array $element, FormStateInterface $form_state) use ($obj) {
         return $obj->elementAfterBuild($element, $form_state);
       }],
     ];
@@ -232,14 +233,14 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
    * Callback for '#after_build' to clean up empty items in the form value.
    *
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *
    * @return array
    */
-  private function elementAfterBuild(array $element, array &$form_state) {
+  private function elementAfterBuild(array $element, FormStateInterface $form_state) {
 
     $value = ConfUtil::confExtractNestedValue(
-      $form_state['values'],
+      $form_state->getValues(),
       $element['#parents']);
 
     if (!is_array($value)) {
@@ -255,7 +256,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     $value = array_values($value);
 
     ConfUtil::confSetNestedValue(
-      $form_state['values'],
+      $form_state->getValues(),
       $element['#parents'],
       $value);
 
