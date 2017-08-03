@@ -7,6 +7,7 @@ use Donquixote\Cf\Schema\Optional\CfSchema_OptionalInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Util\ConfUtil;
 use Donquixote\Cf\Util\StaUtil;
+use Drupal\Core\Form\FormStateInterface;
 
 class FormatorD7_Optional implements FormatorD7Interface {
 
@@ -101,15 +102,15 @@ class FormatorD7_Optional implements FormatorD7Interface {
         },
 
         // Clear out $conf['options'], if $conf['enabled'] is empty.
-        function(array $element, array &$form_state) {
+        function(array $element, FormStateInterface $form_state) {
 
           $enabled = ConfUtil::confExtractNestedValue(
-            $form_state['values'],
+            $form_state->getValues(),
             $element['enabled']['#parents']);
 
           if (empty($enabled)) {
             ConfUtil::confUnsetNestedValue(
-              $form_state['values'],
+              $form_state->getValues(),
               $element['options']['#parents']);
           }
 
