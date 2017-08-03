@@ -20,7 +20,7 @@ trait BrokenConfiguratorTrait {
     /** @noinspection PhpUnusedParameterInspection */ $conf,
     /** @noinspection PhpUnusedParameterInspection */ $label
   ) {
-    \Drupal\krumong\dpm($this);
+    # \Drupal\krumong\dpm($this);
 
     // @todo Add an element that causes validation to fail.
     return [
