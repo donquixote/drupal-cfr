@@ -54,7 +54,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
       || NULL === ($summarizer = StaUtil::summarizer($schema, $schemaToAnything))
       || NULL === ($evaluator = StaUtil::evaluator($schema, $schemaToAnything))
     ) {
-      kdpm(get_defined_vars(), __METHOD__);
+      # kdpm(get_defined_vars(), __METHOD__);
 
       return NULL;
     }
@@ -80,7 +80,7 @@ class Configurator_CfSchemaComposite implements OptionalConfiguratorInterface {
       || NULL === ($summarizer = StaUtil::summarizer($optionalSchema, $schemaToAnything))
       || NULL === ($evaluator = StaUtil::evaluator($optionalSchema, $schemaToAnything))
     ) {
-      kdpm(get_defined_vars(), __METHOD__);
+      # kdpm(get_defined_vars(), __METHOD__);
 
       return NULL;
     }
