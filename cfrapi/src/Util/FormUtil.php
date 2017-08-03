@@ -2,6 +2,8 @@
 
 namespace Drupal\cfrapi\Util;
 
+use Drupal\Core\Render\Element;
+
 final class FormUtil extends UtilBase {
 
   /**
@@ -41,11 +43,11 @@ final class FormUtil extends UtilBase {
    */
   public static function elementsBuildDependency(array $element, array &$form_state, array $form) {
 
-    $keys = element_children($element);
+    $keys = Element::children($element);
     if (count($keys) < 2) {
       return $element;
     }
-    list($dependedKey, $dependingKey) = element_children($element);
+    list($dependedKey, $dependingKey) = Element::children($element);
     $dependedElement =& $element[$dependedKey];
     $dependingElement =& $element[$dependingKey];
 
@@ -69,6 +71,7 @@ final class FormUtil extends UtilBase {
     // Special handling of ajax for views.
     /* @see views_ui_edit_form() */
     // See https://www.drupal.org/node/1183418
+    /*
     if (1
       && isset($form_state['view'])
       && module_exists('views_ui')
@@ -82,6 +85,7 @@ final class FormUtil extends UtilBase {
       # drupal_array_set_nested_value($form_state['values'], $element['#parents'], [], TRUE);
       # drupal_array_set_nested_value($form_state['input'], $element['#parents'], [], TRUE);
     }
+    */
 
     if (empty($dependingElement)) {
       $dependingElement += [
