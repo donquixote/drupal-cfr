@@ -124,17 +124,11 @@ final class UiDumpUtil extends UtilBase {
 
     $element = [];
 
-    if (function_exists('krumong')) {
-      $element['dump']['#markup'] = krumong()->dump($data);
-    }
-    elseif (function_exists('dpm')) {
+    if (function_exists('dpm')) {
       $element['dump']['#markup'] = krumo_ob($data);
-      $element['notice']['#markup'] = '<p>'
-        . t('Install krumong to see private and protected member variables.')
-        . '</p>';
     }
     else {
-      $element['notice']['#markup'] = t('No dump utility available. Install devel and/or krumong.');
+      $element['notice']['#markup'] = t('No dump utility available. Install devel.');
     }
 
     return $element;
@@ -149,10 +143,6 @@ final class UiDumpUtil extends UtilBase {
 
     if (!is_object($v) && !is_array($v)) {
       return '<pre>' . var_export($v, TRUE) . '</pre>';
-    }
-
-    if (function_exists('Drupal\krumong\dpm')) {
-      return krumong()->dump($v);
     }
 
     if (function_exists('kdevel_print_object')) {
