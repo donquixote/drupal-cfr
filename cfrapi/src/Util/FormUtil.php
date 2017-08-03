@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\Util;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 
 final class FormUtil extends UtilBase {
@@ -36,12 +37,16 @@ final class FormUtil extends UtilBase {
    * Makes the second form element depend on the first, with AJAX.
    *
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    * @param array $form
    *
    * @return array
    */
-  public static function elementsBuildDependency(array $element, array &$form_state, array $form) {
+  public static function elementsBuildDependency(
+    array $element,
+    /** @noinspection PhpUnusedParameterInspection */ FormStateInterface $form_state,
+    array $form
+  ) {
 
     $keys = Element::children($element);
     if (count($keys) < 2) {
