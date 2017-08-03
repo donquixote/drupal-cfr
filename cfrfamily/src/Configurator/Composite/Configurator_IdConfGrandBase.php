@@ -149,7 +149,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
     list($id, $optionsConf) = $this->confGetIdOptions($conf);
 
-    $obj = $this;
+    $_this = $this;
 
     $form = [
       '#type' => 'container',
@@ -162,13 +162,13 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
         $this->idKey => $id,
         $this->optionsKey => $optionsConf,
       ],
-      '#process' => [function (array $element, array &$form_state, array $form) use ($obj, $id, $optionsConf) {
-        $element = $obj->processElement($element, $form_state, $id, $optionsConf);
+      '#process' => [function (array $element, array &$form_state, array $form) use ($_this, $id, $optionsConf) {
+        $element = $_this->processElement($element, $form_state, $id, $optionsConf);
         $element = FormUtil::elementsBuildDependency($element, $form_state, $form);
         return $element;
       }],
-      '#after_build' => [function (array $element, array &$form_state) use ($obj) {
-        return $obj->elementAfterBuild($element, $form_state);
+      '#after_build' => [function (array $element, array &$form_state) use ($_this) {
+        return $_this->elementAfterBuild($element, $form_state);
       }],
     ];
 
