@@ -43,7 +43,7 @@ class DefinitionMap_Buffer implements DefinitionMapInterface {
    * @return array[]
    */
   public function getDefinitionsById() {
-    return isset($this->definitions)
+    return NULL !==$this->definitions
       ? $this->definitions
       : $this->definitions = $this->decorated->getDefinitionsById();
   }
