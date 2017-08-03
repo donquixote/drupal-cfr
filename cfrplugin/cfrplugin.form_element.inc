@@ -39,7 +39,7 @@ function cfrplugin_element_info() {
 
 /**
  * @param array $element
- * @param array $form_state
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
  * @param array $form
  *
  * @return array
