@@ -6,6 +6,7 @@ use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
 use Drupal\cfrplugin\Util\UiCodeUtil;
 use Drupal\cfrplugin\Util\UiDumpUtil;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * @param string $interface
@@ -146,14 +147,18 @@ EOT
 
 /**
  * @param array $form
- * @param array $form_state
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
  * @param string $interface
  * @param array $settings
  *
  * @return array
  */
-function cfrplugin_report_interface_demo_page_form(array $form,
-  /** @noinspection PhpUnusedParameterInspection */ array &$form_state, $interface, $settings) {
+function cfrplugin_report_interface_demo_page_form(
+  array $form,
+  /** @noinspection PhpUnusedParameterInspection */ FormStateInterface $form_state,
+  $interface,
+  $settings
+) {
 
   $form['plugin'] = [
     '#type' => 'cfrplugin',
@@ -173,13 +178,14 @@ function cfrplugin_report_interface_demo_page_form(array $form,
 
 /**
  * @param array $form
- * @param array $form_state
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
  */
 function cfrplugin_report_interface_demo_page_form_submit(
   /** @noinspection PhpUnusedParameterInspection */ array &$form,
-  array &$form_state
+  FormStateInterface $form_state
 ) {
   # dpm($form_state['values'], __FUNCTION__);
-  $options['query']['plugin'] = $form_state['values']['plugin'];
+  /** @noinspection ReferenceMismatchInspection */
+  $options['query']['plugin'] = $form_state->getValue('plugin');
   drupal_goto($_GET['q'], $options);
 }
