@@ -9,6 +9,7 @@ use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\ConfUtil;
 use Donquixote\Cf\Util\StaUtil;
+use Drupal\Core\Form\FormStateInterface;
 
 class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
 
@@ -125,7 +126,7 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
         },
       ],
       '#after_build' => [
-        function (array $element, array &$form_state) use ($_this) {
+        function (array $element, FormStateInterface $form_state) use ($_this) {
           return $_this->elementAfterBuild(
             $element,
             $form_state);
@@ -196,17 +197,17 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
    * Callback for '#after_build' to clean up empty items in the form value.
    *
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *
    * @return array
    */
   private function elementAfterBuild(
     array $element,
-    array &$form_state)
+    FormStateInterface $form_state)
   {
 
     $conf = ConfUtil::confExtractNestedValue(
-      $form_state['values'],
+      $form_state->getValues(),
       $element['#parents']);
 
     if (!is_array($conf)) {
@@ -224,7 +225,7 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
     $conf = array_values($conf);
 
     ConfUtil::confSetNestedValue(
-      $form_state['values'],
+      $form_state->getValues(),
       $element['#parents'],
       $conf);
 
