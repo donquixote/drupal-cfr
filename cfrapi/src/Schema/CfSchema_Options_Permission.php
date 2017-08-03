@@ -1,13 +1,15 @@
 <?php
 
-namespace Drupal\cfrapi\Legend;
+namespace Drupal\cfrapi\Schema;
+
+use Drupal\cfrapi\Legend\LegendInterface;
 
 /**
  * A legend to choose a permission from the Drupal permission system.
  *
  * @see \views_plugin_access_perm
  */
-class Legend_Permission implements LegendInterface {
+class CfSchema_Options_Permission implements LegendInterface {
 
   /**
    * @return mixed[]
