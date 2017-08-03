@@ -4,8 +4,8 @@ namespace Donquixote\Cf\SchemaToAnything\Partial;
 
 use Donquixote\Cf\Emptiness\EmptinessInterface;
 use Donquixote\Cf\ParamToValue\ParamToValueInterface;
-use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\Schema\CfSchemaInterface;
+use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelperInterface;
 use Donquixote\Cf\Util\LocalPackageUtil;
 
 class SchemaToAnythingPartial_SmartChain implements SchemaToAnythingPartialInterface {
