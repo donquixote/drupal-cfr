@@ -52,10 +52,13 @@ final class UiDumpUtil extends UtilBase {
    * @param \Exception $e
    *
    * @return string
+   *
+   * @todo Currently unused?
    */
   public static function exceptionGetHtml(\Exception $e) {
     $build = self::displayException($e);
-    return drupal_render($build);
+    // @todo Make this a service, and inject the renderer.
+    return \Drupal::service('renderer')->render($build);
   }
 
   /**
