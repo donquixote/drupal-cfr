@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\SummaryBuilder;
 
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
 use Drupal\cfrapi\SummaryBuilder\Group\SummaryBuilderGroup_Static;
 use Drupal\cfrapi\SummaryBuilder\Inline\SummaryBuilderInline_Static;
@@ -21,11 +22,11 @@ class SummaryBuilder_Static implements SummaryBuilderInterface {
       $optionsConfSummary = $optionsConfToSummary->confGetSummary($optionsConf, $this);
 
       if (is_string($optionsConfSummary) && '' !== $optionsConfSummary) {
-        return check_plain($label) . ': ' . $optionsConfSummary;
+        return HtmlUtil::sanitize($label) . ': ' . $optionsConfSummary;
       }
     }
 
-    return check_plain($label);
+    return HtmlUtil::sanitize($label);
   }
 
   /**

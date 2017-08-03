@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrplugin\Util;
 
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\Util\UtilBase;
 
 final class UiCodeUtil extends UtilBase {
@@ -19,14 +20,14 @@ final class UiCodeUtil extends UtilBase {
     ) {
       return t(
         'There is no class or interface named !name.',
-        ['!name' => '<code>' . check_plain($class) . '</code>']
+        ['!name' => '<code>' . HtmlUtil::sanitize($class) . '</code>']
       );
     }
 
     if (NULL === $php = self::classGetPhp($class)) {
       return t(
         'Cannot access the code of class !class.',
-        ['!name' => '<code>' . check_plain($class) . '</code>']
+        ['!name' => '<code>' . HtmlUtil::sanitize($class) . '</code>']
       );
     }
 

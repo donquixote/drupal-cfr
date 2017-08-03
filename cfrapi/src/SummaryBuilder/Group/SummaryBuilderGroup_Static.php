@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\SummaryBuilder\Group;
 
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\ConfToSummary\ConfToSummaryInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
@@ -34,7 +35,7 @@ class SummaryBuilderGroup_Static implements SummaryBuilderGroupInterface {
   public function addSetting($label, ConfToSummaryInterface $confToSummary, $conf) {
     $this->summary .= ''
       . '<li>'
-      . check_plain($label) . ': '
+      . HtmlUtil::sanitize($label) . ': '
       . $confToSummary->confGetSummary($conf, $this->summaryBuilder)
       . '</li>';
 

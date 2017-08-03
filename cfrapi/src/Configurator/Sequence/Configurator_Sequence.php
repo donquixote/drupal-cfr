@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator\Sequence;
 
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptynessInterface;
@@ -223,7 +224,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
 
     return (NULL === $delta)
       ? t('New item')
-      : t('Item !n', ['!n' => '#' . check_plain($delta)]);
+      : t('Item !n', ['!n' => '#' . HtmlUtil::sanitize($delta)]);
   }
 
   /**

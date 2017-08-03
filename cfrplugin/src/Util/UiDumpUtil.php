@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrplugin\Util;
 
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\Util\UtilBase;
 
 final class UiDumpUtil extends UtilBase {
@@ -21,7 +22,7 @@ final class UiDumpUtil extends UtilBase {
 
     $rows[] = [
       t('Exception message'),
-      check_plain($e->getMessage()),
+      HtmlUtil::sanitize($e->getMessage()),
     ];
 
     $rows[] = [

@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator;
 
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Exception\InvalidConfigurationException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
@@ -171,7 +172,7 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
    *   $summaryBuilder generates them.
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    return check_plain(var_export($conf, TRUE));
+    return HtmlUtil::sanitize(var_export($conf, TRUE));
   }
 
   /**
