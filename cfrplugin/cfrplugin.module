@@ -10,7 +10,7 @@ require_once __DIR__ . '/cfrplugin.menu.inc';
  */
 function cfrplugin() {
   static $hub;
-  return isset($hub)
+  return NULL !== $hub
     ? $hub
     : $hub = CfrPluginHub::create();
 }
