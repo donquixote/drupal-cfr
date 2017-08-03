@@ -7,6 +7,7 @@ use Donquixote\Cf\Form\D7\Util\D7FormSTAUtil;
 use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
+use Donquixote\Cf\Util\ConfUtil;
 use Donquixote\Cf\Util\StaUtil;
 
 class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
@@ -204,7 +205,7 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
     array &$form_state)
   {
 
-    $conf = drupal_array_get_nested_value(
+    $conf = ConfUtil::confExtractNestedValue(
       $form_state['values'],
       $element['#parents']);
 
@@ -222,7 +223,7 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
 
     $conf = array_values($conf);
 
-    drupal_array_set_nested_value(
+    ConfUtil::confSetNestedValue(
       $form_state['values'],
       $element['#parents'],
       $conf);
