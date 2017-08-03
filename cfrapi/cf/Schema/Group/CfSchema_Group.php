@@ -20,6 +20,16 @@ class CfSchema_Group implements CfSchema_GroupInterface {
   /**
    * @param \Donquixote\Cf\Schema\CfSchemaInterface[] $schemas
    * @param string[] $labels
+   *
+   * @return self
+   */
+  public static function create(array $schemas = [], array $labels = []) {
+    return new self($schemas, $labels);
+  }
+
+  /**
+   * @param \Donquixote\Cf\Schema\CfSchemaInterface[] $schemas
+   * @param string[] $labels
    */
   public function __construct(array $schemas, array $labels) {
 
