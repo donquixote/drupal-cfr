@@ -260,6 +260,7 @@ class FormatorD7_Sequence implements FormatorD7Interface {
             'callback' => function(array $form, array $form_state) use ($itemId) {
               dpm('CLOSURE: remove #ajax callback');
 
+              /** @noinspection PhpUndefinedFunctionInspection */
               return [
                 '#type' => 'ajax',
                 '#commands' => [
