@@ -104,8 +104,8 @@ abstract class SchemaToAnythingPartialBase implements SchemaToAnythingPartialInt
     }
 
     if (!$candidate instanceof $interface) {
-      kdpm($candidate, "Expected $interface, found sth else.");
-      kdpm($this, '$this');
+      # kdpm($candidate, "Expected $interface, found sth else.");
+      # kdpm($this, '$this');
       return NULL;
     }
 

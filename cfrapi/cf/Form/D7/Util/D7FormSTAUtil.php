@@ -38,7 +38,7 @@ final class D7FormSTAUtil extends UtilBase {
     );
 
     if (NULL === $optionable) {
-      kdpm('Sorry.', __METHOD__);
+      # kdpm('Sorry.', __METHOD__);
       return NULL;
     }
 

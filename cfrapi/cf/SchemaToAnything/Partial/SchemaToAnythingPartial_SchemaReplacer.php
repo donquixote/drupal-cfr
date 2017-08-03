@@ -60,26 +60,26 @@ class SchemaToAnythingPartial_SchemaReplacer implements SchemaToAnythingPartialI
     }
 
     if ($recursionLevel > 10) {
-      kdpm($schema, spl_object_hash($schema));
-      kdpm($replacement, spl_object_hash($replacement));
-      kdpm($this->replacer, 'REPLACER');
+      # kdpm($schema, spl_object_hash($schema));
+      # kdpm($replacement, spl_object_hash($replacement));
+      # kdpm($this->replacer, 'REPLACER');
       --$recursionLevel;
       throw new \Exception("Recursion.");
     }
 
     if (false && get_class($replacement) === get_class($schema)) {
-      kdpm($schema, spl_object_hash($schema));
-      kdpm($replacement, spl_object_hash($replacement));
-      kdpm($this->replacer, 'REPLACER');
+      # kdpm($schema, spl_object_hash($schema));
+      # kdpm($replacement, spl_object_hash($replacement));
+      # kdpm($this->replacer, 'REPLACER');
       --$recursionLevel;
       throw new \Exception("Replacer did not replace.");
     }
 
     $anything = $helper->schema($replacement, $interface);
 
-    if (NULL === $anything) {
-      kdpm($replacement, 'REPLACEMENT DID NOT HELP');
-    }
+    # if (NULL === $anything) {
+      # kdpm($replacement, 'REPLACEMENT DID NOT HELP');
+    # }
 
     --$recursionLevel;
     return $anything;
