@@ -7,7 +7,7 @@ final class CfSchemaUtil {
   /**
    * @var self|null
    */
-  static $schemaIsUnknown;
+  private static $schemaIsUnknown;
 
   /**
    * @return self
