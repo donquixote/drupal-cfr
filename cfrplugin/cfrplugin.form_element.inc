@@ -1,6 +1,7 @@
 <?php
 use Drupal\cfrapi\Context\CfrContext;
 use Drupal\cfrreflection\Util\StringUtil;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_element_info().
@@ -44,7 +45,7 @@ function cfrplugin_element_info() {
  * @return array
  */
 function _cfrplugin_element_process(array $element,
-  /** @noinspection PhpUnusedParameterInspection */ array &$form_state,
+  /** @noinspection PhpUnusedParameterInspection */ FormStateInterface $form_state,
   /** @noinspection PhpUnusedParameterInspection */ array &$form) {
 
   $cfrContext = $element['#cfrplugin_context'];
@@ -68,12 +69,12 @@ function _cfrplugin_element_process(array $element,
 /**
  * @param array $element
  * @param mixed|false $input
- * @param array $form_state
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
  *
- * @return mixed;
+ * @return mixed ;
  */
 function _cfrplugin_element_value(array $element, $input = FALSE,
-  /** @noinspection PhpUnusedParameterInspection */ array $form_state = []) {
+  /** @noinspection PhpUnusedParameterInspection */ FormStateInterface $form_state) {
 
   if (FALSE !== $input) {
     return $input;
