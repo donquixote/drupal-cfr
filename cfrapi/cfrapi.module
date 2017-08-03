@@ -1,47 +1,6 @@
 <?php
 
-use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
 use Drupal\Core\Form\FormStateInterface;
-
-/**
- * Implements hook_element_info().
- */
-function cfrapi_element_info() {
-  return [
-    'cfrapi' => [
-      '#input' => TRUE,
-      '#tree' => TRUE,
-      /* @see _cfrapi_element_process() */
-      '#process' => ['_cfrapi_element_process'],
-      '#cfrapi_confToForm' => NULL,
-    ],
-  ];
-}
-
-/**
- * @param array $element
- * @param array $form_state
- *
- * @return array
- */
-function _cfrapi_element_process(
-  array $element,
-  /** @noinspection PhpUnusedParameterInspection */ array &$form_state
-) {
-
-  $confToForm = $element['#cfrapi_confToForm'];
-  if (!$confToForm instanceof ConfToFormInterface) {
-    return [
-      '#markup' => '<!-- Invalid form setup. -->',
-    ];
-  }
-  $conf = isset($element['#value']) ? $element['#value'] : NULL;
-  $label = isset($element['#title']) ? $element['#title'] : NULL;
-  $element['cfrapi'] = $confToForm->confGetForm($conf, $label);
-  $element['cfrapi']['#parents'] = $element['#parents'];
-  unset($element['#cfrapi_confToForm']);
-  return $element;
-}
 
 /**
  * @param array $form
