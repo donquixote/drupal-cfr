@@ -1,14 +1,13 @@
 <?php
 
-namespace Drupal\cfrrealm\TypeToDefinitionsbyid;
+namespace Donquixote\Cf\TypeToDefinitionsbyid;
 
-use Donquixote\Cf\TypeToDefinitionsbyid\TypeToDefinitionsbyidInterface;
-use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
+use Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
 
 class TypeToDefinitionsbyid implements TypeToDefinitionsbyidInterface {
 
   /**
-   * @var \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
+   * @var \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
    */
   private $definitionsByTypeAndId;
 
@@ -18,7 +17,7 @@ class TypeToDefinitionsbyid implements TypeToDefinitionsbyidInterface {
   private $buffer;
 
   /**
-   * @param \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
+   * @param \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
    */
   public function __construct(DefinitionsByTypeAndIdInterface $definitionsByTypeAndId) {
     $this->definitionsByTypeAndId = $definitionsByTypeAndId;

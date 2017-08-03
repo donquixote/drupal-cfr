@@ -2,6 +2,8 @@
 
 namespace Drupal\cfrrealm\DefinitionsByTypeAndId;
 
+use Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
+
 class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInterface {
 
   /**

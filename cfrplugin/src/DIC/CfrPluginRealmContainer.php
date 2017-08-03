@@ -11,10 +11,7 @@ use Drupal\cfrapi\SchemaToConfigurator\Partial\SchemaToConfigurator_Proxy;
 use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfigurator_Sta;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrrealm\Container\CfrRealmContainerBase;
-use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Cache;
 use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscovery;
-use Drupal\cfrrealm\TypeToDefinitionsbyid\TypeToDefinitionsbyid;
-use Drupal\cfrrealm\TypeToDefmap\TypeToDefmap_Cache;
 
 class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPluginRealmContainerInterface {
 
@@ -30,7 +27,7 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    */
   public static function createWithCache() {
     return new self(
-      \Drupal::languageManager()->getCurrentLanguage()->getId());
+      \Drupal::languageManager()->getCurrentLanguage()->getId() . ':');
   }
 
   /**
@@ -64,26 +61,24 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
   }
 
   /**
-   * @return \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
-   *
-   * @see $definitionsByTypeAndId
+   * @return \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
    */
-  protected function get_definitionsByTypeAndId() {
-    $definitionsByTypeAndId = new DefinitionsByTypeAndId_HookDiscovery('cfrplugin_info');
-    if (NULL !== $this->cacheSuffix) {
-      $definitionsByTypeAndId = new DefinitionsByTypeAndId_Cache($definitionsByTypeAndId, 'cfrplugin:definitions-all:' . $this->cacheSuffix);
-    }
-    return $definitionsByTypeAndId;
+  protected function getDefinitionDiscovery() {
+    return new DefinitionsByTypeAndId_HookDiscovery('cfrplugin_info');
   }
 
   /**
-   * @return \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface
-   *
-   * @see $typeToDefmap
+   * @return string
    */
-  protected function get_typeToDefmap() {
-    $typeToDefinitionsById = new TypeToDefinitionsbyid($this->definitionsByTypeAndId);
-    return new TypeToDefmap_Cache($typeToDefinitionsById, 'cfrplugin:definitions:' . $this->cacheSuffix);
+  protected function getDefinitionsCachePrefix() {
+    return parent::getDefinitionsCachePrefix() . $this->cacheSuffix;
+  }
+
+  /**
+   * @return string
+   */
+  protected function getDefinitionsCacheKey() {
+    return parent::getDefinitionsCacheKey() . $this->cacheSuffix;
   }
 
   /**
@@ -138,6 +133,13 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    */
   protected function get_translator() {
     return Translator_D7::createOrPassthru();
+  }
+
+  /**
+   * @return string
+   */
+  protected function getCachePrefix() {
+    return 'cfrplugin:';
   }
 
 }

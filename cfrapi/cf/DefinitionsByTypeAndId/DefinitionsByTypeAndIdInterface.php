@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\cfrrealm\DefinitionsByTypeAndId;
+namespace Donquixote\Cf\DefinitionsByTypeAndId;
 
 interface DefinitionsByTypeAndIdInterface {
 

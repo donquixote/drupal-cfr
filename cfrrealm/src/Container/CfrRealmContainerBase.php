@@ -3,6 +3,7 @@
 namespace Drupal\cfrrealm\Container;
 
 use Donquixote\Cf\Container\CfContainerBase;
+use Drupal\cfrapi\Cache\Cache_D7;
 use Drupal\cfrapi\Util\DrupalSTAUtil;
 use Drupal\cfrfamily\DefinitionToLabel\DefinitionToLabel_FromModuleName;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfigurator_Buffer;
@@ -68,6 +69,15 @@ abstract class CfrRealmContainerBase extends CfContainerBase implements CfrRealm
    */
   protected function get_definitionToGrouplabel() {
     return new DefinitionToLabel_FromModuleName();
+  }
+
+  /**
+   * @return \Donquixote\Cf\Cache\CacheInterface
+   *
+   * @see $cacheOrNull
+   */
+  protected function get_cacheOrNull() {
+    return new Cache_D7();
   }
 
 }

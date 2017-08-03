@@ -1,14 +1,10 @@
 <?php
 
-namespace Drupal\cfrfamily\DefinitionsById;
+namespace Donquixote\Cf\DefinitionsById;
 
-
-
-use Donquixote\Cf\DefinitionsById\DefinitionsByIdInterface;
+use Donquixote\Cf\CacheOffset\CacheOffsetInterface;
 
 class DefinitionsById_Cache implements DefinitionsByIdInterface {
-
-  const CACHE_BIN = 'cache';
 
   /**
    * @var \Donquixote\Cf\DefinitionsById\DefinitionsByIdInterface
@@ -16,18 +12,20 @@ class DefinitionsById_Cache implements DefinitionsByIdInterface {
   private $decorated;
 
   /**
-   * @var string
+   * @var \Donquixote\Cf\CacheOffset\CacheOffsetInterface
    */
-  private $cid;
+  private $cacheOffset;
 
   /**
    * @param \Donquixote\Cf\DefinitionsById\DefinitionsByIdInterface $decorated
-   * @param string $cid
-   *   Cache id.
+   * @param \Donquixote\Cf\CacheOffset\CacheOffsetInterface $cacheOffset
    */
-  public function __construct(DefinitionsByIdInterface $decorated, $cid) {
+  public function __construct(
+    DefinitionsByIdInterface $decorated,
+    CacheOffsetInterface $cacheOffset
+  ) {
     $this->decorated = $decorated;
-    $this->cid = $cid;
+    $this->cacheOffset = $cacheOffset;
   }
 
   /**
@@ -46,11 +44,15 @@ class DefinitionsById_Cache implements DefinitionsByIdInterface {
    * @return array[]
    */
   public function getDefinitionsById() {
-    if ($cache = cache_get($this->cid, self::CACHE_BIN)) {
-      return $cache->data;
+
+    if ($this->cacheOffset->getInto($value)) {
+      return $value;
     }
+
     $definitions = $this->decorated->getDefinitionsById();
-    cache_set($this->cid, $definitions, self::CACHE_BIN);
+
+    $this->cacheOffset->set($definitions);
+
     return $definitions;
   }
 }

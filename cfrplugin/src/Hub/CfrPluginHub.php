@@ -8,7 +8,7 @@ use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Drupal\cfrapi\Context\CfrContextInterface;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainer;
 use Drupal\cfrplugin\DIC\CfrPluginRealmContainerInterface;
-use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
+use Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
 use Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface;
 use Drupal\cfrreflection\Util\StringUtil;
 
@@ -25,7 +25,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
   private $interfaceToConfigurator;
 
   /**
-   * @var \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
+   * @var \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
    */
   private $definitionsByTypeAndId;
 
@@ -64,7 +64,7 @@ class CfrPluginHub implements CfrPluginHubInterface {
 
   /**
    * @param \Drupal\cfrrealm\TypeToConfigurator\TypeToConfiguratorInterface $interfaceToConfigurator
-   * @param \Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
+   * @param \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
    * @param \Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface $schemaToAnything
    */
   public function __construct(

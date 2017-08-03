@@ -13,9 +13,12 @@ namespace Donquixote\Cf\Container;
  * Non-circular:
  * @property \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToLabel
  * @property \Donquixote\Cf\DefinitionToLabel\DefinitionToLabelInterface $definitionToGrouplabel
+ * @property \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface $definitionsByTypeAndId
+ * @property \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+ * @property \Donquixote\Cf\CachePrefix\CachePrefixInterface|null $cacheRootOrNull
  *
  * To be provided by child container:
- * @property \Donquixote\Cf\TypeToDefmap\TypeToDefmapInterface $typeToDefmap
+ * @property \Donquixote\Cf\Cache\CacheInterface|null $cacheOrNull
  */
 interface CfContainerInterface {
 

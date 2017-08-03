@@ -2,6 +2,8 @@
 
 namespace Donquixote\Cf\Container;
 
+use Donquixote\Cf\CachePrefix\CachePrefix_Root;
+use Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Cache;
 use Donquixote\Cf\DefinitionToLabel\DefinitionToLabel;
 use Donquixote\Cf\ParamToValue\ParamToValue_ObjectsMatchType;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_Callback;
@@ -11,6 +13,9 @@ use Donquixote\Cf\SchemaReplacer\SchemaReplacer_FromPartials;
 use Donquixote\Cf\SchemaToAnything\Helper\SchemaToAnythingHelper;
 use Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartial_SchemaReplacer;
 use Donquixote\Cf\Translator\Translator;
+use Donquixote\Cf\TypeToDefinitionsbyid\TypeToDefinitionsbyid;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmap;
+use Donquixote\Cf\TypeToDefmap\TypeToDefmap_Cache;
 use Donquixote\Cf\TypeToSchema\TypeToSchema_Buffer;
 use Donquixote\Cf\TypeToSchema\TypeToSchema_Iface;
 use Donquixote\Cf\Util\LocalPackageUtil;
@@ -129,6 +134,93 @@ abstract class CfContainerBase extends ContainerBase implements CfContainerInter
    *
    * @see $typeToDefmap
    */
-  abstract protected function get_typeToDefmap();
+  protected function get_typeToDefmap() {
+
+    $typeToDefinitionsById = new TypeToDefinitionsbyid(
+      $this->definitionsByTypeAndId);
+
+    if (NULL !== $cacheRoot = $this->cacheRootOrNull) {
+      return new TypeToDefmap($typeToDefinitionsById);
+    }
+
+    return new TypeToDefmap_Cache(
+      $typeToDefinitionsById,
+      $cacheRoot->withAppendedPrefix(
+        $this->getDefinitionsCachePrefix()));
+  }
+
+  /**
+   * @return string
+   */
+  protected function getDefinitionsCachePrefix() {
+    return 'definitions:';
+  }
+
+  /**
+   * @return \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
+   *
+   * @see $definitionsByTypeAndId
+   */
+  protected function get_definitionsByTypeAndId() {
+
+    $definitionsByTypeAndId = $this->getDefinitionDiscovery();
+
+    if (NULL === $cacheRoot = $this->cacheRootOrNull) {
+      return $definitionsByTypeAndId;
+    }
+
+    return new DefinitionsByTypeAndId_Cache(
+      $definitionsByTypeAndId,
+      $cacheRoot->getOffset(
+        $this->getDefinitionsCacheKey()));
+  }
+
+  /**
+   * @return string
+   */
+  protected function getDefinitionsCacheKey() {
+    return 'definitions-all:';
+  }
+
+  /**
+   * @return \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
+   */
+  abstract protected function getDefinitionDiscovery();
+
+  /**
+   * @return \Donquixote\Cf\CachePrefix\CachePrefixInterface|null
+   *
+   * @see $cacheRootOrNull
+   */
+  protected function get_cacheRootOrNull() {
+
+    if (NULL === ($cache = $this->cacheOrNull)) {
+      return NULL;
+    }
+
+    $root = new CachePrefix_Root($this->cacheOrNull);
+
+    if ('' === $prefix = $this->getCachePrefix()) {
+      return $root;
+    }
+
+    return $root->withAppendedPrefix($prefix);
+  }
+
+  /**
+   * @return string
+   */
+  protected function getCachePrefix() {
+    return '';
+  }
+
+  /**
+   * @return \Donquixote\Cf\Cache\CacheInterface|null
+   *
+   * @see $cacheOrNull
+   */
+  protected function get_cacheOrNull() {
+    return NULL;
+  }
 
 }
