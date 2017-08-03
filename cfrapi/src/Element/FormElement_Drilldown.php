@@ -22,15 +22,10 @@ class FormElement_Drilldown extends FormElement {
    */
   public function getInfo() {
     return [
-      '#input' => TRUE,
-      '#tree' => TRUE,
-      /* @see _cfrapi_cf_schema_element_process() */
-      '#process' => ['_cfrapi_cf_schema_element_process'],
-      /* @see _cfrapi_cf_schema_element_value() */
-      '#value_callback' => '_cfrapi_cf_schema_element_value',
-      // This needs to be set.
-      '#cf_schema' => NULL,
-      '#title' => NULL,
+      /* @see _cfrapi_id_conf_element_process() */
+      '#process' => ['_cfrapi_id_conf_element_process'],
+      '#theme_wrappers' => ['themekit_container'],
+      '#cfrapi_confToForm' => NULL,
     ];
   }
 }

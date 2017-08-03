@@ -15,12 +15,6 @@ function cfrapi_element_info() {
       '#process' => ['_cfrapi_element_process'],
       '#cfrapi_confToForm' => NULL,
     ],
-    'cfrapi_id_conf' => [
-      /* @see _cfrapi_id_conf_element_process() */
-      '#process' => ['_cfrapi_id_conf_element_process'],
-      '#theme_wrappers' => ['themekit_container'],
-      '#cfrapi_confToForm' => NULL,
-    ],
   ];
 }
 
