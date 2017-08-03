@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrapi\Configurator\Optionable;
 
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
@@ -67,7 +68,7 @@ abstract class Configurator_TextfieldBase implements OptionalConfiguratorInterfa
       $conf = substr($conf, 0, 27) . '[..]';
     }
 
-    return check_plain(var_export($conf, TRUE));
+    return HtmlUtil::sanitize(var_export($conf, TRUE));
   }
 
   /**
