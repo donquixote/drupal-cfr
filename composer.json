@@ -1,0 +1,13 @@
+{
+  "name": "drupal/cfr",
+  "description": "Configurator plugin API (package).",
+  "type": "drupal-module",
+  "homepage": "http://drupal.org/project/cfr",
+  "minimum-stability": "dev",
+  "require": {
+    "donquixote/callback-reflection": "~1.0",
+    "donquixote/nicetrace": "~0.0",
+    "donquixote/containerkit": "~0.0",
+    "donquixote/annotation-parser": "~0.0"
+  }
+}
