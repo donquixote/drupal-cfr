@@ -3,8 +3,6 @@
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
 use Drupal\Core\Form\FormStateInterface;
 
-require_once __DIR__ . '/cfrapi.element.cf_schema.inc';
-
 /**
  * Implements hook_element_info().
  */
@@ -16,17 +14,6 @@ function cfrapi_element_info() {
       /* @see _cfrapi_element_process() */
       '#process' => ['_cfrapi_element_process'],
       '#cfrapi_confToForm' => NULL,
-    ],
-    'cfrapi_cf_schema' => [
-      '#input' => TRUE,
-      '#tree' => TRUE,
-      /* @see _cfrapi_cf_schema_element_process() */
-      '#process' => ['_cfrapi_cf_schema_element_process'],
-      /* @see _cfrapi_cf_schema_element_value() */
-      '#value_callback' => '_cfrapi_cf_schema_element_value',
-      // This needs to be set.
-      '#cf_schema' => NULL,
-      '#title' => NULL,
     ],
     'cfrapi_id_conf' => [
       /* @see _cfrapi_id_conf_element_process() */
