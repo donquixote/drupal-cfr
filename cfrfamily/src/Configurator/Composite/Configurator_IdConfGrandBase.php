@@ -161,7 +161,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
         $this->idKey => $id,
         $this->optionsKey => $optionsConf,
       ],
-      '#process' => [function (array $element, array &$form_state, array &$form) use ($obj, $id, $optionsConf) {
+      '#process' => [function (array $element, array &$form_state, array $form) use ($obj, $id, $optionsConf) {
         $element = $obj->processElement($element, $form_state, $id, $optionsConf);
         $element = FormUtil::elementsBuildDependency($element, $form_state, $form);
         return $element;
