@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\cfrapi\ConfToForm\ConfToFormInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 require_once __DIR__ . '/cfrapi.element.cf_schema.inc';
 
@@ -72,7 +73,7 @@ function _cfrapi_element_process(
 
 /**
  * @param array $form
- * @param array $form_state
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
  *
  * @return array
  *
@@ -80,7 +81,7 @@ function _cfrapi_element_process(
  */
 function _cfrapi_depended_element_ajax_callback(
   /** @noinspection PhpUnusedParameterInspection */ array $form,
-  array &$form_state
+  FormStateInterface $form_state
 ) {
-  return $form_state['triggering_element']['#depending_element_reference'];
+  return $form_state->getTriggeringElement()['#depending_element_reference'];
 }

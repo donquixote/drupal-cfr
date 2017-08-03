@@ -11,6 +11,7 @@ use Donquixote\Cf\Schema\Drilldown\CfSchema_DrilldownInterface;
 use Donquixote\Cf\Schema\Options\CfSchema_Options_Fixed;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Util\ConfUtil;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * @Cf
@@ -88,7 +89,7 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
         'options' => $optionsConf,
       ],
       '#process' => [
-        function (array $element, array &$form_state, array &$form) use ($_this, $id, $optionsConf) {
+        function (array $element, FormStateInterface $form_state, array $form) use ($_this, $id, $optionsConf) {
 
           $element = $_this->processElement(
             $element,
@@ -105,7 +106,7 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
         },
       ],
       '#after_build' => [
-        function (array $element, array &$form_state) use ($_this) {
+        function (array $element, FormStateInterface $form_state) use ($_this) {
 
           return $_this->elementAfterBuild($element, $form_state);
         },
@@ -156,7 +157,7 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
 
   /**
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    * @param string $defaultId
    * @param mixed $defaultOptionsConf
    *
@@ -164,7 +165,7 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
    */
   private function processElement(
     array $element,
-    array &$form_state,
+    FormStateInterface $form_state,
     $defaultId,
     $defaultOptionsConf)
   {
@@ -182,10 +183,10 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
       ? $value['_previous_id']
       : NULL;
 
-    if (NULL !== $prevId && $id !== $prevId && isset($form_state['input'])) {
+    if (NULL !== $prevId && $id !== $prevId && ($input = &$form_state->getUserInput())) {
       // Don't let values leak from one plugin to the other.
       ConfUtil::confUnsetNestedValue(
-        $form_state['input'],
+        $input,
         array_merge($element['#parents'], ['options']));
     }
 
@@ -205,18 +206,18 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
 
   /**
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *
    * @return array
    */
-  private function elementAfterBuild(array $element, array &$form_state) {
+  private function elementAfterBuild(array $element, FormStateInterface $form_state) {
 
     ConfUtil::confUnsetNestedValue(
-      $form_state['input'],
+      $form_state->getUserInput(),
       array_merge($element['#parents'], ['_previous_id']));
 
     ConfUtil::confUnsetNestedValue(
-      $form_state['values'],
+      $form_state->getValues(),
       array_merge($element['#parents'], ['_previous_id']));
 
     return $element;

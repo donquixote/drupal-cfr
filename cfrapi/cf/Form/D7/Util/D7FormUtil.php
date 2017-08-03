@@ -4,6 +4,8 @@ namespace Donquixote\Cf\Form\D7\Util;
 
 use Donquixote\Cf\SchemaBase\Options\CfSchemaBase_AbstractOptionsInterface;
 use Donquixote\Cf\Util\UtilBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
 
 class D7FormUtil extends UtilBase {
 
@@ -13,18 +15,22 @@ class D7FormUtil extends UtilBase {
    * Makes the second form element depend on the first, with AJAX.
    *
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    * @param array $form
    *
    * @return array
    */
-  public static function elementsBuildDependency(array $element, array &$form_state, array $form) {
+  public static function elementsBuildDependency(
+    array $element,
+    /** @noinspection PhpUnusedParameterInspection */ FormStateInterface $form_state,
+    /** @noinspection PhpUnusedParameterInspection */ array $form
+  ) {
 
-    $keys = element_children($element);
+    $keys = Element::children($element);
     if (count($keys) < 2) {
       return $element;
     }
-    list($dependedKey, $dependingKey) = element_children($element);
+    list($dependedKey, $dependingKey) = Element::children($element);
     $dependedElement =& $element[$dependedKey];
     $dependingElement =& $element[$dependingKey];
 
@@ -32,8 +38,12 @@ class D7FormUtil extends UtilBase {
       return $element;
     }
 
-    $form_build_id = $form['form_build_id']['#value'];
-    $uniqid = sha1($form_build_id . serialize($element['#parents']));
+    # $form_build_id = $form['form_build_id']['#value'];
+    $uniqid = ''
+      . implode( '--', $element['#parents'])
+      # . '--' . $form_build_id
+      . '--' . $form_state->getFormObject()->getFormId()
+      . '';
 
     // See https://www.drupal.org/node/752056 "AJAX Forms in Drupal 7".
     $dependedElement['#ajax'] = [
@@ -48,6 +58,7 @@ class D7FormUtil extends UtilBase {
     // Special handling of ajax for views.
     /* @see views_ui_edit_form() */
     // See https://www.drupal.org/node/1183418
+    /*
     if (1
       && isset($form_state['view'])
       && module_exists('views_ui')
@@ -61,6 +72,7 @@ class D7FormUtil extends UtilBase {
       # drupal_array_set_nested_value($form_state['values'], $element['#parents'], [], TRUE);
       # drupal_array_set_nested_value($form_state['input'], $element['#parents'], [], TRUE);
     }
+    */
 
     if (empty($dependingElement)) {
       $dependingElement += [
@@ -99,9 +111,13 @@ class D7FormUtil extends UtilBase {
 
     if (NULL !== $id && !self::idExistsInSelectOptions($id, $element['#options'])) {
       $element['#options'][$id] = t("Unknown id '@id'", ['@id' => $id]);
-      $element['#element_validate'][] = function(array $element) use ($id) {
+      $element['#element_validate'][] = function(array $element, FormStateInterface $form_state) use ($id) {
         if ((string)$id === (string)$element['#value']) {
-          form_error($element, t("Unknown id %id. Maybe the id did exist in the past, but it currently does not.", ['%id' => $id]));
+          $form_state->setError(
+            $element,
+            t(
+              "Unknown id %id. Maybe the id did exist in the past, but it currently does not.",
+              ['%id' => $id]));
         }
       };
     }
