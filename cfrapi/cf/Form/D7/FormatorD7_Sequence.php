@@ -6,6 +6,7 @@ use Donquixote\Cf\Schema\Sequence\CfSchema_SequenceInterface;
 use Donquixote\Cf\SchemaToAnything\SchemaToAnythingInterface;
 use Donquixote\Cf\Translator\TranslatorInterface;
 use Donquixote\Cf\Util\ConfUtil;
+use Drupal\Core\Form\FormStateInterface;
 
 class FormatorD7_Sequence implements FormatorD7Interface {
 
@@ -118,11 +119,11 @@ class FormatorD7_Sequence implements FormatorD7Interface {
       # '#tree' => TRUE,
       '#input' => TRUE,
       '#default_value' => $conf,
-      '#_value_callback' => function (array $element, $input, array &$form_state) use ($_this) {
+      '#_value_callback' => function (array $element, $input, FormStateInterface $form_state) use ($_this) {
         return $_this->elementValue($element, $input, $form_state);
       },
       '#process' => [
-        function (array $element, array &$form_state, array $form) use ($_this) {
+        function (array $element, FormStateInterface $form_state, array $form) use ($_this) {
           return $_this->elementProcess(
             $element,
             $form_state,
@@ -130,7 +131,7 @@ class FormatorD7_Sequence implements FormatorD7Interface {
         },
       ],
       '#after_build' => [
-        function (array $element, array &$form_state) use ($_this) {
+        function (array $element, FormStateInterface $form_state) use ($_this) {
           return $_this->elementAfterBuild(
             $element,
             $form_state);
@@ -144,14 +145,14 @@ class FormatorD7_Sequence implements FormatorD7Interface {
   /**
    * @param array $element
    * @param mixed|false $input
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *
    * @return array
    */
   private function elementValue(
     array $element,
     $input,
-    /** @noinspection PhpUnusedParameterInspection */ array &$form_state
+    /** @noinspection PhpUnusedParameterInspection */ FormStateInterface $form_state
   ) {
 
     if (FALSE === $input) {
@@ -165,12 +166,12 @@ class FormatorD7_Sequence implements FormatorD7Interface {
 
   /**
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    * @param array $form
    *
    * @return array
    */
-  private function elementProcess(array $element, array &$form_state, array $form) {
+  private function elementProcess(array $element, FormStateInterface $form_state, array $form) {
 
     $form_build_id = $form['form_build_id']['#value'];
     $elementId = sha1($form_build_id . serialize($element['#parents']));
@@ -187,8 +188,11 @@ class FormatorD7_Sequence implements FormatorD7Interface {
       $conf = [];
     }
 
-    if (isset($form_state['triggering_element']['#parents'])) {
-      $triggering_element_parents = $form_state['triggering_element']['#parents'];
+    if (1
+      && ($triggering_element =& $form_state->getTriggeringElement())
+      && isset($triggering_element['#parents'])
+    ) {
+      $triggering_element_parents = $triggering_element['#parents'];
       $triggering_element_parents_expected = array_merge($element['#parents'], ['addmore']);
       if ($triggering_element_parents_expected === $triggering_element_parents) {
         // The 'addmore' was clicked. Add another item.
@@ -226,23 +230,25 @@ class FormatorD7_Sequence implements FormatorD7Interface {
             // See https://api.drupal.org/api/examples/ajax_example%21ajax_example_graceful_degradation.inc/function/ajax_example_add_more_add_one/7.x-1.x
             function (
               /** @noinspection PhpUnusedParameterInspection */ array $form,
-              array &$form_state
+              FormStateInterface $form_state
             ) {
-              $button = $form_state['triggering_element'];
+              if (!$button =& $form_state->getTriggeringElement()) {
+                return;
+              }
               $parents = array_slice($button['#array_parents'], 0, -1);
               # $delta = end($parents);
               $conf = ConfUtil::confExtractNestedValue(
-                $form_state['values'],
+                $form_state->getValues(),
                 $parents);
               dpm(get_defined_vars(), 'CLOSURE: remove #submit');
               # kdpm($conf, '$conf BEFORE');
               # kdpm($form_state['values'], '$form_state[values] BEFORE');
-              ConfUtil::confUnsetNestedValue($form_state['values'], $parents);
-              ConfUtil::confUnsetNestedValue($form_state['input'], $parents);
+              ConfUtil::confUnsetNestedValue($form_state->getValues(), $parents);
+              ConfUtil::confUnsetNestedValue($form_state->getUserInput(), $parents);
               # kdpm($conf, '$conf AFTER');
               # kdpm($form_state['values'], '$form_state[values] AFTER');
               # kdpm($button, '$button');
-              $form_state['rebuild'] = TRUE;
+              $form_state->setRebuild(TRUE);
             },
           ],
           '#limit_validation_errors' => [$element['#parents']],
@@ -257,7 +263,7 @@ class FormatorD7_Sequence implements FormatorD7Interface {
             ],
             'effect' => 'none',
             // See https://api.drupal.org/api/examples/ajax_example%21ajax_example_graceful_degradation.inc/function/ajax_example_add_more_callback/7.x-1.x
-            'callback' => function(array $form, array $form_state) use ($itemId) {
+            'callback' => function(array $form, FormStateInterface $form_state) use ($itemId) {
               dpm('CLOSURE: remove #ajax callback');
 
               /** @noinspection PhpUndefinedFunctionInspection */
@@ -268,13 +274,13 @@ class FormatorD7_Sequence implements FormatorD7Interface {
                 ],
               ];
             },
-            'callback_' => function(array $form, array $form_state) use ($conf) {
+            'callback_' => function(array $form, FormStateInterface $form_state) use ($conf) {
 
               dpm($conf, 'CONF');
               end($conf);
               $new_item_delta = key($conf);
 
-              $button = $form_state['triggering_element'];
+              $button =& $form_state->getTriggeringElement();
 
               // Go one level up in the form, to the sequence element.
               $element = ConfUtil::confExtractNestedValue(
@@ -306,38 +312,40 @@ class FormatorD7_Sequence implements FormatorD7Interface {
       '#weight' => 10,
       '#submit' => [
         // See https://api.drupal.org/api/examples/ajax_example%21ajax_example_graceful_degradation.inc/function/ajax_example_add_more_add_one/7.x-1.x
-        function (array $form, array &$form_state) {
+        function (array $form, FormStateInterface $form_state) {
           dpm('CLOSURE: addmore #submit');
-          $button = $form_state['triggering_element'];
+          if (NULL === $button =& $form_state->getTriggeringElement()) {
+            return;
+          }
           $parents = array_slice($button['#parents'], 0, -1);
           array_pop($parents);
           $conf = ConfUtil::confExtractNestedValue(
-            $form_state['values'],
+            $form_state->getValues(),
             $parents);
           # kdpm($conf, '$conf BEFORE');
           # kdpm($form_state['values'], '$form_state[values] BEFORE');
           $conf[] = NULL;
           ConfUtil::confSetNestedValue(
-            $form_state['values'],
+            $form_state->getValues(),
             $parents,
             $conf);
           # kdpm($conf, '$conf AFTER');
           # kdpm($form_state['values'], '$form_state[values] AFTER');
           # kdpm($button, '$button');
-          $form_state['rebuild'] = TRUE;
+          $form_state->setRebuild(TRUE);
         },
       ],
       '#limit_validation_errors' => [],
       '#ajax' => [
         // See https://api.drupal.org/api/examples/ajax_example%21ajax_example_graceful_degradation.inc/function/ajax_example_add_more_callback/7.x-1.x
-        'callback' => function(array $form, array $form_state) use ($conf) {
+        'callback' => function(array $form, FormStateInterface $form_state) use ($conf) {
           dpm('CLOSURE: addmore #ajax callback');
           dpm($conf, 'CONF');
 
           end($conf);
           $new_item_delta = key($conf);
 
-          $button = $form_state['triggering_element'];
+          $button =& $form_state->getTriggeringElement();
 
           // Go one level up in the form, to the sequence element.
           $element = ConfUtil::confExtractNestedValue(
@@ -392,17 +400,17 @@ class FormatorD7_Sequence implements FormatorD7Interface {
    * Callback for '#after_build' to clean up empty items in the form value.
    *
    * @param array $element
-   * @param array $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *
    * @return array
    */
   private function elementAfterBuild(
     array $element,
-    array &$form_state)
+    FormStateInterface $form_state)
   {
 
     $conf = ConfUtil::confExtractNestedValue(
-      $form_state['values'],
+      $form_state->getValues(),
       $element['#parents']);
 
     if (!is_array($conf)) {
@@ -422,7 +430,7 @@ class FormatorD7_Sequence implements FormatorD7Interface {
     $conf = array_values($conf);
 
     ConfUtil::confSetNestedValue(
-      $form_state['values'],
+      $form_state->getValues(),
       $element['#parents'],
       $conf);
 
