@@ -4,7 +4,7 @@ namespace Drupal\cfrrealm\DefinitionsByTypeAndId;
 
 use Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface;
 
-class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInterface {
+abstract class DefinitionsByTypeAndId_HookDiscoveryBase implements DefinitionsByTypeAndIdInterface {
 
   /**
    * @var string
@@ -32,7 +32,7 @@ class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInte
   public function getDefinitionsByTypeAndId() {
     $definitions = [];
     $suffix = '_' . $this->hook;
-    foreach (module_implements($this->hook) as $module) {
+    foreach ($this->getImplementingModules($this->hook) as $module) {
       foreach ($this->moduleGetDefinitionsByTypeAndId($module, $suffix) as $type => $definitionsById) {
         foreach ($definitionsById as $id => $definition) {
           if (!isset($definition['module'])) {
@@ -47,6 +47,13 @@ class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInte
     }
     return $definitions;
   }
+
+  /**
+   * @param string $hook
+   *
+   * @return string[]
+   */
+  abstract protected function getImplementingModules($hook);
 
   /**
    * @param string $module

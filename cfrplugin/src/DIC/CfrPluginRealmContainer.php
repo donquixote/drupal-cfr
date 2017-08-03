@@ -2,6 +2,7 @@
 
 namespace Drupal\cfrplugin\DIC;
 
+use Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndId_Empty;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_Callback;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_DefmapDrilldown;
 use Donquixote\Cf\SchemaReplacer\Partial\SchemaReplacerPartial_IfaceDefmap;
@@ -11,7 +12,8 @@ use Drupal\cfrapi\SchemaToConfigurator\Partial\SchemaToConfigurator_Proxy;
 use Drupal\cfrapi\SchemaToConfigurator\SchemaToConfigurator_Sta;
 use Drupal\cfrplugin\TypeToConfigurator\TypeToConfigurator_CfrPlugin;
 use Drupal\cfrrealm\Container\CfrRealmContainerBase;
-use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscovery;
+use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscoveryD7;
+use Drupal\cfrrealm\DefinitionsByTypeAndId\DefinitionsByTypeAndId_HookDiscoveryD8;
 
 class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPluginRealmContainerInterface {
 
@@ -64,7 +66,21 @@ class CfrPluginRealmContainer extends CfrRealmContainerBase implements CfrPlugin
    * @return \Donquixote\Cf\DefinitionsByTypeAndId\DefinitionsByTypeAndIdInterface
    */
   protected function getDefinitionDiscovery() {
-    return new DefinitionsByTypeAndId_HookDiscovery('cfrplugin_info');
+
+    if (function_exists('module_implements')) {
+      return new DefinitionsByTypeAndId_HookDiscoveryD7('cfrplugin_info');
+    }
+
+    if (1
+      && method_exists(\Drupal::class, 'moduleHandler')
+      && ($moduleHandler = \Drupal::moduleHandler())
+    ) {
+      return new DefinitionsByTypeAndId_HookDiscoveryD8(
+        $moduleHandler,
+        'cfrplugin_info');
+    }
+
+    return new DefinitionsByTypeAndId_Empty();
   }
 
   /**
