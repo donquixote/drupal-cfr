@@ -230,6 +230,8 @@ final class ReflectionUtil extends UtilBase {
   public static function &objectGetPropertyValueRef($object, $k, $context = null) {
 
     if (null === $context) {
+      /** @var string|object|null $context */
+      /** @noinspection CallableParameterUseCaseInTypeContextInspection */
       $context = $object;
     }
 
@@ -254,6 +256,8 @@ final class ReflectionUtil extends UtilBase {
   public static function objectGetPropertyValue($object, $k, $context = null) {
 
     if (null === $context) {
+      /** @var string|object|null $context */
+      /** @noinspection CallableParameterUseCaseInTypeContextInspection */
       $context = $object;
     }
 
@@ -279,6 +283,8 @@ final class ReflectionUtil extends UtilBase {
   public static function objectCallMethodArgs($object, $methodName, array $args, $context = null) {
 
     if (null === $context) {
+      /** @var string|object|null $context */
+      /** @noinspection CallableParameterUseCaseInTypeContextInspection */
       $context = $object;
     }
 
