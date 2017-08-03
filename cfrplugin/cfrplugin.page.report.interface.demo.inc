@@ -50,7 +50,7 @@ function _cfrplugin_report_interface_demo_page($interface) {
       $out['object'] = UiDumpUtil::dumpDataInFieldset($object, t('Behavior object'));
     }
     else {
-      kdpm($object, 'Value from Configurator*::confGetValue()');
+      # kdpm($object, 'Value from Configurator*::confGetValue()');
       drupal_set_message(
         t(
           'The @configurator_class::confGetValue() method had an unexpected return value.',
