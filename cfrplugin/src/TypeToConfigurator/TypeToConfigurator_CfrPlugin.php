@@ -55,16 +55,16 @@ class TypeToConfigurator_CfrPlugin implements TypeToConfiguratorInterface {
    */
   private function processConfigurator(ConfiguratorInterface $configurator, $type, CfrContextInterface $context = NULL) {
 
-    if ($configurator instanceof Configurator_IdConfGrandBase) {
-      $configurator = $configurator->withFormProcessCallback(function($element) use ($type, $context) {
-        /* @see cfrplugin_element_info() */
-        $element['#type'] = 'cfrplugin_drilldown_container';
-        $element['#cfrplugin_interface'] = $type;
-        $element['#cfrplugin_context'] = $context;
-        return $element;
-      });
+    if (!$configurator instanceof Configurator_IdConfGrandBase) {
+      return $configurator;
     }
 
-    return $configurator;
+    return $configurator->withFormProcessCallback(function($element) use ($type, $context) {
+      /* @see cfrplugin_element_info() */
+      $element['#type'] = 'cfrplugin_drilldown_container';
+      $element['#cfrplugin_interface'] = $type;
+      $element['#cfrplugin_context'] = $context;
+      return $element;
+    });
   }
 }
