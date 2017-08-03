@@ -84,13 +84,16 @@ final class STAMappersUtil extends UtilBase {
     if (is_callable($candidate)) {
       /** @var callable $candidate */
 
-      $factory = AnnotatedFactory::fromCallable($candidate);
+      $factoryFromCallable = AnnotatedFactory::fromCallable($candidate);
 
-      if (NULL === $factory) {
+      if (NULL === $factoryFromCallable) {
         return NULL;
       }
 
-      return self::factoryCreateSTAs($factory, $paramToValue, FALSE);
+      return self::factoryCreateSTAs(
+        $factoryFromCallable,
+        $paramToValue,
+        FALSE);
     }
 
     return [];
