@@ -1,6 +1,7 @@
 <?php
 
 use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrplugin\Hub\CfrPluginHub;
 use Drupal\cfrplugin\Util\UiCodeUtil;
 use Drupal\cfrplugin\Util\UiDefinitionUtil;
@@ -31,7 +32,7 @@ function _cfrplugin_report_definition_page(array $df) {
     t('Interface'),
     StringUtil::interfaceGenerateLabel($interface)
       . '<br/>'
-      . '<code>' . check_plain($interface) . '</code>'
+      . '<code>' . HtmlUtil::sanitize($interface) . '</code>'
       . '<br/>'
     . l(t('plugins'), 'admin/reports/cfrplugin/' . _cfrplugin_interface_slug($interface))
     . ' | '
@@ -69,8 +70,8 @@ function _cfrplugin_report_definition_page(array $df) {
       t(
         'Object of class !class in namespace !namespace',
         [
-          '!class' => '<pre>' . check_plain($reflObject->getShortName()) . '</pre>',
-          '!namespace' => '<pre>' . check_plain($reflObject->getNamespaceName()) . '</pre>',
+          '!class' => '<pre>' . HtmlUtil::sanitize($reflObject->getShortName()) . '</pre>',
+          '!namespace' => '<pre>' . HtmlUtil::sanitize($reflObject->getNamespaceName()) . '</pre>',
         ]),
     ];
   }
@@ -78,7 +79,7 @@ function _cfrplugin_report_definition_page(array $df) {
 
     $rows[] = [
       t('Problem'),
-      check_plain($e->getMessage()),
+      HtmlUtil::sanitize($e->getMessage()),
     ];
   }
 

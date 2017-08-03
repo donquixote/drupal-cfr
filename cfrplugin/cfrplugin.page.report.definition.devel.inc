@@ -1,6 +1,7 @@
 <?php
 
 use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrplugin\Hub\CfrPluginHub;
 use Drupal\cfrplugin\Util\UiCodeUtil;
 use Drupal\cfrplugin\Util\UiDefinitionUtil;
@@ -32,7 +33,7 @@ function _cfrplugin_report_definition_devel_page(array $df) {
     t('Interface'),
     StringUtil::interfaceGenerateLabel($interface)
       . '<br/>'
-      . '<code>' . check_plain($interface) . '</code>'
+      . '<code>' . HtmlUtil::sanitize($interface) . '</code>'
       . '<br/>'
     . l(t('plugins'), 'admin/reports/cfrplugin/' . _cfrplugin_interface_slug($interface))
     . ' | '

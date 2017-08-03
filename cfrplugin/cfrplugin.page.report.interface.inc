@@ -1,6 +1,7 @@
 <?php
 
 use Donquixote\Cf\DefinitionToSchema\DefinitionToSchema_Mappers;
+use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrplugin\Hub\CfrPluginHub;
 
 /**
@@ -42,7 +43,7 @@ function _cfrplugin_report_interface_page($interface) {
         $definitionToLabel->definitionGetLabel($definition, $key),
         // The $key is already coming from a url fragment, so it is safe.
         $interfacePath . '/plugin/' . $key),
-      '<code>' . check_plain($key) . '</code>',
+      '<code>' . HtmlUtil::sanitize($key) . '</code>',
       l(
         t('Demo'),
         $interfacePath . '/demo',
@@ -68,7 +69,7 @@ function _cfrplugin_report_interface_page($interface) {
     $rows[] = [
       [
         'colspan' => 5,
-        'data' => '<h3>' . check_plain($groupLabel) . '</h3>',
+        'data' => '<h3>' . HtmlUtil::sanitize($groupLabel) . '</h3>',
       ],
     ];
     foreach ($rowsInGroup as $row) {
