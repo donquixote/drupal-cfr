@@ -2,19 +2,21 @@
 
 namespace Drupal\cfrapi\Schema;
 
-use Drupal\cfrapi\Legend\LegendInterface;
+use Donquixote\Cf\Schema\Options\CfSchema_OptionsInterface;
 
 /**
  * A legend to choose a permission from the Drupal permission system.
  *
  * @see \views_plugin_access_perm
  */
-class CfSchema_Options_Permission implements LegendInterface {
+class CfSchema_Options_Permission implements CfSchema_OptionsInterface {
 
   /**
-   * @return mixed[]
+   * @return string[][]
+   *   Format: $[$groupLabel][$optionKey] = $optionLabel,
+   *   with $groupLabel === '' for toplevel options.
    */
-  public function getSelectOptions() {
+  public function getGroupedOptions() {
 
     $module_info = system_get_info('module');
 
@@ -45,7 +47,7 @@ class CfSchema_Options_Permission implements LegendInterface {
       return $permissions[$id]['title'];
     }
 
-    return '(' . t('unknown') . ') ' . $id;
+    return NULL;
   }
 
   /**
