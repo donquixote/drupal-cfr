@@ -231,7 +231,9 @@ class FormatorD7_Sequence implements FormatorD7Interface {
               $button = $form_state['triggering_element'];
               $parents = array_slice($button['#array_parents'], 0, -1);
               # $delta = end($parents);
-              $conf = ConfUtil::confExtractNestedValue($form_state['values'], $parents);
+              $conf = ConfUtil::confExtractNestedValue(
+                $form_state['values'],
+                $parents);
               dpm(get_defined_vars(), 'CLOSURE: remove #submit');
               # kdpm($conf, '$conf BEFORE');
               # kdpm($form_state['values'], '$form_state[values] BEFORE');
@@ -308,11 +310,16 @@ class FormatorD7_Sequence implements FormatorD7Interface {
           $button = $form_state['triggering_element'];
           $parents = array_slice($button['#parents'], 0, -1);
           array_pop($parents);
-          $conf = ConfUtil::confExtractNestedValue($form_state['values'], $parents);
+          $conf = ConfUtil::confExtractNestedValue(
+            $form_state['values'],
+            $parents);
           # kdpm($conf, '$conf BEFORE');
           # kdpm($form_state['values'], '$form_state[values] BEFORE');
           $conf[] = NULL;
-          ConfUtil::confSetNestedValue($form_state['values'], $parents, $conf);
+          ConfUtil::confSetNestedValue(
+            $form_state['values'],
+            $parents,
+            $conf);
           # kdpm($conf, '$conf AFTER');
           # kdpm($form_state['values'], '$form_state[values] AFTER');
           # kdpm($button, '$button');
