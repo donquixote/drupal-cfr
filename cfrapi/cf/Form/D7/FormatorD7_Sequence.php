@@ -139,6 +139,8 @@ class FormatorD7_Sequence implements FormatorD7Interface {
       ],
     ];
 
+    $form['#attached']['library'][] = 'cfrapi/form';
+
     return $form;
   }
 

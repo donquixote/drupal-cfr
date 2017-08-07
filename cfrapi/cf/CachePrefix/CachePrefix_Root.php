@@ -36,4 +36,11 @@ class CachePrefix_Root implements CachePrefixInterface {
   public function withAppendedPrefix($prefix) {
     return new CachePrefix($this->cache, $prefix);
   }
+
+  /**
+   * Clears this section of the cache.
+   */
+  public function clear() {
+    $this->cache->clear();
+  }
 }

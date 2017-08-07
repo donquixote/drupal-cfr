@@ -134,6 +134,8 @@ class FormatorD7_SequenceWithEmptiness implements FormatorD7Interface {
       ],
     ];
 
+    $form['#attached']['library'][] = 'cfrapi/form';
+
     return $form;
   }
 

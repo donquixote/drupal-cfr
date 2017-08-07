@@ -248,6 +248,29 @@ final class ReflectionUtil extends UtilBase {
 
   /**
    * @param object $object
+   * @param string[] $trail
+   *
+   * @return mixed|null
+   */
+  public static function objectGetPropertyValueAtTrail($object, $trail) {
+
+    foreach ($trail as $k) {
+      if (is_object($object)) {
+        $object = self::objectGetPropertyValue($object, $k);
+      }
+      elseif (is_array($object)) {
+        $object = $object[$k];
+      }
+      else {
+        return NULL;
+      }
+    }
+
+    return $object;
+  }
+
+  /**
+   * @param object $object
    * @param string $k
    * @param string|null $context
    *
@@ -270,6 +293,96 @@ final class ReflectionUtil extends UtilBase {
     $bound = $closure->bindTo(null, $context);
 
     return $bound->__invoke($k);
+  }
+
+  /**
+   * @param object $object
+   *
+   * @return mixed[][]
+   *   Format: $[$level][$name] = $value
+   */
+  public static function objectGetPropertyValuesDeep($object) {
+
+    // See https://stackoverflow.com/a/17560595/246724
+    $closure = function & ($k) use ($object) {
+      // Using $object instead of $this, to prevent IDE warnings.
+      return $object->$k;
+    };
+
+    $bound = $closure->bindTo(null, $object);
+
+    $reflObject = new \ReflectionObject($object);
+
+    $valuess = [];
+    foreach ($reflObject->getProperties() as $property) {
+
+      if ($property->isStatic()) {
+        continue;
+      }
+
+      $k = $property->getName();
+      $valuess[0][$k] = &$bound->__invoke($k);
+    }
+
+    $reflClass = $reflObject;
+
+    $level = 0;
+    while ($reflClass = $reflClass->getParentClass()) {
+      ++$level;
+      $bound = $closure->bindTo(null, $reflClass->getName());
+      foreach ($reflClass->getProperties(\ReflectionProperty::IS_PRIVATE) as $property) {
+
+        if ($property->isStatic()) {
+          continue;
+        }
+
+        $k = $property->getName();
+
+        $valuess[$level][$k] = &$bound->__invoke($k);
+      }
+    }
+
+    return $valuess;
+  }
+
+  /**
+   * @param string $class
+   * @param mixed[] $values
+   * @param mixed[][] $privateParentValues
+   *   Format: $[$level][$name] = $value
+   *
+   * @return object
+   */
+  public static function createInstance($class, array $values, array $privateParentValues = []) {
+
+    $reflClass = new \ReflectionClass($class);
+    $object = $reflClass->newInstanceWithoutConstructor();
+
+    $setValuesUnbound = function(array $values) use ($object) {
+      foreach ($values as $k => $v) {
+        $object->$k = $v;
+      }
+    };
+
+    if ([] !== $values) {
+      $setValues = $setValuesUnbound->bindTo(null, $reflClass->getName());
+      $setValues($values);
+    }
+
+    if ([] === $privateParentValues) {
+      return $object;
+    }
+
+    $i = 0;
+    while ($reflClass = $reflClass->getParentClass()) {
+      ++$i;
+      if (!empty($valuess[$i])) {
+        $setValues = $setValuesUnbound->bindTo(null, $reflClass->getName());
+        $setValues($valuess[$i]);
+      }
+    }
+
+    return $object;
   }
 
   /**

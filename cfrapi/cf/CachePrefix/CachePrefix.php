@@ -43,4 +43,11 @@ class CachePrefix implements CachePrefixInterface {
   public function withAppendedPrefix($prefix) {
     return new self($this->cache, $this->prefix . $prefix);
   }
+
+  /**
+   * Clears this section of the cache.
+   */
+  public function clear() {
+    $this->cache->clear($this->prefix);
+  }
 }

@@ -18,4 +18,9 @@ interface CachePrefixInterface {
    */
   public function withAppendedPrefix($prefix);
 
+  /**
+   * Clears this section of the cache.
+   */
+  public function clear();
+
 }

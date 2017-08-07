@@ -5,6 +5,46 @@ namespace Donquixote\Cf\Util;
 final class StringUtil extends UtilBase {
 
   /**
+   * @param string $search
+   * @param string $delim
+   * @param string[] $replacements
+   *
+   * @return string
+   */
+  public static function regex($search, $delim, array $replacements = []) {
+    $regex = preg_quote($search, $delim);
+    $regex = strtr($regex, $replacements);
+    return $delim . $regex . $delim;
+  }
+
+  /**
+   * @param string $haystack
+   * @param string $needle
+   *
+   * @return bool
+   */
+  public static function startsWith($haystack, $needle) {
+    return 0 === strncmp($haystack, $needle, strlen($needle));
+  }
+
+  /**
+   * @param string $haystack
+   * @param string $needle
+   *
+   * @return string|false
+   */
+  public static function clipPrefixOrFalse($haystack, $needle) {
+
+    $l = strlen($needle);
+
+    if (0 !== strncmp($haystack, $needle, $l)) {
+      return FALSE;
+    }
+
+    return substr($haystack, $l);
+  }
+
+  /**
    * Credits:
    *   - Charl van Niekerk,
    *     http://blog.charlvn.za.net/2007/11/php-camelcase-explode-20.html

@@ -18,4 +18,9 @@ interface CacheInterface {
    */
   public function set($key, $value);
 
+  /**
+   * @param string $prefix
+   */
+  public function clear($prefix = '');
+
 }

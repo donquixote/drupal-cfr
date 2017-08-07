@@ -115,6 +115,8 @@ class FormatorD7_Drilldown implements FormatorD7Interface, OptionableFormatorD7I
 
     $form['id']['#attributes']['class'][] = 'cfr-drilldown-select';
 
+    $form['#attached']['library'][] = 'cfrapi/form';
+
     return $form;
   }
 

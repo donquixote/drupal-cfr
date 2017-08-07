@@ -89,6 +89,8 @@ class FormatorD7_IfaceTagged implements FormatorD7Interface, OptionableFormatorD
     $form['#cfrplugin_interface'] = $this->schema->getInterface();
     $form['#cfrplugin_context'] = $this->schema->getContext();
 
+    $form['#attached']['library'][] = 'cfrplugin/drilldown-tools';
+
     return $form;
   }
 }

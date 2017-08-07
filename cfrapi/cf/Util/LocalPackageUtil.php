@@ -13,6 +13,20 @@ final class LocalPackageUtil extends UtilBase {
   /**
    * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
    *
+   * @return \Donquixote\Cf\ATA\Partial\ATAPartialInterface[]
+   */
+  public static function collectATAPartials(ParamToValueInterface $paramToValue) {
+
+    $factoriesIA = self::getAnnotatedFactoriesIA('ATA');
+
+    return ATAMappersUtil::collectATAPartials(
+      $factoriesIA,
+      $paramToValue);
+  }
+
+  /**
+   * @param \Donquixote\Cf\ParamToValue\ParamToValueInterface $paramToValue
+   *
    * @return \Donquixote\Cf\SchemaToAnything\Partial\SchemaToAnythingPartialInterface[]
    */
   public static function collectSTAPartials(ParamToValueInterface $paramToValue) {

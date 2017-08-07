@@ -50,5 +50,7 @@ function cfrplugin_admin_menu_cache_info() {
  * Callback for admin_menu cache clearing.
  */
 function _cfrplugin_info_cache_clear() {
-  cache_clear_all('cfrplugin:', 'cache', TRUE);
+  if (NULL !== $cacheSection = CfrPluginHub::getContainer()->cacheRootOrNull) {
+    $cacheSection->clear();
+  }
 }

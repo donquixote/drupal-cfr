@@ -49,7 +49,7 @@ class DefinitionToLabel_FromModuleName implements DefinitionToLabelInterface {
    */
   private function moduleFindLabel($module) {
     if (NULL === $this->modulesInfo) {
-      $this->modulesInfo = system_get_info('module_enabled');
+      $this->modulesInfo = system_get_info('module');
     }
     return isset($this->modulesInfo[$module]['name'])
       ? $this->modulesInfo[$module]['name']

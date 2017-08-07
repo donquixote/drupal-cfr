@@ -79,6 +79,8 @@ class FormatorD7_Group implements FormatorD7Interface {
       $form[$key] = $itemFormator->confGetD7Form($itemConf, $itemLabel);
     }
 
+    $form['#attached']['library'][] = 'cfrapi/form';
+
     return $form;
   }
 }

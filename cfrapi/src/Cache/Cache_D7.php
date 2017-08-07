@@ -45,4 +45,12 @@ class Cache_D7 implements CacheInterface {
     /** @noinspection PhpUndefinedFunctionInspection */
     cache_set($key, $value, $this->bin);
   }
+
+  /**
+   * @param string $prefix
+   */
+  public function clear($prefix = '') {
+    /** @noinspection PhpUndefinedFunctionInspection */
+    cache_clear_all($prefix, $this->bin, TRUE);
+  }
 }

@@ -9,7 +9,7 @@ class ClassFileDiscovery implements ClassFileDiscoveryInterface {
   /**
    * See http://php.net/manual/en/language.oop5.basic.php
    */
-  const CLASS_NAME_REGEX = '/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)(|\.php)$/';
+  const CLASS_NAME_REGEX = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
 
   /**
    * @param string $directory

@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrplugin\Util;
 
-use Donquixote\CallbackReflection\Util\CallbackUtil;
+use Donquixote\Cf\Util\CallbackUtil;
 use Drupal\cfrapi\Util\UtilBase;
 
 final class UiDefinitionUtil extends UtilBase {

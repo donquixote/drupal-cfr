@@ -2,6 +2,7 @@
 
 namespace Donquixote\Cf\Translator;
 
+use Donquixote\Cf\Markup\MarkupInterface;
 use Donquixote\Cf\Translator\Lookup\TranslatorLookup_Passthru;
 use Donquixote\Cf\Translator\Lookup\TranslatorLookupInterface;
 use Donquixote\Cf\Util\HtmlUtil;
@@ -64,14 +65,22 @@ class Translator implements TranslatorInterface {
 
     // Transform arguments before inserting them.
     foreach ($replacements as $key => $value) {
-      switch ($key[0]) {
-        case '@':
-          // Escaped only.
-          $replacements[$key] = HtmlUtil::sanitize($value);
-          break;
 
-        case '!':
-          // Pass-through.
+      if ($value instanceof MarkupInterface) {
+        $replacements[$key] = $value->__toString();
+      }
+      elseif (is_string($value)) {
+        switch ($key[0]) {
+          case '!':
+            // Unfiltered.
+          case '@':
+          default:
+            // Escaped only.
+            $replacements[$key] = HtmlUtil::sanitize($value);
+        }
+      }
+      else {
+        $replacements[$key] = '';
       }
     }
 

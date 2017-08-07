@@ -4,6 +4,7 @@ namespace Drupal\cfrplugin\Util;
 
 use Donquixote\Cf\Util\HtmlUtil;
 use Drupal\cfrapi\Util\UtilBase;
+use Drupal\Core\Render\Markup;
 
 final class UiDumpUtil extends UtilBase {
 
@@ -28,16 +29,16 @@ final class UiDumpUtil extends UtilBase {
     $rows[] = [
       t('Exception'),
       t(
-        '!class thrown in line %line of !file',
+        '@class thrown in line %line of @file',
         [
-          '!class' => ''
+          '@class' => Markup::create(''
             . '<code>' . HtmlUtil::sanitize($e_class_reflection->getShortName()) . '</code>'
-            . '<br/>',
+            . '<br/>'),
           '%line' => $e->getLine(),
-          '!file' => ''
+          '@file' => Markup::create(''
             . '<code>' . HtmlUtil::sanitize(basename($file)) . '</code>'
             . '<br/>'
-            . '<code>' . HtmlUtil::sanitize($file) . '</code>',
+            . '<code>' . HtmlUtil::sanitize($file) . '</code>'),
         ]),
     ];
 
@@ -126,7 +127,9 @@ final class UiDumpUtil extends UtilBase {
     $element = [];
 
     if (function_exists('dpm')) {
-      $element['dump']['#markup'] = krumo_ob($data);
+      /** @var \Drupal\devel\DevelDumperManagerInterface $dumper */
+      $dumper = \Drupal::service('devel.dumper');
+      $element['dump'] = $dumper->exportAsRenderable($data);
     }
     else {
       $element['notice']['#markup'] = t('No dump utility available. Install devel.');
@@ -152,8 +155,8 @@ final class UiDumpUtil extends UtilBase {
 
     if (is_object($v)) {
       return t(
-        'Object of class !class.',
-        ['!class' => '<code>' . get_class($v) . '</code>']
+        'Object of class @class.',
+        ['@class' => Markup::create('<code>' . get_class($v) . '</code>')]
       );
     }
 

@@ -33,11 +33,6 @@ class FormElement_CfSchema extends FormElement {
       // This needs to be set.
       '#cf_schema' => NULL,
       '#title' => NULL,
-      '#attached' => [
-        'library' => [
-          'cfrapi/form',
-        ],
-      ],
     ];
   }
 

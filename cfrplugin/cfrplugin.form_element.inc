@@ -115,7 +115,7 @@ function _cfrplugin_pre_render_drilldown_container(array $element) {
 
   # $tools[]['#markup'] = '<strong>' . check_plain($interface_label) . '</strong>';
 
-  if (user_access('view cfrplugin report')) {
+  if (\Drupal::currentUser()->hasPermission('view cfrplugin report')) {
 
     $tools['inspect'] = [
       '#markup' => l(

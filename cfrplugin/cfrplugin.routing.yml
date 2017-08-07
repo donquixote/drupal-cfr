@@ -1,0 +1,6 @@
+
+cfrplugin_annotations:
+  path:
+  options:
+    type: annotation
+    module: cfrplugin

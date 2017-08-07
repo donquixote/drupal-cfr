@@ -63,7 +63,7 @@ function _cfrplugin_report_definition_page(array $df) {
     $schema = $definitionToSchema->definitionGetSchema($definition);
     $configurator = $schemaToConfigurator->schemaGetConfigurator($schema);
 
-    $reflObject = new ReflectionObject($configurator);
+    $reflObject = new \ReflectionObject($configurator);
 
     $rows[] = [
       t('Configurator'),

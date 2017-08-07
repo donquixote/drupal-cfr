@@ -2,12 +2,19 @@
 
 namespace Donquixote\Cf\Util;
 
+use Donquixote\CallbackReflection\Exception\GeneratedCodeException;
 use Donquixote\CallbackReflection\Util\CodegenUtil;
 use Donquixote\Cf\Exception\EvaluatorException_IncompatibleConfiguration;
 use Donquixote\Cf\Exception\EvaluatorException_UnsupportedSchema;
 use Donquixote\Cf\Schema\CfSchemaInterface;
 
 class PhpUtil extends UtilBase {
+
+  const REGEX_IDENTIFIER_CHAR_FIRST = '[a-zA-Z_\x7f-\xff]';
+  const REGEX_IDENTIFIER_CHAR_OTHER = '[a-zA-Z0-9_\x7f-\xff]';
+  const REGEX_IDENTIFIER_PATTERN = self::REGEX_IDENTIFIER_CHAR_FIRST . self::REGEX_IDENTIFIER_CHAR_OTHER . '*';
+  const REGEX_IDENTIFIER = '/^' . self::REGEX_IDENTIFIER_PATTERN . '$/';
+  const REGEX_NAMESPACE = '/^(?:' . self::REGEX_IDENTIFIER_PATTERN . '\\\\)*' . self::REGEX_IDENTIFIER_PATTERN . '$/';
 
   /**
    * @param string $php
@@ -187,7 +194,7 @@ EOT;
    * @return string
    */
   public static function phpCallFunction($function, array $argsPhp) {
-    return $function . '(' . self::phpCallArglist($argsPhp) . ')';
+    return $function . '(' . "\n" . self::phpCallArglist($argsPhp) . ')';
   }
 
   /**
@@ -196,7 +203,91 @@ EOT;
    * @return string
    */
   public static function phpCallArglist(array $argsPhp) {
-    return implode(', ', $argsPhp);
+    return implode(",\n", $argsPhp);
+  }
+
+  /**
+   * @param mixed $value
+   *
+   * @return string
+   */
+  public static function phpValue($value) {
+
+    if (is_array($value)) {
+
+      $valuesPhp = [];
+      foreach ($value as $k => $v) {
+        $valuesPhp[$k] = self::phpValue($v);
+      }
+
+      return self::phpArray($valuesPhp);
+    }
+
+    if (is_object($value)) {
+      return self::phpObject($value);
+    }
+
+    if (is_string($value)) {
+      return self::phpString($value);
+    }
+
+    return var_export($value, TRUE);
+  }
+
+  /**
+   * @param object $object
+   *
+   * @return mixed|string
+   */
+  public static function phpObject($object) {
+
+    if ($object instanceof \stdClass) {
+      return '(object)' . self::phpArray((array)$object);
+    }
+
+    if ($object instanceof \Closure) {
+      return self::exception(
+        GeneratedCodeException::class,
+        'Cannot export closure.');
+    }
+
+    $valuess = ReflectionUtil::objectGetPropertyValuesDeep($object) + [0 => []];
+    $values = $valuess[0];
+    unset($valuess[0]);
+
+    $argsPhp = [
+      '\\' . get_class($object) . '::class',
+      self::phpValue($values),
+    ];
+
+    if ([] !== $valuess) {
+      $argsPhp[] = self::phpValue($valuess);
+    }
+
+    return self::phpCallFunction(
+      /* @see \Donquixote\Cf\Util\ReflectionUtil::createInstance() */
+      '\\' . ReflectionUtil::class . '::createInstance',
+      $argsPhp);
+  }
+
+  /**
+   * @param string $string
+   *
+   * @return string
+   */
+  public static function phpString($string) {
+
+    /*
+    if (false !== strpos($string, '\\')) {
+      if (preg_match(self::REGEX_NAMESPACE, $string)) {
+        if (class_exists($string)) {
+          return '\\' . $string . '::class';
+        }
+      }
+    }
+    */
+
+    return var_export($string, TRUE);
   }
 
   /**

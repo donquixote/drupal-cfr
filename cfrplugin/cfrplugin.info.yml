@@ -9,3 +9,4 @@ dependencies:
   - cfrfamily
   - cfrrealm
   - cfrreflection
+  - controller_annotations

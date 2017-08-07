@@ -1,0 +1,11 @@
+services:
+  cfrplugin.converter.iface:
+    class: Drupal\cfrplugin\ParamConverter\ParamConverter_Iface
+    # arguments: ['@language_manager']
+    tags:
+      - { name: paramconverter }
+    # lazy: true
+  cfrplugin.converter.definition:
+    class: Drupal\cfrplugin\ParamConverter\ParamConverter_PluginDefinition
+    tags:
+      - { name: paramconverter }

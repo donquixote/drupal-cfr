@@ -1,0 +1,9 @@
+drilldown-tools:
+  version: 1.x
+  css:
+    layout:
+      css/cfrplugin.drilldown-tools.css: {}
+  js:
+    js/cfrplugin.drilldown-tools.js: {}
+  dependencies:
+    - core/jquery
