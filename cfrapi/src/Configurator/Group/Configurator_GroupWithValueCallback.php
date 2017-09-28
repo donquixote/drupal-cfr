@@ -49,6 +49,10 @@ class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
 
     $callbackReflection = CallbackUtil::callableGetCallback($this->valueCallback);
 
+    if (NULL === $callbackReflection) {
+      return $helper->notSupported($this, $conf, "Callback is not valid");
+    }
+
     return $callbackReflection->argsPhpGetPhp([$php], $helper);
   }
 
