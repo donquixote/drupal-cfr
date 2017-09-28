@@ -221,7 +221,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
   }
 
   /**
-   * @param string $id
+   * @param string|int $id
    * @param string|null $label
    *
    * @return array
