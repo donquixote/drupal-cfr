@@ -23,7 +23,7 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase {
    */
   public static function createFromClassName($className) {
     $callback = CallbackReflection_ClassConstruction::createFromClassName($className);
-    return new Configurator_CallbackSimple($callback);
+    return new self($callback);
   }
 
   /**
@@ -36,7 +36,7 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase {
     if (NULL === $callback) {
       return NULL;
     }
-    return new Configurator_CallbackSimple($callback);
+    return new self($callback);
   }
 
   /**

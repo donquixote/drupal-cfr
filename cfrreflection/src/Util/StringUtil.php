@@ -88,7 +88,7 @@ final class StringUtil extends UtilBase {
     if ('Interface' === substr($title, -9) && 'Interface' !== $title) {
       $title = substr($title, 0, -9);
     }
-    return StringUtil::methodNameGenerateLabel($title);
+    return self::methodNameGenerateLabel($title);
   }
 
   /**
@@ -108,7 +108,7 @@ final class StringUtil extends UtilBase {
    * @return string
    */
   public static function methodNameGenerateLabel($methodName) {
-    return ucfirst(StringUtil::camelCaseExplode($methodName, TRUE, 'AA Bc', ' '));
+    return ucfirst(self::camelCaseExplode($methodName, TRUE, 'AA Bc', ' '));
   }
 
 }

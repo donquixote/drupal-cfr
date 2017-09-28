@@ -22,7 +22,7 @@ final class CfrReflectionUtil extends UtilBase {
       throw new InvalidConfigurationException("Non-array callback arguments");
     }
 
-    CfrReflectionUtil::callbackAssertValidArgs($callback, $args);
+    self::callbackAssertValidArgs($callback, $args);
 
     try {
       return $callback->invokeArgs($args);
