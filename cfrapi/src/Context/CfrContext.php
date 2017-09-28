@@ -7,7 +7,7 @@ class CfrContext implements CfrContextInterface {
   /**
    * @var mixed[]
    */
-  private $values = [];
+  private $values;
 
   /**
    * @var string|null

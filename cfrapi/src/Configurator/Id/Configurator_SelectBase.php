@@ -13,7 +13,7 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
   /**
    * @var bool
    */
-  private $required = TRUE;
+  private $required;
 
   /**
    * @var string|null
