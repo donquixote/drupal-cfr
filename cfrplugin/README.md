@@ -1,12 +1,35 @@
+# CfrPlugin
 
+The "Configurator plugin API" exposes atomic behavior objects as "plugins" for a site builder.
 
+Ideas:
+
+- PHP interfaces that represent atomic behavior types (in Drupal).
+- PHP classes that implement those interfaces, representing atomic behaviors.
+- Decorators, adapters etc that allow to create larger compositions from atomic behaviors of various types.
+- Machine names and labels that expose these behaviors to a site builder, usually from annotated classes or annotated static methods.
+- Reusable form components with factories ("configurators") that allow a site builder to build behavior compositions.
+- A system to save partial configurations as presets. 
+- Integration code that allow to use these behaviors in various Drupal subsystems such as Views, entity view modes, blocks, etc.
+
+The system has some similarities to the Drupal 8 plugin system, but it also has some fundamental differences:
+
+- In the Drupal 8 core plugin API, a plugin type needs a "plugin manager" class. Here, it just needs an interface.
+- In the Drupal 8 core plugin API, a plugin class has to manage its own configuration, and provide a configuration form. Here, a plugin is split into a behavior object and a configurator object.  
+ 
 ## Plugin types
 
-In cfrplugin, every interface is automatically a plugin type.
+In cfrplugin, every interface can be used as a plugin type. Preferably, those interfaces should have a small number of simple methods, e.g. 1 or 2 of them.
+
+To get started, a lot of plugin types are provided by [renderkit](https://drupal.org/project/renderkit). E.g. [EntityDisplay*](https://github.com/donquixote/drupal-renderkit/blob/7.x-1.x/src/EntityDisplay/EntityDisplayInterface.php) or [ListFormat*](https://github.com/donquixote/drupal-renderkit/blob/7.x-1.x/src/ListFormat/ListFormatInterface.php).
 
 ## Plugins
 
-A plugin of a type is an id (machine name) and label associated with one of the following
+A plugin for a type, in simplified terms, is an instance of the respective interface that is annotated as a plugin.
+ 
+Of course, one does not actually annotate the instance, but rather a class that implements the interface, or a static method that returns an instance of a class that implements the interface.  
+
+More precisely: A plugin of a type is an id (machine name) and label associated with one of the following:
 
 - a class that implements the plugin type's interface
 - a static method that returns an object implementing the type's interface.
