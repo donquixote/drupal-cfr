@@ -43,8 +43,15 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
       '#title' => $label,
       '#type' => 'select',
       '#options' => $this->getSelectOptions(),
-      '#default_value' => $this->confGetId($conf),
+      '#default_value' => $id = $this->confGetId($conf),
     ];
+
+    if (NULL !== $id && !$this->idIsKnown($id)) {
+      $form['#options'][$id] = t("Unknown id '@id'", ['@id' => $id]);
+      $form['#illegal_options'][$id] = true;
+      /* @see elementValidateOrphanId() */
+      $form['#element_validate'][] = [self::class, 'elementValidateOrphanId'];
+    }
 
     if ($this->required) {
       $form['#required'] = TRUE;
@@ -54,6 +61,20 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
     }
 
     return $form;
+  }
+
+  /**
+   * @param array $element
+   */
+  public static function elementValidateOrphanId(array $element) {
+    $id = $element['#value'];
+    if (!empty($element['#illegal_options'][$id])) {
+      form_error(
+        $element,
+        t(
+          "Unknown id %id. Maybe the id did exist in the past, but it currently does not.",
+          ['%id' => $id]));
+    }
   }
 
   /**
