@@ -59,7 +59,7 @@ function cfrplugin_menu() {
   ];
 
   /* @see _cfrplugin_definition_load() */
-  $items[$interface_base . '/plugin/%_cfrplugin_definition'] = [
+  $items[$plugin_base = $interface_base . '/plugin/%_cfrplugin_definition'] = [
     'type' => MENU_NORMAL_ITEM,
     'load arguments' => [3],
     'access arguments' => [$perm],
@@ -70,6 +70,24 @@ function cfrplugin_menu() {
     'page callback' => '_cfrplugin_report_definition_page',
     'page arguments' => [5],
     'file' => 'cfrplugin.page.report.definition.inc',
+  ];
+
+  $items[$plugin_base . '/definition'] = [
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'load arguments' => [3],
+    'title' => 'Definition',
+    'weight' => -10,
+  ];
+
+  $items[$plugin_base . '/code'] = [
+    'type' => MENU_LOCAL_TASK,
+    'load arguments' => [3],
+    'access arguments' => [$perm],
+    'title' => 'Code',
+    /* @see _cfrplugin_report_definition_code_page() */
+    'page callback' => '_cfrplugin_report_definition_code_page',
+    'page arguments' => [5],
+    'file' => 'cfrplugin.page.report.definition.code.inc',
   ];
 
   return $items;
