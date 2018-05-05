@@ -13,9 +13,15 @@ final class UiUtil extends UtilBase {
    */
   public static function classGetPhp($class) {
 
-    $reflectionClass = new \ReflectionClass($class);
+    try {
+      $reflectionClass = new \ReflectionClass($class);
+    }
+    catch (\ReflectionException $e) {
+      return NULL;
+    }
 
     $filename = $reflectionClass->getFileName();
+
     if (FALSE === $filename || !is_readable($filename)) {
       return NULL;
     }
