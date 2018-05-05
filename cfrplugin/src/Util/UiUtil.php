@@ -30,16 +30,16 @@ final class UiUtil extends UtilBase {
   }
 
   /**
-   * @param string $text
+   * @param string $php
    *
    * @return string
    *
    * @see codefilter_process_php()
    */
-  public static function highlightPhp($text) {
+  public static function highlightPhp($php) {
     // Note, pay attention to odd preg_replace-with-/e behaviour on slashes.
     // Undo possible linebreak filter conversion.
-    $text = preg_replace('@</?(br|p)\s*/?>@', '', str_replace('\"', '"', $text));
+    $text = preg_replace('@</?(br|p)\s*/?>@', '', str_replace('\"', '"', $php));
     // Undo the escaping in the prepare step.
     $text = decode_entities($text);
     // Trim leading and trailing linebreaks.
