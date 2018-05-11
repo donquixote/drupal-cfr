@@ -62,3 +62,48 @@ function _cfrapi_depended_element_ajax_callback(
 ) {
   return $form_state['triggering_element']['#depending_element_reference'];
 }
+
+/**
+ * @param array $element
+ * @param mixed $input
+ * @param array $form_state
+ *
+ * @return mixed
+ */
+function _cfrapi_generic_value_callback(array $element, $input = false, array &$form_state) {
+
+  if (1
+    && null !== ($value_callback = $element['#cfrapi_value_callback'] ?? null)
+    && is_callable($value_callback)
+  ) {
+    // @todo Is this sufficient?
+    return $value_callback($element, $input, $form_state);
+  }
+
+  if (false === $input) {
+    return $element['#default_value'] ?? null;
+  }
+
+  return $input;
+}
+
+/**
+ * @param array $element
+ *
+ * @return array
+ */
+function _cfrapi_generic_pre_render(array $element) {
+
+  if (1
+    && null !== ($pre_render_callbacks = $element['#cfrapi_pre_render'] ?? null)
+    && is_array($pre_render_callbacks)
+  ) {
+    foreach ($pre_render_callbacks as $pre_render_callback) {
+      if (is_callable($pre_render_callback)) {
+        $element = $pre_render_callback($element);
+      }
+    }
+  }
+
+  return $element;
+}
