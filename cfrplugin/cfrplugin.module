@@ -50,5 +50,15 @@ function cfrplugin_admin_menu_cache_info() {
  * Callback for admin_menu cache clearing.
  */
 function _cfrplugin_info_cache_clear() {
+
+  $implementations = &drupal_static('module_implements');
+  if (isset($implementations['cfrplugin_info'])) {
+    // Reset the cache for module_implements('cfrplugin_info'), but not for
+    // other hooks.
+    unset($implementations['cfrplugin_info']);
+    module_implements('cfrplugin_info');
+    module_implements_write_cache();
+  }
+
   cache_clear_all('cfrplugin:', 'cache', TRUE);
 }
