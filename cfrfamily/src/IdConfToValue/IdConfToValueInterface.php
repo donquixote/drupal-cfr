@@ -11,6 +11,8 @@ interface IdConfToValueInterface {
    * @param mixed $conf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function idConfGetValue($id, $conf);
 
