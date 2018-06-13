@@ -91,7 +91,8 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
   public function confGetForm($conf, $label) {
 
     if (!is_array($conf)) {
-      $conf = [];
+      // Always start with one stub item.
+      $conf = [NULL];
     }
 
     $obj = $this;
@@ -142,10 +143,9 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
       return $element['#default_value'] ?? [];
     }
 
-    /** @noinspection CallableParameterUseCaseInTypeContextInspection */
     if (!is_array($input)) {
-      /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-      $input = [];
+      // Always start with one item.
+      $input = [NULL];
     }
 
     $element_name = $element['#name'];
