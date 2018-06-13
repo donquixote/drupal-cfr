@@ -51,7 +51,7 @@ final class BacktraceUtil extends UtilBase {
   private static function reverseTraceDiff(array $trace, array $othertrace) {
 
     for ($i = 0;; ++$i) {
-      if (!isset($trace[$i]) || !isset($othertrace[$i])) {
+      if (!isset($trace[$i], $othertrace[$i])) {
         break;
       }
       // @todo Is this comparison reliable and sufficient?
