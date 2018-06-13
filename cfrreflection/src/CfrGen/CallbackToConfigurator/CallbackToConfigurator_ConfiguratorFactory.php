@@ -42,8 +42,7 @@ class CallbackToConfigurator_ConfiguratorFactory implements CallbackToConfigurat
     if ($configuratorCandidate instanceof ConfiguratorInterface) {
       return $configuratorCandidate;
     }
-    else {
-      return NULL;
-    }
+
+    return NULL;
   }
 }

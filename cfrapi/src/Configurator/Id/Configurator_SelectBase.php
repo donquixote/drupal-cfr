@@ -144,9 +144,8 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
       if ($this->required) {
         return $helper->incompatibleConfiguration($conf, "Required id missing.");
       }
-      else {
-        return var_export(NULL, TRUE);
-      }
+
+      return var_export(NULL, TRUE);
     }
     elseif (!is_string($conf)) {
       return $helper->incompatibleConfiguration($conf, "Id must be a string or integer.");

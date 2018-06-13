@@ -36,9 +36,8 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
       $this->optionsBuffer = $result;
       return array_key_exists($id, $this->optionsBuffer);
     }
-    else {
-      return FALSE !== $result && NULL !== $result;
-    }
+
+    return FALSE !== $result && NULL !== $result;
   }
 
   /**
@@ -70,11 +69,11 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
       $this->optionsBuffer = $result;
       return array_key_exists($id, $this->optionsBuffer);
     }
-    elseif (is_string($result)) {
+
+    if (is_string($result)) {
       return $result;
     }
-    else {
-      return NULL;
-    }
+
+    return NULL;
   }
 }

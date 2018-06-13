@@ -17,15 +17,16 @@ final class FormUtil extends UtilBase {
     if (!isset($array[$first_key])) {
       return NULL;
     }
-    elseif ([] === $trail_of_keys) {
+
+    if ([] === $trail_of_keys) {
       return $array[$first_key];
     }
-    elseif (!is_array($array[$first_key])) {
+
+    if (!is_array($array[$first_key])) {
       return NULL;
     }
-    else {
-      return self::arrayGetNestedValue($array[$first_key], $trail_of_keys);
-    }
+
+    return self::arrayGetNestedValue($array[$first_key], $trail_of_keys);
   }
 
   /**

@@ -52,14 +52,16 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
     if (0 === $nParams = count($params)) {
       return new Configurator_CallbackSimple($valueCallback);
     }
-    elseif (1 === $nParams) {
+
+    if (1 === $nParams) {
       $param = reset($params);
       $argConfigurator = $this->paramToConfigurator->paramGetConfigurator($param, $context);
       $paramLabel = $this->paramToLabel->paramGetLabel($param);
       if ($argConfigurator instanceof InlineableConfiguratorInterface) {
         return new Configurator_CallbackInlineable($valueCallback, $argConfigurator, $paramLabel);
       }
-      elseif ($argConfigurator instanceof ConfiguratorInterface) {
+
+      if ($argConfigurator instanceof ConfiguratorInterface) {
         # return new Configurator_CallbackMono($valueCallback, $argConfigurator);
       }
       else {

@@ -345,9 +345,8 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
       if ($this->required) {
         throw new InvalidConfigurationException("Required id missing.");
       }
-      else {
-        return $this->defaultValue;
-      }
+
+      return $this->defaultValue;
     }
 
     $value = $this->idConfGetValue($id, $optionsConf);
@@ -375,9 +374,8 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
       if ($this->required) {
         return $helper->incompatibleConfiguration($conf, "Required id missing.");
       }
-      else {
-        return $helper->export($this->defaultValue);
-      }
+
+      return $helper->export($this->defaultValue);
     }
 
     $php = $this->idConfGetPhp($id, $optionsConf, $helper);
@@ -456,9 +454,8 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
     if (!isset($conf[$this->optionsKey])) {
       return [$id, NULL];
     }
-    else {
-      return [$id, $conf[$this->optionsKey]];
-    }
+
+    return [$id, $conf[$this->optionsKey]];
   }
 
   /**

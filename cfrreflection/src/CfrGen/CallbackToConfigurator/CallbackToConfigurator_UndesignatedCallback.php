@@ -26,9 +26,8 @@ class CallbackToConfigurator_UndesignatedCallback implements CallbackToConfigura
     if ($configuratorOrValue instanceof ConfiguratorInterface) {
       return $configuratorOrValue;
     }
-    else {
-      // @todo Check if the value implements a specific interface.
-      return new Configurator_FixedValue($configuratorOrValue);
-    }
+
+    // @todo Check if the value implements a specific interface.
+    return new Configurator_FixedValue($configuratorOrValue);
   }
 }

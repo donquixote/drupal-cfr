@@ -50,11 +50,11 @@ class Configurator_FixedValue extends Configurator_OptionlessBase {
       $type = gettype($this->fixedValue);
       return $helper->notSupported($this, $conf, "This fixed value of type '$type' does not support code generation.");
     }
-    elseif (NULL === $this->php) {
+
+    if (NULL === $this->php) {
       return $helper->export($this->fixedValue);
     }
-    else {
-      return $this->php;
-    }
+
+    return $this->php;
   }
 }

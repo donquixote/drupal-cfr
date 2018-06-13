@@ -26,9 +26,8 @@ final class ConfUtil extends UtilBase {
     if (!isset($conf[$k1])) {
       return [$id, NULL];
     }
-    else {
-      return [$id, $conf[$k1]];
-    }
+
+    return [$id, $conf[$k1]];
   }
 
   /**

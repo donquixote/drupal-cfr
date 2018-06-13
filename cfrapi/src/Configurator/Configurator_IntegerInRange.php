@@ -93,22 +93,23 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
       if (NULL === $this->min) {
         return NULL;
       }
-      elseif (0 === $this->min) {
+
+      if (0 === $this->min) {
         return t('Non-negative integer.');
       }
-      elseif (1 === $this->min) {
+
+      if (1 === $this->min) {
         return t('Positive integer.');
       }
-      else {
-        return t('Integer greater or equal to @min', ['@min' => $this->min]);
-      }
+
+      return t('Integer greater or equal to @min', ['@min' => $this->min]);
     }
-    elseif (NULL === $this->min) {
+
+    if (NULL === $this->min) {
       return t('Integer up to @max', ['@max' => $this->max]);
     }
-    else {
-      return t('Integer in range [@min...@max]', ['@min' => $this->min, '@max' => $this->max]);
-    }
+
+    return t('Integer in range [@min...@max]', ['@min' => $this->min, '@max' => $this->max]);
   }
 
   /**
