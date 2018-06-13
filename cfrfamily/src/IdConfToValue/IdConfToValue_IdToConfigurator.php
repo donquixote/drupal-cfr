@@ -26,7 +26,7 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
    *
    * @return mixed
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function idConfGetValue($id, $conf) {
 

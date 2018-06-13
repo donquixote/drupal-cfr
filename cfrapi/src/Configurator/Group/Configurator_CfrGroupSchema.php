@@ -27,6 +27,8 @@ class Configurator_CfrGroupSchema extends Configurator_GroupBase {
    * @param mixed $conf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
     $value = parent::confGetValue($conf);

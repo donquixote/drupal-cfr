@@ -56,6 +56,8 @@ class Configurator_CallbackMono extends Configurator_DecoratorBase {
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
     $arg = parent::confGetValue($conf);

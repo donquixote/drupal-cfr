@@ -26,6 +26,8 @@ class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
    * @param mixed[]|mixed $conf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
     $value = parent::confGetValue($conf);

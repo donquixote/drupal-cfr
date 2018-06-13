@@ -99,7 +99,7 @@ class Configurator_CallbackConfigurable extends Configurator_GroupBase {
    * @return mixed
    *   Value to be used in the application.
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
     $args = parent::confGetValue($conf);

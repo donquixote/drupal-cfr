@@ -57,7 +57,7 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
    *
    * @return mixed
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function idConfGetValue($id, $optionsConf) {
 

@@ -116,6 +116,8 @@ class Configurator_CfrLegend extends Configurator_IdConfGrandBase implements Inl
    * @param mixed $optionsConf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function idConfGetValue($id, $optionsConf) {
     return $this->idConfToValue->idConfGetValue($id, $optionsConf);

@@ -66,6 +66,8 @@ class Configurator_Composite implements ConfiguratorInterface {
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
     return $this->confToValue->confGetValue($conf);

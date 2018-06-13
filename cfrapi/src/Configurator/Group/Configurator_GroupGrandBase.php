@@ -68,7 +68,7 @@ abstract class Configurator_GroupGrandBase implements ConfiguratorInterface {
    *
    * @return mixed[]
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
 

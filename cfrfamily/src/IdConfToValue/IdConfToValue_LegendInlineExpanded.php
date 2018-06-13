@@ -34,7 +34,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
    *
    * @return \Drupal\cfrapi\ConfToValue\ConfToValueInterface|null
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function idConfGetValue($id, $conf) {
 

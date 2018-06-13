@@ -27,6 +27,8 @@ class Configurator_SequenceWithValueCallback extends Configurator_Sequence {
    * @param mixed[]|mixed $conf
    *
    * @return mixed
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
     $value = parent::confGetValue($conf);

@@ -28,6 +28,8 @@ class Configurator_FromValueProvider extends Configurator_OptionlessBase {
    *
    * @return mixed
    *   Value to be used in the application.
+   *
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
     return $this->valueProvider->getValue();

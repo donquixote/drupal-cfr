@@ -73,7 +73,7 @@ class ValueToValue_Callback implements ValueToValueInterface {
    *
    * @return mixed
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function valueGetValue($args) {
     return CfrReflectionUtil::callbackValidateAndInvoke($this->callback, $args);
