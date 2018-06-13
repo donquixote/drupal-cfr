@@ -8,6 +8,11 @@ use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
+/**
+ * @internal
+ * This component does not properly support copy/paste functionality.
+ * Until it does, it is marked as "internal".
+ */
 abstract class Configurator_OrderedIdsTabledragBase implements OptionalConfiguratorInterface {
 
   /**

@@ -4,6 +4,11 @@ namespace Drupal\cfrapi\Configurator;
 
 use Drupal\cfrapi\Legend\LegendInterface;
 
+/**
+ * @internal
+ * This component does not properly support copy/paste functionality.
+ * Until it does, it is marked as "internal".
+ */
 class Configurator_OrderedIdsTabledrag_Legend extends Configurator_OrderedIdsTabledragBase {
 
   /**
