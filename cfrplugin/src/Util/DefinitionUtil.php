@@ -41,6 +41,8 @@ final class DefinitionUtil extends UtilBase {
         return self::objectGetFile($definition[$k]);
       }
     }
+
+    return NULL;
   }
 
   /**
@@ -64,7 +66,7 @@ final class DefinitionUtil extends UtilBase {
   private static function factoryGetFile($factory) {
 
     if (is_array($factory)) {
-      if (!isset($factory[0]) || !isset($factory[1]) || !is_string($factory[0])) {
+      if (!isset($factory[0], $factory[1]) || !is_string($factory[0])) {
         return NULL;
       }
       return self::classGetFile($factory[0]);
@@ -73,10 +75,13 @@ final class DefinitionUtil extends UtilBase {
     if (is_string($factory)) {
       list($class, $methodName) = explode('::', $factory) + [NULL, NULL];
       if (NULL === $methodName) {
-        if (!function_exists($factory)) {
+        try {
+          $reflectionFunction = new \ReflectionFunction($factory);
+        }
+        catch (\ReflectionException $e) {
+          // Function does not exist.
           return NULL;
         }
-        $reflectionFunction = new \ReflectionFunction($factory);
         return $reflectionFunction->getFileName() ?: NULL;
       }
 
@@ -93,11 +98,14 @@ final class DefinitionUtil extends UtilBase {
    */
   private static function classGetFile($class) {
 
-    if (!class_exists($class)) {
+    try {
+      $reflectionClass = new \ReflectionClass($class);
+    }
+    catch (\ReflectionException $e) {
+      // Class does not exist.
       return NULL;
     }
 
-    $reflectionClass = new \ReflectionClass($class);
     return $reflectionClass->getFileName() ?: NULL;
   }
 
