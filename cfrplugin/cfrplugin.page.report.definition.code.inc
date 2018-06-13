@@ -1,8 +1,7 @@
 <?php
-use Drupal\cfrplugin\Hub\CfrPluginHub;
+
 use Drupal\cfrplugin\Util\DefinitionUtil;
 use Drupal\cfrplugin\Util\UiUtil;
-use Drupal\cfrreflection\Util\StringUtil;
 
 /**
  * @param array $df
