@@ -69,7 +69,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
       $conf = substr($conf, 0, 27) . '[..]';
     }
 
-    return check_plain(var_export(($conf), TRUE));
+    return check_plain(var_export($conf, TRUE));
   }
 
   /**

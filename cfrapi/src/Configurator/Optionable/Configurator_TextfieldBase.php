@@ -67,7 +67,7 @@ abstract class Configurator_TextfieldBase implements OptionalConfiguratorInterfa
       $conf = substr($conf, 0, 27) . '[..]';
     }
 
-    return check_plain(var_export(($conf), TRUE));
+    return check_plain(var_export($conf, TRUE));
   }
 
   /**
