@@ -13,7 +13,7 @@ interface SummaryBuilderInterface {
    *
    * @return mixed
    */
-  public function idConf($label, ConfToSummaryInterface $optionsConfToSummary = NULL, $optionsConf);
+  public function idConf($label, ConfToSummaryInterface $optionsConfToSummary, $optionsConf);
 
   /**
    * Starts a group of named settings.

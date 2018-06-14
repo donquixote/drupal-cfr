@@ -15,7 +15,7 @@ class SummaryBuilder_Static implements SummaryBuilderInterface {
    *
    * @return mixed
    */
-  public function idConf($label, ConfToSummaryInterface $optionsConfToSummary = NULL, $optionsConf) {
+  public function idConf($label, ConfToSummaryInterface $optionsConfToSummary, $optionsConf) {
     $optionsConfSummary = $optionsConfToSummary->confGetSummary($optionsConf, $this);
     if (!is_string($optionsConfSummary) || '' === $optionsConfSummary) {
       return check_plain($label);
