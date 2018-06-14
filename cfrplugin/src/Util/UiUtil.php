@@ -80,7 +80,7 @@ final class UiUtil extends UtilBase {
 
     $file = $e->getFile();
     $e_class = get_class($e);
-    $e_class_reflection = new \ReflectionClass($e_class);
+    $e_reflection = new \ReflectionObject($e);
 
     return [
       'text' => [
@@ -89,7 +89,7 @@ final class UiUtil extends UtilBase {
           . '<dl>'
           . '  <dt>' . t('Exception in line %line of %file', ['%line' => $e->getLine(), '%file' => basename($file)]) . '</dt>'
           . '  <dd><code>' . check_plain($file) . '</code></dd>'
-          . '  <dt>' . t('Exception class: %class', ['%class' => $e_class_reflection->getShortName()]) . '</dt>'
+          . '  <dt>' . t('Exception class: %class', ['%class' => $e_reflection->getShortName()]) . '</dt>'
           . '  <dd>' . check_plain($e_class) . '</dt>'
           . '  <dt>' . t('Exception message:') . '</dt>'
           . '  <dd>' . check_plain($e->getMessage()) . '</dd>'
