@@ -28,6 +28,9 @@ final class StringUtil extends UtilBase {
    *   If $glue is FALSE, it will just return an array.
    *
    * @return string[]|string
+   *
+   * @throws \InvalidArgumentException
+   *   if $example_string is invalid.
    */
   public static function camelCaseExplode($string, $lowercase = true, $example_string = 'AA Bc', $glue = false) {
     static $regexp_by_example = [];
@@ -56,7 +59,7 @@ final class StringUtil extends UtilBase {
    *
    * @return string
    *   Regular expression to use.
-   * @throws \Exception
+   * @throws \InvalidArgumentException
    */
   public static function camelCaseExplodeExampleToRegex($example_string) {
     static $regexp_available = [
@@ -72,7 +75,7 @@ final class StringUtil extends UtilBase {
         return $regexp;
       }
     }
-    throw new \Exception('Invalid example string.');
+    throw new \InvalidArgumentException('Invalid example string.');
   }
 
   /**
