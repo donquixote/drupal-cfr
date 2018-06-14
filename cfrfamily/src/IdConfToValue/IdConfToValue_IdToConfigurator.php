@@ -48,8 +48,6 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
    *
    * @return string
    *   PHP statement to generate the value.
-   *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
 

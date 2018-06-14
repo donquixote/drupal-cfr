@@ -74,8 +74,6 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
    * @param \Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface $helper
    *
    * @return string
-   *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
    */
   public function idConfGetPhp($id, $conf, CfrCodegenHelperInterface $helper) {
 
