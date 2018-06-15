@@ -56,6 +56,9 @@ class TypeToConfigurator_CfrPlugin implements TypeToConfiguratorInterface {
   private function processConfigurator(ConfiguratorInterface $configurator, $type, CfrContextInterface $context = NULL) {
 
     if ($configurator instanceof Configurator_IdConfGrandBase) {
+      // @todo Remove the 'noinspection' once this is fixed in PHP Inspections EA.
+      // See https://github.com/kalessil/phpinspectionsea/issues/439#issuecomment-397477865
+      /** @noinspection CallableParameterUseCaseInTypeContextInspection */
       $configurator = $configurator->withFormProcessCallback(function($element) use ($type, $context) {
         /* @see cfrplugin_element_info() */
         $element['#type'] = 'cfrplugin_drilldown_container';
