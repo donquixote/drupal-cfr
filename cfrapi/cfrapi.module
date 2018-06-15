@@ -65,12 +65,13 @@ function _cfrapi_depended_element_ajax_callback(
 
 /**
  * @param array $element
- * @param mixed $input
+ * @param mixed|false $input
+ *   Raw value from form submission, or FALSE to use #default_value.
  * @param array $form_state
  *
  * @return mixed
  */
-function _cfrapi_generic_value_callback(array $element, $input = false, array &$form_state) {
+function _cfrapi_generic_value_callback(array $element, $input, array &$form_state) {
 
   if (1
     && null !== ($value_callback = $element['#cfrapi_value_callback'] ?? null)

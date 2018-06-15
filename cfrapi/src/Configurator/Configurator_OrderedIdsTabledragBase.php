@@ -60,7 +60,7 @@ abstract class Configurator_OrderedIdsTabledragBase implements OptionalConfigura
       }],
       /* @see _cfrapi_generic_value_callback() */
       '#value_callback' => '_cfrapi_generic_value_callback',
-      '#cfrapi_value_callback' => function(array $element, $input = false, array &$form_state) use ($obj) {
+      '#cfrapi_value_callback' => function(array $element, $input, array &$form_state) use ($obj) {
         return $obj->elementValue($element, $input, $form_state);
       },
     ];
@@ -73,11 +73,12 @@ abstract class Configurator_OrderedIdsTabledragBase implements OptionalConfigura
   /**
    * @param array $element
    * @param array|mixed|false $input
+   *   Raw value from form submission, or FALSE to use #default_value.
    * @param array $form_state
    *
    * @return array|bool|mixed
    */
-  private function elementValue(array $element, $input = false, array &$form_state) {
+  private function elementValue(array $element, $input, array &$form_state) {
 
     if (false === $input) {
       return $element['#default_value'] ?? [];
