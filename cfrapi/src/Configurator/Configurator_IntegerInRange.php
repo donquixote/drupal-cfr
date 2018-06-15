@@ -3,7 +3,7 @@
 namespace Drupal\cfrapi\Configurator;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 class Configurator_IntegerInRange implements ConfiguratorInterface {
@@ -167,26 +167,26 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
    * @return mixed
    *   Value to be used in the application.
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
 
     if (is_string($conf)) {
       if ((string)(int)$conf !== $conf) {
-        throw new InvalidConfigurationException("Value must be an integer.");
+        throw new ConfToValueException("Value must be an integer.");
       }
       $conf = (int)$conf;
     }
     elseif (!is_int($conf)) {
-      throw new InvalidConfigurationException("Value must be an integer.");
+      throw new ConfToValueException("Value must be an integer.");
     }
 
     if (NULL !== $this->min && $conf < $this->min) {
-      throw new InvalidConfigurationException("Value must be greater than or equal to $this->min.");
+      throw new ConfToValueException("Value must be greater than or equal to $this->min.");
     }
 
     if (NULL !== $this->max && $conf > $this->max) {
-      throw new InvalidConfigurationException("Value must be no greater than $this->max.");
+      throw new ConfToValueException("Value must be no greater than $this->max.");
     }
 
     return $conf;

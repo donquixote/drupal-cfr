@@ -3,7 +3,7 @@
 namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrfamily\CfrLegend\CfrLegendInterface;
 use Drupal\cfrfamily\CfrLegendItem\ParentLegendItemInterface;
 
@@ -62,7 +62,7 @@ class IdConfToValue_LegendInlineExpanded implements IdConfToValueInterface {
       return $inlineLegend->idConfGetValue($subId, $conf);
     }
 
-    throw new InvalidConfigurationException("Unknown id $id.");
+    throw new ConfToValueException("Unknown id $id.");
   }
 
   /**

@@ -3,7 +3,7 @@
 namespace Drupal\cfrfamily\Configurator\Composite;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
@@ -62,7 +62,7 @@ abstract class Configurator_IdConfBase extends Configurator_IdConfGrandBase {
   public function idConfGetValue($id, $optionsConf) {
 
     if (!$configurator = $this->idGetConfigurator($id)) {
-      throw new InvalidConfigurationException("Unknown id '$id'.");
+      throw new ConfToValueException("Unknown id '$id'.");
     }
 
     return $configurator->confGetValue($optionsConf);

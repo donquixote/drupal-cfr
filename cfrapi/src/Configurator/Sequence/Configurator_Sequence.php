@@ -5,7 +5,7 @@ namespace Drupal\cfrapi\Configurator\Sequence;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Sequence;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 /**
@@ -57,14 +57,14 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       return [];
     }
     if (!is_array($conf)) {
-      throw new InvalidConfigurationException('Configuration must be an array or NULL.');
+      throw new ConfToValueException('Configuration must be an array or NULL.');
     }
 
     $values = [];
     foreach ($conf as $delta => $deltaConf) {
       if ((string)(int)$delta !== (string)$delta || $delta < 0) {
         // Fail on non-numeric and negative keys.
-        throw new InvalidConfigurationException("Deltas must be non-negative integers.");
+        throw new ConfToValueException("Deltas must be non-negative integers.");
       }
       if ($this->emptyness->confIsEmpty($deltaConf)) {
         // Skip empty values.

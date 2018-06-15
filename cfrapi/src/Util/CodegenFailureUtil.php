@@ -2,7 +2,7 @@
 
 namespace Drupal\cfrapi\Util;
 
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
 
 final class CodegenFailureUtil extends UtilBase {
@@ -44,11 +44,11 @@ final class CodegenFailureUtil extends UtilBase {
    * @param mixed $conf
    * @param string $message
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public static function incompatibleConfiguration(
     /** @noinspection PhpUnusedParameterInspection */ $conf, $message) {
-    throw new InvalidConfigurationException($message);
+    throw new ConfToValueException($message);
   }
 
   /**

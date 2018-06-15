@@ -3,7 +3,7 @@
 namespace Drupal\cfrfamily\IdConfToValue;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrfamily\IdToConfigurator\IdToConfiguratorInterface;
 
 class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
@@ -31,11 +31,11 @@ class IdConfToValue_IdToConfigurator implements IdConfToValueInterface {
   public function idConfGetValue($id, $conf) {
 
     if (NULL === $id) {
-      throw new InvalidConfigurationException("Required id is empty.");
+      throw new ConfToValueException("Required id is empty.");
     }
 
     if (NULL === $configurator = $this->idToConfigurator->idGetConfigurator($id)) {
-      throw new InvalidConfigurationException("Unknown id '$id'.");
+      throw new ConfToValueException("Unknown id '$id'.");
     }
 
     return $configurator->confGetValue($conf);

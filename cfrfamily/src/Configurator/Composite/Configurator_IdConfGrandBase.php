@@ -6,7 +6,7 @@ use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Key;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
 use Drupal\cfrapi\ElementProcessor\ElementProcessor_ReparentChildren;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 use Drupal\cfrapi\Util\ConfUtil;
 use Drupal\cfrapi\Util\FormUtil;
@@ -335,7 +335,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    * @return mixed
    *   Value to be used in the application.
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
 
@@ -343,7 +343,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
 
     if (NULL === $id) {
       if ($this->required) {
-        throw new InvalidConfigurationException("Required id missing.");
+        throw new ConfToValueException("Required id missing.");
       }
 
       return $this->defaultValue;

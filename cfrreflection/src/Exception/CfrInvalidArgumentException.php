@@ -2,8 +2,14 @@
 
 namespace Drupal\cfrreflection\Exception;
 
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use /** @noinspection PhpDeprecationInspection */
+  Drupal\cfrapi\Exception\InvalidConfigurationException;
 
+/** @noinspection PhpDeprecationInspection */
+
+/**
+ * @deprecated
+ */
 class CfrInvalidArgumentException extends InvalidConfigurationException {
 
 }

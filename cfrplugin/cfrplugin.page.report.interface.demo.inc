@@ -1,7 +1,7 @@
 <?php
 use Donquixote\CallbackReflection\Util\CodegenUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelper;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilder_Static;
 use Drupal\cfrplugin\Util\UiUtil;
 
@@ -49,7 +49,7 @@ function _cfrplugin_report_interface_demo_page($interface) {
     }
   }
   catch (\Exception $e) {
-    if ($e instanceof InvalidConfigurationException) {
+    if ($e instanceof ConfToValueException) {
       drupal_set_message(t('The configuration is incomplete or invalid.'), 'warning');
     }
     else {

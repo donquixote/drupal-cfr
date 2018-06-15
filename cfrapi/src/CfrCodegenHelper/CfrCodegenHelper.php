@@ -3,7 +3,7 @@
 namespace Drupal\cfrapi\CfrCodegenHelper;
 
 use Donquixote\CallbackReflection\CodegenHelper\CodegenHelperBase;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\Exception\PhpGenerationNotSupportedException;
 
 class CfrCodegenHelper extends CodegenHelperBase implements CfrCodegenHelperInterface {
@@ -45,7 +45,7 @@ class CfrCodegenHelper extends CodegenHelperBase implements CfrCodegenHelperInte
 
     $php = ''
       . "\n" . '$conf = ' . var_export($conf, TRUE) . ';'
-      . "\n" . 'throw new \\' . InvalidConfigurationException::class . '(' . var_export($message, TRUE) . ');';
+      . "\n" . 'throw new \\' . ConfToValueException::class . '(' . var_export($message, TRUE) . ');';
 
     return '// @todo Fix the configuration, before exporting this to code!'
       . "\n" . 'call_user_func('

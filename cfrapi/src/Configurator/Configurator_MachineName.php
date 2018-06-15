@@ -5,7 +5,7 @@ namespace Drupal\cfrapi\Configurator;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\ConfEmptyness\ConfEmptyness_Enum;
 use Drupal\cfrapi\Configurator\Optional\OptionalConfiguratorInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\SummaryBuilder\SummaryBuilderInterface;
 
 class Configurator_MachineName implements OptionalConfiguratorInterface {
@@ -86,7 +86,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
    * @return mixed
    *   Value to be used in the application.
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
 
@@ -95,7 +95,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
     }
 
     if (NULL !== $msg = $this->machineNameGetError($conf)) {
-      throw new InvalidConfigurationException($msg);
+      throw new ConfToValueException($msg);
     }
 
     return $conf;

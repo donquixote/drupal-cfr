@@ -3,7 +3,7 @@
 namespace Drupal\cfrfamily\Configurator\Inlineable;
 
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 use Drupal\cfrapi\Util\ConfUtil;
 
 abstract class InlineableConfiguratorBase implements InlineableConfiguratorInterface {
@@ -25,13 +25,13 @@ abstract class InlineableConfiguratorBase implements InlineableConfiguratorInter
    * @return mixed
    *   Value to be used in the application.
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   final public function confGetValue($conf) {
     list($id, $conf) = $this->confGetIdOptions($conf);
 
     if (NULL === $id) {
-      throw new InvalidConfigurationException("Id is required.");
+      throw new ConfToValueException("Id is required.");
     }
 
     return $this->idConfGetValue($id, $conf);

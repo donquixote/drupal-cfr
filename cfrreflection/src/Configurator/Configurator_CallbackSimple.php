@@ -7,7 +7,7 @@ use Donquixote\CallbackReflection\Callback\CallbackReflectionInterface;
 use Donquixote\CallbackReflection\Util\CallbackUtil;
 use Drupal\cfrapi\CfrCodegenHelper\CfrCodegenHelperInterface;
 use Drupal\cfrapi\Configurator\Unconfigurable\Configurator_OptionlessBase;
-use Drupal\cfrapi\Exception\InvalidConfigurationException;
+use Drupal\cfrapi\Exception\ConfToValueException;
 
 class Configurator_CallbackSimple extends Configurator_OptionlessBase {
 
@@ -53,7 +53,7 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase {
    * @return mixed
    *   Value to be used in the application.
    *
-   * @throws \Drupal\cfrapi\Exception\InvalidConfigurationException
+   * @throws \Drupal\cfrapi\Exception\ConfToValueException
    */
   public function confGetValue($conf) {
 
@@ -61,7 +61,7 @@ class Configurator_CallbackSimple extends Configurator_OptionlessBase {
       return $this->callback->invokeArgs([]);
     }
     catch (\Exception $e) {
-      throw new InvalidConfigurationException("Exception during callback.", NULL, $e);
+      throw new ConfToValueException("Exception during callback.", NULL, $e);
     }
   }
 
