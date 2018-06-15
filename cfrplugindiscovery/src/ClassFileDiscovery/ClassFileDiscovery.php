@@ -38,7 +38,7 @@ class ClassFileDiscovery implements ClassFileDiscoveryInterface {
         $class = $parentNamespace . $name;
         $classFiles[$path] = $class;
       }
-      else {
+      elseif (is_dir($path)) {
         $classFiles += $this->dirNspFindClassFilesRecursive($path, $parentNamespace . $candidate . '\\');
       }
     }
