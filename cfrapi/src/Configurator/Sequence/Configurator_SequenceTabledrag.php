@@ -49,7 +49,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
     if (NULL === $conf) {
       return [];
     }
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       throw new ConfToValueException('Configuration must be an array or NULL.');
     }
 
@@ -74,7 +74,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
    * @return null|string
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       $conf = [];
     }
     return $summaryBuilder->buildSequence($this->configurator, $conf);
@@ -90,7 +90,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
    */
   public function confGetForm($conf, $label) {
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       // Always start with one stub item.
       $conf = [NULL];
     }
@@ -144,7 +144,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
       return $element['#default_value'] ?? [];
     }
 
-    if (!is_array($input)) {
+    if (!\is_array($input)) {
       // Always start with one item.
       $input = [NULL];
     }
@@ -182,7 +182,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
   private function elementProcess(array $element, array $conf, array $form_state, array $form) {
 
     $value = $element['#value'];
-    if (!is_array($value)) {
+    if (!\is_array($value)) {
       $value = [];
     }
 
@@ -279,7 +279,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
         '#submit' => [
           function(array $element, array &$form_state) use ($parents, $delta) {
             $value = drupal_array_get_nested_value($form_state['input'], $parents);
-            if (!is_array($value)) {
+            if (!\is_array($value)) {
               $value = [];
             }
             unset($value[$delta]);
@@ -313,7 +313,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
       '#submit' => [
         function(array $element, array &$form_state) use ($parents) {
           $value = drupal_array_get_nested_value($form_state['input'], $parents);
-          if (!is_array($value)) {
+          if (!\is_array($value)) {
             $value = [];
           }
           $value[] = null;
@@ -367,7 +367,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
 
     foreach (['values', 'input'] as $key) {
       $value = drupal_array_get_nested_value($form_state[$key], $element['#parents']);
-      if (!is_array($value)) {
+      if (!\is_array($value)) {
         $value = [];
       }
       else {
@@ -440,7 +440,7 @@ class Configurator_SequenceTabledrag implements OptionalConfiguratorInterface {
       return '[]';
     }
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       return $helper->incompatibleConfiguration($conf, "Configuration must be an array or NULL.");
     }
 

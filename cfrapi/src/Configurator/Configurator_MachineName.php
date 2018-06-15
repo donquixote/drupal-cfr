@@ -32,7 +32,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
    */
   public function confGetForm($conf, $label) {
 
-    if (!is_string($conf)) {
+    if (!\is_string($conf)) {
       $conf = NULL;
     }
 
@@ -57,7 +57,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
 
-    if (NULL === $conf || '' === $conf || !is_string($conf)) {
+    if (NULL === $conf || '' === $conf || !\is_string($conf)) {
       if ($this->required) {
         return t('Missing value');
       }
@@ -65,7 +65,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
       return "''";
     }
 
-    if (strlen($conf) > 30) {
+    if (\strlen($conf) > 30) {
       $conf = substr($conf, 0, 27) . '[..]';
     }
 
@@ -90,7 +90,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
    */
   public function confGetValue($conf) {
 
-    if (!is_string($conf)) {
+    if (!\is_string($conf)) {
       return '';
     }
 
@@ -111,7 +111,7 @@ class Configurator_MachineName implements OptionalConfiguratorInterface {
    */
   public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
 
-    if (!is_string($conf)) {
+    if (!\is_string($conf)) {
       return "''";
     }
 

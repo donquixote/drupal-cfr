@@ -32,7 +32,7 @@ class DefinitionToConfigurator_Proxy implements DefinitionToConfiguratorInterfac
    */
   public function definitionGetConfigurator(array $definition, CfrContextInterface $context = NULL) {
     if (NULL === $this->instance) {
-      $this->instance = call_user_func($this->factory);
+      $this->instance = \call_user_func($this->factory);
     }
     return $this->instance->definitionGetConfigurator($definition, $context);
   }

@@ -65,14 +65,14 @@ class Configurator_GroupReparent extends Configurator_Group {
   public function confGetValue($conf) {
     $conf = $this->extractConf($conf);
     $result = parent::confGetValue($conf);
-    if (!is_array($result)) {
+    if (!\is_array($result)) {
       return $result;
     }
     foreach (array_reverse($this->keysReparent) as $key => $parents) {
       if (isset($result[$key])) {
         $value = $result[$key];
         unset($result[$key]);
-        if (is_array($value)) {
+        if (\is_array($value)) {
           ConfUtil::confMergeNestedValue($result, $parents, $value);
         }
         else {
@@ -98,7 +98,7 @@ class Configurator_GroupReparent extends Configurator_Group {
       if (isset($php_statements[$key])) {
         $php_statement = $php_statements[$key];
         unset($php_statements[$key]);
-        if (is_array($php_statement)) {
+        if (\is_array($php_statement)) {
           ConfUtil::confMergeNestedValue($result, $parents, $php_statement);
         }
         else {
@@ -116,7 +116,7 @@ class Configurator_GroupReparent extends Configurator_Group {
    * @return mixed[]
    */
   private function extractConf($conf) {
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       return [];
     }
     $confExtracted = [];

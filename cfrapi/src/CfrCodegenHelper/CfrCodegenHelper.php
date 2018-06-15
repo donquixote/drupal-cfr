@@ -65,7 +65,7 @@ class CfrCodegenHelper extends CodegenHelperBase implements CfrCodegenHelperInte
     $this->problems[] = t('PHP generation not supported.');
 
     $php = ''
-      . "\n" . '$class = ' . var_export(get_class($object), TRUE) . ';'
+      . "\n" . '$class = ' . var_export(\get_class($object), TRUE) . ';'
       . "\n" . '$conf = ' . var_export($conf, TRUE) . ';'
       . "\n" . 'throw new \\' . PhpGenerationNotSupportedException::class . '(' . var_export($message, TRUE) . ');';
 

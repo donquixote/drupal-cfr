@@ -51,10 +51,10 @@ final class DefinitionUtil extends UtilBase {
    * @return null|string
    */
   private static function objectGetFile($object) {
-    if (!is_object($object)) {
+    if (!\is_object($object)) {
       return NULL;
     }
-    $class = get_class($object);
+    $class = \get_class($object);
     return self::classGetFile($class);
   }
 
@@ -65,14 +65,14 @@ final class DefinitionUtil extends UtilBase {
    */
   private static function factoryGetFile($factory) {
 
-    if (is_array($factory)) {
-      if (!isset($factory[0], $factory[1]) || !is_string($factory[0])) {
+    if (\is_array($factory)) {
+      if (!isset($factory[0], $factory[1]) || !\is_string($factory[0])) {
         return NULL;
       }
       return self::classGetFile($factory[0]);
     }
 
-    if (is_string($factory)) {
+    if (\is_string($factory)) {
       list($class, $methodName) = explode('::', $factory) + [NULL, NULL];
       if (NULL === $methodName) {
         try {

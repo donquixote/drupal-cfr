@@ -57,7 +57,7 @@ class DocToAnnotations implements DocToAnnotationsInterface {
             continue;
           }
         }
-        elseif (is_object($v)) {
+        elseif (\is_object($v)) {
           continue;
         }
         $annotation[$k] = $v;
@@ -77,7 +77,7 @@ class DocToAnnotations implements DocToAnnotationsInterface {
   private function resolveAnnotation($name, array $args) {
 
     if ($name === 't' || $name === 'Translate') {
-      if (isset($args[0]) && is_string($args[0])) {
+      if (isset($args[0]) && \is_string($args[0])) {
         return t($args[0]);
       }
     }

@@ -79,7 +79,7 @@ final class UiUtil extends UtilBase {
   public static function displayException(\Exception $e) {
 
     $file = $e->getFile();
-    $e_class = get_class($e);
+    $e_class = \get_class($e);
     $e_reflection = new \ReflectionObject($e);
 
     return [
@@ -126,10 +126,10 @@ final class UiUtil extends UtilBase {
 
     $element = [];
 
-    if (function_exists('krumong')) {
+    if (\function_exists('krumong')) {
       $element['dump']['#markup'] = krumong()->dump($data);
     }
-    elseif (function_exists('dpm')) {
+    elseif (\function_exists('dpm')) {
       $element['dump']['#markup'] = krumo_ob($data);
       $element['notice']['#markup'] = '<p>' . t('Install krumong to see private and protected member variables.') . '</p>';
     }

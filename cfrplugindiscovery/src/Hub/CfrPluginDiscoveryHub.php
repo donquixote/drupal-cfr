@@ -93,7 +93,7 @@ class CfrPluginDiscoveryHub implements CfrPluginDiscoveryHubInterface {
 
     $module = $m[1];
 
-    return $this->discoverByInterface(dirname($__FILE__) . '/src', 'Drupal\\' . $module);
+    return $this->discoverByInterface(\dirname($__FILE__) . '/src', 'Drupal\\' . $module);
   }
 
   /**

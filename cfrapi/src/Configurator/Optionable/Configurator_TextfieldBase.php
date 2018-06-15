@@ -30,7 +30,7 @@ abstract class Configurator_TextfieldBase implements OptionalConfiguratorInterfa
    */
   public function confGetForm($conf, $label) {
 
-    if (!is_string($conf)) {
+    if (!\is_string($conf)) {
       $conf = NULL;
     }
 
@@ -55,7 +55,7 @@ abstract class Configurator_TextfieldBase implements OptionalConfiguratorInterfa
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
 
-    if (NULL === $conf || '' === $conf || !is_string($conf)) {
+    if (NULL === $conf || '' === $conf || !\is_string($conf)) {
       if ($this->required) {
         return t('Missing value');
       }
@@ -63,7 +63,7 @@ abstract class Configurator_TextfieldBase implements OptionalConfiguratorInterfa
       return "''";
     }
 
-    if (strlen($conf) > 30) {
+    if (\strlen($conf) > 30) {
       $conf = substr($conf, 0, 27) . '[..]';
     }
 

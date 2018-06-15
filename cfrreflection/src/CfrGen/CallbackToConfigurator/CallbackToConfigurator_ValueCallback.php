@@ -49,7 +49,7 @@ class CallbackToConfigurator_ValueCallback implements CallbackToConfiguratorInte
 
     $params = $valueCallback->getReflectionParameters();
 
-    if (0 === $nParams = count($params)) {
+    if (0 === $nParams = \count($params)) {
       return new Configurator_CallbackSimple($valueCallback);
     }
 

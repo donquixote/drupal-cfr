@@ -20,7 +20,7 @@ final class ConfUtil extends UtilBase {
     if ('' === $id) {
       return [NULL, NULL];
     }
-    if (!is_string($id) && !is_int($id)) {
+    if (!\is_string($id) && !\is_int($id)) {
       return [NULL, NULL];
     }
     if (!isset($conf[$k1])) {
@@ -37,8 +37,8 @@ final class ConfUtil extends UtilBase {
    * @return mixed[]
    */
   public static function confExtractOptions($conf, array $keys) {
-    if (!is_array($conf) || empty($conf)) {
-      return array_fill(0, count($keys), NULL);
+    if (!\is_array($conf) || empty($conf)) {
+      return array_fill(0, \count($keys), NULL);
     }
     $return = [];
     foreach ($keys as $k) {
@@ -57,7 +57,7 @@ final class ConfUtil extends UtilBase {
     if ([] === $parents) {
       return $conf;
     }
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       return NULL;
     }
     $key = array_shift($parents);
@@ -67,7 +67,7 @@ final class ConfUtil extends UtilBase {
     if ([] === $parents) {
       return $conf[$key];
     }
-    if (!is_array($conf[$key])) {
+    if (!\is_array($conf[$key])) {
       return NULL;
     }
     return self::confExtractNestedValue($conf[$key], $parents);
@@ -91,7 +91,7 @@ final class ConfUtil extends UtilBase {
     if (!isset($conf[$key])) {
       $conf[$key] = [];
     }
-    elseif (!is_array($conf[$key])) {
+    elseif (!\is_array($conf[$key])) {
       return FALSE;
     }
     if ([] === $parents) {
@@ -115,7 +115,7 @@ final class ConfUtil extends UtilBase {
       $conf = $value;
       return TRUE;
     }
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       return FALSE;
     }
     $key = array_shift($parents);
@@ -140,7 +140,7 @@ final class ConfUtil extends UtilBase {
       $conf = [];
       return TRUE;
     }
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       return FALSE;
     }
     $key = array_shift($parents);

@@ -172,7 +172,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
     ];
 
     if (NULL !== $this->formProcessCallback) {
-      $form = call_user_func($this->formProcessCallback, $form);
+      $form = \call_user_func($this->formProcessCallback, $form);
     }
 
     return $form;
@@ -263,12 +263,12 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    */
   private static function idExistsInSelectOptions($id, $options) {
 
-    if (isset($options[$id]) && !is_array($options[$id])) {
+    if (isset($options[$id]) && !\is_array($options[$id])) {
       return TRUE;
     }
 
     foreach ($options as $optgroup) {
-      if (is_array($optgroup) && isset($optgroup[$id])) {
+      if (\is_array($optgroup) && isset($optgroup[$id])) {
         return TRUE;
       }
     }
@@ -435,7 +435,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
    */
   private function confGetIdOptions($conf) {
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       return [NULL, NULL];
     }
 
@@ -447,7 +447,7 @@ abstract class Configurator_IdConfGrandBase implements OptionalConfiguratorInter
       return [NULL, NULL];
     }
 
-    if (!is_string($id) && !is_int($id)) {
+    if (!\is_string($id) && !\is_int($id)) {
       return [NULL, NULL];
     }
 

@@ -15,7 +15,7 @@ class ArgDefToConfigurator_FixedValue implements ArgDefToConfiguratorInterface {
    * @return \Drupal\cfrapi\Configurator\Unconfigurable\Configurator_FixedValue|null
    */
   public function argDefinitionGetConfigurator($fixedValue, array $definition, CfrContextInterface $context = NULL) {
-    if (!is_object($fixedValue)) {
+    if (!\is_object($fixedValue)) {
       return NULL;
     }
     return new Configurator_FixedValue($fixedValue);

@@ -16,7 +16,7 @@ class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
    * @param callable $valueCallback
    */
   public function __construct($valueCallback) {
-    if (!is_callable($valueCallback)) {
+    if (!\is_callable($valueCallback)) {
       throw new \InvalidArgumentException("Argument must be callable.");
     }
     $this->valueCallback = $valueCallback;
@@ -31,10 +31,10 @@ class Configurator_GroupWithValueCallback extends Configurator_GroupBase {
    */
   public function confGetValue($conf) {
     $value = parent::confGetValue($conf);
-    if (!is_array($value)) {
+    if (!\is_array($value)) {
       return $value;
     }
-    return call_user_func($this->valueCallback, $value);
+    return \call_user_func($this->valueCallback, $value);
   }
 
   /**

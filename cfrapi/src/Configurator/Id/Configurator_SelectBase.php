@@ -147,7 +147,7 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
 
       return var_export(NULL, TRUE);
     }
-    elseif (!is_string($conf)) {
+    elseif (!\is_string($conf)) {
       return $helper->incompatibleConfiguration($conf, "Id must be a string or integer.");
     }
     elseif (!$this->idIsKnown($conf)) {
@@ -176,7 +176,7 @@ abstract class Configurator_SelectBase implements OptionalConfiguratorInterface 
       return (string)$conf;
     }
 
-    if (NULL === $conf || '' === $conf || !is_string($conf)) {
+    if (NULL === $conf || '' === $conf || !\is_string($conf)) {
       return $this->defaultId;
     }
 

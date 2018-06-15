@@ -22,7 +22,7 @@ final class FormUtil extends UtilBase {
       return $array[$first_key];
     }
 
-    if (!is_array($array[$first_key])) {
+    if (!\is_array($array[$first_key])) {
       return NULL;
     }
 
@@ -43,14 +43,14 @@ final class FormUtil extends UtilBase {
   public static function elementsBuildDependency(array $element, array &$form_state, array $form) {
 
     $keys = element_children($element);
-    if (count($keys) < 2) {
+    if (\count($keys) < 2) {
       return $element;
     }
     list($dependedKey, $dependingKey) = element_children($element);
     $dependedElement =& $element[$dependedKey];
     $dependingElement =& $element[$dependingKey];
 
-    if (!is_array($dependingElement)) {
+    if (!\is_array($dependingElement)) {
       return $element;
     }
 

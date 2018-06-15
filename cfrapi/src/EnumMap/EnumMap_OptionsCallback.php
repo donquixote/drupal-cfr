@@ -31,8 +31,8 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
       return array_key_exists($id, $this->optionsBuffer);
     }
     // Check if this is a "smart" callback..
-    $result = call_user_func($this->optionsCallback, $id);
-    if (is_array($result)) {
+    $result = \call_user_func($this->optionsCallback, $id);
+    if (\is_array($result)) {
       $this->optionsBuffer = $result;
       return array_key_exists($id, $this->optionsBuffer);
     }
@@ -45,8 +45,8 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
    */
   public function getSelectOptions() {
     if (NULL === $this->optionsBuffer) {
-      $this->optionsBuffer = call_user_func($this->optionsCallback);
-      if (!is_array($this->optionsBuffer)) {
+      $this->optionsBuffer = \call_user_func($this->optionsCallback);
+      if (!\is_array($this->optionsBuffer)) {
         // @todo Throw an exception or something?
         return $this->optionsBuffer = [];
       }
@@ -64,13 +64,13 @@ class EnumMap_OptionsCallback implements EnumMapInterface {
       return array_key_exists($id, $this->optionsBuffer);
     }
     // Check if this is a "smart" callback..
-    $result = call_user_func($this->optionsCallback, $id);
-    if (is_array($result)) {
+    $result = \call_user_func($this->optionsCallback, $id);
+    if (\is_array($result)) {
       $this->optionsBuffer = $result;
       return array_key_exists($id, $this->optionsBuffer);
     }
 
-    if (is_string($result)) {
+    if (\is_string($result)) {
       return $result;
     }
 

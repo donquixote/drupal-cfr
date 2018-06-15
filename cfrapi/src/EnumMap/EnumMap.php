@@ -22,13 +22,13 @@ class EnumMap implements EnumMapInterface {
 
     // Validate $groupedOptions, and extract flat array.
     foreach ($groupedOptions as $groupOrKey => $groupOrLabel) {
-      if (is_array($groupOrLabel)) {
+      if (\is_array($groupOrLabel)) {
         // This is a group of options.
         foreach ($groupOrLabel as $key => $label) {
           if (is_numeric($label)) {
             $label = (string)$label;
           }
-          elseif (!is_string($label)) {
+          elseif (!\is_string($label)) {
             throw new \InvalidArgumentException("Label for '$key' in '$groupOrKey' is not a string.");
           }
           $this->optionLabels[$key] = $label;
@@ -39,7 +39,7 @@ class EnumMap implements EnumMapInterface {
         if (is_numeric($groupOrLabel)) {
           $groupOrLabel = (string)$groupOrLabel;
         }
-        elseif (!is_string($groupOrLabel)) {
+        elseif (!\is_string($groupOrLabel)) {
           throw new \InvalidArgumentException("Label for '$groupOrKey' is not a string.");
         }
         $this->optionLabels[$groupOrKey] = $groupOrLabel;
@@ -62,13 +62,13 @@ class EnumMap implements EnumMapInterface {
    * @return string|null
    */
   public function idGetLabel($id) {
-    if (is_int($id)) {
+    if (\is_int($id)) {
       $id = (string)$id;
     }
     elseif (NULL === $id || '' === $id) {
       return '- ' . t('Not specified') . ' -';
     }
-    elseif (!is_string($id)) {
+    elseif (!\is_string($id)) {
       return '- ' . t('Invalid') . ' -';
     }
     if (!array_key_exists($id, $this->optionLabels)) {
@@ -83,7 +83,7 @@ class EnumMap implements EnumMapInterface {
    * @return bool
    */
   public function idIsKnown($id) {
-    if (!is_string($id) && !is_int($id)) {
+    if (!\is_string($id) && !\is_int($id)) {
       return FALSE;
     }
     return array_key_exists($id, $this->optionLabels);

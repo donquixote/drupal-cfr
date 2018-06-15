@@ -54,11 +54,11 @@ class DefinitionsByTypeAndId_HookDiscovery implements DefinitionsByTypeAndIdInte
    */
   private function moduleGetDefinitionsByTypeAndId($module, $suffix) {
     $function = $module . $suffix;
-    if (!function_exists($function)) {
+    if (!\function_exists($function)) {
       return [];
     }
-    $moduleDefinitionsByTypeAndId = call_user_func_array($function, $this->arguments);
-    if (!is_array($moduleDefinitionsByTypeAndId)) {
+    $moduleDefinitionsByTypeAndId = \call_user_func_array($function, $this->arguments);
+    if (!\is_array($moduleDefinitionsByTypeAndId)) {
       return [];
     }
     return $moduleDefinitionsByTypeAndId;

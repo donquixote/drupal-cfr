@@ -60,7 +60,7 @@ final class BacktraceUtil extends UtilBase {
       }
     }
 
-    return array_slice($trace, $i);
+    return \array_slice($trace, $i);
   }
 
   /**
@@ -70,7 +70,7 @@ final class BacktraceUtil extends UtilBase {
    */
   public static function nicetrace(array $backtrace) {
 
-    $paths = [DRUPAL_ROOT => strlen(DRUPAL_ROOT) + 1];
+    $paths = [DRUPAL_ROOT => \strlen(DRUPAL_ROOT) + 1];
     return NicetraceUtil::backtraceGetNicetrace($backtrace, $paths);
   }
 

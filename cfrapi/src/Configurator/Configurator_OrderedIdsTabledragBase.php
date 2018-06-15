@@ -32,7 +32,7 @@ abstract class Configurator_OrderedIdsTabledragBase implements OptionalConfigura
    */
   public function confGetForm($conf, $label) {
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       $conf = [];
     }
 
@@ -85,7 +85,7 @@ abstract class Configurator_OrderedIdsTabledragBase implements OptionalConfigura
     }
 
     /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-    if (!is_array($input)) {
+    if (!\is_array($input)) {
       /** @noinspection CallableParameterUseCaseInTypeContextInspection */
       return [];
     }
@@ -123,7 +123,7 @@ abstract class Configurator_OrderedIdsTabledragBase implements OptionalConfigura
   private function elementProcess(array $element, array $conf, array $form_state, array $form) {
 
     $values = $element['#value'];
-    if (!is_array($values)) {
+    if (!\is_array($values)) {
       $values = [];
     }
 

@@ -29,7 +29,7 @@ class ConfEmptyness_Sequence implements ConfEmptynessInterface {
     if (NULL === $conf || [] === $conf) {
       return TRUE;
     }
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       // Invalid configuration.
       return FALSE;
     }

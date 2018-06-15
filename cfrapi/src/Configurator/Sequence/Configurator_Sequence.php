@@ -56,7 +56,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
     if (NULL === $conf) {
       return [];
     }
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       throw new ConfToValueException('Configuration must be an array or NULL.');
     }
 
@@ -73,7 +73,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       $deltaValue = $this->configurator->confGetValue($deltaConf);
       $values[] = $deltaValue;
       // @todo Really? Why do the values need to be objects?
-      if (!is_object($deltaValue)) {
+      if (!\is_object($deltaValue)) {
         # \Drupal\krumong\dpm(get_defined_vars(), __METHOD__);
         break;
       }
@@ -90,7 +90,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
    * @return null|string
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       $conf = [];
     }
     return $summaryBuilder->buildSequence($this->configurator, $conf);
@@ -106,7 +106,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
    */
   public function confGetForm($conf, $label) {
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       $conf = [];
     }
 
@@ -147,7 +147,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
   private function elementProcess(array $element, array $conf) {
 
     $value = $element['#value'];
-    if (!is_array($value)) {
+    if (!\is_array($value)) {
       $value = [];
     }
 
@@ -186,7 +186,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
   private function elementAfterBuild(array $element, array &$form_state) {
 
     $value = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
-    if (!is_array($value)) {
+    if (!\is_array($value)) {
       $value = [];
     }
 
@@ -221,7 +221,7 @@ class Configurator_Sequence implements OptionalConfiguratorInterface {
       return '[]';
     }
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       return $helper->incompatibleConfiguration($conf, "Configuration must be an array or NULL.");
     }
 

@@ -32,7 +32,7 @@ class Configurator_CfrGroupSchema extends Configurator_GroupBase {
    */
   public function confGetValue($conf) {
     $value = parent::confGetValue($conf);
-    if (!is_array($value)) {
+    if (!\is_array($value)) {
       return $value;
     }
     return $this->groupSchema->valuesGetValue($value);

@@ -77,7 +77,7 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
       $element['#element_validate'][] = [self::class, 'elementValidateMax'];
     }
 
-    if (is_int($conf) || is_string($conf)) {
+    if (\is_int($conf) || \is_string($conf)) {
       $element['#default_value'] = $conf;
     }
 
@@ -171,13 +171,13 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
    */
   public function confGetValue($conf) {
 
-    if (is_string($conf)) {
+    if (\is_string($conf)) {
       if ((string)(int)$conf !== $conf) {
         throw new ConfToValueException("Value must be an integer.");
       }
       $conf = (int)$conf;
     }
-    elseif (!is_int($conf)) {
+    elseif (!\is_int($conf)) {
       throw new ConfToValueException("Value must be an integer.");
     }
 
@@ -202,13 +202,13 @@ class Configurator_IntegerInRange implements ConfiguratorInterface {
    */
   public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
 
-    if (is_string($conf)) {
+    if (\is_string($conf)) {
       if ((string)(int)$conf !== $conf) {
         return $helper->incompatibleConfiguration($conf, "Value must be an integer.");
       }
       $conf = (int)$conf;
     }
-    elseif (!is_int($conf)) {
+    elseif (!\is_int($conf)) {
       return $helper->incompatibleConfiguration($conf, "Value must be an integer.");
     }
 

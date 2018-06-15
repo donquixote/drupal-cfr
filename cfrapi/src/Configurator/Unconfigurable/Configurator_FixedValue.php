@@ -47,7 +47,7 @@ class Configurator_FixedValue extends Configurator_OptionlessBase {
   public function confGetPhp($conf, CfrCodegenHelperInterface $helper) {
 
     if (FALSE === $this->php) {
-      $type = gettype($this->fixedValue);
+      $type = \gettype($this->fixedValue);
       return $helper->notSupported($this, $conf, "This fixed value of type '$type' does not support code generation.");
     }
 

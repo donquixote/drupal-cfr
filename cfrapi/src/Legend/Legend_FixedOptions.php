@@ -21,7 +21,7 @@ class Legend_FixedOptions implements LegendInterface {
     $this->deepOptions = $options;
 
     foreach ($options as $keyOrGroupLabel => $groupOrLabel) {
-      if (!is_array($groupOrLabel)) {
+      if (!\is_array($groupOrLabel)) {
         $this->flatOptions[$keyOrGroupLabel] = $groupOrLabel;
       }
       else {

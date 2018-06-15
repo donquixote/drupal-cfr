@@ -20,7 +20,7 @@ abstract class Configurator_GroupGrandBase implements ConfiguratorInterface {
    *   A form element(s) array.
    */
   public function confGetForm($conf, $label) {
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       $conf = [];
     }
     $form = [];
@@ -46,7 +46,7 @@ abstract class Configurator_GroupGrandBase implements ConfiguratorInterface {
    */
   public function confGetSummary($conf, SummaryBuilderInterface $summaryBuilder) {
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       $conf = [];
     }
 
@@ -72,7 +72,7 @@ abstract class Configurator_GroupGrandBase implements ConfiguratorInterface {
    */
   public function confGetValue($conf) {
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       // If all values are optional, this might still work.
       $conf = [];
     }
@@ -127,7 +127,7 @@ abstract class Configurator_GroupGrandBase implements ConfiguratorInterface {
    */
   public function confGetPhpStatements($conf, CfrCodegenHelperInterface $helper) {
 
-    if (!is_array($conf)) {
+    if (!\is_array($conf)) {
       // If all values are optional, this might still work.
       $conf = array();
     }

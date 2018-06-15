@@ -24,7 +24,7 @@ final class CfrReflectionUtil extends UtilBase {
    */
   public static function callbackValidateAndInvoke(CallbackReflectionInterface $callback, $args) {
 
-    if (!is_array($args)) {
+    if (!\is_array($args)) {
       throw new ConfToValueException("Non-array callback arguments");
     }
 
@@ -72,13 +72,13 @@ final class CfrReflectionUtil extends UtilBase {
       }
 
       if ($param->isArray()) {
-        if (!is_array($arg)) {
+        if (!\is_array($arg)) {
           throw new ConfToValueException("Argument $i must be an array.");
         }
       }
 
       if ($paramClass = $param->getClass()) {
-        if (!is_object($arg)) {
+        if (!\is_object($arg)) {
           throw new ConfToValueException("Argument $i must be an object.");
         }
         if (!$paramClass->isInstance($arg)) {

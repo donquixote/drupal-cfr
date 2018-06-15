@@ -41,7 +41,7 @@ final class StringUtil extends UtilBase {
     if ($lowercase) {
       $array = array_map('strtolower', $array);
     }
-    return is_string($glue) ? implode($glue, $array) : $array;
+    return \is_string($glue) ? implode($glue, $array) : $array;
   }
 
   /**

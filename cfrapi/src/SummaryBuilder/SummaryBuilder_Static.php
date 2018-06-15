@@ -17,7 +17,7 @@ class SummaryBuilder_Static implements SummaryBuilderInterface {
    */
   public function idConf($label, ConfToSummaryInterface $optionsConfToSummary, $optionsConf) {
     $optionsConfSummary = $optionsConfToSummary->confGetSummary($optionsConf, $this);
-    if (!is_string($optionsConfSummary) || '' === $optionsConfSummary) {
+    if (!\is_string($optionsConfSummary) || '' === $optionsConfSummary) {
       return check_plain($label);
     }
     return check_plain($label) . ': ' . $optionsConfSummary;
@@ -55,7 +55,7 @@ class SummaryBuilder_Static implements SummaryBuilderInterface {
         return '- ' . t('Noisy configuration') . ' -';
       }
       $deltaSummary = $confToSummary->confGetSummary($deltaConf, $this);
-      if (is_string($deltaSummary) && '' !== $deltaSummary) {
+      if (\is_string($deltaSummary) && '' !== $deltaSummary) {
         $summary .= '<li>' . $deltaSummary . '</li>';
       }
     }

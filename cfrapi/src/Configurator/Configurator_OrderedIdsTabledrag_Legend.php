@@ -30,7 +30,7 @@ class Configurator_OrderedIdsTabledrag_Legend extends Configurator_OrderedIdsTab
   protected function getOptions(): array {
     $options = [];
     foreach ($this->legend->getSelectOptions() as $keyOrGroupLabel => $groupOrLabel) {
-      if (!is_array($groupOrLabel)) {
+      if (!\is_array($groupOrLabel)) {
         $options[$keyOrGroupLabel] = $groupOrLabel;
       }
       else {
