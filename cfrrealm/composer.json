@@ -1,6 +1,7 @@
 {
   "minimum-stability": "dev",
   "name": "Drupal 7 Configurator realm",
+  "description": "Library to manage a collection of configurator families, identified by their type.",
   "require": {
     "donquixote/containerkit": "~0.0"
   }

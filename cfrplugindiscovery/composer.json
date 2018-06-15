@@ -1,6 +1,7 @@
 {
   "minimum-stability": "dev",
   "name": "Drupal 7 Configurator plugin discovery",
+  "description": "Annotation-based discovery tool for cfrplugin",
   "require": {
     "donquixote/annotation-parser": "~0.0"
   }

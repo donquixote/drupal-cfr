@@ -1,6 +1,7 @@
 {
   "minimum-stability": "dev",
   "name": "Drupal 7 Configurator API",
+  "description": "Dependency of all other cfr* modules.",
   "require": {
     "donquixote/callback-reflection": "~1.0",
     "donquixote/nicetrace": "~0.0"

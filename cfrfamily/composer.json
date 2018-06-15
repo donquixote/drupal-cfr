@@ -1,6 +1,7 @@
 {
   "minimum-stability": "dev",
   "name": "Drupal 7 Configurator family",
+  "description": "Library to manage a family of configurators, that each return the same type of value, and that are identified by ids.",
   "require": {
     "donquixote/containerkit": "~0.0"
   }
