@@ -1,0 +1,31 @@
+{
+  "name": "drupal/cfr",
+  "homepage": "https://drupal.org/project/cfr",
+  "type": "drupal-module",
+  "license": "GPL-2.0",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "authors": [
+    {
+      "name": "donquixote",
+      "homepage": "https://www.drupal.org/u/donquixote"
+    }
+  ],
+  "require": {
+    "donquixote/callback-reflection": "~1.0",
+    "donquixote/nicetrace": "~0.0",
+    "donquixote/containerkit": "~0.0",
+    "donquixote/annotation-parser": "~0.0",
+    "drupal/themekit": "*",
+    "drupal/xautoload": "*",
+    "drupal/drupal": "~7.0"
+  },
+  "replace": {
+    "drupal/cfrapi": "*",
+    "drupal/cfrfamily": "*",
+    "drupal/cfrplugin": "*",
+    "drupal/cfrrealm": "*",
+    "drupal/cfrreflection": "*",
+    "drupal/cfrplugindiscovery": "*"
+  }
+}
