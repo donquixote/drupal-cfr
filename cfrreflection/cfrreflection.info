@@ -6,4 +6,3 @@ project = cfr
 dependencies[] = cfrapi
 dependencies[] = cfrfamily
 dependencies[] = xautoload
-dependencies[] = composer_manager

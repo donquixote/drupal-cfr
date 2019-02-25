@@ -5,5 +5,4 @@ package = CFR
 project = cfr
 
 dependencies[] = cfrapi
-dependencies[] = composer_manager
 dependencies[] = xautoload

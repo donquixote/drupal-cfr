@@ -1,0 +1,43 @@
+<?php
+
+use Donquixote\CallbackReflection\Util\CallbackUtil;
+
+/**
+ * Implements hook_requirements()
+ *
+ * This is for all phases.
+ *
+ * @param string $phase
+ *
+ * @return array
+ */
+function cfrapi_requirements($phase) {
+  $requirements = [];
+
+  if (module_exists('composer_manager')) {
+    $requirements['cfr:composer'] = [
+      'title' => 'CFR: Composer integration',
+      'value' => 'via composer_manager',
+      'description' => 'Composer dependencies can be installed via composer_manager.',
+      'severity' => REQUIREMENT_OK,
+    ];
+  }
+  elseif (class_exists(CallbackUtil::class)) {
+    $requirements['cfr:composer'] = [
+      'title' => 'CFR: Composer integration',
+      'value' => 'via drupal-composer',
+      'description' => 'Drupal was installed with Composer, and cfr dependencies are included.',
+      'severity' => REQUIREMENT_OK,
+    ];
+  }
+  else {
+    $requirements['cfr:composer'] = [
+      'title' => 'CFR: Composer integration',
+      'value' => 'missing',
+      'description' => 'Composer dependencies missing. Use either drupal-composer, or composer_manager module.',
+      'severity' => REQUIREMENT_ERROR,
+    ];
+  }
+
+  return $requirements;
+}
