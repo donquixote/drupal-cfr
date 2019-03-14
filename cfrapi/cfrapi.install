@@ -13,20 +13,35 @@ use Donquixote\CallbackReflection\Util\CallbackUtil;
  */
 function cfrapi_requirements($phase) {
   $requirements = [];
+  $requirements['cfr:composer'] = _cfrapi_requirements_composer()
+    + [
+      'title' => 'CFR: Composer integration',
+    ];
+  return $requirements;
+}
+
+/**
+ * Gets the hook_requirements() entry for cfr composer integration.
+ *
+ * @return array
+ *   Partial entry for requirements array.
+ */
+function _cfrapi_requirements_composer() {
 
   if (module_exists('composer_manager')) {
-    $requirements['cfr:composer'] = [
-      'title' => 'CFR: Composer integration',
+    /* @see \composer_manager_boot() */
+    return [
       'value' => 'via composer_manager',
       'description' => 'Composer dependencies can be installed via composer_manager.',
       'severity' => REQUIREMENT_OK,
     ];
   }
-  elseif (class_exists(CallbackUtil::class)) {
-    $requirements['cfr:composer'] = [
-      'title' => 'CFR: Composer integration',
-      'value' => 'via drupal-composer',
-      'description' => 'Drupal was installed with Composer, and cfr dependencies are included.',
+
+  if (module_exists('composer_autoloader')) {
+    /* @see \composer_autoloader_boot() */
+    return [
+      'value' => 'via composer_manager',
+      'description' => 'Composer dependencies can be installed via composer_manager.',
       'severity' => REQUIREMENT_OK,
     ];
   }
